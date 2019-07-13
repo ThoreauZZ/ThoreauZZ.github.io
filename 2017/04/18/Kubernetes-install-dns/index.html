@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Kubernetes编译部署DNS"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Kubernetes编译部署DNS &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/04/18/Kubernetes-install-dns/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-04-18T17:21:30Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    <meta property="article:tag" content="kubernetes" />
+    
+    
+
+    <title>Kubernetes编译部署DNS &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 在前一篇文章Kubernetes部署DNS和Dashboard中，我们使用官方提供的yaml启动相关容器实现DNS。本文通过go编译成可" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/04/18/Kubernetes-install-dns/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Kubernetes编译部署DNS,
+    "name": Kubernetes编译部署DNS,
+    "wordCount": 633,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/04/18/Kubernetes-install-dns/,
+    "datePublished": 2017-04-18T17:21Z,
+    "dateModified": 2017-04-18T17:21Z,
+    
+    "keywords": docker, kubernetes,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/04/18/Kubernetes-install-dns/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Kubernetes编译部署DNS</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-04-18T17:21:30Z">
+            2017-04-18
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/kubernetes/">kubernetes</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>在前一篇文章<a href="http://thoreauz.com/2017/04/16/docker/Kubernetes%E9%83%A8%E7%BD%B2DNS%E5%92%8CDashboard">Kubernetes部署DNS和Dashboard</a>中，我们使用官方提供的yaml启动相关容器实现DNS。本文通过go编译成可执行文件，然后配置启动skydns。</p>
+
+<!-- more -->
+
+<h2 id="编译skydns和kube2sky">编译skydns和kube2sky</h2>
+
+<pre><code class="language-bash">yum install -y go git
+#go version   go1.7 linux/amd64
+mkdir /tmp/skydns
+export GOPATH=/tmp/skydns
+cd /tmp/skydns 
+git clone https://github.com/kubernetes/dns.git
+cd $GOPATH/src/github.com/skynetservices/skydns
+go build -v
+cp skydns /usr/bin
+</code></pre>
+
+<pre><code class="language-bash">go get github.com/tools/godep
+go get -d github.com/GoogleCloudPlatform/Kubernetes/cluster/addons/dns/kube2sky
+cd  github.com/GoogleCloudPlatform/kubernetes/cluster/addons/dns/kube2sky
+make kube2sky
+cp kube2sky /usr/bin
+</code></pre>
+
+<blockquote>
+<p>现在的github版本已经完全容器化，直接go get 获取不到kube2sky源码</p>
+</blockquote>
+
+<h2 id="配置启动dns">配置启动DNS</h2>
+
+<p>etcd和k8s-master地址：</p>
+
+<pre><code>etcd：192.168.99.100
+kube-master：192.168.99.100
+</code></pre>
+
+<p>下面的操作也是在192.168.99.100。</p>
+
+<h3 id="在etcd中添加dns配置">在etcd中添加dns配置</h3>
+
+<pre><code class="language-bash">etcdctl mk /skydns/config '{&quot;dns-addr&quot;: &quot;0.0.0.0:53&quot;, &quot;tt&quot;: 3600, &quot;domain&quot;: &quot;cluster.local&quot;, &quot;nameservers&quot;: [&quot;172.31.0.2:53&quot;]}'
+</code></pre>
+
+<ul>
+<li>dns-addr: 指定skydns启动时的监听地址<br /></li>
+<li>ttl: 指域名的缓存的超时时间，单位秒<br /></li>
+<li>domain: 集群中的私有域名，这里如果不指定，默认为skydns.local. ，注意最后的一个点<br /></li>
+<li>nameservers：域名转发的dns列表，用来解析集群外部的域名（可以配置多个，可以用公共dns）<br />
+<br /></li>
+</ul>
+
+<h3 id="配置skydns">配置skydns</h3>
+
+<p>skydns配置文件：/etc/kubernetes/skydns</p>
+
+<pre><code class="language-bash">MACHINES=-machines=http://192.168.99.100:2379
+ADDR=-addr=0.0.0.0:53
+DOMAIN=-domain=cluster.local
+</code></pre>
+
+<p>systemd配置: /usr/lib/systemd/system/skydns.service</p>
+
+<pre><code>[Unit]
+Description=skydns
+After=network.target
+After=etcd.service 
+[Service]
+WorkingDirectory=/etc     
+EnvironmentFile=-/etc/kubernetes/skydns
+ExecStart=/usr/bin/skydns \
+  $MACHINES \
+  $ADDR \
+  $DOMAIN
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>启动skydns：</p>
+
+<pre><code>systemctl start skydns
+systemctl enable skydns
+systemctl status skydns
+</code></pre>
+
+<h3 id="配置kube2sky">配置kube2sky</h3>
+
+<p>kube2sky配置文件: <code>/etc/kubernetes/kube2sky</code></p>
+
+<pre><code class="language-bash">DOMAIN=-domain=cluster.local
+ETCD_SERVER=-etcd-server=http://192.168.99.100:2379
+KUBE_MASTER=-kube_master_url=http://192.168.99.100:8080
+</code></pre>
+
+<p>systemd配置: /usr/lib/systemd/system/kube2sky.service</p>
+
+<pre><code class="language-bash">[Unit]
+Description=kube2sky
+After=network.target
+After=etcd.service
+
+[Service]
+WorkingDirectory=/etc
+EnvironmentFile=-/etc/kubernetes/kube2sky
+ExecStart=/usr/bin/kube2sky $DOMAIN $ETCD_SERVER $KUBE_MASTER
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<h3 id="修改kubelet">修改kubelet</h3>
+
+<p>修改k8s集群minion的kubelet配置，添加：</p>
+
+<pre><code class="language-bash">KUBELET_ARGS=&quot;--cluster_dns=192.168.99.100 --cluster_domain=cluster.local&quot;
+</code></pre>
+
+<p>重启</p>
+
+<pre><code class="language-bash">systemctl restart kubelet
+</code></pre>
+
+<h2 id="验证">验证</h2>
+
+<pre><code>kubectl run curl --image=radial/busyboxplus:curl -i --tty
+</code></pre>
+
+<p>和容器启动的验证方式一样。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#编译skydns和kube2sky">编译skydns和kube2sky</a></li>
+<li><a href="#配置启动dns">配置启动DNS</a>
+<ul>
+<li><a href="#在etcd中添加dns配置">在etcd中添加dns配置</a></li>
+<li><a href="#配置skydns">配置skydns</a></li>
+<li><a href="#配置kube2sky">配置kube2sky</a></li>
+<li><a href="#修改kubelet">修改kubelet</a></li>
+</ul></li>
+<li><a href="#验证">验证</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Kubernetes%e7%bc%96%e8%af%91%e9%83%a8%e7%bd%b2DNS&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f04%2f18%2fKubernetes-install-dns%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f04%2f18%2fKubernetes-install-dns%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f04%2f18%2fKubernetes-install-dns%2f&amp;description=Kubernetes%e7%bc%96%e8%af%91%e9%83%a8%e7%bd%b2DNS"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f04%2f18%2fKubernetes-install-dns%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/04/24/spring-cloud-config-json/">
+          <section class="post">
+              <h2>Spring Cloud Config 存储复杂数据结构</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/">
+          <section class="post">
+              <h2>Kubernetes部署DNS和Dashboard</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

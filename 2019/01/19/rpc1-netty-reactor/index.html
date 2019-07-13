@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="RPC一-线程模型"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="RPC一-线程模型 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-01-19T11:37:38Z" />
+
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    <meta property="article:tag" content="rpc" />
+    
+    <meta property="article:tag" content="netty" />
+    
+    
+
+    <title>RPC一-线程模型 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": RPC一-线程模型,
+    "name": RPC一-线程模型,
+    "wordCount": 2578,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2019/01/19/rpc1-netty-reactor/,
+    "datePublished": 2019-01-19T11:37Z,
+    "dateModified": 2019-01-19T11:37Z,
+    
+    "keywords": 分布式系统, rpc, netty,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2019/01/19/rpc1-netty-reactor/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">RPC一-线程模型</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-01-19T11:37:38Z">
+            2019-01-19
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/rpc/">rpc</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/netty/">netty</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p><img src="http://thoreauz.com/images/2019-03-03-11-38-55.jpg" alt="" /></p>
+
+<p><strong>RPC系列</strong><br />
+1. <a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型</a><br />
+2. <a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息</a><br />
+3. <a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码</a><br />
+4. <a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链</a><br />
+5. <a href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计</a><br />
+6. <a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理</a><br />
+7. <a href="http://thoreauz.com/2019/01/12/service-registry-discovery/">服务发现-注册中心设计</a></p>
+
+<h2 id="概述">概述</h2>
+
+<p>作为网络框架，线程模型设计的好坏直接影响其性能。下面我尝试理解netty作为一个prc的底层线程模型。</p>
+
+<p>好几年前，我就听说netty是一个高性能的网络框架，好多框架底层通讯都基于它。先去Google一下netty为什么性能好，得到回复总结起来就是：事件驱动，异步非阻塞。当时还是无法理解，异步非阻塞为什么性能就好，对java来说，请求进来，每个都得在单独的线程栈中处理，异步也只不过换了一个线程处理，多了cpu切换，该走的逻辑都得走，怎么就高性能了？</p>
+
+<p>回答这个问题，我们得先分析以前的玩法。</p>
+
+<!-- more -->
+
+<h2 id="几个概念">几个概念</h2>
+
+<h3 id="io操作都有哪些">IO操作都有哪些</h3>
+
+<p>我们知道，IO就是Input/Output的意思，读写文件就算IO操作。linux有一个概念：一切皆文件，所以普通文件、目录访问、管道、命令、设备、网络等操作都是IO操作。<br />
+因为计算机硬件的限制，IO操作速度远远赶不上CUP运行速度，所以IO操作会阻塞线程往下执行。</p>
+
+<h3 id="常说的性能指标">常说的性能指标</h3>
+
+<ul>
+<li>响应时间(RT)：指系统对请求作出响应的时间。<br /></li>
+<li>吞吐量(Throughput)：单位时间内处理的请求数。好比一条高速同时能上多少车辆。<br /></li>
+<li>QPS：每秒查询率，和吞吐量有点像，即最大吞吐量，但使用场景有点不一样。<br />
+<br /></li>
+</ul>
+
+<h2 id="io线程模型">IO线程模型</h2>
+
+<h3 id="bio模型">BIO模型</h3>
+
+<ul>
+<li>单线程模型：只有一个线程处理，比如说聊天系统，同事只能有一个人聊天。现在谁还这么玩？<br /></li>
+<li>多线程模型：每个请求进来，系统都分配一个线程处理，请求数和线程数一比一，基本满足很小用户量使用。如果客户端请求过多，导致系统线程枯竭，整个系统可能就GG了。<br />
+<br /></li>
+</ul>
+
+<pre><code class="language-java">socket = server.accept();
+new HandlerThread(socket).run()
+</code></pre>
+
+<blockquote>
+<p>线程从socket请求到其他业务逻辑处理完都是单独一个线程处理。</p>
+</blockquote>
+
+<p>对多线程模型的优化就是使用线程池，先创好建线程，一个用完后另一个接着用。因为线程的创建有系统开销。好比一个工具箱，这个人用完放回去其他人继续用。如果用完丢到炉子熔掉，其他人用再重新打造一个，开销就大了。使用线程池的另一个好处是，线程池有调度能力，可以用队列缓存请求，这样，吞吐量上来了，也不会因为无限制的创建线程导致挂掉。</p>
+
+<pre><code class="language-java"> Socket socket = serverSocket.accept();
+ executor.submit(new ConnectIOnHandler(socket));
+</code></pre>
+
+<p><img src="http://thoreauz.com/images/bio-threadpool.png" alt="" /></p>
+
+<blockquote>
+<p>bio线程模型图</p>
+</blockquote>
+
+<p><strong>BIO的缺点：</strong><br />
+好比一个玩滑翔伞的景点，一天能接待多少玩家，完全取决于教练的数量。游客到了，必须有一个教练接待，带着一起飞。教练团就像一个线程池，飞完回来再接待另一个游客，但始终有限。</p>
+
+<p>为什么会导致这样的问题。我们先看下一个BIO的socket实现的echoServer:</p>
+
+<pre><code class="language-java">public class EchoServer {
+    @Test
+    public void socketServer() throws IOException {
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+        ServerSocket serverSocket = new ServerSocket(9999);
+        while (!Thread.currentThread().isInterrupted()) {
+            Socket socket = serverSocket.accept();// 1.没有连接则阻塞等待
+            executor.submit(new ConnectIOnHandler(socket));//为新的连接创建新的线程
+        }
+    }
+    class ConnectIOnHandler extends Thread {
+        private Socket socket;
+        public ConnectIOnHandler(Socket socket) {
+            this.socket = socket;
+        }
+        public void run() {
+            while (!Thread.currentThread().isInterrupted() &amp;&amp; !socket.isClosed()) {
+                DataInputStream in = null;
+                PrintStream out = null;
+                try {
+                     in = new DataInputStream(socket.getInputStream());
+                     out = new PrintStream(socket.getOutputStream());
+                    while (true) {
+                        String line = in.readLine();// 2. 没有数据则阻塞等待
+                        out.println(line); // 3. 写未就绪也阻塞
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        if (in != null) {
+                            in.close();
+                        }
+                        if (out != null) {
+                            out.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>从示例中的1，2，3处注释可以看到，socket.accept()、socket.read()、socket.write()都是阻塞。网络IO是大爷，你问能不能读，他不告诉你，只能等有数据了才给你。这样，100万个请求进来，我得开100万个线程去等着。</p>
+
+<p>一个快递员送快递，如果遇到一个客户不在家，就只能干等他回来，万一有个客户大晚上才回来，那快递员今天后面的其他快递就送不了，没办法，快递公司只能每一个快递配一个配送员。想想就不切实际，但BIO就是这样的。JAVA也不希望这样，但底层操作系统不支持其他方式，没办法啊。</p>
+
+<p>如果能能打电话给客户，在不在家，<strong>给个回复</strong>，问题不就解决了。这就是引出了NIO。</p>
+
+<h3 id="nio模型">NIO模型</h3>
+
+<p>上文说道，<strong>给个回复</strong>很是关键，NIO的关键就是：读写函数可以立刻返回。</p>
+
+<p>NIO有个重要的抽象Selector，所有IO事件都往上面注册，它维护一个事件列表。 selector.select()会阻塞等去获取事件给感兴趣的chennel处理。这里的阻塞是没问题的，没有事件才阻塞，一般放入一个循环里执行。没有事件表明不需要分配任何线程去处理，当然得阻塞，否则CPU就空转啊。</p>
+
+<p>像高速口售票员，没车时坐着，来车了收费起竿放过，一天一个人就能处理成千上万辆车。可能每辆车走完高速的时间没变，但吞吐量就上来了。这就是所谓性能的提升。</p>
+
+<h3 id="reactor模型">reactor模型</h3>
+
+<p>reactor模型得益于前面提到异步IO，因为读写不再阻塞，一个线程就可以处理处理所有网络IO事件，把具体逻辑分发给工作线程。</p>
+
+<p><img src="http://thoreauz.com/images/reactor1.png" alt="" /><br />
+&gt; 如图，reactor负责accept，read，write。读取数据后分配给工作线程处理，整个网络IO都是一个线程。</p>
+
+<p>这个reactor的单线程模型，一个NIO线程负责监听和处理所有的客户端连接。不过网络通信不都这么容易，可能还有认证等逻辑，如果连接数太多，开销也不小。于是就有了主从reactor多线程模型：</p>
+
+<p><img src="http://thoreauz.com/images/reactor2.png" alt="" /><br />
+&gt; mainReactor可以是一个线程池，只处理接收连接，后续的读写派发给subReactor，一定程度改善了性能。</p>
+
+<p>而我们接下来要使用的netty框架其实就是Reactor的实现，了解Reactor，netty的线程模型解就比较清晰了。</p>
+
+<p>具体可以参考Doug Lea的这个ppt:<a href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf">Scalable IO in Java</a>。</p>
+
+<h2 id="netty实现rpc的线程设计">netty实现rpc的线程设计</h2>
+
+<p>netty相对jdk的nio优点是，在后者基础上提供了更简洁的API，处理流程更清晰。</p>
+
+<h3 id="服务端">服务端</h3>
+
+<pre><code class="language-java">private EventLoopGroup bossGroup = new NioEventLoopGroup(1, new DefaultThreadFactory(&quot;boss&quot;));
+private EventLoopGroup workGroup = new NioEventLoopGroup(
+            Runtime.getRuntime().availableProcessors() * 2, new DefaultThreadFactory(&quot;worker-pool&quot;)
+    );
+ServerBootstrap bootstrap = new ServerBootstrap();
+bootstrap.group(bossGroup, workGroup)
+         .channel(NioServerSocketChannel.class)
+         .childHandler(
+                 new ChannelInitializer&lt;NioSocketChannel&gt;() {
+                     @Override
+                     protected void initChannel(NioSocketChannel ch) throws Exception {
+                         ch.pipeline()
+                           .addLast(&quot;decode&quot;, new Decoder())
+                           .addLast(&quot;encode&quot;, new Encoder())
+                           .addLast(&quot;severHandler&quot;, new NettyServerHandler());
+                     }
+
+                 }
+         );
+ChannelFuture future = bootstrap.bind(new InetSocketAddress(this.port));
+future.syncUninterruptibly();
+log.info(&quot; started and listen on {}&quot;, future.channel().localAddress());
+</code></pre>
+
+<blockquote>
+<p>boss: 一个线程的线程池，从Reactor模型我们知道，mainReactor处理连接，一个线程就可以了。<br />
+work：读写转码，线程数一般是CPU的两倍。对rpc调用，可以把耗CPU的序列化移出，只处理IO读写。</p>
+</blockquote>
+
+<h2 id="客户端">客户端</h2>
+
+<p>rpc客户端可能调用上百个服务，不需要每次都启动一个连接，因为netty都是异步的，这些IO网络处理只需要一个workpool就行了，示例代码。</p>
+
+<pre><code class="language-java">Bootstrap b = new Bootstrap();
+b.group(clientWorkPool)
+ .channel(NioSocketChannel.class)
+ .handler(new ChannelInitializer&lt;SocketChannel&gt;() {
+     @Override
+     protected void initChannel(SocketChannel ch) throws Exception {
+         ch.pipeline().addLast(&quot;Decoder&quot;, new Decoder());
+         ch.pipeline().addLast(&quot;Encoder&quot;, new Encoder());
+         ch.pipeline().addLast(&quot;clientHandler&quot;, new NettyClientHandler());
+     }
+ });
+ChannelFuture future = b.connect(address);
+future.awaitUninterruptibly();
+if (future.isSuccess() &amp;&amp; future.channel().isActive()) {
+    NettyClientHandler handler = future.channel().pipeline().get(NettyClientHandler.class);
+    // 可以缓存下来，复用连接
+    return handler;
+}
+</code></pre>
+
+<hr />
+
+<p>参考文档：<br />
+<a href="https://tech.meituan.com/nio.html">https://tech.meituan.com/nio.html</a><br />
+<a href="http://www.infoq.com/cn/articles/netty-threading-model">http://www.infoq.com/cn/articles/netty-threading-model</a><br />
+<a href="http://kasunpanorama.blogspot.hk/2015/04/understanding-reactor-pattern-with-java.html">http://kasunpanorama.blogspot.hk/2015/04/understanding-reactor-pattern-with-java.html</a><br />
+<a href="http://afghl.github.io/2016/12/17/java-nio-02-reactor-and-nio.html">http://afghl.github.io/2016/12/17/java-nio-02-reactor-and-nio.html</a><br />
+<a href="https://time.geekbang.org/column/article/4323">https://time.geekbang.org/column/article/4323</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#几个概念">几个概念</a>
+<ul>
+<li><a href="#io操作都有哪些">IO操作都有哪些</a></li>
+<li><a href="#常说的性能指标">常说的性能指标</a></li>
+</ul></li>
+<li><a href="#io线程模型">IO线程模型</a>
+<ul>
+<li><a href="#bio模型">BIO模型</a></li>
+<li><a href="#nio模型">NIO模型</a></li>
+<li><a href="#reactor模型">reactor模型</a></li>
+</ul></li>
+<li><a href="#netty实现rpc的线程设计">netty实现rpc的线程设计</a>
+<ul>
+<li><a href="#服务端">服务端</a></li>
+</ul></li>
+<li><a href="#客户端">客户端</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=RPC%e4%b8%80-%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc1-netty-reactor%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc1-netty-reactor%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc1-netty-reactor%2f&amp;description=RPC%e4%b8%80-%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc1-netty-reactor%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">
+          <section class="post">
+              <h2>RPC二-NettyHandler处理消息</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/01/12/service-registry-discovery/">
+          <section class="post">
+              <h2>服务发现-注册中心设计</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

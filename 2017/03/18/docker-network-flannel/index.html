@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Docker网络方案之Flannel"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Docker网络方案之Flannel &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/18/docker-network-flannel/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-18T22:49:13Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    <meta property="article:tag" content="kubernetes" />
+    
+    
+
+    <title>Docker网络方案之Flannel &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Docker网络方案之Flannel docker夸主机网络方案可选的很多，有大家说的隧道方案和路由方案，对应的有Flannel，Calico" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/18/docker-network-flannel/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Docker网络方案之Flannel,
+    "name": Docker网络方案之Flannel,
+    "wordCount": 1101,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/03/18/docker-network-flannel/,
+    "datePublished": 2017-03-18T22:49Z,
+    "dateModified": 2017-03-18T22:49Z,
+    
+    "keywords": docker, kubernetes,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/03/18/docker-network-flannel/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Docker网络方案之Flannel</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-18T22:49:13Z">
+            2017-03-18
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/kubernetes/">kubernetes</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="docker网络方案之flannel">Docker网络方案之Flannel</h1>
+
+<p>docker夸主机网络方案可选的很多，有大家说的隧道方案和路由方案，对应的有Flannel，Calico，还有swarm默认的跨主机网络docker overlay。本文主要介绍Flannel的工作机制。本文实验基础是centos7上的k8s集群。</p>
+
+<p>Flannel解决跨主机通讯，简单来说，就是打通子网，使用同一个网段，每个主机分配一部分，让后给每个容器分配一个同网段IP。下面详细介绍。</p>
+
+<!-- more -->
+
+<h2 id="一-flannel配置">一、flannel配置</h2>
+
+<p>flannel需要etcd配合使用，安装就不作详细介绍。下面看看k8s集群中etc和flannel的配置和运行状态。</p>
+
+<h3 id="etcd">etcd</h3>
+
+<pre><code class="language-bash">$ ps -ef|grep etcd
+etcd       917     1  0 12:55 ?        00:02:15 /usr/bin/etcd --name=default --data-dir=/var/lib/etcd/default.etcd --listen-client-urls=http://0.0.0.0:2379
+</code></pre>
+
+<p>etcd已经起来，端口是2379。</p>
+
+<pre><code class="language-bash"> $ etcdctl get /kube-centos/network/config
+{ &quot;Network&quot;: &quot;172.30.0.0/16&quot;, &quot;SubnetLen&quot;: 24, &quot;Backend&quot;: { &quot;Type&quot;: &quot;vxlan&quot; } }
+</code></pre>
+
+<p>etcd有一个key：<code>/kube-centos/network/config</code>，对应网络配置。</p>
+
+<h3 id="flannel">flannel</h3>
+
+<p>配置</p>
+
+<pre><code class="language-bash">$ cat /etc/sysconfig/flanneld
+# 配置etcd 的地址
+FLANNEL_ETCD_ENDPOINTS=&quot;http://${ETCD_IP}:2379&quot;
+# 配置etcd建的网络(key)
+FLANNEL_ETCD_PREFIX=&quot;/kube-centos/network&quot;
+</code></pre>
+
+<p>进程</p>
+
+<pre><code class="language-bash">$ ps -ef|grep flanneld
+root      2060     1  0 12:55 ?        00:00:00 /usr/bin/flanneld -etcd-endpoints=http://172.16.69.129:2379 -etcd-prefix=/kube-centos/network
+</code></pre>
+
+<p>子网信息</p>
+
+<pre><code class="language-bash">$ cat /run/flannel/subnet.env
+FLANNEL_NETWORK=172.30.0.0/16
+FLANNEL_SUBNET=172.30.22.1/24
+FLANNEL_MTU=1450
+FLANNEL_IPMASQ=false
+</code></pre>
+
+<p>主机网络</p>
+
+<pre><code class="language-bash">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 08:00:27:f0:ad:cd brd ff:ff:ff:ff:ff:ff
+    inet 172.16.69.129/24 brd 172.16.69.255 scope global dynamic enp0s3
+       valid_lft 1523sec preferred_lft 1523sec
+    inet6 fe80::a00:27ff:fef0:adcd/64 scope link
+       valid_lft forever preferred_lft forever
+3: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN
+    link/ether 8e:db:22:6f:a1:52 brd ff:ff:ff:ff:ff:ff
+    inet 172.30.22.0/32 scope global flannel.1
+       valid_lft forever preferred_lft forever
+4: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UP
+    link/ether 02:42:a2:45:5e:0e brd ff:ff:ff:ff:ff:ff
+    inet 172.30.22.1/24 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:a2ff:fe45:5e0e/64 scope link
+       valid_lft forever preferred_lft forever
+</code></pre>
+
+<p>可以看到<code>Flannel.1</code>对应ip为<code>172.30.22.0</code>。</p>
+
+<h2 id="二-docker容器使用flannel子网">二、Docker容器使用Flannel子网</h2>
+
+<p>上面我们看到，网桥<code>docker0</code>的ip<code>172.30.22.1</code>和Flannel.1属同一网段。那docker启动时，是怎么获取Flannel子网的？</p>
+
+<p>flannel启动后，子网信息记录到/run/flannel/subnet.env。</p>
+
+<pre><code>$ cat /run/flannel/docker
+DOCKER_OPT_BIP=&quot;--bip=172.30.22.1/24&quot;
+DOCKER_OPT_IPMASQ=&quot;--ip-masq=true&quot;
+DOCKER_OPT_MTU=&quot;--mtu=1450&quot;
+DOCKER_NETWORK_OPTIONS=&quot; --bip=172.30.22.1/24 --ip-masq=true --mtu=1450&quot;
+</code></pre>
+
+<p>Docker deamon启动后，绑定子网。</p>
+
+<pre><code class="language-bash">$ ps -ef|grep docker
+root      2096     1  0 12:55 ?        00:00:52 /usr/bin/dockerd-current --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current --default-runtime=docker-runc --exec-opt native.cgroupdriver=systemd --userland-proxy-path=/usr/libexec/docker/docker-proxy-current --selinux-enabled --log-driver=journald --signature-verification=false --bip=172.30.22.1/24 --ip-masq=true --mtu=1450
+</code></pre>
+
+<p>可以看到docker后台进程信息有<code>--bip=172.30.22.1/24 --ip-masq=true --mtu=1450</code>。</p>
+
+<h2 id="三-容器通讯">三、容器通讯</h2>
+
+<p>现有2台centos7虚拟机</p>
+
+<pre><code class="language-bash">172.16.69.129  # 容器a，容器b 
+172.16.69.100 # 容器c
+</code></pre>
+
+<p>如果从容器<code>a</code>访问容器<code>b</code>，他们在同一台机器上，都桥接到docker0，可以通过<code>brctl</code>查看docker0上绑定的interfaces。</p>
+
+<pre><code class="language-bash">$ brctl show docker0
+bridge name	bridge id		STP enabled	interfaces
+docker0		8000.0242a2455e0e	no		veth6cf7408
+						                veth94eb2a0
+</code></pre>
+
+<p>所以，通过docker0即可实现同主机容器间通讯</p>
+
+<p>如果容器<code>a</code>访问容器<code>c</code>，容器ip对应为：</p>
+
+<pre><code>a 172.30.22.2
+c 172.30.59.2
+</code></pre>
+
+<p>容器a访问容器c，a把数据发到flannel.1，flannel.1到etc下寻找172.30.59.2对应的主机。</p>
+
+<pre><code>$ etcdctl get /kube-centos/network/subnets/172.30.59.0-24
+{&quot;PublicIP&quot;:&quot;172.16.69.100&quot;,&quot;BackendType&quot;:&quot;vxlan&quot;,&quot;BackendData&quot;:{&quot;VtepMAC&quot;:&quot;22:00:3e:3a:0b:e
+</code></pre>
+
+<p>找到主机是172.16.69.100，然后把数据发送到172.16.69.100，再由主机完成分发给容器c。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#docker网络方案之flannel">Docker网络方案之Flannel</a>
+<ul>
+<li><a href="#一-flannel配置">一、flannel配置</a>
+<ul>
+<li><a href="#etcd">etcd</a></li>
+<li><a href="#flannel">flannel</a></li>
+</ul></li>
+<li><a href="#二-docker容器使用flannel子网">二、Docker容器使用Flannel子网</a></li>
+<li><a href="#三-容器通讯">三、容器通讯</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Docker%e7%bd%91%e7%bb%9c%e6%96%b9%e6%a1%88%e4%b9%8bFlannel&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f18%2fdocker-network-flannel%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f18%2fdocker-network-flannel%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f18%2fdocker-network-flannel%2f&amp;description=Docker%e7%bd%91%e7%bb%9c%e6%96%b9%e6%a1%88%e4%b9%8bFlannel"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f18%2fdocker-network-flannel%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/21/kubernetes-deployments/">
+          <section class="post">
+              <h2>kubernetes入门之Deployments</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/18/kubernetes-install-centos7/">
+          <section class="post">
+              <h2>Centos7搭建kubernetes搭建</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

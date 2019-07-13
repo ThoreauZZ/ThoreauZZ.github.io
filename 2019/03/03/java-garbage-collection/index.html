@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="java垃圾回收"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="java垃圾回收 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/03/03/java-garbage-collection/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-03-03T15:19:29Z" />
+
+    
+    <meta property="article:tag" content="java" />
+    
+    <meta property="article:tag" content="jvm" />
+    
+    
+
+    <title>java垃圾回收 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 本文简要介绍java虚拟机垃圾回收相关概念，回收器，算法，gc日志查看等。 下图为HotSpot虚拟机架构图，其中垃圾回收器(Garbag" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2019/03/03/java-garbage-collection/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": java垃圾回收,
+    "name": java垃圾回收,
+    "wordCount": 2758,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2019/03/03/java-garbage-collection/,
+    "datePublished": 2019-03-03T15:19Z,
+    "dateModified": 2019-03-03T15:19Z,
+    
+    "keywords": java, jvm,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2019/03/03/java-garbage-collection/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">java垃圾回收</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-03-03T15:19:29Z">
+            2019-03-03
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/java/">java</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/jvm/">jvm</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>本文简要介绍java<strong>虚拟机</strong>垃圾回收相关概念，回收器，算法，gc日志查看等。</p>
+
+<p>下图为HotSpot虚拟机架构图，其中垃圾回收器(Garbage Collector)的主要管理区是堆(Heap)。为什么是堆，而不是所以区域？因为堆是虚拟机中对象数据存储区域，大多数调优主要针对这个区域。<br />
+<img src="http://thoreauz.com/images/2018-02-02-15-38-50.jpg" alt="" /><br />
+&gt; 图1-<a href="https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html">来源</a></p>
+
+<!-- more -->
+
+<p>既然java虚拟机自动垃圾回收，为什么我们需要关心：<br />
+1. 不合理的内存分配会导致内存溢出。<br />
+2. 垃圾回收过程中，会使应用程序的线程暂停(STW)，直接影响系统性能。</p>
+
+<p>对垃圾回收做优化，涉及到分析、定位、调整等工作，涉及算法、回收器和一些工具的使用，本文一一介绍。</p>
+
+<h2 id="堆内存">堆内存</h2>
+
+<p>既然垃圾回收是针对堆（heap），那我们看看堆内存区域：<br />
+下图是常规的对内存划分，适用于serial, parallel, CMS等回收器。<br />
+<img src="http://thoreauz.com/images/2018-02-02-17-24-16.jpg" alt="" /><br />
+&gt; 图2-<a href="https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html">来源</a></p>
+
+<p>这就是GC分代，为什么需要这么划分，因为有个基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。</p>
+
+<h3 id="年轻代">年轻代</h3>
+
+<p>年轻代又分为3个空间，Eden用来分配新创建的对象，如果内存不足，就会触发年轻代GC来释放内存空间。如果GC后还是没有足够空间，会被分到老年代(Old Generation)。对年轻代回收，其实就是标记eden中的存活对象，然后复制到存活区(Survivor)的过程。</p>
+
+<p>存活的对象会在两个存活区(S0,S1)之间复制多次, 直到某些对象的存活时间达到一定的阀值(‐XX:+MaxTenuringThreshold)，提到老年区。</p>
+
+<p><img src="http://thoreauz.com/images/2019-03-03-13-17-29.jpg" alt="" /><br />
+&gt; 图3</p>
+
+<p>如图3，S1和S0是一个from-&gt;to的关系，每次Minor GC，from中的存活对象会和eden存活对象一起复制到to区域。下一次又交换from-to，所有S1和S0总有一个是空的。</p>
+
+<p>存活期对象生命周期：<br />
+1. 虚拟机会记录存活期对象复制的次数，如果大于15(-XX:MaxTenuringThreshold=15)次，提升到老年代。<br />
+2. 如果单个存活期空间达到50%(-XX:TargetSurvivorRatio=50)，那么，被复制次数较高的对象会被提升到老年代。<br />
+3. 存活期总有一个是空的，意味着如果存活期太大，也浪费空间，配置参数-XX:SurvivorRatio=8。</p>
+
+<h3 id="老年代">老年代</h3>
+
+<p>前面说了，年轻代存活对象会从存活期晋升到老年代，它的对象大部分是存活的，所以不会采用<strong>标记-复制</strong>的方式，而是移动对象，实现最小化内存碎片。</p>
+
+<h3 id="永久代">永久代</h3>
+
+<p>java8之后，PermGen 区已经不存在，改用Metaspace。</p>
+
+<p>根据内存划分，一般来说，<strong>Minor GC</strong> 清理的就是年轻代。<strong>Full GC</strong>指全部GC，清理整个堆。**Major GC **可以认为是清理老年代。其实叫什么GC无关紧要，我们需要关心的是，GC导致线程暂停的时间。</p>
+
+<h2 id="gc-算法">GC 算法</h2>
+
+<h3 id="标记">标记</h3>
+
+<p>垃圾回收，首先要知道<code>什么是垃圾</code>。JVM的做法是，扫描GC-ROOT(还有一种不常用的引用计数法)，可访问到的对象标记为存活，其他的即垃圾。GC Root包括：<br />
+1. 当前正在执行的方法里的局部变量和输入参数<br />
+2. 活动线程<br />
+3. 所有类的静态字段<br />
+4. JNI引用<br />
+&gt; 具体参考:<a href="https://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Fconcepts%2Fgcroots.html">eclipse-MAT</a>，另外GC-ROOT为避免每次全部扫描老年代是否对新生代有应用，引入卡表(Card Table)的技术。</p>
+
+<p>扫描标记时，如果引用关系一直变化，就会没法跟踪，所以要暂停线程，这就是概述中提到的STW(Stop The World pause)。以上找到存活对象的过程，就叫<strong>标记(Marking)</strong>。</p>
+
+<h3 id="删除">删除</h3>
+
+<p>删除垃圾的过程，不同的算法可能不同，大概分为以下三类：<br />
+* <strong>清除(Sweep)</strong>: 任务不可达对象占用的空间是空闲的，需要一个空闲表(freelist)来维护空闲空间。缺点是空闲空间分散，不便分配对象。<br />
+* <strong>整理(Compact)</strong>: 相比简单的标记清除，多了一个把存活对象复制到一边的过程。解决了对象分配的问题，但线程暂停时间增加。<br />
+* <strong>复制(Copy)</strong>: 需要额外的空间，把对象负责过去。</p>
+
+<p>上述介绍的只是GC算法的基础，真正的回收器可能会结合几个算法一起使用。因为不同区域适合不同算法。</p>
+
+<h2 id="垃圾回收器">垃圾回收器</h2>
+
+<p>大多数回收器，都会选择两种不同的算法，分别用来清理年轻代和老年代。主要有Serial，Parallel GC，CMS，G1等回收器。查询使用了什么回收器可以通过命令：</p>
+
+<pre><code>jmap -heap  &lt;pid&gt;
+</code></pre>
+
+<h3 id="serial">Serial</h3>
+
+<p>串行GC，因此这种GC算法不能充分利用多核CPU，一般也不会用，就不介绍了。</p>
+
+<h3 id="parallel-gc">Parallel GC</h3>
+
+<p>并行GC，有效利用多核，减少GC时程序暂停时间，提高系统吞吐量。<br />
+参数配置：</p>
+
+<pre><code>‐XX:+UseParallelGC
+</code></pre>
+
+<h3 id="cms">CMS</h3>
+
+<p>Concurrent Mark and Sweep ，对年轻代采用并行 STW方式的标记-复制，对老年代采用标记清除。</p>
+
+<p>CMS的设计目标是避免在老年代垃圾收集时出现长时间的卡顿。不对老年代进行整理, 而是使用空闲列表(freelists)来管理内存空间的回收。<br />
+参数配置：</p>
+
+<pre><code>‐XX:+UseConcMarkSweepGC
+</code></pre>
+
+<h3 id="g1-garbage-first">G1 – Garbage First</h3>
+
+<p>G1的设计目标是多核机器和大内存应用，替代CMS是它的长期目标。G1也分年轻代和老年代，但是不再是连续的物理空间。一个内存区域会被划分为一个个固定大小的region，eden、survivor、old只是这些region的标签，region大小从1-32M不等。</p>
+
+<p><img src="http://thoreauz.com/images/2019-03-03-14-04-11.jpg" alt="" /></p>
+
+<p>如上图，除了Eden、Survivor、Old，还有humongous(用来存储比标准region大50%甚至更大的对象)。Regions设计目的是为了并行回收而不停止其他应用线程。整体来说，G1做了以下优化：<br />
+1. 年轻代回收期间，可以动态调整区域百分比，内存使用更灵活。<br />
+2. 可以只将一组或者多组region并行复制实现压缩，减少碎片。<br />
+3. 可以设置预期暂停时间避免因为暂停过长引起雪崩效应。</p>
+
+<p>可以通过下面参数使用G1回收器，其他参数和最佳实践见：<a href="https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html">Command Line Options and Best Practices</a></p>
+
+<pre><code class="language-bash">-XX:+UseG1GC
+</code></pre>
+
+<h2 id="gc日志">GC日志</h2>
+
+<p>可以通过启动参数配置是否打印gc日志和gc日志文件，也可以通过jstat等工具查看，不过生产环境一般都配置了gc日志，发布定位历史问题。</p>
+
+<pre><code>java -XX:+PrintGCDetails -Xloggc:./log/gc.log -jar app.jar
+</code></pre>
+
+<pre><code>3.211: [GC (Allocation Failure) [PSYoungGen: 267583K-&gt;3013K(427008K)] 271459K-&gt;7544K(514560K), 0.0059950 secs] [Times: user=0.01 sys=0.00, real=0.01 secs]
+3.836: [GC (Metadata GC Threshold) [PSYoungGen: 264562K-&gt;3108K(427008K)] 269094K-&gt;8606K(514560K), 0.0073634 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
+3.843: [Full GC (Metadata GC Threshold) [PSYoungGen: 3108K-&gt;0K(427008K)] [ParOldGen: 5497K-&gt;7536K(60416K)] 8606K-&gt;7536K(487424K), [Metaspace: 20813K-&gt;20813K(1069056K)], 0.0604006 secs] [Times: user=0.15 sys=0.01, real=0.06 secs]
+</code></pre>
+
+<p><strong>日志说明：</strong></p>
+
+<ul>
+<li>3.211：GC事件开始时,相对于JVM启动时的间隔时间,单位是秒<br /></li>
+<li>GC: 用来区分 Minor GC 还是 Full GC 的标志。GC 表明这是一次小型GC(<br /></li>
+<li>Allocation Failure：触发垃圾收集的原因。年轻代中没有适当的空间存放新的数据结构引起的。<br /></li>
+<li>PSYoungGen: 垃圾收集器的名称<br /></li>
+<li>267583K-&gt;3013K(427008K)：年轻代内存回收前，回收后和总内存<br /></li>
+<li>271459K-&gt;7544K(514560K)：整个堆内存回收前，回收后和总内存<br /></li>
+<li>0.0059950 ：gc时间，单位秒<br /></li>
+<li>user – 在此次垃圾回收过程中, 由GC线程所消耗的总的CPU时间<br /></li>
+<li>sys – GC过程中中操作系统调用和系统等待事件所消耗的时间<br /></li>
+<li>real – 应用程序暂停的时间。在 Parallel GC 中, 这个数字约等于: (user time + system time)/GC线程数<br />
+<br /></li>
+</ul>
+
+<p><strong>gc日志可视化分析工具</strong></p>
+
+<ul>
+<li><a href="https://gceasy.io/">https://gceasy.io/</a><br /></li>
+<li>JVisualVM<br /></li>
+<li><a href="https://github.com/chewiebug/GCViewer">https://github.com/chewiebug/GCViewer</a><br />
+<br /></li>
+</ul>
+
+<hr />
+
+<p>引用和参考：<br />
+<a href="https://coolshell.cn/articles/11541.html">https://coolshell.cn/articles/11541.html</a><br />
+<a href="https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html">https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html</a><br />
+<a href="https://www.oracle.com/technetwork/cn/articles/java/g1gc-1984535-zhs.html">https://www.oracle.com/technetwork/cn/articles/java/g1gc-1984535-zhs.html</a><br />
+<a href="https://plumbr.io/java-garbage-collection-handbook">https://plumbr.io/java-garbage-collection-handbook</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#堆内存">堆内存</a>
+<ul>
+<li><a href="#年轻代">年轻代</a></li>
+<li><a href="#老年代">老年代</a></li>
+<li><a href="#永久代">永久代</a></li>
+</ul></li>
+<li><a href="#gc-算法">GC 算法</a>
+<ul>
+<li><a href="#标记">标记</a></li>
+<li><a href="#删除">删除</a></li>
+</ul></li>
+<li><a href="#垃圾回收器">垃圾回收器</a>
+<ul>
+<li><a href="#serial">Serial</a></li>
+<li><a href="#parallel-gc">Parallel GC</a></li>
+<li><a href="#cms">CMS</a></li>
+<li><a href="#g1-garbage-first">G1 – Garbage First</a></li>
+</ul></li>
+<li><a href="#gc日志">GC日志</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=java%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f03%2fjava-garbage-collection%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f03%2fjava-garbage-collection%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f03%2fjava-garbage-collection%2f&amp;description=java%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f03%2fjava-garbage-collection%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="background-image: url(/post-bg.jpg)" href="http://thoreauz.com/2019/03/12/InnoDB/">
+          <section class="post">
+              <h2>InnoDB存储引擎</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/02/16/Btree-B-Tree/">
+          <section class="post">
+              <h2>B树和B&#43;树</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

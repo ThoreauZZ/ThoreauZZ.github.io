@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:image" content="/images/go.png"/>
+    
+
+
+
+<meta name="twitter:title" content="Go语言1-数据类型"/>
+<meta name="twitter:description" content="本文介绍GO语言开发环境和基本数据类型"/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Go语言1-数据类型 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/07/25/go-learn-1-data_structure/" />
+
+    
+       <meta property="og:image" content="/images/go.png"/>
+    
+
+    
+    <meta property="og:description" content="本文介绍GO语言开发环境和基本数据类型" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-07-25T18:29:31Z" />
+
+    
+    <meta property="article:tag" content="go学习" />
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>Go语言1-数据类型 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="本文介绍GO语言开发环境和基本数据类型" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/07/25/go-learn-1-data_structure/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Go语言1-数据类型,
+    "name": Go语言1-数据类型,
+    "wordCount": 1822,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/07/25/go-learn-1-data_structure/,
+    "datePublished": 2017-07-25T18:29Z,
+    "dateModified": 2017-07-25T18:29Z,
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": http://thoreauz.com/images/go.png,
+        "width": 3000,
+        "height": 1445
+    },
+    
+    "keywords": go学习, go,
+    "description": 本文介绍GO语言开发环境和基本数据类型,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/07/25/go-learn-1-data_structure/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  
+  <header class="main-header post-head" style="background-image: url(/images/go.png)">
+  
+  <nav class="main-nav overlay clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Go语言1-数据类型</h1>
+        <small>本文介绍GO语言开发环境和基本数据类型</small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-07-25T18:29:31Z">
+            2017-07-25
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>开始学习GO，主要原因是现在使用的一些组件如Docker，K8s，Etcd都是用GO开发的，希望能对使用的东西多一些了解，读懂简单的源码。</p>
+
+<p>作为“未来的服务端语言”，代码优雅，天生并发，可以直接在机器上运行，支持多方范式编程等等很多优点。不废话了，开始吧。</p>
+
+<!-- more -->
+
+<h2 id="一-go开发环境">一、GO开发环境</h2>
+
+<h3 id="windows">windows</h3>
+
+<ol>
+<li>下载安装，安装到默认路径。安装完成后默认会在环境变量 Path 后添加 Go 安装目录下的 bin 目录 C:\Go\bin\，并添加环境变量 GOROOT，值为 Go 安装根目录 C:\Go\。安装后，在cmd中运行<code>go env</code>测试。<br /></li>
+<li>配置<br />
+安装go，安装sublime，安装插件gosublime<br />
+插件user-setting<br />
+<code>bash
+{
+&quot;env&quot;:{
+    &quot;GOPATH&quot;:&quot;E:/GO&quot;,
+    &quot;GOROOT&quot;:&quot;C:/Program Files (x86)/Go&quot;
+}
+}
+</code><br />
+<br /></li>
+</ol>
+
+<h3 id="linux">Linux</h3>
+
+<pre><code class="language-bash">wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+sudo tar -xzf go1.8.3.linux-amd64.tar.gz -C /usr/local 
+
+# vim /etc/profiles
+export GOROOT=/usr/local/go
+export GOBIN=$GOROOT/bin
+export PATH=$PATH:$GOBIN
+export GOPATH=$HOME/gopath (可选设置)
+
+source /etc/profiles
+</code></pre>
+
+<h3 id="go-程序结构">go 程序结构</h3>
+
+<p>结构和java差不多，主要是这些：声明包，导入包，函数，变量，语句，注释。但也有区别，比如<code>main</code>包作为执行程序的入口，导入的包未使用会编译出错等。</p>
+
+<h3 id="编译执行">编译执行</h3>
+
+<p>比如有文件<code>hello.go</code></p>
+
+<pre><code class="language-bash">go build hello.go # 编译成可执行文件
+go run hello.go # 运行
+</code></pre>
+
+<h2 id="二-数据结构">二、数据结构</h2>
+
+<p>go 中都是大写字母开头作为模块的使用。<br />
+函数可以没有参数或接受多个参数。当两个或多个连续的函数命名参数是同一类型，则除了最后一个类型之外，其他都可以省略。函数可以返回任意数量的返回值。</p>
+
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func add(x, y int) int {
+	return x + y
+}
+
+func main() {
+	fmt.Println(add(42, 13))
+}
+</code></pre>
+
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func swap(x, y string) (string, string) {
+	return y, x
+}
+
+func main() {
+	a, b := swap(&quot;hello&quot;, &quot;world&quot;)
+	fmt.Println(a, b)
+}
+</code></pre>
+
+<p><strong>命名返回值</strong><br />
+Go 的返回值可以被命名，并且就像在函数体开头声明的变量那样使用。</p>
+
+<p>返回值的名称应当具有一定的意义，可以作为文档使用。没有参数的 return 语句返回各个返回变量的当前值。这种用法被称作“裸”返回。</p>
+
+<h3 id="2-1-变量">2.1 变量</h3>
+
+<p>var 语句定义了一个变量的列表；跟函数的参数列表一样，类型在后面。就像在这个例子中看到的一样， var 语句可以定义在包或函数级别。</p>
+
+<pre><code class="language-go">var a, b int = 1, 2 // 多个值声明
+var c int // 没初始化，默认为0
+d := &quot;short&quot;  // 赋值简写
+</code></pre>
+
+<p>常量</p>
+
+<pre><code class="language-go">const s string = &quot;constant&quot;
+</code></pre>
+
+<h3 id="2-2-循环">2.2 循环</h3>
+
+<p>for 是go中唯一的循环结构</p>
+
+<pre><code class="language-go">func main() {
+	i :=1
+	for i&lt;=3 {
+		fmt.Println(i)
+		i = i+1
+	}
+	for j := 7;j &lt;=9 ;j++  {
+		fmt.Println(j)
+	}
+	for{// 不带条件会一直循环
+		fmt.Println(&quot;loop&quot;)
+		break
+	}
+}
+</code></pre>
+
+<h3 id="2-3分支">2.3分支</h3>
+
+<pre><code class="language-go">if 7%2 == 0{
+		fmt.Println(&quot;7 is even&quot;)
+	}else {
+		fmt.Println(&quot;7 is odd&quot;)
+	}
+	if num := 9; num &lt;0 {
+		fmt.Println(&quot;is negative&quot;)
+	}
+</code></pre>
+
+<blockquote>
+<p>Go: 你可以不用圆括号，但需要花括号；go没有三目运算符</p>
+</blockquote>
+
+<pre><code class="language-go">func main() {
+	i := 2
+	fmt.Print(&quot;write &quot;, i, &quot; as &quot;)
+	switch i {
+	case 1:
+		fmt.Println(&quot;one&quot;)
+	case 2:
+		fmt.Println(&quot;two&quot;)
+	case 3:
+		fmt.Println(&quot;three&quot;)
+	}
+}
+</code></pre>
+
+<h2 id="三-数组-切片">三、数组、切片</h2>
+
+<h3 id="3-1-数组声明">3.1 数组声明</h3>
+
+<pre><code class="language-go">var a [5]int // 声明不初始化，默认为0，0，0....
+var twoD [2][3]int
+array := [5]int{10, 20, 30, 40, 50}
+array := [...]int{10, 20, 30, 40, 50} // 容量由初始化时确定
+array := [5]int{1: 10, 2: 20}   // [0 10 20 0 0]
+</code></pre>
+
+<blockquote>
+<p>len(a), a[3]</p>
+</blockquote>
+
+<h3 id="3-2-使用数组">3.2 使用数组</h3>
+
+<p>相同长度和类型的数组才能赋值。</p>
+
+<pre><code class="language-go">var array1 [5]string
+array2 := [5]string{&quot;Red&quot;,&quot;Blue&quot;, &quot;Green&quot;, &quot;Yello&quot;, &quot;Pink&quot;}
+array1 = array2 // 复制
+array1[1] = &quot;Orther Color&quot; // 修改
+// for 遍历 arr
+for index, value := range array2{
+	fmt.Printf(&quot;arr[%d]=%s\n&quot;, index, value)
+}
+</code></pre>
+
+<h3 id="3-3-切片">3.3 切片</h3>
+
+<p>切片是一种数据结构,这种数据结构便于使用和管理数据集合。切片是围绕动态数组的概念构建的,可以按需自动增长和缩小。切片的动态增长是通过内置函数 append 来实现的.</p>
+
+<p>切片有3个字段: 指针，长度，容量。</p>
+
+<pre><code class="language-go">// 其长度和容量都是 5 个元素
+ slice1 := make([]string, 5)
+// 其长度为 3 个元素,容量为 5 个元素
+ slice2 := make([]int, 3, 5)
+ 
+// 另一种直接初始化的方式创建切片，和数组不同的是，使用[]
+// 其长度和容量都是 5 个元素
+slice := []string{&quot;Red&quot;, &quot;Blue&quot;, &quot;Green&quot;, &quot;Yellow&quot;, &quot;Pink&quot;}
+// 其长度和容量都是 3 个元素
+ slice := []int{10, 20, 30}
+ // 使用空字符串初始化第 100 个元素 
+ slice := []string{99: &quot;&quot;}
+
+//  创建 nil 整型切片
+var slice []int
+// 使用 make 创建空的整型切片
+slice := make([]int, 0)
+// 使用切片字面量创建空的整型切片
+ slice := []int{}
+</code></pre>
+
+<blockquote>
+<p>注意：如果在[]运算符里指定了一个值,那么创建的就是数组而不是切片。只有不指定值 的时候,才会创建切片</p>
+</blockquote>
+
+<p>相对于数组而言,使用切片的一个好处是,可以按需增加切片的容量。Go 语言内置的 append 函数会处理增加长度时的所有操作细节。<br />
+函数 append 会智能地处理底层数组的容量增长。在切片的容量小于 1000 个元素时,总是 会成倍地增加容量。一旦元素个数超过 1000,容量的增长因子会设为 1.25,也就是会每次增加 25% 的容量</p>
+
+<pre><code class="language-go">slice := []int{10, 20, 30, 40, 50}
+newSlice := slice[1:3]
+newSlice = append(newSlice,60)
+fmt.Println(newSlice)//[20 30 60]
+
+alice := slice[2:3:4]// index=2,lenth=3-2;cap=4-2
+
+// 创建两个切片,并分别用两个整数进行初始化 s1 := []int{1, 2}
+s2 := []int{3, 4}
+// 将两个切片追加在一起,并显示结果 
+fmt.Printf(&quot;%v\n&quot;, append(s1, s2...))//[1 2 3 4]
+</code></pre>
+
+<h2 id="四-映射">四、映射</h2>
+
+<p>映射是一种数据结构,用于存储一系列无序的键值对。如下图所示，键通过散列函数得到散列值，找到对应存储桶，所以它的存储并不是有序的。<br />
+<img src="http://thoreauz.com/images/2017-07-25-18-35-45.jpg" alt="" /></p>
+
+<p>其实说白了，映射这种结果，在java中叫map，在python中对应字典。使用简单，算法经典。</p>
+
+<h3 id="示例">示例</h3>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+)
+
+func main() {
+	// 创建map，string:int
+	//dict := make(map[string]int)
+	// 创建map，string:string
+	dict := map[string]string{&quot;name&quot;:&quot;thoreau&quot;,&quot;age&quot;: &quot;27&quot;}
+
+	// 添加修改
+	dict[&quot;addr&quot;] = &quot;0.0.0.0&quot;
+	// 判断key是否存在
+	value, exists := dict[&quot;addr&quot;]
+	if exists {
+		fmt.Println(value)
+	}
+	// delete
+	delete(dict,&quot;addr&quot;)
+	// 遍历
+	for key, value := range dict {
+		fmt.Printf(&quot;Key: %s ,Value: %s \n&quot;,key,value)
+	}
+}
+</code></pre>
+
+<p>上面是一个完整的示例，包括初始化、修改、添加、删除和遍历等常用操作。</p>
+
+<hr />
+
+<blockquote>
+<p>待丰富完善</p>
+</blockquote>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#一-go开发环境">一、GO开发环境</a>
+<ul>
+<li><a href="#windows">windows</a></li>
+<li><a href="#linux">Linux</a></li>
+<li><a href="#go-程序结构">go 程序结构</a></li>
+<li><a href="#编译执行">编译执行</a></li>
+</ul></li>
+<li><a href="#二-数据结构">二、数据结构</a>
+<ul>
+<li><a href="#2-1-变量">2.1 变量</a></li>
+<li><a href="#2-2-循环">2.2 循环</a></li>
+<li><a href="#2-3分支">2.3分支</a></li>
+</ul></li>
+<li><a href="#三-数组-切片">三、数组、切片</a>
+<ul>
+<li><a href="#3-1-数组声明">3.1 数组声明</a></li>
+<li><a href="#3-2-使用数组">3.2 使用数组</a></li>
+<li><a href="#3-3-切片">3.3 切片</a></li>
+</ul></li>
+<li><a href="#四-映射">四、映射</a>
+<ul>
+<li><a href="#示例">示例</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Go%e8%af%ad%e8%a8%801-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f25%2fgo-learn-1-data_structure%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f25%2fgo-learn-1-data_structure%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f25%2fgo-learn-1-data_structure%2f&amp;description=Go%e8%af%ad%e8%a8%801-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f25%2fgo-learn-1-data_structure%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/07/27/go-learn-2-struct/">
+          <section class="post">
+              <h2>Go语言2-类型</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/07/20/java-test-WireMock/">
+          <section class="post">
+              <h2>WireMock进行集成测试</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

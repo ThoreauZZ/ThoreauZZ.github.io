@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>造舟野渡</title>
+    <link>http://thoreauz.com/</link>
+    <description>Recent content on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 19 May 2019 13:59:10 +0800</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java测试驱动看这篇就够了</title>
+      <link>http://thoreauz.com/2019/05/19/java-tdd/</link>
+      <pubDate>Sun, 19 May 2019 13:59:10 +0800</pubDate>
+      
+      <guid>http://thoreauz.com/2019/05/19/java-tdd/</guid>
+      <description>tdd 测试驱动开发，从字面谁上很好理解，开发流程应该是这样的。 关键在于测试编写先于实现，如果是写完实现再补测试，虽然总比没有强，但它不是TDD。</description>
+    </item>
+    
+    <item>
+      <title>IntelliJ IDEA 配合vim使用</title>
+      <link>http://thoreauz.com/2019/04/21/ideavim/</link>
+      <pubDate>Sun, 21 Apr 2019 22:17:30 +0800</pubDate>
+      
+      <guid>http://thoreauz.com/2019/04/21/ideavim/</guid>
+      <description>概述 前文IntelliJ IDEA快捷键和使用技巧，主要介绍idea的快捷键，提过vim，本文介绍通过安装插件实现我们vim编辑。本文基于ma</description>
+    </item>
+    
+    <item>
+      <title>IntelliJ IDEA快捷键和使用技巧</title>
+      <link>http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/</link>
+      <pubDate>Sun, 21 Apr 2019 20:17:35 +0800</pubDate>
+      
+      <guid>http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/</guid>
+      <description>IDEA Mac 快捷键说明 Mac键盘符号和修饰键说明: ⌘: command ⌥: alt(Option) ⇧: shift ⌃: ctrl ⎋：Escape (Esc) idea 在 mac 上有两套快捷键，本文基于 mac 10.5+。 一、编辑 快捷</description>
+    </item>
+    
+    <item>
+      <title>InnoDB存储引擎</title>
+      <link>http://thoreauz.com/2019/03/12/InnoDB/</link>
+      <pubDate>Tue, 12 Mar 2019 23:54:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/03/12/InnoDB/</guid>
+      <description>概述 作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15； &amp;gt; 架构图 查看和使用I</description>
+    </item>
+    
+    <item>
+      <title>java垃圾回收</title>
+      <link>http://thoreauz.com/2019/03/03/java-garbage-collection/</link>
+      <pubDate>Sun, 03 Mar 2019 15:19:29 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/03/03/java-garbage-collection/</guid>
+      <description>概述 本文简要介绍java虚拟机垃圾回收相关概念，回收器，算法，gc日志查看等。 下图为HotSpot虚拟机架构图，其中垃圾回收器(Garbag</description>
+    </item>
+    
+    <item>
+      <title>B树和B&#43;树</title>
+      <link>http://thoreauz.com/2019/02/16/Btree-B-Tree/</link>
+      <pubDate>Sat, 16 Feb 2019 21:44:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/02/16/Btree-B-Tree/</guid>
+      <description>概述 之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。</description>
+    </item>
+    
+    <item>
+      <title>perf和火焰图</title>
+      <link>http://thoreauz.com/2019/02/16/perf-flameGraph/</link>
+      <pubDate>Sat, 16 Feb 2019 12:46:15 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/02/16/perf-flameGraph/</guid>
+      <description>安装 perf是linux下的一个性能分析工具，本文主要用来分析java热点代码。安装perf和perf-map-agent，perf-map</description>
+    </item>
+    
+    <item>
+      <title>RPC六-动态代理</title>
+      <link>http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/</link>
+      <pubDate>Sat, 19 Jan 2019 11:44:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>RPC五-可靠性设计</title>
+      <link>http://thoreauz.com/2019/01/19/rpc5-reliability/</link>
+      <pubDate>Sat, 19 Jan 2019 11:40:47 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc5-reliability/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>RPC四-netty异步双向责任链</title>
+      <link>http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/</link>
+      <pubDate>Sat, 19 Jan 2019 11:40:16 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>RPC三-rpc协议和编解码</title>
+      <link>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>RPC二-NettyHandler处理消息</title>
+      <link>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>RPC一-线程模型</title>
+      <link>http://thoreauz.com/2019/01/19/rpc1-netty-reactor/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc1-netty-reactor/</guid>
+      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+    </item>
+    
+    <item>
+      <title>服务发现-注册中心设计</title>
+      <link>http://thoreauz.com/2019/01/12/service-registry-discovery/</link>
+      <pubDate>Sat, 12 Jan 2019 18:37:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/12/service-registry-discovery/</guid>
+      <description>概述 服务注册与发现是微服务的核心，否则新发布一个服务只能去调用方配置地址，不能接受的事。不管是rpc还是spring cloud这种Http调</description>
+    </item>
+    
+    <item>
+      <title>javaagenet和arm字节码增强</title>
+      <link>http://thoreauz.com/2019/01/12/javaagent-and-asm/</link>
+      <pubDate>Sat, 12 Jan 2019 00:26:24 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/12/javaagent-and-asm/</guid>
+      <description>概述 本文介绍javaagent规范和通过asm修改字节码。并实现一个简单的统计方法执行时间的agent。 javaagent规范 java 提供了操作运</description>
+    </item>
+    
+    <item>
+      <title>spring-boot 可执行jar启动原理</title>
+      <link>http://thoreauz.com/2018/12/22/spring-boot-executable-jar/</link>
+      <pubDate>Sat, 22 Dec 2018 14:57:17 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/12/22/spring-boot-executable-jar/</guid>
+      <description>用spring-boot很长时间了，解放了对一堆tomcat的配置，一个可执行jar包，比以前弄一堆xml方便了很多，大大简化微服务开发，也</description>
+    </item>
+    
+    <item>
+      <title>Java类加载器</title>
+      <link>http://thoreauz.com/2018/12/16/Java-Class-Loader/</link>
+      <pubDate>Sun, 16 Dec 2018 23:26:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/12/16/Java-Class-Loader/</guid>
+      <description>概述 “虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是</description>
+    </item>
+    
+    <item>
+      <title>限流-Sentinel使用</title>
+      <link>http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/</link>
+      <pubDate>Sat, 17 Nov 2018 15:58:54 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/</guid>
+      <description>上篇文章介绍了sentinel的简单示例和一些架构、基本原理。本文重点看看如何和一些已有系统整合使用。 框架适配 servlet 其实很好理解，做一个filt</description>
+    </item>
+    
+    <item>
+      <title>限流-阿里开源Sentinel</title>
+      <link>http://thoreauz.com/2018/11/17/request-limit-Sentinel/</link>
+      <pubDate>Sat, 17 Nov 2018 13:48:16 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/17/request-limit-Sentinel/</guid>
+      <description>Sentinel作用 Sentinelm，分布式系统的流量防卫兵，可以从多个维度保护应用，广泛用于阿里各个系统，是大促稳定性保障的关键。现已开</description>
+    </item>
+    
+    <item>
+      <title>在mac上安装minikube</title>
+      <link>http://thoreauz.com/2018/11/04/mac-install-minikube/</link>
+      <pubDate>Sun, 04 Nov 2018 01:16:10 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/04/mac-install-minikube/</guid>
+      <description>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测</description>
+    </item>
+    
+    <item>
+      <title>istio-proxy原理</title>
+      <link>http://thoreauz.com/2018/11/03/istio-proxy/</link>
+      <pubDate>Sat, 03 Nov 2018 18:33:06 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/03/istio-proxy/</guid>
+      <description>前言 在上一篇文章介绍的kubernetes环境的示例中，istio以边车模式部署在pod中，它接管了业务容器所有出入站流量，从而灵活控制网络</description>
+    </item>
+    
+    <item>
+      <title>istio安装使用</title>
+      <link>http://thoreauz.com/2018/10/21/istio-install-sample/</link>
+      <pubDate>Sun, 21 Oct 2018 22:53:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/10/21/istio-install-sample/</guid>
+      <description>什么是service mesh service mesh，也翻译为服务网格。是一种在网络节点间通过动态路由的方式来进行资料与控制指令的传送。这种网络可以保持每个节点</description>
+    </item>
+    
+    <item>
+      <title>rxjava原理篇</title>
+      <link>http://thoreauz.com/2018/06/08/rxjava-2/</link>
+      <pubDate>Fri, 08 Jun 2018 21:25:23 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/06/08/rxjava-2/</guid>
+      <description>概述 本文简述rxjava2的实现原理。搞清原理，使用起来才得心应手。 基本原理 先看一个最简单的示例： // 被观察者 Observable&amp;lt;Object&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;Object&amp;gt;() { @Override public void subscribe(ObservableEmitter&amp;lt;Object&amp;gt; emitter) throws Exception { System.out.println(&amp;quot;emit a</description>
+    </item>
+    
+    <item>
+      <title>rxjava基础篇</title>
+      <link>http://thoreauz.com/2018/03/29/rxjava-1/</link>
+      <pubDate>Thu, 29 Mar 2018 21:08:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/29/rxjava-1/</guid>
+      <description>概念 响应式编程是一种处理异步数据流的规范，它为数据流的转换和聚合以及数据流的控制管理提供了工具支持。整个数据流可能包含一个或者多个事件。 如果</description>
+    </item>
+    
+    <item>
+      <title>spring-boot 使用protobuf</title>
+      <link>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</link>
+      <pubDate>Sat, 24 Mar 2018 08:15:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</guid>
+      <description>概述 本文简单介绍通过gradle构建以protobuf作为数据通讯格式的spring boot服务。 protobuf简介 Protocol Buffers是Go</description>
+    </item>
+    
+    <item>
+      <title>GO-defer语句</title>
+      <link>http://thoreauz.com/2018/03/15/GO-defer/</link>
+      <pubDate>Thu, 15 Mar 2018 00:41:09 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/15/GO-defer/</guid>
+      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;quot;The finishing touches .&amp;quot;) 为什么叫延长函数，有</description>
+    </item>
+    
+    <item>
+      <title>Cobra- Go的命令行生成库</title>
+      <link>http://thoreauz.com/2018/03/14/Cobra-example/</link>
+      <pubDate>Wed, 14 Mar 2018 22:17:07 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/14/Cobra-example/</guid>
+      <description>概述 Cobra 是一个用来创建 CLI 命令行的 golang 库，也可以用来生成以Cobra为基础的应用和命令文件。被广泛使用在各种Go的项目中，比如Kubernetes</description>
+    </item>
+    
+    <item>
+      <title>聊聊本地缓存</title>
+      <link>http://thoreauz.com/2018/02/08/local-cache/</link>
+      <pubDate>Thu, 08 Feb 2018 22:30:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/02/08/local-cache/</guid>
+      <description>概述 本文介绍一些常见的缓存设计算法和思路。比如缓存淘汰的算法：LRU，SLRU，LFU，W-TinyLFU。实现入guava cache和ca</description>
+    </item>
+    
+    <item>
+      <title>一致性hash算法</title>
+      <link>http://thoreauz.com/2018/01/26/ConsistentHash/</link>
+      <pubDate>Fri, 26 Jan 2018 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/26/ConsistentHash/</guid>
+      <description>概述 现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实</description>
+    </item>
+    
+    <item>
+      <title>HashMap详解</title>
+      <link>http://thoreauz.com/2018/01/25/HashMap-theory/</link>
+      <pubDate>Thu, 25 Jan 2018 14:24:25 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/25/HashMap-theory/</guid>
+      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;quot;k:&amp;quot;+k+&amp;quot; v:&amp;quot;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
+    </item>
+    
+    <item>
+      <title>红黑树</title>
+      <link>http://thoreauz.com/2018/01/21/Red-Black-Trees/</link>
+      <pubDate>Sun, 21 Jan 2018 11:01:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/21/Red-Black-Trees/</guid>
+      <description>概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)</description>
+    </item>
+    
+    <item>
+      <title>二叉搜索树</title>
+      <link>http://thoreauz.com/2018/01/20/Binary-Search-Trees/</link>
+      <pubDate>Sat, 20 Jan 2018 11:01:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/20/Binary-Search-Trees/</guid>
+      <description>二叉树 概念 二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右</description>
+    </item>
+    
+    <item>
+      <title>GO— 异常错误处理</title>
+      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
+      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
+    </item>
+    
+    <item>
+      <title>go 开发web应用</title>
+      <link>http://thoreauz.com/2018/01/09/go-web-example/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/go-web-example/</guid>
+      <description>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出a</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-索引</title>
+      <link>http://thoreauz.com/2017/12/02/high-performance-mysql-key/</link>
+      <pubDate>Sat, 02 Dec 2017 19:14:50 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/12/02/high-performance-mysql-key/</guid>
+      <description>概述 索引在大数量量时对性能尤为重要，创建合适的索引和使用成了其中关键，本文介绍如何创建高性能的索引。 索引基础 类型 mysql中，有不同的索引类</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-schema与数据类型优化</title>
+      <link>http://thoreauz.com/2017/11/25/high-performance-mysql-schma/</link>
+      <pubDate>Sat, 25 Nov 2017 19:19:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/25/high-performance-mysql-schma/</guid>
+      <description>选择优化的数据类型 遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-性能剖析</title>
+      <link>http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/</link>
+      <pubDate>Sat, 25 Nov 2017 14:53:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/</guid>
+      <description>性能优化的两个原则： 1. 我们通过任务和时间而不是资源来衡量性能。 2. 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。</description>
+    </item>
+    
+    <item>
+      <title>用Postman测试API</title>
+      <link>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</link>
+      <pubDate>Mon, 13 Nov 2017 16:18:30 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</guid>
+      <description>概述 API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试，</description>
+    </item>
+    
+    <item>
+      <title>Go语言8-Json</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-8-json/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-8-json/</guid>
+      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;quot;login&amp;quot;:</description>
+    </item>
+    
+    <item>
+      <title>Go语言9-测试和性能</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-9-test/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-9-test/</guid>
+      <description>测试驱动开发推荐编写测试-运行测试-实现-运行测试-重构-运行测试的的开发流程。开发过程中就进行单元测试和基准测试，在GO语言中也一样可以。</description>
+    </item>
+    
+    <item>
+      <title>Go语言7-日志</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-7-json/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-7-json/</guid>
+      <description>日志是程序开发很重要的一部分，在java中，有一大堆第三方包，以至于各种冲突各种排除。本文看看go如何记录日志。 使用 go 自带log包，简单使用</description>
+    </item>
+    
+    <item>
+      <title>理解iptables</title>
+      <link>http://thoreauz.com/2017/11/09/iptables/</link>
+      <pubDate>Thu, 09 Nov 2017 22:33:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/09/iptables/</guid>
+      <description>iptables 初解 防火墙只是一个规则机器与外部有交互时的一个过滤规则，依赖netfilter注册各种hooks实现。iptables以表(table)-</description>
+    </item>
+    
+    <item>
+      <title>线程与锁</title>
+      <link>http://thoreauz.com/2017/11/04/thread-lock/</link>
+      <pubDate>Sat, 04 Nov 2017 18:15:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/04/thread-lock/</guid>
+      <description>线程和锁，先从简单的示例1开始： **public class App { public static void main(String[] args) throws InterruptedException { class Counter { private int count = 0; void increment() { ++count; } private int getCount() { return count; } } final Counter counter = new Counter(); class CountingThread extends Thread { @Override public void run() { for (int x = 0;</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-ChannelHandler</title>
+      <link>http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/</link>
+      <pubDate>Sat, 02 Sep 2017 16:40:07 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/</guid>
+      <description>ChannelPileline将ChannelHandler串联起来，形成一个处理逻辑。而ChannelhandlerContext管理上下</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-ByteBuf</title>
+      <link>http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/</link>
+      <pubDate>Sat, 02 Sep 2017 16:39:57 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/</guid>
+      <description>Java NIO中的Buffer用于和NIO通道进行交互，数据可以从通道读入缓冲区，也可以从缓冲区写入到通道中。所以说，Buffer其实就是一块可以</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-起步</title>
+      <link>http://thoreauz.com/2017/08/23/netty-in-action-start/</link>
+      <pubDate>Wed, 23 Aug 2017 23:20:35 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/23/netty-in-action-start/</guid>
+      <description>概述 Netty是一款异步的事件驱动的网络应用程序框架，支持快速地开发可维护的高性能的面向协议的服务器和客户端。为什么它就能做很多中间件的底层</description>
+    </item>
+    
+    <item>
+      <title>分布式锁和Redisson实现</title>
+      <link>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</link>
+      <pubDate>Sun, 20 Aug 2017 05:53:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</guid>
+      <description>概述 分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availabilit</description>
+    </item>
+    
+    <item>
+      <title>给Future一个Promise</title>
+      <link>http://thoreauz.com/2017/08/20/future-promise/</link>
+      <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;quot;Do something ...&amp;quot;); new Thread(new</description>
+    </item>
+    
+    <item>
+      <title>如何写好Git Commit</title>
+      <link>http://thoreauz.com/2017/08/17/git-commit/</link>
+      <pubDate>Thu, 17 Aug 2017 16:10:19 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/17/git-commit/</guid>
+      <description>什么是好的git commit，有以下几点： * message清楚反应本次提交内容 * 方便回退到某个版本 * 反应产品演进过程 主要针对团队开发，对于开</description>
+    </item>
+    
+    <item>
+      <title>前端模板swig</title>
+      <link>http://thoreauz.com/2017/08/15/swig/</link>
+      <pubDate>Tue, 15 Aug 2017 11:34:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/15/swig/</guid>
+      <description>概述 前后端没有分离的时候，有的套模板的工作还是由后端做，因为后端方便拿数据，比如使用freemarker。如果让前端去做，还得自己搭建后端环</description>
+    </item>
+    
+    <item>
+      <title>JavaScript基础2-函数</title>
+      <link>http://thoreauz.com/2017/08/14/JavaScript2-function/</link>
+      <pubDate>Mon, 14 Aug 2017 11:33:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/14/JavaScript2-function/</guid>
+      <description>定义使用 function abs(x) { if (x &amp;gt;= 0) { return x; } else { return -x; } } function全名，go中func，python使用def 不需要说明是否有返回值，使用retur</description>
+    </item>
+    
+    <item>
+      <title>JavaScript基础1-数据结构</title>
+      <link>http://thoreauz.com/2017/08/14/JavaScript1-data-structure/</link>
+      <pubDate>Mon, 14 Aug 2017 11:33:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/14/JavaScript1-data-structure/</guid>
+      <description>想来，很多年前就写过JavaScript，工作后也一直断断续续在使用，但主要是后台写个管理页面，停在JQuery和AJax几个关键词上，选个</description>
+    </item>
+    
+    <item>
+      <title>jq使用</title>
+      <link>http://thoreauz.com/2017/08/11/jq/</link>
+      <pubDate>Fri, 11 Aug 2017 23:30:06 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/11/jq/</guid>
+      <description>jq是一个命令行处理json的工具。 现在大部分交互的数据格式都是以json的形式，不管是写一些监控脚本或者平时使用，都是一个比较方便的工具，</description>
+    </item>
+    
+    <item>
+      <title>Ribbon源码阅读</title>
+      <link>http://thoreauz.com/2017/08/11/Ribbon/</link>
+      <pubDate>Fri, 11 Aug 2017 20:12:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/11/Ribbon/</guid>
+      <description>Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。 在sp</description>
+    </item>
+    
+    <item>
+      <title>消息队列</title>
+      <link>http://thoreauz.com/2017/08/10/mq/</link>
+      <pubDate>Thu, 10 Aug 2017 22:50:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/mq/</guid>
+      <description>消息队列 一、概述 现在的后端系统几乎离不开3类基本中间件：数据库，nosql缓存，消息队列（MQ）。为什么需要MQ，主要有以下几个场景：异步处</description>
+    </item>
+    
+    <item>
+      <title>Gradle的双刃</title>
+      <link>http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/</link>
+      <pubDate>Thu, 10 Aug 2017 16:49:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/</guid>
+      <description>作为java开发者，maven解决了我很多头痛的问题，现在也几乎成了java项目中依赖管理和构建的标准工具，很多开源的库都会发布到maven</description>
+    </item>
+    
+    <item>
+      <title>The Twelve-Factory App</title>
+      <link>http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/</link>
+      <pubDate>Thu, 10 Aug 2017 11:57:19 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/</guid>
+      <description>The Twelve-Factory App 摘自：The Twelve-Factory App Cloud Native是一种应用开发风格，鼓励在持续交付和价值驱动开发领域轻松采用最佳实践。相关的学科是建立12因素应用程序，</description>
+    </item>
+    
+    <item>
+      <title>HTTP RESTful API 规范</title>
+      <link>http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Thu, 10 Aug 2017 11:34:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/</guid>
+      <description>使用HTTP API在开发中变得尤为重要，甚至已经作为产品的一部分。对于一个多端产品，和后台的交互主要通过http，于是API变成了最重要的契</description>
+    </item>
+    
+    <item>
+      <title>ELK之Logstash</title>
+      <link>http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/</link>
+      <pubDate>Wed, 09 Aug 2017 20:34:47 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/</guid>
+      <description>ELK是很流行的日志收集架构，通过LogStash搜集日志，ES存储，Kinaba展示。LogStash通过插件和一个工作流，完成了一整套日</description>
+    </item>
+    
+    <item>
+      <title>Go语言6-网络编程</title>
+      <link>http://thoreauz.com/2017/08/09/go-learn-6-network-programming/</link>
+      <pubDate>Wed, 09 Aug 2017 19:56:14 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/09/go-learn-6-network-programming/</guid>
+      <description>Go语言标准库里提供的net包,支持基于IP层、TCP/UDP层及更高层面(如HTTP、FTP、SMTP)的网络操作，其中用于IP层的称为R</description>
+    </item>
+    
+    <item>
+      <title>Logstash搜集spring-cloud日志</title>
+      <link>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</link>
+      <pubDate>Tue, 08 Aug 2017 14:23:26 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</guid>
+      <description>如果使用sleuth，通过logback按照一定的格式打印日志，即可通过logstash过滤并搜集到es里面存储，继而通过Kibana展示。</description>
+    </item>
+    
+    <item>
+      <title>Go语言5-并发</title>
+      <link>http://thoreauz.com/2017/08/07/go-learn-5-concurrent/</link>
+      <pubDate>Mon, 07 Aug 2017 13:47:59 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/07/go-learn-5-concurrent/</guid>
+      <description>我们常听到GO的一个主要特性介绍：“天生支持高并发”，什么叫天生支持呢？ 并发和并行不是一回事，并行是多个处理器同时执行不同指令，而并发是指一</description>
+    </item>
+    
+    <item>
+      <title>Go语言4-嵌入类型</title>
+      <link>http://thoreauz.com/2017/08/01/go-learn-4-Embedded-Types/</link>
+      <pubDate>Tue, 01 Aug 2017 00:02:22 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/01/go-learn-4-Embedded-Types/</guid>
+      <description>Java中有内部类和匿名类的说法，但是Go的嵌入类和JAVA完全两回事。在Go语言中，新类可以嵌入一个已有类型作为内部类型，从而它就作为内部</description>
+    </item>
+    
+    <item>
+      <title>Go语言3-接口</title>
+      <link>http://thoreauz.com/2017/07/31/go-learn-3-interface/</link>
+      <pubDate>Mon, 31 Jul 2017 11:17:50 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/31/go-learn-3-interface/</guid>
+      <description>Go语言的主要设计者之一罗布·派克(Rob Pike)曾经说过,如果只能选择一个Go语言的特性移植到其他语言中，他会选择接口，所以接口在Go语</description>
+    </item>
+    
+    <item>
+      <title>Go语言2-类型</title>
+      <link>http://thoreauz.com/2017/07/27/go-learn-2-struct/</link>
+      <pubDate>Thu, 27 Jul 2017 00:15:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/27/go-learn-2-struct/</guid>
+      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 1. 基础类型: byte、int、bool、float等 2. 复合类型:</description>
+    </item>
+    
+    <item>
+      <title>Go语言1-数据类型</title>
+      <link>http://thoreauz.com/2017/07/25/go-learn-1-data_structure/</link>
+      <pubDate>Tue, 25 Jul 2017 18:29:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/25/go-learn-1-data_structure/</guid>
+      <description>开始学习GO，主要原因是现在使用的一些组件如Docker，K8s，Etcd都是用GO开发的，希望能对使用的东西多一些了解，读懂简单的源码。 作</description>
+    </item>
+    
+    <item>
+      <title>WireMock进行集成测试</title>
+      <link>http://thoreauz.com/2017/07/20/java-test-WireMock/</link>
+      <pubDate>Thu, 20 Jul 2017 11:11:03 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/20/java-test-WireMock/</guid>
+      <description>概述 在开发中，我们需要mock Http API，主要有两种使用场景： 1. 前后端分离开发，API first，可以提供虚拟接口，方便前端开发。 2. 集成测试依</description>
+    </item>
+    
+    <item>
+      <title>JAVA常用测试框架</title>
+      <link>http://thoreauz.com/2017/07/20/JAVA-test-tool/</link>
+      <pubDate>Thu, 20 Jul 2017 00:28:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/20/JAVA-test-tool/</guid>
+      <description>要做好测试驱动开发，意识习惯最重要，其次也得回编写优雅的单元测试。java测试框架很多，各种断言和注解，有点混乱，编写测试时老师搞不清该用哪</description>
+    </item>
+    
+    <item>
+      <title>Jenkins自动化集成/部署</title>
+      <link>http://thoreauz.com/2017/05/05/Jenkins-1/</link>
+      <pubDate>Fri, 05 May 2017 22:16:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/05/05/Jenkins-1/</guid>
+      <description>一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 1. 构建打包：</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud Config 存储复杂数据结构</title>
+      <link>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</link>
+      <pubDate>Mon, 24 Apr 2017 17:33:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</guid>
+      <description>假设现在有这样一个接口： GET /emojes { &amp;quot;emojies&amp;quot;: [{ &amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;呵呵&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://xxx.png&amp;quot; }, { &amp;quot;id&amp;quot;: &amp;quot;2&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;嘿嘿&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://ooo.png&amp;quot; }] } 里面的数据希望存储</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes编译部署DNS</title>
+      <link>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</link>
+      <pubDate>Tue, 18 Apr 2017 17:21:30 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</guid>
+      <description>概述 在前一篇文章Kubernetes部署DNS和Dashboard中，我们使用官方提供的yaml启动相关容器实现DNS。本文通过go编译成可</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes部署DNS和Dashboard</title>
+      <link>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</link>
+      <pubDate>Sun, 16 Apr 2017 18:56:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</guid>
+      <description>Kubernetes部署DNS和Dashboard 一、部署DNS k8s的github 有很多组件的安装文档，但是，安装需要核对自己的k8s版本</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 分布式系统追踪</title>
+      <link>http://thoreauz.com/2017/04/12/spring-cloud-trace/</link>
+      <pubDate>Wed, 12 Apr 2017 17:40:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/12/spring-cloud-trace/</guid>
+      <description>Spring Cloud 分布式系统追踪 微服务的特点就是服务多，依赖关系复杂。一个请求进来，整个调用链是什么样的，各个服务的调用时间，错误出现在哪个服务、哪台机器</description>
+    </item>
+    
+    <item>
+      <title>Jvm类的加载</title>
+      <link>http://thoreauz.com/2017/04/06/Jvm-load-class/</link>
+      <pubDate>Thu, 06 Apr 2017 10:21:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/06/Jvm-load-class/</guid>
+      <description>Java类的加载 《深入理解java虚拟机》第二版笔记 类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot和Docker实践中遇到的问题</title>
+      <link>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</link>
+      <pubDate>Tue, 21 Mar 2017 23:31:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</guid>
+      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &#39;touch /app.jar&#39; ENV JAVA_OPTS=&amp;quot;&amp;quot; ENTRYPOINT [ &amp;quot;sh&amp;quot;, &amp;quot;-c&amp;quot;, &amp;quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;quot; ] 解释：</description>
+    </item>
+    
+    <item>
+      <title>kubernetes入门之Deployments</title>
+      <link>http://thoreauz.com/2017/03/21/kubernetes-deployments/</link>
+      <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+    </item>
+    
+    <item>
+      <title>Docker网络方案之Flannel</title>
+      <link>http://thoreauz.com/2017/03/18/docker-network-flannel/</link>
+      <pubDate>Sat, 18 Mar 2017 22:49:13 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/docker-network-flannel/</guid>
+      <description>Docker网络方案之Flannel docker夸主机网络方案可选的很多，有大家说的隧道方案和路由方案，对应的有Flannel，Calico</description>
+    </item>
+    
+    <item>
+      <title>Centos7搭建kubernetes搭建</title>
+      <link>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</link>
+      <pubDate>Sat, 18 Mar 2017 10:41:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</guid>
+      <description>Centos7搭建kubernetes搭建 本文介绍在两台Centos7上安装kubernetes集群，一台作为master，2台作为node</description>
+    </item>
+    
+    <item>
+      <title>Jenkins发布Docker到k8s</title>
+      <link>http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/</link>
+      <pubDate>Fri, 17 Mar 2017 21:06:50 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/</guid>
+      <description>Jenkins发布Docker到k8s Docker 镜像push到仓库后，算是完成了构建打包的过程。发布时，可以通过Jenkins远程操作kuberne</description>
+    </item>
+    
+    <item>
+      <title>VIM使用技巧</title>
+      <link>http://thoreauz.com/2017/03/07/vim/</link>
+      <pubDate>Tue, 07 Mar 2017 23:47:13 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/07/vim/</guid>
+      <description>VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%</description>
+    </item>
+    
+    <item>
+      <title>spring cloud 服务网关ZULL</title>
+      <link>http://thoreauz.com/2017/03/07/spring-cloud-zuul/</link>
+      <pubDate>Tue, 07 Mar 2017 22:56:57 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/07/spring-cloud-zuul/</guid>
+      <description>spring cloud 服务网关ZUUL 路由是微服务架构中不可或缺的一部分。比如，/ 可能需要映射到你的web应用, /api/users 映射到用户服务, /api/shop 映射到商城服务. Zuul是</description>
+    </item>
+    
+    <item>
+      <title>java8学习-流的使用</title>
+      <link>http://thoreauz.com/2017/03/06/java8-stream/</link>
+      <pubDate>Mon, 06 Mar 2017 00:33:01 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/06/java8-stream/</guid>
+      <description>java8学习-流的使用 《java8实战》学习笔记 一、筛选和切片 Streams接口支持filter方法(你现在应该很熟悉了)。该操作会接受一</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch安装和简单介绍</title>
+      <link>http://thoreauz.com/2017/03/05/Elasticsearch-install-starter/</link>
+      <pubDate>Sun, 05 Mar 2017 12:38:15 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/05/Elasticsearch-install-starter/</guid>
+      <description>Elasticsearch安装和简单介绍 一、ES和kibana安装 elasticsearch-5.3.1 curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.zip unzip elasticsearch-5.3.1.zip mv elasticsearch-5.3.1 elasticsearch OpenJDK 64-Bit Server VM warning: INFO: os::commit_memory(0x000000008a660000, 1973026816, 0) failed; error=&amp;lsquo;Cannot allocate memory&amp;rsquo; (errno=12) vim config/jvm.options # 修改-Xms1g -Xmx1g 配</description>
+    </item>
+    
+    <item>
+      <title>设计模式三：单例模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 18:19:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 确保一个类只有一个实例，并提供一个全局访问点。单例很简单，最多就是需要考虑下多线程问题。 简单实现 public class Singleton { // static 记录唯一实例 private static Singleton uniqueInstance; // 私</description>
+    </item>
+    
+    <item>
+      <title>设计模式一：观察者模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 18:15:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>观察者模式 本文摘自：《Head First 设计模式》 观察者模式= 出版者+订阅者。定义了对象之间的一对多依赖，当一个对象改变状态时，所有依赖者都收到通知</description>
+    </item>
+    
+    <item>
+      <title>设计模式二：装饰者模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%8C%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 17:48:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%8C%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>设计模式二：装饰者模式 本文摘自：《Head First 设计模式》 动态地将责任附加到对象上。若要扩展功能，装饰者提供比继承更有弹性的替代方案。 这样说起来</description>
+    </item>
+    
+    <item>
+      <title>设计模式五：适配器</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/</link>
+      <pubDate>Wed, 01 Mar 2017 12:25:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/</guid>
+      <description>设计模式五：适配器 适配器模式：将一个类的接口，转换为客户期望的另一个接口。适配器让原本接口不兼容的类合作无间。是一种结构型设计模式。 先来看一</description>
+    </item>
+    
+    <item>
+      <title>设计模式四：命令模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 10:57:59 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数化其他对象，命令模式也支持可撤销的操作。命令模式是一种对象行为型模式，其别名为动</description>
+    </item>
+    
+    <item>
+      <title>spring boot自动配置和自定义配置</title>
+      <link>http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/</link>
+      <pubDate>Wed, 22 Feb 2017 20:42:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/</guid>
+      <description>spring boot自动配置和自定义配置 本文介绍spring boot的自动配置原理，redis自动配置示例，如何配置多数据源。 一、Spring Boot 自动配</description>
+    </item>
+    
+    <item>
+      <title>Docker镜像仓库</title>
+      <link>http://thoreauz.com/2017/02/17/docker-registry/</link>
+      <pubDate>Fri, 17 Feb 2017 22:27:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/17/docker-registry/</guid>
+      <description>Docker镜像仓库 顾名思义，Docker Registry就是用来存储docker镜像的。就像maven私服，我们也可以搭建自己的仓库来存自</description>
+    </item>
+    
+    <item>
+      <title>Docker网络一-默认网络</title>
+      <link>http://thoreauz.com/2017/02/16/docker-network/</link>
+      <pubDate>Thu, 16 Feb 2017 21:54:25 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/16/docker-network/</guid>
+      <description>Docker网络一-默认网络 本文介绍docker默认的几种网络模式，docker如何与主机通讯使其能访问外网和被外网访问。 一、docker 容</description>
+    </item>
+    
+    <item>
+      <title>Docker安装之MAC</title>
+      <link>http://thoreauz.com/2017/02/14/docker-install-mac/</link>
+      <pubDate>Tue, 14 Feb 2017 23:14:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/14/docker-install-mac/</guid>
+      <description>Docker安装之MAC 刚学习docker的时候，在linux直接通过yum安装启动后，运行docker命令，起步挺简单的。但在mac上安装</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud  异常处理和状态码</title>
+      <link>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</link>
+      <pubDate>Mon, 13 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</guid>
+      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;quot;/trade/order&amp;quot;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud Hystrix熔断器</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-hystrix/</link>
+      <pubDate>Sun, 12 Feb 2017 20:14:15 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-hystrix/</guid>
+      <description>Spring Cloud Hystrix熔断器 在微服务中，一个请求进来可能需要调用多个服务，如果其中一个服务出现故障，比如超时堵塞。导致其他请求进来也堵塞从而导致</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 微服务配置中心(cloud config)</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-config/</link>
+      <pubDate>Sun, 12 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-config/</guid>
+      <description>Spring Cloud 微服务配置中心(cloud config) Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 微服务注册中心(Eureka)</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-eureka/</link>
+      <pubDate>Sun, 12 Feb 2017 19:11:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-eureka/</guid>
+      <description>Spring Cloud 微服务注册中心(Eureka) Eureka，服务注册和发现，它提供了一个服务注册中心、服务发现的客户端，还有一个方便的查看所有注册服务的</description>
+    </item>
+    
+    <item>
+      <title>spring cloud 微服务组件</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-netflix/</link>
+      <pubDate>Sun, 12 Feb 2017 18:11:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-netflix/</guid>
+      <description>spring cloud 微服务组件 简介 spring cloud 为开发人员提供了快速构建分布式系统的一些通用组件。这些组件实现的功能比如有：服务注册中心，配置中心，服务网关，服务跟踪</description>
+    </item>
+    
+    <item>
+      <title>Compose配置文件介绍</title>
+      <link>http://thoreauz.com/2017/02/12/docker-network-compose/</link>
+      <pubDate>Sun, 12 Feb 2017 17:42:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/docker-network-compose/</guid>
+      <description>Compose配置文件介绍 此文主要描述Docker Compose file version 3 格式，第三版本会和1x,2x有很多不同。 一、服务配置 Compose文件是一个YAM</description>
+    </item>
+    
+    <item>
+      <title>git删除版本库中大文件记录</title>
+      <link>http://thoreauz.com/2017/02/12/git-rm-bigfile/</link>
+      <pubDate>Sun, 12 Feb 2017 14:54:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/git-rm-bigfile/</guid>
+      <description>git删除版本库中大文件记录 一、场景 现在有这样一种情况，我不小心往git库上传了一个很大的文件，如xxxx.tar.gz,我删除后，提交推送</description>
+    </item>
+    
+    <item>
+      <title>Docker部署MySql等常用软件</title>
+      <link>http://thoreauz.com/2017/02/10/docker-deploy-mysql/</link>
+      <pubDate>Fri, 10 Feb 2017 15:20:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/10/docker-deploy-mysql/</guid>
+      <description>Docker部署MySql等常用软件 一、MySql 1.1 获取镜像运行 选定mysql版本，直接用以下命令获取mysql镜像并启动 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 -d</description>
+    </item>
+    
+    <item>
+      <title>ELK日志搜集查询</title>
+      <link>http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/</link>
+      <pubDate>Thu, 09 Feb 2017 23:39:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/</guid>
+      <description>ELK日志搜集查询 ELK是三个软件的缩写，ElasticSearch、LogStash和Kibana。简单来说，LogStash负责搜集过滤</description>
+    </item>
+    
+    <item>
+      <title>Top命令详解</title>
+      <link>http://thoreauz.com/2017/02/09/top/</link>
+      <pubDate>Thu, 09 Feb 2017 00:18:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/09/top/</guid>
+      <description>Top命令详解 第一行 系统时间，已经运行的时间 当前登录用户 负载：1分钟、5分钟、15分钟内的负载。 其他都好理解,负载(系统的平均负荷)是什么？</description>
+    </item>
+    
+    <item>
+      <title>shell编程五-函数</title>
+      <link>http://thoreauz.com/2017/02/08/shell-function/</link>
+      <pubDate>Wed, 08 Feb 2017 22:07:09 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-function/</guid>
+      <description>shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;quot;function run -&amp;quot; } echo &amp;quot;begin function---&amp;quot; demoFun echo &amp;quot;end funtion----&amp;quot; begin function— function run - end funtion—- 带有return语句的函数 求和函</description>
+    </item>
+    
+    <item>
+      <title>shell编程四-字符串数组</title>
+      <link>http://thoreauz.com/2017/02/08/shell-string-array/</link>
+      <pubDate>Wed, 08 Feb 2017 21:30:55 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-string-array/</guid>
+      <description>shell编程四-字符串数组 字符串 单引号： * 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； * 单引号字串中不能出现单引号（对单</description>
+    </item>
+    
+    <item>
+      <title>shell编程三-循环语句</title>
+      <link>http://thoreauz.com/2017/02/08/shell-forloop/</link>
+      <pubDate>Wed, 08 Feb 2017 13:16:26 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-forloop/</guid>
+      <description>shell编程三-循环语句 for循环 for var in list do commands done C语言风格的for循环: #!/bin/bash for (( i=1; i &amp;lt;= 10; i ++ )) do echo value is $i done #!/bin/bash for (( a=1, b=10; a &amp;lt;= 10; a++,b-- )) do echo &amp;quot;$a - $b&amp;quot; done w</description>
+    </item>
+    
+    <item>
+      <title>shell编程二-结构化命令</title>
+      <link>http://thoreauz.com/2017/02/08/shell-structure/</link>
+      <pubDate>Wed, 08 Feb 2017 10:17:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-structure/</guid>
+      <description>shell编程二-结构化命令 一、if语句 if command then commands fi if判断的并不是一个比值的对错，而是一个命令，命令执行成功退出码为0即为true。例如： #!/bin/bash</description>
+    </item>
+    
+    <item>
+      <title>shell编程一</title>
+      <link>http://thoreauz.com/2017/02/08/shell-first/</link>
+      <pubDate>Wed, 08 Feb 2017 00:18:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-first/</guid>
+      <description>shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &#39;我的第一个&amp;quot;shell&amp;quot;脚本&#39; 第一行指定shell，注释也用# 第二行执行两</description>
+    </item>
+    
+    <item>
+      <title>Git配置和常用命令</title>
+      <link>http://thoreauz.com/2017/02/07/git-config-command/</link>
+      <pubDate>Tue, 07 Feb 2017 21:22:05 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/07/git-config-command/</guid>
+      <description>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;quot;thoreau&amp;quot; git config --global user.email &amp;quot;zz.thoreau@Gmail.com&amp;quot; gitconfig [user] name = thoreau email = zz.thoreau@Gmail.com [color] ui = true [alias] st</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之Rewrite</title>
+      <link>http://thoreauz.com/2017/02/07/nginx-Rewrite/</link>
+      <pubDate>Tue, 07 Feb 2017 10:13:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/07/nginx-Rewrite/</guid>
+      <description>nginx入门之Rewrite Rewrite 是nginx服务器提供的一个重要功能，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之location</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-location/</link>
+      <pubDate>Mon, 06 Feb 2017 23:17:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-location/</guid>
+      <description>nginx入门之location 一、匹配规则 location [= | ~ | ~* |^~] uri { .... } 匹配顺序: 记录标准uri最匹配的一个，=前缀的精确匹配，并停止搜索 接着正则</description>
+    </item>
+    
+    <item>
+      <title>Java 7中的Try-with-resources</title>
+      <link>http://thoreauz.com/2017/02/06/Java-Try-with-resources/</link>
+      <pubDate>Mon, 06 Feb 2017 22:38:43 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/Java-Try-with-resources/</guid>
+      <description>java 传统IO处理特别麻烦，Try-with-resources是java7中一个新的异常处理机制，它能够很容易地关闭在try-catch语句块</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之基本配置</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-configuration/</link>
+      <pubDate>Mon, 06 Feb 2017 21:59:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-configuration/</guid>
+      <description>nginx入门之基本配置 一、基础配置 1.1 nginx.conf结构 ... #全局块 event { ... } http { #http块 ... #http全局块 server { #server块 ... #server 全</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之安装</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-install/</link>
+      <pubDate>Mon, 06 Feb 2017 20:57:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-install/</guid>
+      <description>nginx入门之安装 一、编译安装 下载 如：nginx-1.11.9.tar.gz wget http://nginx.org/download/nginx-1.11.9.tar.gz 编译安装 安装之前需要安装依赖库 yum -y install gcc gcc-c++ automake pcre pcre-devel zlib-devel open openssl-devel 解压、</description>
+    </item>
+    
+    <item>
+      <title>swagger管理RESTful API</title>
+      <link>http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/</link>
+      <pubDate>Thu, 19 Jan 2017 12:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/</guid>
+      <description>swagger管理RESTful API swagger ui是一个API在线文档生成和测试的利器，我们既可以用它来作为API的文档，也可以用来测试API。 一、s</description>
+    </item>
+    
+    <item>
+      <title>spring-boot 入门</title>
+      <link>http://thoreauz.com/2017/01/08/spring-boot-introduction/</link>
+      <pubDate>Sun, 08 Jan 2017 17:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/08/spring-boot-introduction/</guid>
+      <description>一、maven构建 1.1 继承boot超级parent &amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-parent&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/parent&amp;gt; 这样，其他依赖不需要写版本号，如果一定要写，配置在properties即可,如： &amp;lt;properties&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>Docker入门</title>
+      <link>http://thoreauz.com/2017/01/08/Docker-start/</link>
+      <pubDate>Sun, 08 Jan 2017 12:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/08/Docker-start/</guid>
+      <description>#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://thoreauz.com/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/about/</guid>
+      <description>关于本站 本站主要是个人学习笔记和一些经验总结，没什么高深见解，不负责看了有用，如果有，不胜荣幸。 发现疑问和错误，请留言，谢谢。 自我介绍 jav</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>http://thoreauz.com/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>标签</title>
+      <link>http://thoreauz.com/tags/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/tags/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

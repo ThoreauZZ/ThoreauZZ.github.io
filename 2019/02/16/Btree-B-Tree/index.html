@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="B树和B&#43;树"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="B树和B&#43;树 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/02/16/Btree-B-Tree/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-02-16T21:44:49Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    <meta property="article:tag" content="tree" />
+    
+    <meta property="article:tag" content="mysql" />
+    
+    
+
+    <title>B树和B&#43;树 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2019/02/16/Btree-B-Tree/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": B树和B&#43;树,
+    "name": B树和B&#43;树,
+    "wordCount": 1220,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2019/02/16/Btree-B-Tree/,
+    "datePublished": 2019-02-16T21:44Z,
+    "dateModified": 2019-02-16T21:44Z,
+    
+    "keywords": algorithm, tree, mysql,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2019/02/16/Btree-B-Tree/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">B树和B&#43;树</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-02-16T21:44:49Z">
+            2019-02-16
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/tree/">tree</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/mysql/">mysql</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。<br />
+本文不深入实现，主要介绍B树和B+树为什么存在，应用场景是什么，为什么不能用红黑树代替？</p>
+
+<!-- more -->
+
+<h2 id="什么是b树">什么是B树</h2>
+
+<p>先不解释B树的规则，否则容易头晕，我们先来看问题。红黑树查询效率已经很好了，特别是对于jdk8中HashMap中数据结构：首先，他为等值查找，不需要范围查找也不需要分组。其次，它都在内存里查找。</p>
+
+<p>“内存”关键字很重要，如果数据存在磁盘上，每次节点对比查找，都涉及非顺序读的io操作，就比较耗时了，B树也正好为解决这个问题而来&ndash;更少的io操作。</p>
+
+<blockquote>
+<p>磁盘读取数据是以盘块(block)为基本单位的。位于同一盘块中的所有数据都能被一次性全部读取出来。因此我们应该尽量将相关信息存放在同一盘块，同一磁道中，以求在读/写信息时尽量减少磁头来回移动的次数。</p>
+</blockquote>
+
+<p>按顺序依次插入如下数据：</p>
+
+<pre><code>2,33,1,6,88,44,65,99,89,3,55,10,77
+</code></pre>
+
+<p><img src="http://thoreauz.com/images/2019-02-23-13-52-55.jpg" alt="" /><br />
+&gt; 红黑树</p>
+
+<p><img src="http://thoreauz.com/images/2019-02-23-14-07-22.jpg" alt="" /><br />
+&gt; B树</p>
+
+<p>可以看到B树和红黑树最明显的区别：<br />
+* 不止两个儿子<br />
+* 同一个节点上有多个元素</p>
+
+<p>这两个特点意味着树的高度更小，如果每个节点是一个磁盘block，io读写移动次数更少。一个节点上多个元素一起读出来在内存查找，又一次减少了io访问次数。</p>
+
+<p>比如图中红黑树查找88需要4次，而B树只需要3次即可。况且这是2元素3子节点的B树，如果数据量大、更多叉(阶)，优点更明显。当然也不是子节点越多越好，每个节点容纳的元素应该都在一个磁盘block上才能保证更少次数io访问。</p>
+
+<p>下面我们再看B树的特点：<br />
+1. 根结点至少有两个子女。<br />
+2. 每个中间节点都包含k-1个元素和k个孩子，其中 m/2 &lt;= k &lt;= m。(也就是孩子数比元素多一个)<br />
+3. 每一个叶子节点都包含k-1个元素，其中 m/2 &lt;= k &lt;= m<br />
+4. 所有的叶子结点都位于同一层。<br />
+5. 每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域分划(别被绕晕了，看一眼上图65-89和孩子的大小关系就清楚)。</p>
+
+<blockquote>
+<p>m又叫阶，比如上图即一颗3阶的B树。元素个数最大2(k-1)，孩子数最大3(k&lt;=m)</p>
+</blockquote>
+
+<h2 id="b-树">B+树</h2>
+
+<p>B+树是B树的变形，做了什么优化？</p>
+
+<p><img src="http://thoreauz.com/images/2019-02-16-20-58-23.jpg" alt="" /><br />
+可以看到，有重复元素，但叶子节点包含了所有节点元素，且除了叶子节点，其他节点并不保存具体元素对应的位置信息。什么意思，拿mysql存储来说，索引除了保存key，还需要保存对应数据位置才能定位到某条记录。 B+树在非叶子节不保存位置信息，意味着一个节点能存储更多元素，从而减少io次数。</p>
+
+<p>这也意味着每个元素查找最后都要走到叶子节点才能拿到数据位置，但因此查询效率比较稳定。</p>
+
+<p>从图中可以看到，叶子节点从小到大连起来，又解决B树遍历的效率和范围查询效率的问题。所以B+树比较适合作为关系型数据库存储数据结构。</p>
+
+<p>先对B树特征如下：</p>
+
+<ul>
+<li>有n棵子树的结点中含有n-1 个元素；<br /></li>
+<li>所有的叶子结点中包含了全部元素，及指向含有这些元素记录的指针，且叶子结点本身依元素的大小自小而大的顺序链接。<br />
+<br /></li>
+</ul>
+
+<hr />
+
+<p>参考：<br />
+<a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a><br />
+<a href="http://yangez.github.io/btree-js/">http://yangez.github.io/btree-js/</a><br />
+<a href="http://goneill.co.nz/btree-demo.php">http://goneill.co.nz/btree-demo.php</a><br />
+<a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.02.md">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.02.md</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#什么是b树">什么是B树</a></li>
+<li><a href="#b-树">B+树</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=B%e6%a0%91%e5%92%8cB%2b%e6%a0%91&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f02%2f16%2fBtree-B-Tree%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f02%2f16%2fBtree-B-Tree%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f02%2f16%2fBtree-B-Tree%2f&amp;description=B%e6%a0%91%e5%92%8cB%2b%e6%a0%91"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f02%2f16%2fBtree-B-Tree%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/03/03/java-garbage-collection/">
+          <section class="post">
+              <h2>java垃圾回收</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/02/16/perf-flameGraph/">
+          <section class="post">
+              <h2>perf和火焰图</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

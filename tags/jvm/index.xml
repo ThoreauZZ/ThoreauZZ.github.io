@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jvm on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/jvm/</link>
+    <description>Recent content in jvm on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 03 Mar 2019 15:19:29 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>java垃圾回收</title>
+      <link>http://thoreauz.com/2019/03/03/java-garbage-collection/</link>
+      <pubDate>Sun, 03 Mar 2019 15:19:29 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/03/03/java-garbage-collection/</guid>
+      <description>概述 本文简要介绍java虚拟机垃圾回收相关概念，回收器，算法，gc日志查看等。 下图为HotSpot虚拟机架构图，其中垃圾回收器(Garbag</description>
+    </item>
+    
+    <item>
+      <title>javaagenet和arm字节码增强</title>
+      <link>http://thoreauz.com/2019/01/12/javaagent-and-asm/</link>
+      <pubDate>Sat, 12 Jan 2019 00:26:24 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/12/javaagent-and-asm/</guid>
+      <description>概述 本文介绍javaagent规范和通过asm修改字节码。并实现一个简单的统计方法执行时间的agent。 javaagent规范 java 提供了操作运</description>
+    </item>
+    
+    <item>
+      <title>Java类加载器</title>
+      <link>http://thoreauz.com/2018/12/16/Java-Class-Loader/</link>
+      <pubDate>Sun, 16 Dec 2018 23:26:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/12/16/Java-Class-Loader/</guid>
+      <description>概述 “虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是</description>
+    </item>
+    
+    <item>
+      <title>Jvm类的加载</title>
+      <link>http://thoreauz.com/2017/04/06/Jvm-load-class/</link>
+      <pubDate>Thu, 06 Apr 2017 10:21:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/06/Jvm-load-class/</guid>
+      <description>Java类的加载 《深入理解java虚拟机》第二版笔记 类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、</description>
+    </item>
+    
+  </channel>
+</rss>

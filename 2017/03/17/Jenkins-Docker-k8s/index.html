@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Jenkins发布Docker到k8s"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Jenkins发布Docker到k8s &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-17T21:06:50Z" />
+
+    
+    <meta property="article:tag" content="jenkins" />
+    
+    <meta property="article:tag" content="CICD" />
+    
+    
+
+    <title>Jenkins发布Docker到k8s &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Jenkins发布Docker到k8s Docker 镜像push到仓库后，算是完成了构建打包的过程。发布时，可以通过Jenkins远程操作kuberne" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Jenkins发布Docker到k8s,
+    "name": Jenkins发布Docker到k8s,
+    "wordCount": 613,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/,
+    "datePublished": 2017-03-17T21:06Z,
+    "dateModified": 2017-03-17T21:06Z,
+    
+    "keywords": jenkins, CICD,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Jenkins发布Docker到k8s</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-17T21:06:50Z">
+            2017-03-17
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/jenkins/">jenkins</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/CICD/">CICD</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="jenkins发布docker到k8s">Jenkins发布Docker到k8s</h1>
+
+<p>Docker 镜像push到仓库后，算是完成了构建打包的过程。发布时，可以通过Jenkins远程操作kubernetes集群master实现容器调度。本文介绍如何通过编写groovy脚本自动获取images tag，实现Jenkins参数化构建。</p>
+
+<!-- more -->
+
+<h2 id="jenkins配置">Jenkins配置</h2>
+
+<h3 id="安装插件">安装插件</h3>
+
+<ol>
+<li>参数化构建插件：Active Choices Plug-in<br /></li>
+<li>远程ssh插件：SSH plugin或者Publish Over SSH<br />
+<br /></li>
+</ol>
+
+<h3 id="配置插件">配置插件</h3>
+
+<ol>
+<li>进入系统设置，添加ssh site或者SSH Servers，可以使用用户名密码或者key。<br /></li>
+<li>使用Active Choices Plug-in<br />
+新建job，选择参数化构建，使用Active Choices Parameter，选择groovy script：<br />
+groovy脚本如下：<code>my-registry</code>对应私有参考ip或者域名<br />
+```groovy<br />
+import groovy.json.JsonSlurper<br />
+import hudson.model.*<br />
+/**<br />
+
+<ul>
+<li>Created by erdaoay on 17/3/17.<br />
+*/<br />
+<br /></li>
+</ul></li>
+</ol>
+
+<p>//get jenkins job_name<br />
+def build = Thread.currentThread().toString()<br />
+def regexp= &laquo;.+?/job/([^/]+)/.*&raquo;<br />
+def match = build  =~ regexp<br />
+def job_name = match[0][1]</p>
+
+<p>// call registry v2 api<br />
+def url =  &lsquo;<a href="http://my-registry:5000/v2/overseas/'+">http://my-registry:5000/v2/overseas/'+</a> job_name + &lsquo;/tags/list&rsquo;<br />
+def tags = url.toURL().text<br />
+def jsonSlurper = new JsonSlurper()<br />
+def object = jsonSlurper.parseText(tags)</p>
+
+<p>// return tags<br />
+return object.tags</p>
+
+<pre><code>
+保存后，构建，即可看到参数中列出了镜像版本。
+
+根据使用ssh插件不同，可以在构建时选择`execute shell script no remote host using ssh`或构建后操作选择`send build artifacts over ssh`。然后输入需要执行的脚步或者命令，例如
+
+```shell
+# VERSION：上面参考构建的name
+# update_app.sh  操作k8s或者swarm的脚本
+sh -x /home/centos/update_app.sh  ${JOB_NAME}  ${VERSION}
+</code></pre>
+
+<p>截图：<br />
+groovy脚本<br />
+<img src="http://thoreauz.com/images/2017-03-17-20-59-07.jpg" alt="" /></p>
+
+<p>shell脚本</p>
+
+<p><img src="http://thoreauz.com/images/2017-03-17-21-00-23.jpg" alt="" /></p>
+
+<p>效果<br />
+<img src="http://thoreauz.com/images/2017-03-17-21-01-15.jpg" alt="" /><br />
+从图中可以看出，docker镜像有四个版本。其中对maven snapshot的版本，添加了时间戳和git提交id。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#jenkins发布docker到k8s">Jenkins发布Docker到k8s</a>
+<ul>
+<li><a href="#jenkins配置">Jenkins配置</a>
+<ul>
+<li><a href="#安装插件">安装插件</a></li>
+<li><a href="#配置插件">配置插件</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Jenkins%e5%8f%91%e5%b8%83Docker%e5%88%b0k8s&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f17%2fJenkins-Docker-k8s%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f17%2fJenkins-Docker-k8s%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f17%2fJenkins-Docker-k8s%2f&amp;description=Jenkins%e5%8f%91%e5%b8%83Docker%e5%88%b0k8s"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f17%2fJenkins-Docker-k8s%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/18/kubernetes-install-centos7/">
+          <section class="post">
+              <h2>Centos7搭建kubernetes搭建</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/07/vim/">
+          <section class="post">
+              <h2>VIM使用技巧</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

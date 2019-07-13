@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="kubernetes入门之Deployments"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="kubernetes入门之Deployments &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/21/kubernetes-deployments/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-21T12:15:08Z" />
+
+    
+    <meta property="article:tag" content="kubernetes" />
+    
+    <meta property="article:tag" content="docker" />
+    
+    
+
+    <title>kubernetes入门之Deployments &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/21/kubernetes-deployments/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": kubernetes入门之Deployments,
+    "name": kubernetes入门之Deployments,
+    "wordCount": 1624,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/03/21/kubernetes-deployments/,
+    "datePublished": 2017-03-21T12:15Z,
+    "dateModified": 2017-03-21T12:15Z,
+    
+    "keywords": kubernetes, docker,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/03/21/kubernetes-deployments/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">kubernetes入门之Deployments</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-21T12:15:08Z">
+            2017-03-21
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/kubernetes/">kubernetes</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p><code>Deployment</code> 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。<br />
+使用场景：<br />
+* 参建副本集和 Pods<br />
+* 检查部署状态<br />
+* 更新升级Pods<br />
+* 回滚到历史版本<br />
+* 暂停或恢复部署</p>
+
+<h2 id="创建deployment">创建Deployment</h2>
+
+<p>新建文件<code>nginx-deployment.yaml</code></p>
+
+<pre><code class="language-yml">apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+</code></pre>
+
+<p>参建deployment</p>
+
+<pre><code>kubectl create -f nginx-deployment.yml --record
+</code></pre>
+
+<blockquote>
+<p><code>--record</code> 可以不加，但是添加这个可以将当前命令记录在正在创建或更新的资源的注释中。 有助于查看在每个部署版本中执行的命令。</p>
+</blockquote>
+
+<pre><code>$ kubectl get deployments
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   2         2         2            2           4m
+</code></pre>
+
+<p>查看部署的pods和RS</p>
+
+<pre><code>kubectl get rs
+kubectl get pods
+</code></pre>
+
+<pre><code>$ kubectl get pods --show-labels
+NAME                                READY     STATUS    RESTARTS   AGE       LABELS
+nginx-deployment-4087004473-2wphk   1/1       Running   0          12m       app=nginx,pod-template-hash=4087004473
+nginx-deployment-4087004473-cx2tv   1/1       Running   0          12m       app=nginx,pod-template-hash=4087004473
+</code></pre>
+
+<blockquote>
+<p>app=nignx 标签 ；  hash值4087004473<br />
+RC name = <code>&lt;the name of the Deployment&gt;-&lt;hash value of the pod template&gt;</code><br />
+注意：要设置和合适的选择器（app=nginx）和spec模板，不要和其他deployment、rs，Replication Controllers等重叠。</p>
+</blockquote>
+
+<h2 id="deployment状态">Deployment状态</h2>
+
+<p>在对一个 Deployment升级时，想确认是否成功，最简单的方式是通过<code>kubectl rollout status</code>查看，如：</p>
+
+<pre><code class="language-bash">kubectl rollout status deployment/nginx-deployment
+kubectl rollout status -f nginx-deployment
+</code></pre>
+
+<p>比如副本从2个升级到4个时：</p>
+
+<pre><code class="language-bash">$ kubectl rollout status deployment/nginx-deployment
+Waiting for deployment spec update to be observed...
+Waiting for rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 4 new replicas have been updated...
+Waiting for rollout to finish: 2 of 4 updated replicas are available...
+Waiting for rollout to finish: 3 of 4 updated replicas are available...
+deployment &quot;nginx-deployment&quot; successfully rolled out
+</code></pre>
+
+<h2 id="deployment-更新">Deployment 更新</h2>
+
+<p>变更部署对象时，可以直接更改<code>yml</code>部署文件更改，让后使用<code>apply</code>更新。也可以直接使用命令指定更新，如使用其他版本的nginx镜像。</p>
+
+<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
+deployment &quot;nginx-deployment&quot; image updated
+</code></pre>
+
+<p>要查看deployment的历史更新记录，可以通过<code>describe</code>:</p>
+
+<pre><code class="language-bash">kubectl describe deployments
+Name:			nginx-deployment
+Namespace:		default
+CreationTimestamp:	Mon, 20 Mar 2017 22:12:37 +0800
+Labels:			app=nginx
+Selector:		app=nginx
+Replicas:		4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:		RollingUpdate
+MinReadySeconds:	0
+RollingUpdateStrategy:	1 max unavailable, 1 max surge
+Conditions:
+  Type		Status	Reason
+  ----		------	------
+  Available 	True	MinimumReplicasAvailable
+OldReplicaSets:	&lt;none&gt;
+NewReplicaSet:	nginx-deployment-4087004473 (4/4 replicas created)
+Events:
+  FirstSeen	LastSeen	Count	From				SubObjectPath	Type		Reason			Message
+  ---------	--------	-----	----				-------------	--------	------			-------
+  50m		50m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 2
+  25m		25m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 333
+  21m		21m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to 3
+  10m		10m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to 2
+  10m		10m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 4
+</code></pre>
+
+<p>上例可以看到<code>replica set</code>的扩容和收缩记录。</p>
+
+<h2 id="deployment回退">Deployment回退</h2>
+
+<p>如果某个部署版本不稳定，可以回退到历史版本。默认情况下，将保存所有历史版本，也可以通过设置<code>.spec.revisionHistoryLimit</code>作限制，如果值为0，表示清除历史版本记录。需要注意的是，只有在<code>.spec.template</code>发生改变时(如：更新标签或镜像)，才会有版本记录。对于扩容等非template改变将不会有版本记录。</p>
+
+<p>比如，我把nignx从1.7.9升级到latest</p>
+
+<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:latest
+$ kubectl rollout history -f nginx-deployment.yml
+deployments &quot;nginx-deployment&quot;
+REVISION	CHANGE-CAUSE
+1		kubectl apply -f nginx.yml --record
+2		kubectl set image deployment/nginx-deployment nginx=nginx:latest
+</code></pre>
+
+<p>知道版本后，我们可以通过<code>undo</code>回退到上一个版本或者指定版本。</p>
+
+<pre><code class="language-bash"> kubectl rollout undo deployment/nginx-deployment
+ kubectl rollout undo deployment/nginx-deployment --to-revision=2
+</code></pre>
+
+<h2 id="deployment扩缩容">Deployment扩缩容</h2>
+
+<p>直接修改yml部署文件中的<code>replicas</code>或者使用scale命令都能实现扩缩容的效果。</p>
+
+<pre><code class="language-bash">kubectl scale deployment nginx-deployment --replicas 3
+</code></pre>
+
+<p>在集群环境中，可以设置自动伸缩。</p>
+
+<pre><code class="language-bash">$ kubectl autoscale deployment nginx-deployment --min=10 --max=15 --cpu-percent=80
+deployment &quot;nginx-deployment&quot; autoscaled
+</code></pre>
+
+<blockquote>
+<p>min: 最小副本数<br />
+max：最大副本数<br />
+&ndash;cpu-percent=80</p>
+</blockquote>
+
+<h2 id="deployment-暂停和恢复">Deployment 暂停和恢复</h2>
+
+<p>可以通过控制deployment的执行过程实现“金丝雀发布”，</p>
+
+<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1; kubectl rollout pause deployment/nginx-deployment
+deployment &quot;nginx-deployment&quot; image updated
+deployment &quot;nginx-deployment&quot; paused
+</code></pre>
+
+<p>同事有两个版本在跑</p>
+
+<pre><code class="language-bash">kubectl get rs
+NAME                          DESIRED   CURRENT   READY     AGE
+nginx-deployment-2273492681   2         2         2         42m
+nginx-deployment-4087004473   2         2         2         12h
+nginx-deployment-4182293765   0         0         0         1h
+</code></pre>
+
+<pre><code class="language-bash">$ kubectl rollout status deployment/nginx-deployment 
+# 恢复deploy
+$ kubectl rollout resume deployment/nginx-deployment
+</code></pre>
+
+<h2 id="deployment-配置">Deployment 配置</h2>
+
+<p>查看正则运行的版本配置可以通过以下命令：</p>
+
+<pre><code class="language-bash">kubectl get deployment nginx-deployment -o yaml
+</code></pre>
+
+<pre><code class="language-yml">apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: &quot;5&quot;
+    kubectl.kubernetes.io/last-applied-configuration: '{&quot;kind&quot;:&quot;Deployment&quot;,&quot;apiVersion&quot;:&quot;extensions/v1beta1&quot;,&quot;metadata&quot;:{&quot;name&quot;:&quot;nginx-deployment&quot;,&quot;creationTimestamp&quot;:null},&quot;spec&quot;:{&quot;replicas&quot;:3,&quot;template&quot;:{&quot;metadata&quot;:{&quot;creationTimestamp&quot;:null,&quot;labels&quot;:{&quot;app&quot;:&quot;nginx&quot;}},&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;nginx&quot;,&quot;image&quot;:&quot;nginx:1.7.9&quot;,&quot;ports&quot;:[{&quot;containerPort&quot;:80}],&quot;resources&quot;:{}}]}},&quot;strategy&quot;:{},&quot;revisionHistoryLimit&quot;:5},&quot;status&quot;:{}}'
+    kubernetes.io/change-cause: kubectl apply -f nginx.yml --record
+  creationTimestamp: 2017-03-21T03:36:49Z
+  generation: 13
+  labels:
+    app: nginx
+  name: nginx-deployment
+  namespace: default
+  resourceVersion: &quot;96882&quot;
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/nginx-deployment
+  uid: 9dfe0a3f-0de7-11e7-a5ac-080027f0adcd
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx:1.7.9
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: 2017-03-21T03:40:01Z
+    lastUpdateTime: 2017-03-21T03:40:01Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: &quot;True&quot;
+    type: Available
+  observedGeneration: 13
+  replicas: 3
+  updatedReplicas: 3
+</code></pre>
+
+<p>通过此配置，我们也可以参考调整<code>yml</code>配置然后<code>apply -f</code>。</p>
+
+<p><strong>Pod Template</strong><br />
+.spec.template<br />
+* metadata: 设置labels等。<code>.spec.template.metadata.labels</code> 和<code>.spec.selector</code>相等，才会被Replication Controller管理。<br />
+*  restartPolicy: Always默认<br />
+* spec.containers: docker容器相关配置(镜像，环境变量，数据卷&hellip;)</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#创建deployment">创建Deployment</a></li>
+<li><a href="#deployment状态">Deployment状态</a></li>
+<li><a href="#deployment-更新">Deployment 更新</a></li>
+<li><a href="#deployment回退">Deployment回退</a></li>
+<li><a href="#deployment扩缩容">Deployment扩缩容</a></li>
+<li><a href="#deployment-暂停和恢复">Deployment 暂停和恢复</a></li>
+<li><a href="#deployment-配置">Deployment 配置</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=kubernetes%e5%85%a5%e9%97%a8%e4%b9%8bDeployments&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fkubernetes-deployments%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fkubernetes-deployments%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fkubernetes-deployments%2f&amp;description=kubernetes%e5%85%a5%e9%97%a8%e4%b9%8bDeployments"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fkubernetes-deployments%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/">
+          <section class="post">
+              <h2>Spring Boot和Docker实践中遇到的问题</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/18/docker-network-flannel/">
+          <section class="post">
+              <h2>Docker网络方案之Flannel</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

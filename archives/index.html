@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="归档"/>
+<meta name="twitter:description" content="Android资深工程师 ，Go和Java打杂师，《Android Gradle权威指南》作者，Android官方技术文档译者"/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="归档 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/archives/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="Android资深工程师 ，Go和Java打杂师，《Android Gradle权威指南》作者，Android官方技术文档译者" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="0001-01-01T00:00:00Z" />
+
+    
+    
+
+    <title>归档 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Android资深工程师 ，Go和Java打杂师，《Android Gradle权威指南》作者，Android官方技术文档译者" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/archives/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 归档,
+    "name": 归档,
+    "wordCount": 0,
+    "timeRequired": "PT0M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/archives/,
+    "datePublished": 0001-01-01T00:00Z,
+    "dateModified": 0001-01-01T00:00Z,
+    
+    
+    "description": Android资深工程师 ，Go和Java打杂师，《Android Gradle权威指南》作者，Android官方技术文档译者,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/archives/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+            <header class="main-header post-head no-cover">
+                <nav class="main-nav overlay clearfix">
+                    
+
+                    
+                    <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home"/></a>
+                    
+                    
+                    <a class="menu-button" href="#"><span class="burger">&#9776;</span><span
+                            class="word">Menu</span></a>
+                    
+                </nav>
+            </header>
+        </nav>
+    </header>
+</header>
+<main class="content">
+    <div class="post-archive">
+        
+        <h3>2019</h3>
+        <div class="archive-item">
+            
+            <div>
+                <span class="date">05/19</span>
+                <a href="http://thoreauz.com/2019/05/19/java-tdd/" title="Java测试驱动看这篇就够了">Java测试驱动看这篇就够了</a>
+            </div>
+            
+            <div>
+                <span class="date">04/21</span>
+                <a href="http://thoreauz.com/2019/04/21/ideavim/" title="IntelliJ IDEA 配合vim使用">IntelliJ IDEA 配合vim使用</a>
+            </div>
+            
+            <div>
+                <span class="date">04/21</span>
+                <a href="http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/" title="IntelliJ IDEA快捷键和使用技巧">IntelliJ IDEA快捷键和使用技巧</a>
+            </div>
+            
+            <div>
+                <span class="date">03/12</span>
+                <a href="http://thoreauz.com/2019/03/12/InnoDB/" title="InnoDB存储引擎">InnoDB存储引擎</a>
+            </div>
+            
+            <div>
+                <span class="date">03/03</span>
+                <a href="http://thoreauz.com/2019/03/03/java-garbage-collection/" title="java垃圾回收">java垃圾回收</a>
+            </div>
+            
+            <div>
+                <span class="date">02/16</span>
+                <a href="http://thoreauz.com/2019/02/16/Btree-B-Tree/" title="B树和B&#43;树">B树和B&#43;树</a>
+            </div>
+            
+            <div>
+                <span class="date">02/16</span>
+                <a href="http://thoreauz.com/2019/02/16/perf-flameGraph/" title="perf和火焰图">perf和火焰图</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/" title="RPC六-动态代理">RPC六-动态代理</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc5-reliability/" title="RPC五-可靠性设计">RPC五-可靠性设计</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/" title="RPC四-netty异步双向责任链">RPC四-netty异步双向责任链</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/" title="RPC三-rpc协议和编解码">RPC三-rpc协议和编解码</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/" title="RPC二-NettyHandler处理消息">RPC二-NettyHandler处理消息</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/" title="RPC一-线程模型">RPC一-线程模型</a>
+            </div>
+            
+            <div>
+                <span class="date">01/12</span>
+                <a href="http://thoreauz.com/2019/01/12/service-registry-discovery/" title="服务发现-注册中心设计">服务发现-注册中心设计</a>
+            </div>
+            
+            <div>
+                <span class="date">01/12</span>
+                <a href="http://thoreauz.com/2019/01/12/javaagent-and-asm/" title="javaagenet和arm字节码增强">javaagenet和arm字节码增强</a>
+            </div>
+            
+        </div>
+        
+        <h3>2018</h3>
+        <div class="archive-item">
+            
+            <div>
+                <span class="date">12/22</span>
+                <a href="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/" title="spring-boot 可执行jar启动原理">spring-boot 可执行jar启动原理</a>
+            </div>
+            
+            <div>
+                <span class="date">12/16</span>
+                <a href="http://thoreauz.com/2018/12/16/Java-Class-Loader/" title="Java类加载器">Java类加载器</a>
+            </div>
+            
+            <div>
+                <span class="date">11/17</span>
+                <a href="http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/" title="限流-Sentinel使用">限流-Sentinel使用</a>
+            </div>
+            
+            <div>
+                <span class="date">11/17</span>
+                <a href="http://thoreauz.com/2018/11/17/request-limit-Sentinel/" title="限流-阿里开源Sentinel">限流-阿里开源Sentinel</a>
+            </div>
+            
+            <div>
+                <span class="date">11/04</span>
+                <a href="http://thoreauz.com/2018/11/04/mac-install-minikube/" title="在mac上安装minikube">在mac上安装minikube</a>
+            </div>
+            
+            <div>
+                <span class="date">11/03</span>
+                <a href="http://thoreauz.com/2018/11/03/istio-proxy/" title="istio-proxy原理">istio-proxy原理</a>
+            </div>
+            
+            <div>
+                <span class="date">10/21</span>
+                <a href="http://thoreauz.com/2018/10/21/istio-install-sample/" title="istio安装使用">istio安装使用</a>
+            </div>
+            
+            <div>
+                <span class="date">06/08</span>
+                <a href="http://thoreauz.com/2018/06/08/rxjava-2/" title="rxjava原理篇">rxjava原理篇</a>
+            </div>
+            
+            <div>
+                <span class="date">03/29</span>
+                <a href="http://thoreauz.com/2018/03/29/rxjava-1/" title="rxjava基础篇">rxjava基础篇</a>
+            </div>
+            
+            <div>
+                <span class="date">03/24</span>
+                <a href="http://thoreauz.com/2018/03/24/spring-boot-protobuf/" title="spring-boot 使用protobuf">spring-boot 使用protobuf</a>
+            </div>
+            
+            <div>
+                <span class="date">03/15</span>
+                <a href="http://thoreauz.com/2018/03/15/GO-defer/" title="GO-defer语句">GO-defer语句</a>
+            </div>
+            
+            <div>
+                <span class="date">03/14</span>
+                <a href="http://thoreauz.com/2018/03/14/Cobra-example/" title="Cobra- Go的命令行生成库">Cobra- Go的命令行生成库</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2018/02/08/local-cache/" title="聊聊本地缓存">聊聊本地缓存</a>
+            </div>
+            
+            <div>
+                <span class="date">01/26</span>
+                <a href="http://thoreauz.com/2018/01/26/ConsistentHash/" title="一致性hash算法">一致性hash算法</a>
+            </div>
+            
+            <div>
+                <span class="date">01/25</span>
+                <a href="http://thoreauz.com/2018/01/25/HashMap-theory/" title="HashMap详解">HashMap详解</a>
+            </div>
+            
+            <div>
+                <span class="date">01/21</span>
+                <a href="http://thoreauz.com/2018/01/21/Red-Black-Trees/" title="红黑树">红黑树</a>
+            </div>
+            
+            <div>
+                <span class="date">01/20</span>
+                <a href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/" title="二叉搜索树">二叉搜索树</a>
+            </div>
+            
+            <div>
+                <span class="date">01/09</span>
+                <a href="http://thoreauz.com/2018/01/09/go-web-example/" title="go 开发web应用">go 开发web应用</a>
+            </div>
+            
+            <div>
+                <span class="date">01/09</span>
+                <a href="http://thoreauz.com/2018/01/09/Go-Error-handling/" title="GO— 异常错误处理">GO— 异常错误处理</a>
+            </div>
+            
+        </div>
+        
+        <h3>2017</h3>
+        <div class="archive-item">
+            
+            <div>
+                <span class="date">12/02</span>
+                <a href="http://thoreauz.com/2017/12/02/high-performance-mysql-key/" title="高性能Mysql-索引">高性能Mysql-索引</a>
+            </div>
+            
+            <div>
+                <span class="date">11/25</span>
+                <a href="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/" title="高性能Mysql-schema与数据类型优化">高性能Mysql-schema与数据类型优化</a>
+            </div>
+            
+            <div>
+                <span class="date">11/25</span>
+                <a href="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/" title="高性能Mysql-性能剖析">高性能Mysql-性能剖析</a>
+            </div>
+            
+            <div>
+                <span class="date">11/13</span>
+                <a href="http://thoreauz.com/2017/11/13/use-postman-to-test-api/" title="用Postman测试API">用Postman测试API</a>
+            </div>
+            
+            <div>
+                <span class="date">11/11</span>
+                <a href="http://thoreauz.com/2017/11/11/go-learn-9-test/" title="Go语言9-测试和性能">Go语言9-测试和性能</a>
+            </div>
+            
+            <div>
+                <span class="date">11/11</span>
+                <a href="http://thoreauz.com/2017/11/11/go-learn-8-json/" title="Go语言8-Json">Go语言8-Json</a>
+            </div>
+            
+            <div>
+                <span class="date">11/11</span>
+                <a href="http://thoreauz.com/2017/11/11/go-learn-7-json/" title="Go语言7-日志">Go语言7-日志</a>
+            </div>
+            
+            <div>
+                <span class="date">11/09</span>
+                <a href="http://thoreauz.com/2017/11/09/iptables/" title="理解iptables">理解iptables</a>
+            </div>
+            
+            <div>
+                <span class="date">11/04</span>
+                <a href="http://thoreauz.com/2017/11/04/thread-lock/" title="线程与锁">线程与锁</a>
+            </div>
+            
+            <div>
+                <span class="date">09/02</span>
+                <a href="http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/" title="Netty实战-ChannelHandler">Netty实战-ChannelHandler</a>
+            </div>
+            
+            <div>
+                <span class="date">09/02</span>
+                <a href="http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/" title="Netty实战-ByteBuf">Netty实战-ByteBuf</a>
+            </div>
+            
+            <div>
+                <span class="date">08/23</span>
+                <a href="http://thoreauz.com/2017/08/23/netty-in-action-start/" title="Netty实战-起步">Netty实战-起步</a>
+            </div>
+            
+            <div>
+                <span class="date">08/20</span>
+                <a href="http://thoreauz.com/2017/08/20/distributed-lock-redisson/" title="分布式锁和Redisson实现">分布式锁和Redisson实现</a>
+            </div>
+            
+            <div>
+                <span class="date">08/20</span>
+                <a href="http://thoreauz.com/2017/08/20/future-promise/" title="给Future一个Promise">给Future一个Promise</a>
+            </div>
+            
+            <div>
+                <span class="date">08/17</span>
+                <a href="http://thoreauz.com/2017/08/17/git-commit/" title="如何写好Git Commit">如何写好Git Commit</a>
+            </div>
+            
+            <div>
+                <span class="date">08/15</span>
+                <a href="http://thoreauz.com/2017/08/15/swig/" title="前端模板swig">前端模板swig</a>
+            </div>
+            
+            <div>
+                <span class="date">08/14</span>
+                <a href="http://thoreauz.com/2017/08/14/JavaScript2-function/" title="JavaScript基础2-函数">JavaScript基础2-函数</a>
+            </div>
+            
+            <div>
+                <span class="date">08/14</span>
+                <a href="http://thoreauz.com/2017/08/14/JavaScript1-data-structure/" title="JavaScript基础1-数据结构">JavaScript基础1-数据结构</a>
+            </div>
+            
+            <div>
+                <span class="date">08/11</span>
+                <a href="http://thoreauz.com/2017/08/11/jq/" title="jq使用">jq使用</a>
+            </div>
+            
+            <div>
+                <span class="date">08/11</span>
+                <a href="http://thoreauz.com/2017/08/11/Ribbon/" title="Ribbon源码阅读">Ribbon源码阅读</a>
+            </div>
+            
+            <div>
+                <span class="date">08/10</span>
+                <a href="http://thoreauz.com/2017/08/10/mq/" title="消息队列">消息队列</a>
+            </div>
+            
+            <div>
+                <span class="date">08/10</span>
+                <a href="http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/" title="Gradle的双刃">Gradle的双刃</a>
+            </div>
+            
+            <div>
+                <span class="date">08/10</span>
+                <a href="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/" title="The Twelve-Factory App">The Twelve-Factory App</a>
+            </div>
+            
+            <div>
+                <span class="date">08/10</span>
+                <a href="http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/" title="HTTP RESTful API 规范">HTTP RESTful API 规范</a>
+            </div>
+            
+            <div>
+                <span class="date">08/09</span>
+                <a href="http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/" title="ELK之Logstash">ELK之Logstash</a>
+            </div>
+            
+            <div>
+                <span class="date">08/09</span>
+                <a href="http://thoreauz.com/2017/08/09/go-learn-6-network-programming/" title="Go语言6-网络编程">Go语言6-网络编程</a>
+            </div>
+            
+            <div>
+                <span class="date">08/08</span>
+                <a href="http://thoreauz.com/2017/08/08/spring-cloud-logstash/" title="Logstash搜集spring-cloud日志">Logstash搜集spring-cloud日志</a>
+            </div>
+            
+            <div>
+                <span class="date">08/07</span>
+                <a href="http://thoreauz.com/2017/08/07/go-learn-5-concurrent/" title="Go语言5-并发">Go语言5-并发</a>
+            </div>
+            
+            <div>
+                <span class="date">08/01</span>
+                <a href="http://thoreauz.com/2017/08/01/go-learn-4-Embedded-Types/" title="Go语言4-嵌入类型">Go语言4-嵌入类型</a>
+            </div>
+            
+            <div>
+                <span class="date">07/31</span>
+                <a href="http://thoreauz.com/2017/07/31/go-learn-3-interface/" title="Go语言3-接口">Go语言3-接口</a>
+            </div>
+            
+            <div>
+                <span class="date">07/27</span>
+                <a href="http://thoreauz.com/2017/07/27/go-learn-2-struct/" title="Go语言2-类型">Go语言2-类型</a>
+            </div>
+            
+            <div>
+                <span class="date">07/25</span>
+                <a href="http://thoreauz.com/2017/07/25/go-learn-1-data_structure/" title="Go语言1-数据类型">Go语言1-数据类型</a>
+            </div>
+            
+            <div>
+                <span class="date">07/20</span>
+                <a href="http://thoreauz.com/2017/07/20/java-test-WireMock/" title="WireMock进行集成测试">WireMock进行集成测试</a>
+            </div>
+            
+            <div>
+                <span class="date">07/20</span>
+                <a href="http://thoreauz.com/2017/07/20/JAVA-test-tool/" title="JAVA常用测试框架">JAVA常用测试框架</a>
+            </div>
+            
+            <div>
+                <span class="date">05/05</span>
+                <a href="http://thoreauz.com/2017/05/05/Jenkins-1/" title="Jenkins自动化集成/部署">Jenkins自动化集成/部署</a>
+            </div>
+            
+            <div>
+                <span class="date">04/24</span>
+                <a href="http://thoreauz.com/2017/04/24/spring-cloud-config-json/" title="Spring Cloud Config 存储复杂数据结构">Spring Cloud Config 存储复杂数据结构</a>
+            </div>
+            
+            <div>
+                <span class="date">04/18</span>
+                <a href="http://thoreauz.com/2017/04/18/Kubernetes-install-dns/" title="Kubernetes编译部署DNS">Kubernetes编译部署DNS</a>
+            </div>
+            
+            <div>
+                <span class="date">04/16</span>
+                <a href="http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/" title="Kubernetes部署DNS和Dashboard">Kubernetes部署DNS和Dashboard</a>
+            </div>
+            
+            <div>
+                <span class="date">04/12</span>
+                <a href="http://thoreauz.com/2017/04/12/spring-cloud-trace/" title="Spring Cloud 分布式系统追踪">Spring Cloud 分布式系统追踪</a>
+            </div>
+            
+            <div>
+                <span class="date">04/06</span>
+                <a href="http://thoreauz.com/2017/04/06/Jvm-load-class/" title="Jvm类的加载">Jvm类的加载</a>
+            </div>
+            
+            <div>
+                <span class="date">03/21</span>
+                <a href="http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/" title="Spring Boot和Docker实践中遇到的问题">Spring Boot和Docker实践中遇到的问题</a>
+            </div>
+            
+            <div>
+                <span class="date">03/21</span>
+                <a href="http://thoreauz.com/2017/03/21/kubernetes-deployments/" title="kubernetes入门之Deployments">kubernetes入门之Deployments</a>
+            </div>
+            
+            <div>
+                <span class="date">03/18</span>
+                <a href="http://thoreauz.com/2017/03/18/docker-network-flannel/" title="Docker网络方案之Flannel">Docker网络方案之Flannel</a>
+            </div>
+            
+            <div>
+                <span class="date">03/18</span>
+                <a href="http://thoreauz.com/2017/03/18/kubernetes-install-centos7/" title="Centos7搭建kubernetes搭建">Centos7搭建kubernetes搭建</a>
+            </div>
+            
+            <div>
+                <span class="date">03/17</span>
+                <a href="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/" title="Jenkins发布Docker到k8s">Jenkins发布Docker到k8s</a>
+            </div>
+            
+            <div>
+                <span class="date">03/07</span>
+                <a href="http://thoreauz.com/2017/03/07/vim/" title="VIM使用技巧">VIM使用技巧</a>
+            </div>
+            
+            <div>
+                <span class="date">03/07</span>
+                <a href="http://thoreauz.com/2017/03/07/spring-cloud-zuul/" title="spring cloud 服务网关ZULL">spring cloud 服务网关ZULL</a>
+            </div>
+            
+            <div>
+                <span class="date">03/06</span>
+                <a href="http://thoreauz.com/2017/03/06/java8-stream/" title="java8学习-流的使用">java8学习-流的使用</a>
+            </div>
+            
+            <div>
+                <span class="date">03/05</span>
+                <a href="http://thoreauz.com/2017/03/05/Elasticsearch-install-starter/" title="Elasticsearch安装和简单介绍">Elasticsearch安装和简单介绍</a>
+            </div>
+            
+            <div>
+                <span class="date">03/01</span>
+                <a href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" title="设计模式三：单例模式">设计模式三：单例模式</a>
+            </div>
+            
+            <div>
+                <span class="date">03/01</span>
+                <a href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" title="设计模式一：观察者模式">设计模式一：观察者模式</a>
+            </div>
+            
+            <div>
+                <span class="date">03/01</span>
+                <a href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%8C%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" title="设计模式二：装饰者模式">设计模式二：装饰者模式</a>
+            </div>
+            
+            <div>
+                <span class="date">03/01</span>
+                <a href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/" title="设计模式五：适配器">设计模式五：适配器</a>
+            </div>
+            
+            <div>
+                <span class="date">03/01</span>
+                <a href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" title="设计模式四：命令模式">设计模式四：命令模式</a>
+            </div>
+            
+            <div>
+                <span class="date">02/22</span>
+                <a href="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" title="spring boot自动配置和自定义配置">spring boot自动配置和自定义配置</a>
+            </div>
+            
+            <div>
+                <span class="date">02/17</span>
+                <a href="http://thoreauz.com/2017/02/17/docker-registry/" title="Docker镜像仓库">Docker镜像仓库</a>
+            </div>
+            
+            <div>
+                <span class="date">02/16</span>
+                <a href="http://thoreauz.com/2017/02/16/docker-network/" title="Docker网络一-默认网络">Docker网络一-默认网络</a>
+            </div>
+            
+            <div>
+                <span class="date">02/14</span>
+                <a href="http://thoreauz.com/2017/02/14/docker-install-mac/" title="Docker安装之MAC">Docker安装之MAC</a>
+            </div>
+            
+            <div>
+                <span class="date">02/13</span>
+                <a href="http://thoreauz.com/2017/02/13/spring-restful-exception-status/" title="Spring Cloud  异常处理和状态码">Spring Cloud  异常处理和状态码</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/spring-cloud-hystrix/" title="Spring Cloud Hystrix熔断器">Spring Cloud Hystrix熔断器</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/spring-cloud-config/" title="Spring Cloud 微服务配置中心(cloud config)">Spring Cloud 微服务配置中心(cloud config)</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/spring-cloud-eureka/" title="Spring Cloud 微服务注册中心(Eureka)">Spring Cloud 微服务注册中心(Eureka)</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/spring-cloud-netflix/" title="spring cloud 微服务组件">spring cloud 微服务组件</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/docker-network-compose/" title="Compose配置文件介绍">Compose配置文件介绍</a>
+            </div>
+            
+            <div>
+                <span class="date">02/12</span>
+                <a href="http://thoreauz.com/2017/02/12/git-rm-bigfile/" title="git删除版本库中大文件记录">git删除版本库中大文件记录</a>
+            </div>
+            
+            <div>
+                <span class="date">02/10</span>
+                <a href="http://thoreauz.com/2017/02/10/docker-deploy-mysql/" title="Docker部署MySql等常用软件">Docker部署MySql等常用软件</a>
+            </div>
+            
+            <div>
+                <span class="date">02/09</span>
+                <a href="http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/" title="ELK日志搜集查询">ELK日志搜集查询</a>
+            </div>
+            
+            <div>
+                <span class="date">02/09</span>
+                <a href="http://thoreauz.com/2017/02/09/top/" title="Top命令详解">Top命令详解</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2017/02/08/shell-function/" title="shell编程五-函数">shell编程五-函数</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2017/02/08/shell-string-array/" title="shell编程四-字符串数组">shell编程四-字符串数组</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2017/02/08/shell-forloop/" title="shell编程三-循环语句">shell编程三-循环语句</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2017/02/08/shell-structure/" title="shell编程二-结构化命令">shell编程二-结构化命令</a>
+            </div>
+            
+            <div>
+                <span class="date">02/08</span>
+                <a href="http://thoreauz.com/2017/02/08/shell-first/" title="shell编程一">shell编程一</a>
+            </div>
+            
+            <div>
+                <span class="date">02/07</span>
+                <a href="http://thoreauz.com/2017/02/07/git-config-command/" title="Git配置和常用命令">Git配置和常用命令</a>
+            </div>
+            
+            <div>
+                <span class="date">02/07</span>
+                <a href="http://thoreauz.com/2017/02/07/nginx-Rewrite/" title="nginx入门之Rewrite">nginx入门之Rewrite</a>
+            </div>
+            
+            <div>
+                <span class="date">02/06</span>
+                <a href="http://thoreauz.com/2017/02/06/nginx-location/" title="nginx入门之location">nginx入门之location</a>
+            </div>
+            
+            <div>
+                <span class="date">02/06</span>
+                <a href="http://thoreauz.com/2017/02/06/Java-Try-with-resources/" title="Java 7中的Try-with-resources">Java 7中的Try-with-resources</a>
+            </div>
+            
+            <div>
+                <span class="date">02/06</span>
+                <a href="http://thoreauz.com/2017/02/06/nginx-configuration/" title="nginx入门之基本配置">nginx入门之基本配置</a>
+            </div>
+            
+            <div>
+                <span class="date">02/06</span>
+                <a href="http://thoreauz.com/2017/02/06/nginx-install/" title="nginx入门之安装">nginx入门之安装</a>
+            </div>
+            
+            <div>
+                <span class="date">01/19</span>
+                <a href="http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/" title="swagger管理RESTful API">swagger管理RESTful API</a>
+            </div>
+            
+            <div>
+                <span class="date">01/08</span>
+                <a href="http://thoreauz.com/2017/01/08/spring-boot-introduction/" title="spring-boot 入门">spring-boot 入门</a>
+            </div>
+            
+            <div>
+                <span class="date">01/08</span>
+                <a href="http://thoreauz.com/2017/01/08/Docker-start/" title="Docker入门">Docker入门</a>
+            </div>
+            
+        </div>
+        
+        <h3>0001</h3>
+        <div class="archive-item">
+            
+            <div>
+                <span class="date">01/01</span>
+                <a href="http://thoreauz.com/about/" title=""></a>
+            </div>
+            
+        </div>
+        
+
+    </div>
+</main>
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

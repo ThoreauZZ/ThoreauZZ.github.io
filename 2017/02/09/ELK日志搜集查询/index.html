@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="ELK日志搜集查询"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="ELK日志搜集查询 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-09T23:39:12Z" />
+
+    
+    <meta property="article:tag" content="日志" />
+    
+    <meta property="article:tag" content="elasticsearch" />
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    
+
+    <title>ELK日志搜集查询 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="ELK日志搜集查询 ELK是三个软件的缩写，ElasticSearch、LogStash和Kibana。简单来说，LogStash负责搜集过滤" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": ELK日志搜集查询,
+    "name": ELK日志搜集查询,
+    "wordCount": 1658,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/,
+    "datePublished": 2017-02-09T23:39Z,
+    "dateModified": 2017-02-09T23:39Z,
+    
+    "keywords": 日志, elasticsearch, 分布式系统,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">ELK日志搜集查询</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-09T23:39:12Z">
+            2017-02-09
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E6%97%A5%E5%BF%97/">日志</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/elasticsearch/">elasticsearch</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="elk日志搜集查询">ELK日志搜集查询</h1>
+
+<p>ELK是三个软件的缩写，ElasticSearch、LogStash和Kibana。简单来说，LogStash负责搜集过滤，ElasticSearch负责存储和搜索，Kibana负责展示。</p>
+
+<h2 id="一-logstash">一、logstash</h2>
+
+<p>LogStash由JRuby语言编写，基于消息（message-based）的简单架构，并运行在Java虚拟机（JVM）上。不同于分离的代理端（agent）或主机端（server），LogStash可配置单一的代理端（agent）与其它开源软件结合，以实现不同的功能。</p>
+
+<h3 id="1-1-logstash安装">1.1 logstash安装</h3>
+
+<pre><code>logstash-5.1.1.zip
+unzip logstash-5.1.1.zip
+./logstash-5.1.1/bin/logstash -e 'input{stdin{}}output{stdout{codec=&gt;rubydebug}}'
+</code></pre>
+
+<p>输入 hello world 回车,出现下面json，说明正常。</p>
+
+<pre><code>{
+    &quot;@timestamp&quot; =&gt; 2016-12-24T04:33:08.670Z,
+      &quot;@version&quot; =&gt; &quot;1&quot;,
+          &quot;host&quot; =&gt; &quot;bogon&quot;,
+       &quot;message&quot; =&gt; &quot;hello world&quot;,
+          &quot;tags&quot; =&gt; []
+}
+</code></pre>
+
+<p><code>bin/logstash -f /etc/logstash.d/</code> 指定目录或者文件</p>
+
+<p>后台启动<br />
+* init.d<br />
+* nohup &amp;<br />
+* supervisord<br />
+supervisord 配置示例</p>
+
+<pre><code class="language-bash">[program:elk_l]
+environment=LS_HEAP_SIZE=5000m
+directory=/opt/logstash
+command=/opt/logstash/bin/logstash -f /etc/logstash.d/ -w 10 -l /var/log/logstash/pro1.log
+</code></pre>
+
+<pre><code class="language-bash">service supervisord start
+</code></pre>
+
+<h3 id="1-2-简述">1.2 简述</h3>
+
+<p>logstash就像 cat grep awk | 等联合使用，读取&ndash;&gt;过滤&ndash;&gt;输出</p>
+
+<p>数据在线程之间以 事件 的形式流传。不要叫行，因为 logstash 可以处理多行事件。<br />
+1. host 标记事件发生在哪里。<br />
+2. type 标记事件的唯一类型。<br />
+3. tags 标记事件的某方面属性。这是一个数组，一个事件可以有多个标签。<br />
+4. timestamp 时间</p>
+
+<h3 id="1-3-nginx日志搜集示例">1.3 nginx日志搜集示例</h3>
+
+<h4 id="1-3-1-openresty配置">1.3.1 openresty配置</h4>
+
+<p>安装openresty，简单配置如下：</p>
+
+<pre><code class="language-nginx">worker_processes  1;
+error_log logs/error.log;
+events {
+    worker_connections 1024;
+}
+http {
+	log_format json '{&quot;@timestamp&quot;:&quot;$time_iso8601&quot;,'
+               '&quot;@version&quot;:&quot;1&quot;,'
+               '&quot;host&quot;:&quot;$server_addr&quot;,'
+               '&quot;client&quot;:&quot;$remote_addr&quot;,'
+               '&quot;size&quot;:$body_bytes_sent,'
+               '&quot;responsetime&quot;:$request_time,'
+               '&quot;domain&quot;:&quot;$host&quot;,'
+               '&quot;url&quot;:&quot;$uri&quot;,'
+               '&quot;status&quot;:&quot;$status&quot;}';
+	access_log logs/access.log_json json;
+	server {
+        listen 8080;
+        location / {
+            default_type text/html;
+            content_by_lua '
+                ngx.say(&quot;&lt;p&gt;hello, world&lt;/p&gt;&quot;)
+            ';
+        }
+    }
+}
+</code></pre>
+
+<p>启动openresty并访问：</p>
+
+<pre><code>nginx -p `pwd`/ -c conf/nginx.conf
+curl http://localhost:8080/
+</code></pre>
+
+<p>curl结果如下：</p>
+
+<pre><code>&lt;p&gt;hello, world&lt;/p&gt;
+</code></pre>
+
+<p>查看日志：tail logs/access.log_json json</p>
+
+<pre><code class="language-json">{&quot;@timestamp&quot;:&quot;2017-01-03T02:25:09+08:00&quot;,&quot;@version&quot;:&quot;1&quot;,&quot;host&quot;:&quot;127.0.0.1&quot;,&quot;client&quot;:&quot;127.0.0.1&quot;,&quot;size&quot;:31,&quot;responsetime&quot;:0.000,&quot;domain&quot;:&quot;localhost&quot;,&quot;url&quot;:&quot;/&quot;,&quot;status&quot;:&quot;200&quot;}
+</code></pre>
+
+<h4 id="1-3-2-logstash-配置">1.3.2 logstash 配置</h4>
+
+<p>编写配置文件<br />
+nginxlog.conf</p>
+
+<pre><code>input {
+    file {
+        path =&gt; &quot;/usr/local/openresty/work/logs/access.log_json&quot;
+        codec =&gt; &quot;json&quot;
+    }
+}
+output {
+	stdout { codec=&gt; rubydebug }
+}
+</code></pre>
+
+<p>启动logstash</p>
+
+<pre><code>/usr/local/logstash-5.1.1/bin/logstash -f config/nginxlog.conf
+</code></pre>
+
+<p>启动完成后，再访问nginx(openresty)，可以看到logstash标准输出,说明成功：</p>
+
+<pre><code>{
+            &quot;path&quot; =&gt; &quot;/usr/local/openresty/work/logs/access.log_json&quot;,
+      &quot;@timestamp&quot; =&gt; 2017-01-02T18:31:27.000Z,
+            &quot;size&quot; =&gt; 31,
+          &quot;domain&quot; =&gt; &quot;127.0.0.1&quot;,
+        &quot;@version&quot; =&gt; &quot;1&quot;,
+            &quot;host&quot; =&gt; &quot;127.0.0.1&quot;,
+          &quot;client&quot; =&gt; &quot;127.0.0.1&quot;,
+    &quot;responsetime&quot; =&gt; 0.0,
+             &quot;url&quot; =&gt; &quot;/&quot;,
+          &quot;status&quot; =&gt; &quot;200&quot;,
+            &quot;tags&quot; =&gt; []
+}
+</code></pre>
+
+<h2 id="二-elasticsearch">二、elasticsearch</h2>
+
+<p>ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是第二流行的企业搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。</p>
+
+<h3 id="2-1-elasticsearch-安装">2.1 elasticsearch 安装</h3>
+
+<pre><code>unzip elasticsearch-5.1.1.zip
+./elasticsearch-5.1.1/bin/elasticsearch -d
+</code></pre>
+
+<blockquote>
+<p>注意：默认不能root启动</p>
+</blockquote>
+
+<p>测试启动:</p>
+
+<pre><code>curl 'http://localhost:9200/_search?pretty'
+</code></pre>
+
+<p>有输出，说明启动成功。也可以在浏览器输入<a href="http://localhost:9200/。但注意，如果不是localhost，需要修改`config/elasticsearch.yml`配置，开启http端口和解除IP限制如：">http://localhost:9200/。但注意，如果不是localhost，需要修改`config/elasticsearch.yml`配置，开启http端口和解除IP限制如：</a></p>
+
+<pre><code class="language-yaml">cluster.name: chuck-cluster # 判别节点是否是统一集群
+node.name: linux-node1 #节点的hostname
+path.data: /data/es-data #数据存放路径
+path.logs: /var/log/elasticsearch/ #日志路径
+bootstrap.mlockall: true  #锁住内存，使内存不会再swap中使用
+network.host: 0.0.0.0  允许访问的ip
+http.port: 9200  端口
+</code></pre>
+
+<p>浏览器输出如下json说明正常：</p>
+
+<pre><code class="language-bash">{
+&quot;name&quot;: &quot;Lq2kUZ1&quot;,
+&quot;cluster_name&quot;: &quot;elasticsearch&quot;,
+&quot;cluster_uuid&quot;: &quot;u_fJqJnYRduFqasYop5H-w&quot;,
+&quot;version&quot;: {
+&quot;number&quot;: &quot;5.1.1&quot;,
+&quot;build_hash&quot;: &quot;5395e21&quot;,
+&quot;build_date&quot;: &quot;2016-12-06T12:36:15.409Z&quot;,
+&quot;build_snapshot&quot;: false,
+&quot;lucene_version&quot;: &quot;6.3.0&quot;
+},
+&quot;tagline&quot;: &quot;You Know, for Search&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>注意主机系统时间。</p>
+</blockquote>
+
+<h3 id="2-2-结合logstash">2.2 结合logStash</h3>
+
+<p>把上面1.7.2提到的nginxlog.conf改成</p>
+
+<pre><code class="language-bash">input {
+    file {
+        path =&gt; &quot;/usr/local/openresty/work/logs/access.log_json&quot;
+        codec =&gt; &quot;json&quot;
+    }
+}
+output {
+	elasticsearch { hosts =&gt; &quot;localhost&quot; }
+	stdout { codec=&gt; rubydebug }
+}
+</code></pre>
+
+<p>重启logstash作为后台进程：</p>
+
+<pre><code class="language-bash">nohup ./bin/logstash -f config/nginxlog.conf  &gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>此时再访问nginx，相关日志就被搜集到elasticsearch</p>
+
+<h2 id="三-kibana">三、kibana</h2>
+
+<p>Logstash是一个完全开源的工具，他可以对你的日志进行收集、分析，并将其存储供以后使用（如，搜索），您可以使用它。说到搜索，logstash带有一个web界面，搜索和展示所有日志。</p>
+
+<h3 id="3-1-安装">3.1 安装</h3>
+
+<p>解压启动：<code>./bin/kibana</code>,默认连接elasticsearch。<br />
+使用<code>http://localhost:5601</code>访问。如果在其他机器上无法访问，可以通过nginx代理。<br />
+第一次访问，需要创建一个索引类型：<br />
+默认使用logstash-*配置index，create完成后，去discover面板即可搜索日志。<br />
+<img src="http://thoreauz.com/images/kibana03.jpg" alt="" /></p>
+
+<p>可以看到访问nginx的日志：<br />
+<img src="http://thoreauz.com/images/kibana01.jpg" alt="" /></p>
+
+<p><img src="http://thoreauz.com/images/kibana02.jpg" alt="" /></p>
+
+<p>至此，ELK示例安装完成。但如果用到生产环境，日志量大，需要大磁盘大内存的服务器、集群部署、调优才能满足使用。还可以结合redis,kafka等消息队列解耦。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#elk日志搜集查询">ELK日志搜集查询</a>
+<ul>
+<li><a href="#一-logstash">一、logstash</a>
+<ul>
+<li><a href="#1-1-logstash安装">1.1 logstash安装</a></li>
+<li><a href="#1-2-简述">1.2 简述</a></li>
+<li><a href="#1-3-nginx日志搜集示例">1.3 nginx日志搜集示例</a>
+<ul>
+<li><a href="#1-3-1-openresty配置">1.3.1 openresty配置</a></li>
+<li><a href="#1-3-2-logstash-配置">1.3.2 logstash 配置</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#二-elasticsearch">二、elasticsearch</a>
+<ul>
+<li><a href="#2-1-elasticsearch-安装">2.1 elasticsearch 安装</a></li>
+<li><a href="#2-2-结合logstash">2.2 结合logStash</a></li>
+</ul></li>
+<li><a href="#三-kibana">三、kibana</a>
+<ul>
+<li><a href="#3-1-安装">3.1 安装</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=ELK%e6%97%a5%e5%bf%97%e6%90%9c%e9%9b%86%e6%9f%a5%e8%af%a2&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f09%2fELK%25E6%2597%25A5%25E5%25BF%2597%25E6%2590%259C%25E9%259B%2586%25E6%259F%25A5%25E8%25AF%25A2%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f09%2fELK%25E6%2597%25A5%25E5%25BF%2597%25E6%2590%259C%25E9%259B%2586%25E6%259F%25A5%25E8%25AF%25A2%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f09%2fELK%25E6%2597%25A5%25E5%25BF%2597%25E6%2590%259C%25E9%259B%2586%25E6%259F%25A5%25E8%25AF%25A2%2f&amp;description=ELK%e6%97%a5%e5%bf%97%e6%90%9c%e9%9b%86%e6%9f%a5%e8%af%a2"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f09%2fELK%25E6%2597%25A5%25E5%25BF%2597%25E6%2590%259C%25E9%259B%2586%25E6%259F%25A5%25E8%25AF%25A2%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/10/docker-deploy-mysql/">
+          <section class="post">
+              <h2>Docker部署MySql等常用软件</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/09/top/">
+          <section class="post">
+              <h2>Top命令详解</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

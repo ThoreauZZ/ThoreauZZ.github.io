@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="限流-Sentinel使用"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="限流-Sentinel使用 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-11-17T15:58:54Z" />
+
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    <meta property="article:tag" content="微服务" />
+    
+    
+
+    <title>限流-Sentinel使用 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="上篇文章介绍了sentinel的简单示例和一些架构、基本原理。本文重点看看如何和一些已有系统整合使用。 框架适配 servlet 其实很好理解，做一个filt" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 限流-Sentinel使用,
+    "name": 限流-Sentinel使用,
+    "wordCount": 1263,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/,
+    "datePublished": 2018-11-17T15:58Z,
+    "dateModified": 2018-11-17T15:58Z,
+    
+    "keywords": 分布式系统, 微服务,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">限流-Sentinel使用</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-11-17T15:58:54Z">
+            2018-11-17
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>上篇<a href="../request-limit-Sentinel">文章</a>介绍了sentinel的简单示例和一些架构、基本原理。本文重点看看如何和一些已有系统整合使用。</p>
+
+<h2 id="框架适配">框架适配</h2>
+
+<h3 id="servlet">servlet</h3>
+
+<p>其实很好理解，做一个filter就可以了。官方已经有对应适配：</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba.csp&lt;/groupId&gt;
+    &lt;artifactId&gt;sentinel-web-servlet&lt;/artifactId&gt;
+    &lt;version&gt;x.y.z&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<!-- more -->
+
+<p>CommonFilter代码：</p>
+
+<pre><code class="language-java">public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    throws IOException, ServletException {
+    HttpServletRequest sRequest = (HttpServletRequest)request;
+    Entry entry = null;
+    try {
+        String target = FilterUtil.filterTarget(sRequest);
+        UrlCleaner urlCleaner = WebCallbackManager.getUrlCleaner();
+        if (urlCleaner != null) {
+            target = urlCleaner.clean(target);
+        }
+        String origin = parseOrigin(sRequest);
+        ContextUtil.enter(target, origin);
+        entry = SphU.entry(target, EntryType.IN);
+        chain.doFilter(request, response);
+    } catch (BlockException e) {
+        HttpServletResponse sResponse = (HttpServletResponse)response;
+        WebCallbackManager.getUrlBlockHandler().blocked(sRequest, sResponse, e);
+    } catch (IOException e2) {
+        Tracer.trace(e2);
+        throw e2;
+    } catch (ServletException e3) {
+        Tracer.trace(e3);
+        throw e3;
+    } catch (RuntimeException e4) {
+        Tracer.trace(e4);
+        throw e4;
+    } finally {
+        if (entry != null) {
+            entry.exit();
+        }
+        ContextUtil.exit();
+    }
+}
+</code></pre>
+
+<p><strong>类型一</strong><br />
+<code>/hello</code><br />
+resourece: hello<br />
+context:hello<br />
+origin: &laquo;&raquo;</p>
+
+<p><strong>类型二</strong><br />
+如果是restapi方式如：<code>/user/{id}</code>，此时如果不做配置，会根据id出现很多个资源，但其实资源是user。此时可以注册一个url清理器：</p>
+
+<pre><code class="language-java">WebCallbackManager.setUrlCleaner(new UrlCleaner() {
+        @Override
+        public String clean(String originUrl) {
+            if (originUrl.startsWith(&quot;/user/&quot;)) {
+                return &quot;/user/*&quot;;
+            }
+            return originUrl;
+        }
+    });
+</code></pre>
+
+<p>这样，他的资源名就变成了<code>/user/*</code></p>
+
+<p><strong>类型三</strong><br />
+如果我想对某一个调用我的源限流，比如我只限制pc访问，或者只限制某个系统过来的请求，origin就不能是”“，怎么设置能，sentinel提供了解析方式，从header读取资源作为origin。至于读取什么header，由自己定义。</p>
+
+<pre><code class="language-java">WebCallbackManager.setRequestOriginParser(new RequestOriginParser() {
+    @Override
+    public String parseOrigin(HttpServletRequest request) {
+        String origin = request.getHeader(headerName);
+        return origin != null ? origin : &quot;&quot;;
+    }
+});
+</code></pre>
+
+<p>如果限流后我希望跳转到指定页面，也可以配置：</p>
+
+<pre><code>WebServletConfig.setBlockPage(redirectUrl);
+</code></pre>
+
+<h3 id="spring-mvc">spring mvc</h3>
+
+<p>和servlet一样，引入相同包，配置过滤器即可：</p>
+
+<pre><code class="language-java">@Configuration
+public class FilterConfig {
+    @Bean
+    public FilterRegistrationBean sentinelFilterRegistration() {
+        FilterRegistrationBean&lt;Filter&gt; registration = new FilterRegistrationBean&lt;&gt;();
+        registration.setFilter(new CommonFilter());
+        registration.addUrlPatterns(&quot;/*&quot;);
+        registration.setName(&quot;sentinelFilter&quot;);
+        registration.setOrder(1);
+
+        return registration;
+    }
+}
+</code></pre>
+
+<h3 id="doubbo">doubbo</h3>
+
+<p>官方是配置</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba.csp&lt;/groupId&gt;
+    &lt;artifactId&gt;sentinel-dubbo-adapter&lt;/artifactId&gt;
+    &lt;version&gt;x.y.z&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>原理和servlet差不多，也是自定义一个两个filter，一个消费的，一个提供者的。比如：</p>
+
+<pre><code class="language-java">public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException {
+    // Get origin caller.
+    String application = DubboUtils.getApplication(invocation, &quot;&quot;);
+
+    Entry interfaceEntry = null;
+    Entry methodEntry = null;
+    try {
+        String resourceName = getResourceName(invoker, invocation);
+        String interfaceName = invoker.getInterface().getName();
+        // 链路名为resourceName，origin是applicationname
+        ContextUtil.enter(resourceName, application);
+        // 两个entry，分别是`接口`和`接口:方法`。
+        interfaceEntry = SphU.entry(interfaceName, EntryType.IN);
+        methodEntry = SphU.entry(resourceName, EntryType.IN, 1, invocation.getArguments());
+
+        Result result = invoker.invoke(invocation);
+        if (result.hasException()) {
+            Tracer.trace(result.getException());
+        }
+        return result;
+    } catch (BlockException e) {
+        return DubboFallbackRegistry.getProviderFallback().handle(invoker, invocation, e);
+    } catch (RpcException e) {
+        Tracer.trace(e);
+        throw e;
+    } finally {
+        if (methodEntry != null) {
+            methodEntry.exit(1, invocation.getArguments());
+        }
+        if (interfaceEntry != null) {
+            interfaceEntry.exit();
+        }
+        ContextUtil.exit();
+    }
+}
+</code></pre>
+
+<p>还有grpc适配什么的，反正原理都差不多，如果自定义是配置，统一注意几个名词就好：链路，源，资源切入口。</p>
+
+<blockquote>
+<p>WebCallbackManager设计比较赞，让用户自定义解析方法。</p>
+</blockquote>
+
+<h2 id="自定义slot">自定义slot</h2>
+
+<p>上篇文章有讲，sentinel使用责任链方式，把一个一个插槽连起来。</p>
+
+<pre><code class="language-java">// spi的方式，让使用方实现SlotChainBuilder。
+private static final ServiceLoader&lt;SlotChainBuilder&gt; LOADER = ServiceLoader.load(SlotChainBuilder.class);
+private static void resolveSlotChainBuilder() {
+    List&lt;SlotChainBuilder&gt; list = new ArrayList&lt;SlotChainBuilder&gt;();
+    boolean hasOther = false;
+    for (SlotChainBuilder builder : LOADER) {
+        if (builder.getClass() != DefaultSlotChainBuilder.class) {
+            hasOther = true;
+            list.add(builder);
+        }
+    }
+    if (hasOther) {
+        builder = list.get(0);
+    } else {
+        // 没有自定义slotbuilder就使用DefaultSlotChainBuilder。
+        builder = new DefaultSlotChainBuilder();
+    }
+}
+</code></pre>
+
+<p>从代码可以看到，主要是通过spi方式实现。所以实现接口，并定义services即可：</p>
+
+<pre><code class="language-java">public class DemoSlotChainBuilder implements SlotChainBuilder {
+    @Override
+    public ProcessorSlotChain build() {
+        ProcessorSlotChain chain = new DefaultSlotChainBuilder().build();
+        // 把子顶一个DemoSlot加入链中
+        chain.addLast(new DemoSlot());
+        return chain;
+    }
+}
+</code></pre>
+
+<p>新建<code>META-INFO/services</code>目录，指定spi实现。</p>
+
+<h2 id="数据源">数据源</h2>
+
+<p>sentinel已经提供了很多数据源的实现，比如zk，redis，appollo等。自己实现主要做两件事：<br />
+1. 实现AbstractDataSource。主要是获取数据源连接，load配置，监听配置等(注意更新方式)。<br />
+2. 指定配置解析器，比如json解析。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#框架适配">框架适配</a>
+<ul>
+<li><a href="#servlet">servlet</a></li>
+<li><a href="#spring-mvc">spring mvc</a></li>
+<li><a href="#doubbo">doubbo</a></li>
+</ul></li>
+<li><a href="#自定义slot">自定义slot</a></li>
+<li><a href="#数据源">数据源</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e9%99%90%e6%b5%81-Sentinel%e4%bd%bf%e7%94%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f17%2frequest-limit-Sentinel-use%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f17%2frequest-limit-Sentinel-use%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f17%2frequest-limit-Sentinel-use%2f&amp;description=%e9%99%90%e6%b5%81-Sentinel%e4%bd%bf%e7%94%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f17%2frequest-limit-Sentinel-use%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/12/16/Java-Class-Loader/">
+          <section class="post">
+              <h2>Java类加载器</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/11/17/request-limit-Sentinel/">
+          <section class="post">
+              <h2>限流-阿里开源Sentinel</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

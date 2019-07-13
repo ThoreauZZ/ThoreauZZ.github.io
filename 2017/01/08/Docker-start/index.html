@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Docker入门"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Docker入门 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/01/08/Docker-start/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-01-08T12:39:04Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    
+
+    <title>Docker入门 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/01/08/Docker-start/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Docker入门,
+    "name": Docker入门,
+    "wordCount": 2228,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/01/08/Docker-start/,
+    "datePublished": 2017-01-08T12:39Z,
+    "dateModified": 2017-01-08T12:39Z,
+    
+    "keywords": docker,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/01/08/Docker-start/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Docker入门</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-01-08T12:39:04Z">
+            2017-01-08
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>#Docker入门</p>
+
+<h2 id="一-安装">一、安装</h2>
+
+<p>概述：<br />
+* 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。<br />
+* Registry：用来保存镜像。<br />
+* 容器：docker的启动和执行阶段。</p>
+
+<h3 id="1-1-安装">1.1 安装</h3>
+
+<p>卸载docker</p>
+
+<pre><code class="language-bash">yum list installed | grep docker
+yum remove 上条命令列出的docekr
+</code></pre>
+
+<p>默认配置下，在 CentOS 使用 Docker 可能会碰到下面的这些警告信息：<br />
+&gt;WARNING: bridge-nf-call-iptables is disabled<br />
+WARNING: bridge-nf-call-ip6tables is disabled</p>
+
+<p>添加内核配置参数以启用这些功能。</p>
+
+<pre><code class="language-bash">tee -a /etc/sysctl.conf &lt;&lt;-EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+</code></pre>
+
+<p>添加yum源：</p>
+
+<pre><code class="language-bash">tee /etc/yum.repos.d/docker.repo &lt;&lt;-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+</code></pre>
+
+<p>yum 安装</p>
+
+<pre><code class="language-bash">sudo yum update
+sudo yum install docker-engine
+
+</code></pre>
+
+<h3 id="1-2-启停docker">1.2 启停docker</h3>
+
+<pre><code class="language-bash">systemctl start docker
+docker info
+</code></pre>
+
+<h3 id="1-3-非root启动">1.3 非root启动</h3>
+
+<pre><code>sudo groupadd docker
+sudo gpasswd -a ${USER} docker #将当前用户加入docker组
+sudo systemctl restart docker #重新启动docker服务
+#当前用户退出系统重新登陆
+docker ps #运行docker命令,检查是否正常
+</code></pre>
+
+<h2 id="二-镜像">二、镜像</h2>
+
+<pre><code>docker images # 列出本地镜像
+docker pull ubuntu:12.04    #拉取
+docker search ubuntu        #查找镜像
+docker rmi 2dc68ff797db     #删除镜像
+docker rmi `docker images -a -q` #删除所有镜像
+docker rmi $(docker images -q -f dangling=true) #删除虚拟镜像
+docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
+docker system prune -f # 系统清理
+</code></pre>
+
+<p>构建镜像：</p>
+
+<h3 id="2-1-登录hub">2.1 登录hub</h3>
+
+<pre><code>docker login    #登录hub
+docker logout   #注销hub，删除认证信息
+</code></pre>
+
+<h3 id="2-2-commit命令创建镜像">2.2 commit命令创建镜像</h3>
+
+<p>在一个镜像中安装nginx，把它作为web服务，保存这个状态，提交到hub。</p>
+
+<pre><code>#运行base
+docker run -i -t ubuntu /bin/bash  
+
+#安装
+root@69425bcf953e:/\#apt-get -yqq update &amp;&amp;
+apt-get -y install apache2
+exit
+
+#提交创建镜像
+docker commit 69425bcf953e erdaoya/apach2
+
+# 查看
+docker images erdaoya/apach2
+
+# 运行刚才提交的镜像
+docker run -t -i erdaoya/apach2 /bin/bash
+</code></pre>
+
+<h3 id="2-3-dockerfile创建镜像">2.3 Dockerfile创建镜像</h3>
+
+<pre><code>mkdir static_web
+vim Dockerfile
+docker build -t=&quot;erdaoya/static_web:v1&quot;
+
+#Dockerfile放在git仓库的情况
+docker build -t=&quot;erdaoya/static_web:v1&quot; git@github.com.xx/docker_static_web
+</code></pre>
+
+<p><code>-t</code>:指定‘镜像名：标签’，标签不写默认latest</p>
+
+<p>Dockerfile</p>
+
+<pre><code># Veriosn:0.0.1
+FROM ubuntu:14.04
+RUN apt-get update &amp;&amp; apt-get install -y nginx
+RUN echo 'Hi,I am in your container'\&gt;/usr/share/nginx/html/index.html
+EXPOSE 80
+</code></pre>
+
+<h3 id="2-4-dockerfile">2.4.Dockerfile</h3>
+
+<h4 id="2-4-1-dockerfile构建">2.4.1 Dockerfile构建</h4>
+
+<p>格式</p>
+
+<p><code>docker build [选项] 路径</code></p>
+
+<p>docker根据dockerfile构建镜像时，会根据修改，使用所修改步骤之前的镜像。如果一定要忽略缓存,可使用&ndash;no-cache</p>
+
+<pre><code>docker build --no-cache -t=&quot;erdaoya/static_web:v1&quot; .
+</code></pre>
+
+<p>使用history命令看镜像执行详细：</p>
+
+<pre><code>docker history 3ffdf8907657
+</code></pre>
+
+<h4 id="2-4-2-从新镜像启动容器">2.4.2 从新镜像启动容器</h4>
+
+<pre><code>#启动容器
+docker run -d -p 80 ---name static_web erdaoya/static_web \/usr/sbin/nginx -g &quot;daemon off;&quot;
+docker ps -l    
+docker port 3ffdf8907657 80 #端口映射情况
+curl curl localhost:32772
+</code></pre>
+
+<h4 id="2-4-3-dockerfile指令">2.4.3 Dockerfile指令</h4>
+
+<ul>
+<li><code>FROM &lt;image&gt;:&lt;tag&gt;</code>: 获取镜像<br /></li>
+<li><code>MAINTAINER &lt;name&gt;</code>:  作者信息<br /></li>
+<li><code>RUN  &lt;command&gt;</code>:运行命令，每一个run一层。<br /></li>
+<li><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</code>: adds metadata to an image<br /></li>
+<li><code>EXPOSE &lt;port&gt; [&lt;port&gt;...]</code>:暴露的端口号<br /></li>
+<li><code>ENV &lt;key&gt;=&lt;value&gt; ...</code>： 设置环境变量。<br /></li>
+<li><code>ADD &lt;src&gt;... &lt;dest&gt;</code>： 添加文件到docker文件系统，src可以是URL，可以是一个tar（自动解压）。<br /></li>
+<li><code>COPY &lt;src&gt;... &lt;dest&gt;</code>： 复制，和ADD相似。当使用本地目录为源目录时，推荐使用 COPY。<br /></li>
+<li><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>：配置容器启动后执行的命令。只能有一个，当指定多个时，只有最后一个起效。<br /></li>
+<li><code>VOLUME</code>：容器访问宿主机上的目录<br /></li>
+<li><code>USER</code>: 设置容器ID<br /></li>
+<li><code>WORKDIR</code>: 设置CMD指明的命令的运行目录<br /></li>
+<li>CMD<br /></li>
+<li><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> :(exec form, this is the preferred form)<br /></li>
+<li><code>CMD [&quot;param1&quot;,&quot;param2&quot;]</code> :(as default parameters to ENTRYPOINT)<br /></li>
+<li><code>CMD command param1 param2</code> :(shell form)<br />
+<br /></li>
+</ul>
+
+<p><strong>dockerfile模版</strong></p>
+
+<pre><code>FROM fedora:20
+MAINTAINER James Turnbull 'xx@xx.com'
+ENV REFRESHE_AT 2016-07-01
+RUN yum -q makechche
+</code></pre>
+
+<h2 id="三-容器">三、容器</h2>
+
+<h3 id="3-1-运行">3.1 运行</h3>
+
+<pre><code>docker run -i -t ubuntu /bin/bash #运行容器
+docker run --name new_ubuntu -i -t --rm ubuntu /bin/bash #启动容器并命名(--name)
+docker run -p 80:80 -v /data:/data -d $(ID)
+</code></pre>
+
+<p><code>--rm</code>: #容器结束删除<br />
+<code>-d</code> :后台启动<br />
+<code>-i</code>: 保证容器标准输入STDIN开启<br />
+<code>-t</code>：告诉docker分配一个伪终端<br />
+<code>-p</code> :端口映射<br />
+<code>-v</code> :数据卷映射</p>
+
+<h3 id="3-2-查看状态">3.2 查看状态</h3>
+
+<pre><code>docker ps -a    #查看容器列表，包括正在运行和停止的；
+docker ps       #查看正在运行的容器
+ps -aux         #查看容器进程，在容器中运行
+</code></pre>
+
+<p><strong>inspect</strong></p>
+
+<pre><code># 显示更底层的容器或image信息
+docker inspect ad2c4ba35c15
+
+#显示实例ip:
+docker inspect --format='{{.NetworkSettings.IPAddress}}' $INSTANCE_ID
+
+# 列出所有绑定的端口
+docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -&gt; {{(index $conf 0).HostPort}} {{end}}' $INSTANCE_ID
+
+ # 获取配置信息
+docker inspect --format='{{json .config}}' $INSTANCE_ID
+</code></pre>
+
+<h3 id="3-3-启动停止删除">3.3 启动停止删除</h3>
+
+<pre><code>docker start new_ubuntu
+docker stop 69425bcf953e
+docker rm new_ubuntu
+</code></pre>
+
+<h3 id="3-4-进入容器">3.4 进入容器</h3>
+
+<p>有4中方式：attach. ssh nsenter exec</p>
+
+<pre><code>docker attach new_ubuntu(name，ID)
+
+docker exec -it 775c7c9ee1e1 /bin/bash  
+</code></pre>
+
+<h3 id="3-5-查看日志">3.5 查看日志</h3>
+
+<pre><code>docker run --name daemon_dave -d ubuntu /bin/bash -c &quot;while true;do echo hello world;sleep 1;done&quot; #创建守护容器
+docker logs daemon_dave #查看日志
+docker logs -f daemon_dave  #动态查看日志
+docker logs -ft daemon_dave
+docker logs --tail 10 daemon_dave
+</code></pre>
+
+<h2 id="四-仓库">四、仓库</h2>
+
+<p>1.本地启动官方提供的仓库：</p>
+
+<pre><code>docker run -p 5000:5000 registry:2 -v /opt/data/registry:/opt/data/registry
+</code></pre>
+
+<p>使用方如果出现以下错误:<br />
+&gt;ERROR: Get <a href="https://10.69.42.85:5000/v1/_ping:">https://10.69.42.85:5000/v1/_ping:</a> http: server gave HTTP response to HTTPS client</p>
+
+<p>修改配置：在OPTIONS选项后面添加 &ndash;insecure-registry=10.69.42.85:5000</p>
+
+<pre><code class="language-bash">vim /etc/sysconfig/docker
+</code></pre>
+
+<pre><code class="language-bash">OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry=10.69.42.85:5000'
+</code></pre>
+
+<p>需要设置客户端如下：</p>
+
+<pre><code class="language-bash">docker -d ----insecure-registry 10.69.42.85:5000
+</code></pre>
+
+<p>2.使用仓库给镜像打tag<br />
+格式 : <code>docker tag IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</code></p>
+
+<pre><code>docker tag 89a97ea996d0 host:port/username/image_name:v1
+</code></pre>
+
+<p>3.push</p>
+
+<pre><code>docker push  host:port/username/image_name:v1
+</code></pre>
+
+<h2 id="五-docker-compose">五、docker-compose</h2>
+
+<h3 id="5-1-模板文件">5.1 模板文件</h3>
+
+<ul>
+<li><code>image</code>: 镜像名<br /></li>
+<li><code>build</code>：dockerfile路径<br /></li>
+<li><code>ports</code>: 端口号映射<br /></li>
+<li><code>volumes</code>: 数据卷映射<br /></li>
+<li><code>links</code>: 容器互联<br /></li>
+<li><code>command</code>: 覆盖容器启动后默认执行的命令<br /></li>
+<li><code>external_links</code>: 链接到 docker-compose.yml 外部的容器<br /></li>
+<li><code>expose</code>: 暴露端口给连接的容器。<br /></li>
+<li><code>olumes_from</code>: 从另一个服务或容器挂载它的所有卷<br /></li>
+<li><code>environment</code> : 设置环境变量<br /></li>
+<li><code>env_file</code>: 从文件中获取环境变量，可以为单独的文件路径或列表,内容如： <code>RACK_ENV=development</code><br /></li>
+<li><code>extends</code> ：基于已有的服务进行扩展，继承<br /></li>
+<li><code>net</code> : 设置网络模式：bridge, host, none, container<br /></li>
+<li><code>pid</code> : 跟主机系统共享进程命名空间<br /></li>
+<li><code>dns</code> : 配置 DNS 服务器。可以是一个值，也可以是一个列表<br /></li>
+<li><code>cap_add</code>: 添加容器的 Linux 能力<br /></li>
+<li><code>cap_drop</code>: 放弃容器的 Linux 能力<br /></li>
+
+<li><p><code>dns_search</code>: 配置 DNS 搜索域。可以是一个值，也可以是一个列表。</p>
+
+<h3 id="5-2-指令">5.2 指令</h3></li>
+
+<li><p><code>build</code>: 重新构建服务。<code>--force-rm</code>删除过程中的临时容器，<code>--pull</code>始终通过pull获取最新版本</p></li>
+
+<li><p><code>kill</code>: 强制停止服务容器</p></li>
+
+<li><p><code>logs</code>: 查看服务容器的输出</p></li>
+
+<li><p><code>port</code>: 打印某个容器端口所映射的公共端口</p></li>
+
+<li><p><code>ps</code>: 列出项目中目前的所有容器</p></li>
+
+<li><p><code>pull</code>: 拉取服务依赖的镜像</p></li>
+
+<li><p><code>rm</code>: 删除所有（停止状态的）服务容器</p></li>
+
+<li><p><code>run</code>: 在指定服务上执行一个命令</p></li>
+
+<li><p><code>scale</code>: 设置指定服务运行的容器个数。</p></li>
+
+<li><p><code>strat</code>: 启动已经存在的服务容</p></li>
+
+<li><p><code>stop</code>: 停止已经处于运行状态的容器</p></li>
+
+<li><p><code>up</code>: 它将尝试自动完成包括构建镜像，（重新）创建服务，启动</p></li>
+
+<li><p><code>down</code>: 停止容器，删除容器、数据、镜像</p>
+
+<h3 id="5-3-安装">5.3 安装</h3>
+
+<p>```bash<br />
+curl -L &laquo;<a href="https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname">https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname</a> -s)-$(uname -m)&raquo; -o /usr/local/bin/docker-compose</p></li>
+</ul>
+
+<p>chmod +x /usr/local/bin/docker-compose</p>
+
+<p>docker-compose &ndash;version<br />
+```</p>
+
+<h2 id="六-网络配置">六、网络配置</h2>
+
+<h3 id="6-1-基础配置">6.1 基础配置</h3>
+
+<p><code>docker run -p 5000:5000 ...</code>: 绑定本地所有地址的端口映射<br />
+<code>docker run -p 127.0.0.1:5000:5000</code>：只对127.0.0.1映射<br />
+<code>docker run -p 127.0.0.1::5000</code>: 绑定 localhost 的任意端口到容器的 5000 端口<br />
+<code>docker port 容器 端口</code>: 查看端口配置</p>
+
+<h3 id="6-1-高级配置">6.1 高级配置</h3>
+
+<p>//TODO 待续</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#一-安装">一、安装</a>
+<ul>
+<li><a href="#1-1-安装">1.1 安装</a></li>
+<li><a href="#1-2-启停docker">1.2 启停docker</a></li>
+<li><a href="#1-3-非root启动">1.3 非root启动</a></li>
+</ul></li>
+<li><a href="#二-镜像">二、镜像</a>
+<ul>
+<li><a href="#2-1-登录hub">2.1 登录hub</a></li>
+<li><a href="#2-2-commit命令创建镜像">2.2 commit命令创建镜像</a></li>
+<li><a href="#2-3-dockerfile创建镜像">2.3 Dockerfile创建镜像</a></li>
+<li><a href="#2-4-dockerfile">2.4.Dockerfile</a>
+<ul>
+<li><a href="#2-4-1-dockerfile构建">2.4.1 Dockerfile构建</a></li>
+<li><a href="#2-4-2-从新镜像启动容器">2.4.2 从新镜像启动容器</a></li>
+<li><a href="#2-4-3-dockerfile指令">2.4.3 Dockerfile指令</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#三-容器">三、容器</a>
+<ul>
+<li><a href="#3-1-运行">3.1 运行</a></li>
+<li><a href="#3-2-查看状态">3.2 查看状态</a></li>
+<li><a href="#3-3-启动停止删除">3.3 启动停止删除</a></li>
+<li><a href="#3-4-进入容器">3.4 进入容器</a></li>
+<li><a href="#3-5-查看日志">3.5 查看日志</a></li>
+</ul></li>
+<li><a href="#四-仓库">四、仓库</a></li>
+<li><a href="#五-docker-compose">五、docker-compose</a>
+<ul>
+<li><a href="#5-1-模板文件">5.1 模板文件</a></li>
+<li><a href="#5-2-指令">5.2 指令</a></li>
+<li><a href="#5-3-安装">5.3 安装</a></li>
+</ul></li>
+<li><a href="#六-网络配置">六、网络配置</a>
+<ul>
+<li><a href="#6-1-基础配置">6.1 基础配置</a></li>
+<li><a href="#6-1-高级配置">6.1 高级配置</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Docker%e5%85%a5%e9%97%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f08%2fDocker-start%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f08%2fDocker-start%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f08%2fDocker-start%2f&amp;description=Docker%e5%85%a5%e9%97%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f08%2fDocker-start%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/01/08/spring-boot-introduction/">
+          <section class="post">
+              <h2>spring-boot 入门</h2>
+              
+          </section>
+      </a>
+  
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

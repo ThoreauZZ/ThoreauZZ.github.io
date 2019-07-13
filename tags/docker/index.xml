@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/docker/</link>
+    <description>Recent content in docker on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在mac上安装minikube</title>
+      <link>http://thoreauz.com/2018/11/04/mac-install-minikube/</link>
+      <pubDate>Sun, 04 Nov 2018 01:16:10 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/04/mac-install-minikube/</guid>
+      <description>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测</description>
+    </item>
+    
+    <item>
+      <title>Logstash搜集spring-cloud日志</title>
+      <link>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</link>
+      <pubDate>Tue, 08 Aug 2017 14:23:26 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</guid>
+      <description>如果使用sleuth，通过logback按照一定的格式打印日志，即可通过logstash过滤并搜集到es里面存储，继而通过Kibana展示。</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes编译部署DNS</title>
+      <link>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</link>
+      <pubDate>Tue, 18 Apr 2017 17:21:30 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</guid>
+      <description>概述 在前一篇文章Kubernetes部署DNS和Dashboard中，我们使用官方提供的yaml启动相关容器实现DNS。本文通过go编译成可</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes部署DNS和Dashboard</title>
+      <link>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</link>
+      <pubDate>Sun, 16 Apr 2017 18:56:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</guid>
+      <description>Kubernetes部署DNS和Dashboard 一、部署DNS k8s的github 有很多组件的安装文档，但是，安装需要核对自己的k8s版本</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot和Docker实践中遇到的问题</title>
+      <link>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</link>
+      <pubDate>Tue, 21 Mar 2017 23:31:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</guid>
+      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &#39;touch /app.jar&#39; ENV JAVA_OPTS=&amp;quot;&amp;quot; ENTRYPOINT [ &amp;quot;sh&amp;quot;, &amp;quot;-c&amp;quot;, &amp;quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;quot; ] 解释：</description>
+    </item>
+    
+    <item>
+      <title>kubernetes入门之Deployments</title>
+      <link>http://thoreauz.com/2017/03/21/kubernetes-deployments/</link>
+      <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+    </item>
+    
+    <item>
+      <title>Docker网络方案之Flannel</title>
+      <link>http://thoreauz.com/2017/03/18/docker-network-flannel/</link>
+      <pubDate>Sat, 18 Mar 2017 22:49:13 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/docker-network-flannel/</guid>
+      <description>Docker网络方案之Flannel docker夸主机网络方案可选的很多，有大家说的隧道方案和路由方案，对应的有Flannel，Calico</description>
+    </item>
+    
+    <item>
+      <title>Centos7搭建kubernetes搭建</title>
+      <link>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</link>
+      <pubDate>Sat, 18 Mar 2017 10:41:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</guid>
+      <description>Centos7搭建kubernetes搭建 本文介绍在两台Centos7上安装kubernetes集群，一台作为master，2台作为node</description>
+    </item>
+    
+    <item>
+      <title>Docker镜像仓库</title>
+      <link>http://thoreauz.com/2017/02/17/docker-registry/</link>
+      <pubDate>Fri, 17 Feb 2017 22:27:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/17/docker-registry/</guid>
+      <description>Docker镜像仓库 顾名思义，Docker Registry就是用来存储docker镜像的。就像maven私服，我们也可以搭建自己的仓库来存自</description>
+    </item>
+    
+    <item>
+      <title>Docker网络一-默认网络</title>
+      <link>http://thoreauz.com/2017/02/16/docker-network/</link>
+      <pubDate>Thu, 16 Feb 2017 21:54:25 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/16/docker-network/</guid>
+      <description>Docker网络一-默认网络 本文介绍docker默认的几种网络模式，docker如何与主机通讯使其能访问外网和被外网访问。 一、docker 容</description>
+    </item>
+    
+    <item>
+      <title>Docker安装之MAC</title>
+      <link>http://thoreauz.com/2017/02/14/docker-install-mac/</link>
+      <pubDate>Tue, 14 Feb 2017 23:14:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/14/docker-install-mac/</guid>
+      <description>Docker安装之MAC 刚学习docker的时候，在linux直接通过yum安装启动后，运行docker命令，起步挺简单的。但在mac上安装</description>
+    </item>
+    
+    <item>
+      <title>Compose配置文件介绍</title>
+      <link>http://thoreauz.com/2017/02/12/docker-network-compose/</link>
+      <pubDate>Sun, 12 Feb 2017 17:42:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/docker-network-compose/</guid>
+      <description>Compose配置文件介绍 此文主要描述Docker Compose file version 3 格式，第三版本会和1x,2x有很多不同。 一、服务配置 Compose文件是一个YAM</description>
+    </item>
+    
+    <item>
+      <title>Docker部署MySql等常用软件</title>
+      <link>http://thoreauz.com/2017/02/10/docker-deploy-mysql/</link>
+      <pubDate>Fri, 10 Feb 2017 15:20:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/10/docker-deploy-mysql/</guid>
+      <description>Docker部署MySql等常用软件 一、MySql 1.1 获取镜像运行 选定mysql版本，直接用以下命令获取mysql镜像并启动 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 -d</description>
+    </item>
+    
+    <item>
+      <title>Docker入门</title>
+      <link>http://thoreauz.com/2017/01/08/Docker-start/</link>
+      <pubDate>Sun, 08 Jan 2017 12:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/08/Docker-start/</guid>
+      <description>#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存</description>
+    </item>
+    
+  </channel>
+</rss>

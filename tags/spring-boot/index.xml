@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spring-boot on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/spring-boot/</link>
+    <description>Recent content in spring-boot on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 22 Dec 2018 14:57:17 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>spring-boot 可执行jar启动原理</title>
+      <link>http://thoreauz.com/2018/12/22/spring-boot-executable-jar/</link>
+      <pubDate>Sat, 22 Dec 2018 14:57:17 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/12/22/spring-boot-executable-jar/</guid>
+      <description>用spring-boot很长时间了，解放了对一堆tomcat的配置，一个可执行jar包，比以前弄一堆xml方便了很多，大大简化微服务开发，也</description>
+    </item>
+    
+    <item>
+      <title>spring-boot 使用protobuf</title>
+      <link>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</link>
+      <pubDate>Sat, 24 Mar 2018 08:15:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</guid>
+      <description>概述 本文简单介绍通过gradle构建以protobuf作为数据通讯格式的spring boot服务。 protobuf简介 Protocol Buffers是Go</description>
+    </item>
+    
+    <item>
+      <title>Spring Boot和Docker实践中遇到的问题</title>
+      <link>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</link>
+      <pubDate>Tue, 21 Mar 2017 23:31:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</guid>
+      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &#39;touch /app.jar&#39; ENV JAVA_OPTS=&amp;quot;&amp;quot; ENTRYPOINT [ &amp;quot;sh&amp;quot;, &amp;quot;-c&amp;quot;, &amp;quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;quot; ] 解释：</description>
+    </item>
+    
+    <item>
+      <title>spring boot自动配置和自定义配置</title>
+      <link>http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/</link>
+      <pubDate>Wed, 22 Feb 2017 20:42:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/</guid>
+      <description>spring boot自动配置和自定义配置 本文介绍spring boot的自动配置原理，redis自动配置示例，如何配置多数据源。 一、Spring Boot 自动配</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud  异常处理和状态码</title>
+      <link>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</link>
+      <pubDate>Mon, 13 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</guid>
+      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;quot;/trade/order&amp;quot;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 微服务配置中心(cloud config)</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-config/</link>
+      <pubDate>Sun, 12 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-config/</guid>
+      <description>Spring Cloud 微服务配置中心(cloud config) Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所</description>
+    </item>
+    
+    <item>
+      <title>spring-boot 入门</title>
+      <link>http://thoreauz.com/2017/01/08/spring-boot-introduction/</link>
+      <pubDate>Sun, 08 Jan 2017 17:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/08/spring-boot-introduction/</guid>
+      <description>一、maven构建 1.1 继承boot超级parent &amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-parent&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/parent&amp;gt; 这样，其他依赖不需要写版本号，如果一定要写，配置在properties即可,如： &amp;lt;properties&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>

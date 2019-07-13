@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Compose配置文件介绍"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Compose配置文件介绍 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/12/docker-network-compose/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-12T17:42:45Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    
+
+    <title>Compose配置文件介绍 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Compose配置文件介绍 此文主要描述Docker Compose file version 3 格式，第三版本会和1x,2x有很多不同。 一、服务配置 Compose文件是一个YAM" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/12/docker-network-compose/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Compose配置文件介绍,
+    "name": Compose配置文件介绍,
+    "wordCount": 2661,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/12/docker-network-compose/,
+    "datePublished": 2017-02-12T17:42Z,
+    "dateModified": 2017-02-12T17:42Z,
+    
+    "keywords": docker,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/12/docker-network-compose/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Compose配置文件介绍</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-12T17:42:45Z">
+            2017-02-12
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="compose配置文件介绍">Compose配置文件介绍</h1>
+
+<p>此文主要描述Docker Compose file version 3 格式，第三版本会和1x,2x有很多不同。</p>
+
+<h2 id="一-服务配置">一、服务配置</h2>
+
+<p>Compose文件是一个<code>YAML</code>文件，用于定义服务，网络和数据卷等。 Compose文件的默认路径为<code>./docker-compose.yml</code>。</p>
+
+<p>Compose作服务编排，简单的说，就是把<code>docker run</code>的一堆启动参数文件化，使一条命令(<code>docker-compose up</code>)完成多个容器的构建启动成为可能。</p>
+
+<h3 id="build">build</h3>
+
+<p>顾名思义，就是构建镜像，可以指定<code>Dockerfile</code>路径，构建参数等。</p>
+
+<pre><code class="language-yml">build: ./dir
+
+build:
+  context: ./dir
+  dockerfile: Dockerfile-alternate
+  args:
+    buildno: 1
+</code></pre>
+
+<blockquote>
+<p>注：如果这个compose文件是用来部署一个stack到swarm节点，这个选项就不能有，因为 <code>docker stack</code>命令只接受已经构建的镜像</p>
+</blockquote>
+
+<h3 id="context">context</h3>
+
+<p>指定Dockerfile路径，可以是本地文件(绝对路径或者相对路径)，可以是git仓库。</p>
+
+<pre><code class="language-yml">build:
+  context: ./dir
+</code></pre>
+
+<h3 id="dockerfile">dockerfile</h3>
+
+<p>如果上例子指定的dockerfile名字不叫<code>Dockerfile</code>，可以通过该指令给出。</p>
+
+<pre><code>build:
+  context: .
+  dockerfile: Dockerfile-alternate
+</code></pre>
+
+<h3 id="args">args</h3>
+
+<p>用于构建阶段的参数</p>
+
+<h3 id="cap-add-cap-drop">cap_add, cap_drop</h3>
+
+<p>添加或者删除容器功能</p>
+
+<pre><code class="language-yml">cap_add:
+  - ALL
+cap_drop:
+  - NET_ADMIN
+  - SYS_ADMIN
+</code></pre>
+
+<blockquote>
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+</blockquote>
+
+<h3 id="command">command</h3>
+
+<p>覆盖镜像默认的command</p>
+
+<pre><code class="language-yml">command: bundle exec thin -p 3000
+# 可以是一个list
+command: [bundle, exec, thin, -p, 3000]
+</code></pre>
+
+<h3 id="cgroup-parent">cgroup_parent</h3>
+
+<p>为容器指定父cgroup</p>
+
+<pre><code class="language-bash">cgroup_parent: m-executor-abcd
+</code></pre>
+
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+
+<h3 id="container-name">container_name</h3>
+
+<p>默认自动为容器命名，可以通过该选择指定。</p>
+
+<h3 id="deploy">deploy</h3>
+
+<p>部署相关配置，如部署数量，重启策略。如果通过<code>docker-compose run</code>启动，会自动忽略该配置。</p>
+
+<pre><code class="language-yml">deploy:
+  replicas: 6
+  update_config:
+    parallelism: 2
+    delay: 10s
+  restart_policy:
+    condition: on-failure
+</code></pre>
+
+<blockquote>
+<p>注：只支持version 3</p>
+</blockquote>
+
+<h3 id="mode">mode</h3>
+
+<p>Either global (exactly one container per swarm node) or replicated (a specified number of containers). The default is replicated.<br />
+如果配置为<code>globle</code>,表示所有swarm节点都有一个容器，如果配置为<code>replicated</code>，可以指定容器数量，默认为<code>replicated</code></p>
+
+<pre><code class="language-bash">mode: global
+</code></pre>
+
+<h3 id="replicas">replicas</h3>
+
+<p>如果服务mode配置为<code>replicated</code>,<code>replicas</code>就是用来指定容器数量的</p>
+
+<pre><code class="language-yml">mode: replicated
+replicas: 6
+</code></pre>
+
+<h3 id="placement">placement</h3>
+
+<p>指定容器的放置约束。</p>
+
+<pre><code class="language-yml">placement:
+  constraints:
+    - node.role == manager
+    - engine.labels.operatingsystem == ubuntu 14.04
+</code></pre>
+
+<h3 id="update-config">update_config</h3>
+
+<p>服务更新配置：<br />
+* parallelism: 同事update的容器数<br />
+* delay: 一组容器update时间隔时间<br />
+* failure_action: 如果1个容器更新失败，是继续(continue)还是暂停(pausem default)<br />
+* monitor: 每次任务后，监视故障的持续时间<br />
+* max_failure_ratio: 升级的最大失败次数</p>
+
+<pre><code class="language-yml"> update_config:
+      parallelism: 2
+      delay: 10s
+</code></pre>
+
+<h3 id="resources">resources</h3>
+
+<p>配置资源约束。 这将替换版本3之前的文件中的旧资源约束选项（cpu_shares，cpu_quota，cpuset，mem_limit，memswap_limit）。</p>
+
+<pre><code class="language-yml">resources:
+  limits:
+    cpus: '0.001'
+    memory: 50M
+  reservations:
+    cpus: '0.0001'
+    memory: 20M
+</code></pre>
+
+<h3 id="restart-policy">restart_policy</h3>
+
+<p>Configures if and how to restart containers when they exit. Replaces restart.</p>
+
+<p>配置容器退出时的启动策略。替换<code>restart</code><br />
+* condition: <code>none</code>,<code>on-failure</code> , 或者<code>any</code> (默认: any).<br />
+* delay: 重启间隔(default: 0).<br />
+* max_attempts: 最大重启次数 (default: never give up).<br />
+* window: 在决定重新启动是否成功之前等待的时间，default: decide immediately).</p>
+
+<pre><code class="language-yml">restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+</code></pre>
+
+<h3 id="labels">labels</h3>
+
+<p>指定服务的标签。 这些标签只能在服务上设置，而不能在服务的任何容器上设置。</p>
+
+<pre><code class="language-yml">version: &quot;3&quot;
+services:
+  web:
+    image: web
+    deploy:
+      labels:
+        com.example.description: &quot;This label will appear on the web service&quot;
+</code></pre>
+
+<p>在<code>deploy</code>外设置</p>
+
+<pre><code class="language-yml">version: &quot;3&quot;
+services:
+  web:
+    image: web
+    labels:
+      com.example.description: &quot;This label will appear on all containers for the web service&quot;
+</code></pre>
+
+<h3 id="devices">devices</h3>
+
+<p>列出devices</p>
+
+<pre><code class="language-yml">devices:
+  - &quot;/dev/ttyUSB0:/dev/ttyUSB0&quot;
+</code></pre>
+
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+
+<h3 id="depends-on">depends_on</h3>
+
+<p>服务依赖，如果使用<code>docker-compose up</code>启动，也将会启动所依赖的服务。</p>
+
+<pre><code class="language-yml">version: '2'
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+      - redis
+  redis:
+    image: redis
+  db:
+    image: postgres
+</code></pre>
+
+<blockquote>
+<p>注：depends_on 不会等待所依赖的服务启动完成后再启动，因为无法判断一个服务是否已经启动完成。</p>
+</blockquote>
+
+<p>可以结合<code>healthcheck</code>判断服务健康状态。但注意只在<code>2.1</code>版本中, 后文会介绍到。</p>
+
+<pre><code class="language-yml">version: '2.1'
+services:
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+  redis:
+    image: redis
+  db:
+    image: redis
+    healthcheck:
+      test: &quot;exit 0&quot;
+</code></pre>
+
+<h3 id="dns">dns</h3>
+
+<p>指定dns服务</p>
+
+<pre><code class="language-yml">dns: 8.8.8.8
+dns:
+  - 8.8.8.8
+  - 9.9.9.9
+</code></pre>
+
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+
+<h3 id="dns-search">dns_search</h3>
+
+<p>指定dns domain</p>
+
+<pre><code class="language-yml">dns_search: example.com
+dns_search:
+  - dc1.example.com
+  - dc2.example.com
+</code></pre>
+
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+
+<h3 id="tmpfs">tmpfs</h3>
+
+<p>挂载一个临时目录到容器</p>
+
+<pre><code class="language-yml">tmpfs: /run
+tmpfs:
+  - /run
+  - /tmp
+</code></pre>
+
+<blockquote>
+<p>注：stack 部署会忽略该选项。</p>
+</blockquote>
+
+<h3 id="entrypoint">entrypoint</h3>
+
+<p>覆盖默认的entrypoint</p>
+
+<pre><code class="language-yml">entrypoint: /code/entrypoint.sh
+
+entrypoint:
+    - php
+    - -d
+    - zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
+    - -d
+    - memory_limit=-1
+    - vendor/bin/phpunit
+</code></pre>
+
+<blockquote>
+<p>注：这会覆盖任何镜像ENTRYPOINT默认的entrypoint，如果dockerfile只有一个CMD指令，他将被忽略。</p>
+</blockquote>
+
+<h3 id="env-file">env_file</h3>
+
+<p>通过文件添加环境变量，将覆盖默认的变量。</p>
+
+<pre><code class="language-yml">env_file: .env
+
+env_file:
+  - ./common.env
+  - ./apps/web.env
+  - /opt/secrets.env
+</code></pre>
+
+<p>一行一个key=value，以#开头的会被忽略</p>
+
+<pre><code># Set Rails/Rack environment
+RACK_ENV=development
+</code></pre>
+
+<blockquote>
+<p>注：如果您的服务指定了构建选项，则在构建期间不会自动显示环境文件中定义的变量。 使用build的args子选项来定义构建时环境变量。</p>
+</blockquote>
+
+<p>值只能是一个值，不能是变量。</p>
+
+<h3 id="environment">environment</h3>
+
+<p>添加环境变量。如果是boolean，注意引号的使用方式。</p>
+
+<pre><code class="language-yml">environment:
+  RACK_ENV: development
+  SHOW: 'true'
+  SESSION_SECRET:
+
+environment:
+  - RACK_ENV=development
+  - SHOW=true
+  - SESSION_SECRET
+</code></pre>
+
+<blockquote>
+<p>注：如果您的服务指定了构建选项，则在构建期间将不会自动显示在环境中定义的变量。 使用build的args子选项来定义构建时环境变量。</p>
+</blockquote>
+
+<h3 id="expose">expose</h3>
+
+<p>暴露端口给主机。</p>
+
+<pre><code class="language-yml">expose:
+ - &quot;3000&quot;
+ - &quot;8000&quot;
+</code></pre>
+
+<h3 id="extends">extends</h3>
+
+<p>在当前文件或另一个文件中扩展另一个服务，可选地覆盖配置。</p>
+
+<p>您可以在任何服务上使用扩展与其他配置键。 extends值必须是使用必需的服务和可选文件键定义的字典。</p>
+
+<pre><code class="language-yml">extends:
+  file: common.yml
+  service: webapp
+</code></pre>
+
+<p>如果省略文件Compose在当前文件中查找服务配置。 文件值可以是绝对路径或相对路径。 如果指定相对路径，则Compose将其视为相对于当前文件的位置。</p>
+
+<p>不支持循环引用。<br />
+&gt;注：部署到stack时不支持该选项，可以通过 <code>docker-compose config</code>生成配置再部署</p>
+
+<h3 id="external-links">external_links</h3>
+
+<p>连接 <code>docker-compose.yml</code>外的服务</p>
+
+<pre><code class="language-yml">external_links:
+ - redis_1
+ - project_db_1:mysql
+ - project_db_1:postgresql
+</code></pre>
+
+<blockquote>
+<p>注：如果使用version 2和以上版本，至少有一个外部容器和他共用相同网络。部署到stack时会被忽略。</p>
+</blockquote>
+
+<h3 id="extra-hosts">extra_hosts</h3>
+
+<pre><code>extra_hosts:
+ - &quot;somehost:162.242.195.82&quot;
+ - &quot;otherhost:50.31.209.229&quot;
+</code></pre>
+
+<h3 id="group-add">group_add</h3>
+
+<blockquote>
+<p>Version 2 file format and up.</p>
+</blockquote>
+
+<p>添加组，组必须同时存在于要添加的容器和主机系统中。</p>
+
+<pre><code class="language-yml">version: '2'
+services:
+    image: alpine
+    group_add:
+      - mail
+</code></pre>
+
+<h3 id="healthcheck">healthcheck</h3>
+
+<blockquote>
+<p>Version 2.1 file format and up.</p>
+</blockquote>
+
+<p>配置容器启动监控检查：</p>
+
+<pre><code class="language-yml">healthcheck:
+  test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost&quot;]
+  interval: 1m30s
+  timeout: 10s
+  retries: 3
+</code></pre>
+
+<pre><code># Hit the local web app
+test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost&quot;]
+
+# As above, but wrapped in /bin/sh. Both forms below are equivalent.
+test: [&quot;CMD-SHELL&quot;, &quot;curl -f http://localhost &amp;&amp; echo 'cool, it works'&quot;]
+test: curl -f https://localhost &amp;&amp; echo 'cool, it works'
+
+#禁用
+healthcheck:
+  disable: true
+</code></pre>
+
+<h3 id="image">image</h3>
+
+<p>指定镜像：格式可以有以下几种</p>
+
+<pre><code class="language-yml">image: redis
+image: ubuntu:14.04
+image: tutum/influxdb
+image: example-registry.com:4000/postgresql
+image: a4bc65fd
+</code></pre>
+
+<h3 id="labels-1">labels</h3>
+
+<p>给容器添加元数据</p>
+
+<pre><code class="language-yml">labels:
+  com.example.description: &quot;Accounting webapp&quot;
+  com.example.department: &quot;Finance&quot;
+  com.example.label-with-empty-value: &quot;&quot;
+
+labels:
+  - &quot;com.example.description=Accounting webapp&quot;
+  - &quot;com.example.department=Finance&quot;
+  - &quot;com.example.label-with-empty-value&quot;
+</code></pre>
+
+<h3 id="links">links</h3>
+
+<p>容器间的连接：</p>
+
+<pre><code class="language-yml">web:
+  links:
+   - db
+   - db:database
+   - redis
+</code></pre>
+
+<p>其实就是在容器中的<code>/etc/hosts</code>添加容器id和别名的映射。</p>
+
+<blockquote>
+<p>如果同时配置了link是和networks，至少有一个共用的网络。<br />
+ 部署到stack会被忽略</p>
+</blockquote>
+
+<h3 id="logging">logging</h3>
+
+<p>Logging configuration for the service.<br />
+记录服务的日志：</p>
+
+<pre><code class="language-yml">logging:
+  driver: syslog
+  options:
+    syslog-address: &quot;tcp://192.168.0.42:123&quot;
+
+driver: &quot;json-file&quot; # default
+driver: &quot;syslog&quot;
+driver: &quot;none&quot;
+
+</code></pre>
+
+<blockquote>
+<p>注：只有使用<code>json-file</code>和<code>journald</code>时，可以通过docker-compose logs 查看日志。其他方式将不打印任何日志</p>
+</blockquote>
+
+<h3 id="network-mode">network_mode</h3>
+
+<p>网络模式。和docker run -net 拒用相同功能。</p>
+
+<pre><code class="language-yml">network_mode: &quot;bridge&quot;
+network_mode: &quot;host&quot;
+network_mode: &quot;none&quot;
+network_mode: &quot;service:[service name]&quot;
+network_mode: &quot;container:[container name/id]&quot;
+</code></pre>
+
+<blockquote>
+<p>注：部署stack时会被忽略</p>
+</blockquote>
+
+<h3 id="networks">networks</h3>
+
+<p>引用顶级网络配置的条目</p>
+
+<pre><code class="language-yml">services:
+  some-service:
+    networks:
+     - some-network
+     - other-network
+</code></pre>
+
+<h4 id="ipv4-address-ipv6-address">ipv4_address, ipv6_address</h4>
+
+<p>给容器指定静态ip。和networks结合使用。</p>
+
+<pre><code class="language-yml">version: '2.1'
+
+services:
+  app:
+    image: busybox
+    command: ifconfig
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+
+networks:
+  app_net:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
+      - subnet: 2001:3984:3989::/64
+        gateway: 2001:3984:3989::1
+</code></pre>
+
+<h3 id="ports">ports</h3>
+
+<p>容器和主机的端口映射</p>
+
+<pre><code class="language-yml">ports:
+ - &quot;3000&quot;
+ - &quot;3000-3005&quot;
+ - &quot;8000:8000&quot;
+ - &quot;9090-9091:8080-8081&quot;
+ - &quot;49100:22&quot;
+ - &quot;127.0.0.1:8001:8001&quot;
+ - &quot;127.0.0.1:5000-5010:5000-5010&quot;
+ - &quot;6060:6060/udp&quot;
+</code></pre>
+
+<h4 id="volumes">volumes</h4>
+
+<p>数据卷挂载</p>
+
+<pre><code class="language-yml">version: &quot;3&quot;
+
+services:
+  db:
+    image: db
+    volumes:
+      - data-volume:/var/lib/db
+  backup:
+    image: backup-service
+    volumes:
+      - data-volume:/var/lib/backup/data
+
+volumes:
+  data-volume:
+</code></pre>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#compose配置文件介绍">Compose配置文件介绍</a>
+<ul>
+<li><a href="#一-服务配置">一、服务配置</a>
+<ul>
+<li><a href="#build">build</a></li>
+<li><a href="#context">context</a></li>
+<li><a href="#dockerfile">dockerfile</a></li>
+<li><a href="#args">args</a></li>
+<li><a href="#cap-add-cap-drop">cap_add, cap_drop</a></li>
+<li><a href="#command">command</a></li>
+<li><a href="#cgroup-parent">cgroup_parent</a></li>
+<li><a href="#container-name">container_name</a></li>
+<li><a href="#deploy">deploy</a></li>
+<li><a href="#mode">mode</a></li>
+<li><a href="#replicas">replicas</a></li>
+<li><a href="#placement">placement</a></li>
+<li><a href="#update-config">update_config</a></li>
+<li><a href="#resources">resources</a></li>
+<li><a href="#restart-policy">restart_policy</a></li>
+<li><a href="#labels">labels</a></li>
+<li><a href="#devices">devices</a></li>
+<li><a href="#depends-on">depends_on</a></li>
+<li><a href="#dns">dns</a></li>
+<li><a href="#dns-search">dns_search</a></li>
+<li><a href="#tmpfs">tmpfs</a></li>
+<li><a href="#entrypoint">entrypoint</a></li>
+<li><a href="#env-file">env_file</a></li>
+<li><a href="#environment">environment</a></li>
+<li><a href="#expose">expose</a></li>
+<li><a href="#extends">extends</a></li>
+<li><a href="#external-links">external_links</a></li>
+<li><a href="#extra-hosts">extra_hosts</a></li>
+<li><a href="#group-add">group_add</a></li>
+<li><a href="#healthcheck">healthcheck</a></li>
+<li><a href="#image">image</a></li>
+<li><a href="#labels-1">labels</a></li>
+<li><a href="#links">links</a></li>
+<li><a href="#logging">logging</a></li>
+<li><a href="#network-mode">network_mode</a></li>
+<li><a href="#networks">networks</a>
+<ul>
+<li><a href="#ipv4-address-ipv6-address">ipv4_address, ipv6_address</a></li>
+</ul></li>
+<li><a href="#ports">ports</a>
+<ul>
+<li><a href="#volumes">volumes</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Compose%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bb%8b%e7%bb%8d&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fdocker-network-compose%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fdocker-network-compose%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fdocker-network-compose%2f&amp;description=Compose%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bb%8b%e7%bb%8d"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fdocker-network-compose%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/12/spring-cloud-netflix/">
+          <section class="post">
+              <h2>spring cloud 微服务组件</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/12/git-rm-bigfile/">
+          <section class="post">
+              <h2>git删除版本库中大文件记录</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

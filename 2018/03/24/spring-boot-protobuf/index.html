@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="spring-boot 使用protobuf"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="spring-boot 使用protobuf &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/03/24/spring-boot-protobuf/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-03-24T08:15:56Z" />
+
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    <meta property="article:tag" content="protobuf" />
+    
+    <meta property="article:tag" content="spring" />
+    
+    
+
+    <title>spring-boot 使用protobuf &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 本文简单介绍通过gradle构建以protobuf作为数据通讯格式的spring boot服务。 protobuf简介 Protocol Buffers是Go" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/03/24/spring-boot-protobuf/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": spring-boot 使用protobuf,
+    "name": spring-boot 使用protobuf,
+    "wordCount": 1262,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/03/24/spring-boot-protobuf/,
+    "datePublished": 2018-03-24T08:15Z,
+    "dateModified": 2018-03-24T08:15Z,
+    
+    "keywords": spring-boot, protobuf, spring,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/03/24/spring-boot-protobuf/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">spring-boot 使用protobuf</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-03-24T08:15:56Z">
+            2018-03-24
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/protobuf/">protobuf</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>本文简单介绍通过<code>gradle</code>构建以<code>protobuf</code>作为数据通讯格式的<code>spring boot</code>服务。</p>
+
+<!-- more -->
+
+<h2 id="protobuf简介">protobuf简介</h2>
+
+<p>Protocol Buffers是Google出品的一种序列化数据结构的协议。和xml，json等通讯格式一样，支持夸语言。但protobuf更小，更快，更简单。官方声称，比xml格式小3-10倍，速度快20到100倍。</p>
+
+<p>具体性能对比可以参考:<a href="https://github.com/eishay/jvm-serializers/wiki">https://github.com/eishay/jvm-serializers/wiki</a>.</p>
+
+<p>除了更快更小，protobuf的还有其他优点：<br />
+1.  可以通过结构描述生成代码。专注于文档设计，自动生成对象模型。<br />
+2.  兼容性好</p>
+
+<p>当然，也有缺点，如二进制格式导致可读性差，必须配合描述文件<code>.proto</code>。</p>
+
+<p>本文不详细介绍语法格式，可见官网<a href="https://developers.google.com/protocol-buffers/docs/proto3">proto3</a>及其翻译<a href="http://colobu.com/2017/03/16/Protobuf3-language-guide/">Protobuf3 语法指南</a></p>
+
+<h2 id="spring-boot-proto-示例">spring-boot-proto 示例</h2>
+
+<p>gradle 配置：</p>
+
+<p><code>build.gradle</code>如下：</p>
+
+<pre><code class="language-groovy">buildscript {
+	ext {
+		springBootVersion = '2.0.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath(&quot;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&quot;)
+		// protobuf-gradle-plugin
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+// add protobuf plugin
+apply plugin: 'com.google.protobuf'
+
+group = 'com.thoreau'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('com.google.protobuf:protobuf-java:3.4.0')
+	compile('com.googlecode.protobuf-java-format:protobuf-java-format:1.4')
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+// pre-compiled protoc
+protobuf {
+	// Configure the protoc executable
+	protoc {
+		// Download from repositories
+		artifact = 'com.google.protobuf:protoc:3.0.0'
+		// generated java files dir
+//		generatedFilesBaseDir = &quot;$projectDir/gen&quot;
+	}
+}
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+}
+sourceSets{
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+        proto {
+            // In addition to the default 'src/main/proto'
+            srcDir 'src/main/proto'
+        }
+    }
+    test {
+        proto {
+            // In addition to the default 'src/test/proto'
+            srcDir 'src/test/proto'
+        }
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+</code></pre>
+
+<h3 id="spring-boot-使用protobuf">spring boot 使用protobuf</h3>
+
+<pre><code class="language-java">@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class);
+    }
+    // 使用 protobuf 作为消息协议(序列化)
+    @Bean
+    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtobufHttpMessageConverter();
+    }
+    // 配置restTeamplete 解析 protobuf（反序列化)
+    @Bean
+    RestTemplate restTemplate(ProtobufHttpMessageConverter hmc) {
+        return new RestTemplate(Collections.singletonList(hmc));
+    }
+}
+</code></pre>
+
+<h3 id="proto文件">proto文件</h3>
+
+<p>根据gradle的配置，在<code>src/proto</code>目录下新建两个文件：</p>
+
+<p><code>hobby.proto</code></p>
+
+<pre><code class="language-protobuf">syntax = &quot;proto3&quot;;// 版本
+package com.thoreau.protobuf.vo; // 命名空间
+
+
+option java_package = &quot;com.thoreau.protobuf.generated.vo&quot;;//生成java包名
+option java_outer_classname = &quot;HobbyProto&quot;; //生成Java类名
+option java_multiple_files = true;
+
+message Hobby {
+    string name = 1;
+    int32 level =2;
+}
+</code></pre>
+
+<p><code>user.proto</code></p>
+
+<pre><code class="language-protobuf">syntax = &quot;proto3&quot;;
+package com.thoreau.protobuf.vo;
+
+import &quot;com/thoreau/protobuf/vo/hobby.proto&quot;;// 导入上一个文件
+
+option java_package = &quot;com.thoreau.protobuf.generated.vo&quot;;
+option java_outer_classname = &quot;UserProto&quot;;
+option java_multiple_files = true;
+
+message User {
+    reserved &quot;Person&quot;;// 保留标识符
+    string firstName = 1;
+    string lastName = 2;
+    string emailAddress = 3;
+    string homeAddress = 4;
+    repeated Hobby hobbies =5;
+    repeated Skill skills =6;
+    enum Skill {
+        GOLANG = 0;
+        PYTHON = 1;
+        JAVA = 2;
+        RUST = 3;
+        CPP = 4;
+    }
+
+}
+</code></pre>
+
+<p>gradle 编译：</p>
+
+<pre><code>gradle build
+</code></pre>
+
+<p>编译后在build目录下对应包中生成如下文件：</p>
+
+<pre><code>Hobby.class
+HobbyOrBuilder.class
+HobbyProto.class
+User.class
+UserOrBuilder.class
+UserProto.class
+</code></pre>
+
+<h3 id="controller">controller</h3>
+
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/user&quot;)
+public class UserResource {
+    @GetMapping(produces = &quot;application/x-protobuf&quot;)// 指定response的Content-Type(消息类型)
+    public User getPersonProto() {
+              return User.newBuilder()
+                   .setFirstName(&quot;thoreau&quot;)
+                   .setLastName(&quot;zz&quot;)
+                   .setEmailAddress(&quot;thoreau@gmail.com&quot;)
+                   .setHomeAddress(&quot;123 xxx Street&quot;)
+                   .addHobbies(Hobby.newBuilder().setName(&quot;basketball&quot;).build())
+                   .addHobbies(Hobby.newBuilder().setName(&quot;football&quot;).build())
+                   .addSkills(User.Skill.JAVA)
+                   .addSkills(User.Skill.GOLANG)
+                   .build();
+    }
+}
+</code></pre>
+
+<p>启动服务，访问<code>127.0.0.1:8080/user</code>,可拿到protobuf的二进制消息。</p>
+
+<h3 id="测试">测试</h3>
+
+<pre><code class="language-java">package com.thoreau.protobuf;
+
+import com.googlecode.protobuf.format.JsonFormat;
+import com.thoreau.protobuf.generated.vo.User;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * 2018/3/23 13:55.
+ *
+ * @author zhaozhou
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class ApplicationTest {
+    @LocalServerPort
+    private int port;
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Test
+    public void getUserTest() {
+        ResponseEntity&lt;User&gt; user = restTemplate.getForEntity(&quot;/user&quot;, User.class);
+        // assert
+    }
+
+    @Test
+    public void getUserJson() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(&quot;http://127.0.0.1:&quot; + port + &quot;/user&quot;)
+                .build();
+        Response response = client.newCall(request).execute();
+        InputStream inputStream = null;
+        try {
+            inputStream = response.body().byteStream();
+            JsonFormat jsonFormat = new JsonFormat();
+            User user = User.parseFrom(inputStream);
+            // assert
+            System.out.println(jsonFormat.printToString(user));
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="总结">总结</h2>
+
+<p>对于前后端的通讯，比如js 到Java，是否应该使用protobuf有待商榷。后端服务间rpc等调用，protobuf一定是不错的选择。spring cloud 微服务间调用使用http，就可以像上文spring boot的示例一样使用protobuf通讯和序列化。</p>
+
+<hr />
+
+<p>参考文档：</p>
+
+<p><a href="https://developers.google.com/protocol-buffers/docs/proto3">https://developers.google.com/protocol-buffers/docs/proto3</a><br />
+<a href="https://dzone.com/articles/will-salesforce-kiss-the-mule-or-kill-the-mule">https://dzone.com/articles/will-salesforce-kiss-the-mule-or-kill-the-mule</a><br />
+<a href="https://auth0.com/blog/beating-json-performance-with-protobuf/">https://auth0.com/blog/beating-json-performance-with-protobuf/</a><br />
+<a href="http://www.baeldung.com/spring-rest-api-with-protocol-buffers">http://www.baeldung.com/spring-rest-api-with-protocol-buffers</a><br />
+<a href="http://colobu.com/2017/03/16/Protobuf3-language-guide/">http://colobu.com/2017/03/16/Protobuf3-language-guide/</a><br />
+<a href="https://github.com/eishay/jvm-serializers/wiki">https://github.com/eishay/jvm-serializers/wiki</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#protobuf简介">protobuf简介</a></li>
+<li><a href="#spring-boot-proto-示例">spring-boot-proto 示例</a>
+<ul>
+<li><a href="#spring-boot-使用protobuf">spring boot 使用protobuf</a></li>
+<li><a href="#proto文件">proto文件</a></li>
+<li><a href="#controller">controller</a></li>
+<li><a href="#测试">测试</a></li>
+</ul></li>
+<li><a href="#总结">总结</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=spring-boot%20%e4%bd%bf%e7%94%a8protobuf&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f&amp;description=spring-boot%20%e4%bd%bf%e7%94%a8protobuf"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/03/29/rxjava-1/">
+          <section class="post">
+              <h2>rxjava基础篇</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/03/15/GO-defer/">
+          <section class="post">
+              <h2>GO-defer语句</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

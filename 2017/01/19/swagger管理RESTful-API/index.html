@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="swagger管理RESTful API"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="swagger管理RESTful API &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-01-19T12:39:04Z" />
+
+    
+    <meta property="article:tag" content="RESTful" />
+    
+    
+
+    <title>swagger管理RESTful API &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="swagger管理RESTful API swagger ui是一个API在线文档生成和测试的利器，我们既可以用它来作为API的文档，也可以用来测试API。 一、s" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": swagger管理RESTful API,
+    "name": swagger管理RESTful API,
+    "wordCount": 889,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/,
+    "datePublished": 2017-01-19T12:39Z,
+    "dateModified": 2017-01-19T12:39Z,
+    
+    "keywords": RESTful,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">swagger管理RESTful API</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-01-19T12:39:04Z">
+            2017-01-19
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/RESTful/">RESTful</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="swagger管理restful-api">swagger管理RESTful API</h1>
+
+<p>swagger ui是一个API在线文档生成和测试的利器，我们既可以用它来作为API的文档，也可以用来测试API。</p>
+
+<h2 id="一-spring-boot集成">一、spring-boot集成</h2>
+
+<h3 id="1-1-maven依赖">1.1 maven依赖</h3>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;
+    &lt;version&gt;2.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;
+    &lt;version&gt;2.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-spi&lt;/artifactId&gt;
+    &lt;version&gt;2.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h3 id="1-2-编写配置类">1.2 编写配置类</h3>
+
+<pre><code class="language-java">@Configuration
+@EnableSwagger2
+public class Swagger2Configuration {
+    @Bean
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(&quot;com.erdaoya&quot;))
+                .paths(PathSelectors.any())
+                .build();
+    }
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(&quot; RESTful API &quot;)
+                .description(&quot;详细文档请看wiki&quot;)
+                .contact(&quot;erdaoya&quot;)
+                .version(&quot;1.0&quot;)
+                .build();
+    }
+}
+</code></pre>
+
+<h3 id="1-3-注解实现swagger">1.3 注解实现Swagger</h3>
+
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/user/user&quot;)
+public class UserResource {
+
+    @ApiOperation(value=&quot;创建用户&quot;, notes=&quot;根据User对象创建用户&quot;)
+    @ApiImplicitParam(name = &quot;user&quot;, value = &quot;用户详细实体user&quot;, required = true, dataType = &quot;User&quot;)
+    @RequestMapping(method=RequestMethod.POST)
+    public String doPost(@RequestBody User user) {
+        return &quot;success&quot;;
+    }
+
+    @ApiOperation(value=&quot;获取用户详细信息&quot;, notes=&quot;根据url的id来获取用户详细信息&quot;)
+    @ApiImplicitParam(name = &quot;id&quot;, value = &quot;用户ID&quot;, required = true, dataType = &quot;Long&quot;)
+    @RequestMapping(method=RequestMethod.GET)
+    public User doGet(Long id) {
+        return new User(id,&quot;erdaoya&quot;,&quot;lps&quot;);
+    }
+
+    @ApiOperation(value=&quot;更新用户信息&quot;, notes=&quot;根据url的id来指定更新对象，并根据传过来的user信息来更新用户信息&quot;)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = &quot;id&quot;, value = &quot;用户ID&quot;, required = true, dataType = &quot;Long&quot;),
+            @ApiImplicitParam(name = &quot;user&quot;, value = &quot;用户实体user&quot;, required = true, dataType = &quot;User&quot;)
+    })
+    @RequestMapping(method=RequestMethod.PUT)
+    public String doPut(Long id, @RequestBody User user) {
+        return &quot;success&quot;;
+    }
+
+    @ApiOperation(value=&quot;删除用户&quot;, notes=&quot;根据url的id来指定删除对象&quot;)
+    @ApiImplicitParam(name = &quot;id&quot;, value = &quot;用户ID&quot;, required = true, dataType = &quot;Long&quot;)
+    @RequestMapping( method=RequestMethod.DELETE)
+    public String doDelete(Long id) {
+        return &quot;success&quot;;
+    }
+
+}
+</code></pre>
+
+<h3 id="1-4-访问ui">1.4 访问UI</h3>
+
+<p>浏览器访问：<a href="http://localhost:8081/swagger-ui.html#/">http://localhost:8081/swagger-ui.html#/</a><br />
+<img src="http://static.zybuluo.com/erdaoya/dhbzg4l0ewupedkmhf0ig9az/image_1b216hh4j180k1c2r1l9417fr17b9.png" alt="image_1b216hh4j180k1c2r1l9417fr17b9.png-52.6kB" /></p>
+
+<p>展开<br />
+<img src="http://static.zybuluo.com/erdaoya/s2qy06k5u4787pffuaj32f19/image_1b216nijeq9i1p1p1grej0dsapm.png" alt="image_1b216nijeq9i1p1p1grej0dsapm.png-109.2kB" /></p>
+
+<p>输入参数，点击try it out调试<br />
+<img src="http://static.zybuluo.com/erdaoya/t1brynyj8n9eqicpmawnxqrg/image_1b216qk4dsglfbm1j0m36a1snh13.png" alt="image_1b216qk4dsglfbm1j0m36a1snh13.png-120.6kB" /></p>
+
+<h2 id="二-不依赖代码">二、不依赖代码</h2>
+
+<h3 id="2-1-下载swagger-ui">2.1 下载swagger-ui：</h3>
+
+<pre><code>git clone https://github.com/swagger-api/swagger-ui.git
+</code></pre>
+
+<h3 id="2-2-编译-部署到nginx">2.2 编译，部署到nginx</h3>
+
+<h3 id="2-3-编写yml-或者json文档">2.3 编写yml 或者json文档</h3>
+
+<pre><code>http://editor.swagger.io/
+</code></pre>
+
+<p><img src="http://static.zybuluo.com/erdaoya/ojxnke1qlthzmtdnd997x0o0/image_1b25fl18p29q1tq214qigtfnh89.png" alt="image_1b25fl18p29q1tq214qigtfnh89.png-120.3kB" /></p>
+
+<p>编写完文档后，复制到之前部署的swagger-ui目录下。修改indexh.tml指向json文件，再访问swagger-ui：<br />
+<img src="http://static.zybuluo.com/erdaoya/bi0cylv3jc69xk5z9392oox8/image_1b25g1t5ostl12i61t2m1rbb1jt0m.png" alt="image_1b25g1t5ostl12i61t2m1rbb1jt0m.png-43.5kB" /></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#swagger管理restful-api">swagger管理RESTful API</a>
+<ul>
+<li><a href="#一-spring-boot集成">一、spring-boot集成</a>
+<ul>
+<li><a href="#1-1-maven依赖">1.1 maven依赖</a></li>
+<li><a href="#1-2-编写配置类">1.2 编写配置类</a></li>
+<li><a href="#1-3-注解实现swagger">1.3 注解实现Swagger</a></li>
+<li><a href="#1-4-访问ui">1.4 访问UI</a></li>
+</ul></li>
+<li><a href="#二-不依赖代码">二、不依赖代码</a>
+<ul>
+<li><a href="#2-1-下载swagger-ui">2.1 下载swagger-ui：</a></li>
+<li><a href="#2-2-编译-部署到nginx">2.2 编译，部署到nginx</a></li>
+<li><a href="#2-3-编写yml-或者json文档">2.3 编写yml 或者json文档</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=swagger%e7%ae%a1%e7%90%86RESTful%20API&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f19%2fswagger%25E7%25AE%25A1%25E7%2590%2586RESTful-API%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f19%2fswagger%25E7%25AE%25A1%25E7%2590%2586RESTful-API%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f19%2fswagger%25E7%25AE%25A1%25E7%2590%2586RESTful-API%2f&amp;description=swagger%e7%ae%a1%e7%90%86RESTful%20API"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f01%2f19%2fswagger%25E7%25AE%25A1%25E7%2590%2586RESTful-API%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/06/nginx-install/">
+          <section class="post">
+              <h2>nginx入门之安装</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/01/08/spring-boot-introduction/">
+          <section class="post">
+              <h2>spring-boot 入门</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

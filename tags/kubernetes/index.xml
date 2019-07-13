@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/kubernetes/</link>
+    <description>Recent content in kubernetes on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在mac上安装minikube</title>
+      <link>http://thoreauz.com/2018/11/04/mac-install-minikube/</link>
+      <pubDate>Sun, 04 Nov 2018 01:16:10 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/04/mac-install-minikube/</guid>
+      <description>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测</description>
+    </item>
+    
+    <item>
+      <title>Logstash搜集spring-cloud日志</title>
+      <link>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</link>
+      <pubDate>Tue, 08 Aug 2017 14:23:26 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/08/spring-cloud-logstash/</guid>
+      <description>如果使用sleuth，通过logback按照一定的格式打印日志，即可通过logstash过滤并搜集到es里面存储，继而通过Kibana展示。</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes编译部署DNS</title>
+      <link>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</link>
+      <pubDate>Tue, 18 Apr 2017 17:21:30 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/18/Kubernetes-install-dns/</guid>
+      <description>概述 在前一篇文章Kubernetes部署DNS和Dashboard中，我们使用官方提供的yaml启动相关容器实现DNS。本文通过go编译成可</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes部署DNS和Dashboard</title>
+      <link>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</link>
+      <pubDate>Sun, 16 Apr 2017 18:56:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/</guid>
+      <description>Kubernetes部署DNS和Dashboard 一、部署DNS k8s的github 有很多组件的安装文档，但是，安装需要核对自己的k8s版本</description>
+    </item>
+    
+    <item>
+      <title>kubernetes入门之Deployments</title>
+      <link>http://thoreauz.com/2017/03/21/kubernetes-deployments/</link>
+      <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+    </item>
+    
+    <item>
+      <title>Docker网络方案之Flannel</title>
+      <link>http://thoreauz.com/2017/03/18/docker-network-flannel/</link>
+      <pubDate>Sat, 18 Mar 2017 22:49:13 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/docker-network-flannel/</guid>
+      <description>Docker网络方案之Flannel docker夸主机网络方案可选的很多，有大家说的隧道方案和路由方案，对应的有Flannel，Calico</description>
+    </item>
+    
+    <item>
+      <title>Centos7搭建kubernetes搭建</title>
+      <link>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</link>
+      <pubDate>Sat, 18 Mar 2017 10:41:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/18/kubernetes-install-centos7/</guid>
+      <description>Centos7搭建kubernetes搭建 本文介绍在两台Centos7上安装kubernetes集群，一台作为master，2台作为node</description>
+    </item>
+    
+  </channel>
+</rss>

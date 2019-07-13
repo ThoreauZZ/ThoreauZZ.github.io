@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="spring cloud 微服务组件"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="spring cloud 微服务组件 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/12/spring-cloud-netflix/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-12T18:11:58Z" />
+
+    
+    <meta property="article:tag" content="spring" />
+    
+    <meta property="article:tag" content="微服务" />
+    
+    <meta property="article:tag" content="spring cloud" />
+    
+    
+
+    <title>spring cloud 微服务组件 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="spring cloud 微服务组件 简介 spring cloud 为开发人员提供了快速构建分布式系统的一些通用组件。这些组件实现的功能比如有：服务注册中心，配置中心，服务网关，服务跟踪" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/12/spring-cloud-netflix/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": spring cloud 微服务组件,
+    "name": spring cloud 微服务组件,
+    "wordCount": 1442,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/12/spring-cloud-netflix/,
+    "datePublished": 2017-02-12T18:11Z,
+    "dateModified": 2017-02-12T18:11Z,
+    
+    "keywords": spring, 微服务, spring cloud,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/12/spring-cloud-netflix/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">spring cloud 微服务组件</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-12T18:11:58Z">
+            2017-02-12
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-cloud/">spring cloud</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="spring-cloud-微服务组件">spring cloud 微服务组件</h1>
+
+<p><strong>简介</strong></p>
+
+<p>spring cloud 为开发人员提供了快速构建分布式系统的一些通用组件。这些组件实现的功能比如有：服务注册中心，配置中心，服务网关，服务跟踪，负载均衡，断路器，消息总线，数据量，批量任务等。</p>
+
+<p>服务调用方式采用REST API，相对来说，dubbo RPC对服务提供方接口依赖太强。使用http REST API，整个微服务系统不再必须依赖java平台，任何一种实现提供rest风格的实现都可能成为微服务的成员。</p>
+
+<p><strong>spring cloud 的组件</strong><br />
+* Spring Cloud Config<br />
+* Spring Cloud Netflix：Eureka,Zuul, Ribbon, Feign, Hystrix<br />
+* Spring Cloud Bus<br />
+* Spring Cloud Consul<br />
+* Spring Cloud Sleuth<br />
+* Spring Cloud Data Flow<br />
+* Spring Cloud Stream<br />
+* Spring Cloud Task<br />
+* Spring Cloud Zookeeper<br />
+* Spring Cloud Connectors<br />
+* Spring Cloud Starters<br />
+* Spring Cloud CLI</p>
+
+<h2 id="一-服务发现">一、服务发现</h2>
+
+<p>spring cloud 提供了三个服务发现的封装：consul，eureka，zookeeper。这里选择Netflix提供的服务发现Eureka</p>
+
+<p>Eureka，服务注册和发现，它提供了一个服务注册中心、服务发现的客户端，还有一个方便的查看所有注册服务的界面。</p>
+
+<p>所有的服务使用Eureka的服务发现客户端来将自己注册到Eureka的服务器上。</p>
+
+<p><img src="http://thoreauz.com/images/eurekaBasicArchitecture.png" alt="" /></p>
+
+<p>图1：角色解释：</p>
+
+<ul>
+<li>Eureka Server：提供服务注册和发现<br /></li>
+<li>Service Provider：服务提供方，将自身服务注册到Eureka。服务注册、服务续约、服务下线。<br /></li>
+<li>Service Consumer：服务消费方，从Eureka获取注册服务列表，从而能够消费服务。<br />
+<br /></li>
+</ul>
+
+<p>高可用配置：<br />
+注册中心单机，如果挂了，将导致整个服务不可用。生产环境不可能只有一个实例。 下图为官网给出的高可用集群架构图。</p>
+
+<p><img src="http://thoreauz.com/images/eureka_architecture.png" alt="" /></p>
+
+<p>它的集群实现很简单，就是相互注册，同步信息。</p>
+
+<h2 id="二-配置中心">二、 配置中心</h2>
+
+<p>Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所有环境中应用程序的外部属性。</p>
+
+<p><img src="http://thoreauz.com/images/config01.png" alt="" /><br><br />
+流程：</p>
+
+<ol>
+<li>服务启动时从本地配置获取config server的地址，或者通过注册中心获取config server地址。<br /></li>
+<li>调用config提供的接口获取配置<br /></li>
+<li>如果git仓库有修改，<code>POST</code>请求config server的<code>/bus/refresh</code>接口,config通过消息总线通知服务节点<br /></li>
+<li>服务节点接到通知后，重新到config获取新配置。<br />
+<br /></li>
+</ol>
+
+<blockquote>
+<p>说明：</p>
+
+<ol>
+<li>第3点提到的<code>POST</code>请求可以通过git的hook功能实现。<br /></li>
+<li>为实现高可用，config server集群注册到Eureka等注册中心。<br /></li>
+<li>更新配置可以具体到某一个服务。<br /></li>
+</ol>
+</blockquote>
+
+<h2 id="三-http负载均衡客户端">三、HTTP负载均衡客户端</h2>
+
+<p>如果java请求http，一般使用httpclient直接请求特点的URL路径。netflix提供了两个http服务站均衡客户端：Ribbon和Feign</p>
+
+<p>服务注册到注册中心之后，同一个服务的ID是相同的，Ribbon只需要从注册中心获取服务ID，即可访问，并代理RestTemplate实现负载均衡。Feign声明式客户端，使得访问远程服务可以像调用本地方法一样，有点想dubbo的使用方式。</p>
+
+<h2 id="四-断路器">四、断路器</h2>
+
+<p>在微服务中，一个请求进来可能需要调用多个服务，如果其中一个服务出现故障，比如超时堵塞。导致其他请求进来也堵塞从而导致线程耗尽等情况。一个服务不可能用导致整个服务不可用，Hystrix为解决这个问题。<br />
+断路器(Cricuit Breaker):<br />
+1. 服务不可用自动断开（快速失败）：如果对某服务调用错误次数达到一个值，后续服务都会快速失败，有点像保险丝。<br />
+2. 服务可用时自动恢复：熔断并没有完全断，还会允许少量请求，以判断服务状态是否允许恢复。<br />
+3. 资源隔离：对依赖服务调用会在单独的线程池中进行。<br />
+4. 监控：Dashboard 提供成功率、平时响应时间、调用频次、断路器状态等监控。</p>
+
+<p>其他组件待续</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#spring-cloud-微服务组件">spring cloud 微服务组件</a>
+<ul>
+<li><a href="#一-服务发现">一、服务发现</a></li>
+<li><a href="#二-配置中心">二、 配置中心</a></li>
+<li><a href="#三-http负载均衡客户端">三、HTTP负载均衡客户端</a></li>
+<li><a href="#四-断路器">四、断路器</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=spring%20cloud%20%e5%be%ae%e6%9c%8d%e5%8a%a1%e7%bb%84%e4%bb%b6&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-netflix%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-netflix%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-netflix%2f&amp;description=spring%20cloud%20%e5%be%ae%e6%9c%8d%e5%8a%a1%e7%bb%84%e4%bb%b6"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-netflix%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/12/spring-cloud-eureka/">
+          <section class="post">
+              <h2>Spring Cloud 微服务注册中心(Eureka)</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/12/docker-network-compose/">
+          <section class="post">
+              <h2>Compose配置文件介绍</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

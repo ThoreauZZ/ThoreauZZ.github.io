@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Go语言7-日志"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Go语言7-日志 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/11/11/go-learn-7-json/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-11-11T23:28:21Z" />
+
+    
+    <meta property="article:tag" content="go学习" />
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>Go语言7-日志 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="日志是程序开发很重要的一部分，在java中，有一大堆第三方包，以至于各种冲突各种排除。本文看看go如何记录日志。 使用 go 自带log包，简单使用" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/11/11/go-learn-7-json/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Go语言7-日志,
+    "name": Go语言7-日志,
+    "wordCount": 582,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/11/11/go-learn-7-json/,
+    "datePublished": 2017-11-11T23:28Z,
+    "dateModified": 2017-11-11T23:28Z,
+    
+    "keywords": go学习, go,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/11/11/go-learn-7-json/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Go语言7-日志</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-11-11T23:28:21Z">
+            2017-11-11
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>日志是程序开发很重要的一部分，在java中，有一大堆第三方包，以至于各种冲突各种排除。本文看看go如何记录日志。</p>
+
+<!-- more -->
+
+<h2 id="使用">使用</h2>
+
+<p>go 自带log包，简单使用如下：</p>
+
+<pre><code class="language-go">package main
+import &quot;log&quot;
+func main()  {
+	// Println 写到标准日志记录器
+	log.Println(&quot;first log msg&quot;)
+}
+</code></pre>
+
+<blockquote>
+<p>2017/11/11 21:43:27 first log msg</p>
+</blockquote>
+
+<pre><code class="language-go">log.Fatal(&quot;fatal log&quot;)
+log.Panicln(&quot;panic message&quot;)
+</code></pre>
+
+<p>如果使用fatal，输出日志后会调用 <code>os.Exit(1)</code>。Panichln会写标准日志后调用<code>panic()</code>。</p>
+
+<p>如果默认使用log，输出msg前是：<code>2017/11/11 21:43:27</code>日期和时间。也可以在init方法中配置输出：</p>
+
+<pre><code class="language-go">package main
+import &quot;log&quot;
+func init() {
+	log.SetPrefix(&quot;[DEBUG] &quot;)
+	log.SetFlags( log.Ldate|log.Lmicroseconds|log.Llongfile)
+}
+func main()  {
+	log.Println(&quot;first log msg&quot;)
+}
+</code></pre>
+
+<blockquote>
+<p>[DEBUG] 2017/11/11 21:50:40.706129 /Users/thoreau/Documents/go_workspace/src/hello/log.go:14: first log msg</p>
+</blockquote>
+
+<p><code>init()</code>会在main之前，作为程序初始化的一部分。log包中常量如下：</p>
+
+<pre><code class="language-go">const (
+	Ldate        = 1 &lt;&lt; iota
+	Ltime                       
+	Lmicroseconds              
+	Llongfile                
+	Lshortfile                    
+	LUTC                       
+	LstdFlags     = Ldate | Ltime
+)
+</code></pre>
+
+<p>iota 的  始 为 0,之后 iota 的 在每次处理为常量后,都会自 1。常量 LstdFlags 展示了如何使用这些标志。log包有一个很方便的地方就是,这些日志记录器是多 goroutine 安全的。</p>
+
+<h2 id="定制日志计量器">定制日志计量器</h2>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;log&quot;
+	&quot;os&quot;
+	&quot;io/ioutil&quot;
+	&quot;io&quot;
+)
+var (
+	Trace *log.Logger
+	Info  *log.Logger
+	Warn  *log.Logger
+	Error *log.Logger
+)
+
+func init() {
+	logfile, err := os.OpenFile(&quot;application_error.log&quot;,
+		os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalln(&quot;Failed to open error log file:&quot;, err)
+	}
+	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Llongfile)
+	Trace = log.New(ioutil.Discard, &quot;TRACE: &quot;, log.Ldate|log.Ltime|log.Llongfile)
+	Info = log.New(os.Stdout, &quot;INFO: &quot;, log.Ldate|log.Ltime|log.Llongfile)
+	Warn = log.New(os.Stdout, &quot;WARN: &quot;, log.Ldate|log.Ltime|log.Llongfile)
+	Error = log.New(io.MultiWriter(logfile, os.Stderr), &quot;ERROR: &quot;, log.Ldate|log.Ltime|log.Llongfile)
+}
+func main() {
+	Trace.Println(&quot;trace msg&quot;)
+	Info.Println(&quot;info msg&quot;)
+	Warn.Println(&quot;warn msg&quot;)
+	Error.Println(&quot;error msg&quot;)
+}
+</code></pre>
+
+<p>使用log的new函数，初始化出一个Logger类型的值：</p>
+
+<pre><code class="language-go">func New(out io.Writer, prefix string, flag int) *Logger {
+return &amp;Logger{out: out, prefix: prefix, flag: flag} }
+</code></pre>
+
+<p>有丢弃的，有标准输出的，有输入到文件的，根据Writer实现。</p>
+
+<p>这样，我们就实现了类似java中log.info()的日志记录方式。</p>
+
+<hr />
+
+<p>参考：<br />
+[1]. 《Go语言实战》</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#使用">使用</a></li>
+<li><a href="#定制日志计量器">定制日志计量器</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Go%e8%af%ad%e8%a8%807-%e6%97%a5%e5%bf%97&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-7-json%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-7-json%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-7-json%2f&amp;description=Go%e8%af%ad%e8%a8%807-%e6%97%a5%e5%bf%97"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-7-json%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/11/11/go-learn-9-test/">
+          <section class="post">
+              <h2>Go语言9-测试和性能</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/11/09/iptables/">
+          <section class="post">
+              <h2>理解iptables</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

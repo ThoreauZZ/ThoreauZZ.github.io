@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="JAVA常用测试框架"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="JAVA常用测试框架 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/07/20/JAVA-test-tool/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-07-20T00:28:46Z" />
+
+    
+    <meta property="article:tag" content="test" />
+    
+    
+
+    <title>JAVA常用测试框架 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="要做好测试驱动开发，意识习惯最重要，其次也得回编写优雅的单元测试。java测试框架很多，各种断言和注解，有点混乱，编写测试时老师搞不清该用哪" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/07/20/JAVA-test-tool/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": JAVA常用测试框架,
+    "name": JAVA常用测试框架,
+    "wordCount": 1078,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/07/20/JAVA-test-tool/,
+    "datePublished": 2017-07-20T00:28Z,
+    "dateModified": 2017-07-20T00:28Z,
+    
+    "keywords": test,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/07/20/JAVA-test-tool/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">JAVA常用测试框架</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-07-20T00:28:46Z">
+            2017-07-20
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/test/">test</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>要做好测试驱动开发，意识习惯最重要，其次也得回编写优雅的单元测试。java测试框架很多，各种断言和注解，有点混乱，编写测试时老师搞不清该用哪个。</p>
+
+<p>本文简单梳理java常用的几个测试工具：Junit，AssertJ，hamcrest，Mockito，JSONassert。</p>
+
+<!-- more -->
+
+<h2 id="一-junit">一、Junit</h2>
+
+<p>Junit可以说是java测试的标准，谁都知道，经常用，或者在其他框架下使用。但一般只用到几个注解(@Test,@Before,@After)和断言。</p>
+
+<h3 id="api">API</h3>
+
+<p>Assert:  断言的方法集合<br />
+TestCase：运行多重测试的固定装置<br />
+TestResult: 执行测试样例的结果<br />
+TestSuite: 测试集合</p>
+
+<h3 id="注解">注解</h3>
+
+<ul>
+<li>@Test：测试方法标志<br /></li>
+<li>@RunWith:  套件测试<br />
+<code>java
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+TestJunit1.class,
+TestJunit2.class
+})
+public class JunitTestSuite {   
+} 
+</code><br /></li>
+<li>@Ignore: 忽略测试<br /></li>
+<li>@test(timeout): 测试用例执行时间超时失败<br /></li>
+<li>@Test(expected = xxException.class):异常断言<br /></li>
+<li>@Parameters: 测试数据集合<br /></li>
+<li>@Rule：有点像拦截器，可以自己定义。<br /></li>
+<li>@DisplayName: 测试用例名字(junit 5)<br />
+<br /></li>
+</ul>
+
+<h3 id="断言">断言</h3>
+
+<ol>
+<li>assertEquals<br /></li>
+<li>assertSame<br /></li>
+<li>assertTrue<br /></li>
+<li>assertNull<br />
+还有些其他扩展用法和注解，其不一一。<br />
+<br /></li>
+</ol>
+
+<h2 id="二-assertj">二、AssertJ</h2>
+
+<p>java流式断言库。</p>
+
+<pre><code class="language-java">@Test
+    public void assartJTest() {
+        assertThat(&quot;Frodo&quot;).isEqualTo(&quot;Frodo&quot;).isEqualToIgnoringCase(&quot;frodo&quot;);
+        assertThat(42).isGreaterThan(38).isGreaterThanOrEqualTo(38);
+        assertThat(Dates.parse(&quot;2014-02-01&quot;))
+                .isEqualTo(&quot;2014-02-01&quot;)
+                .isNotEqualTo(&quot;2014-01-01&quot;)
+                .isAfter(&quot;2014-01-01&quot;).isBefore(Dates.parse(&quot;2014-03-01&quot;));
+        assertThat(newArrayList(1, 2, 3))
+                .contains(1, atIndex(0))
+                .contains(2, atIndex(1))
+                .contains(3).isSorted();
+        assertThat(RequestMapping.class).isAnnotation();
+        assertThat(&quot;string&quot;).isInstanceOf(String.class);
+    }
+</code></pre>
+
+<p>从以上示例可知，它可以对java基本数据结构、List、Map、Class进行流式断言。</p>
+
+<h2 id="三-hamcrest">三、 Hamcrest</h2>
+
+<p>Hamcrest 是一个测试的框架，它提供了一套通用的匹配符 Matcher，灵活使用这些匹配符定义的规则，程序员可以更加精确的表达自己的测试思想，指定所想设定的测试条件。<br />
+都通过<code>assertThat</code>灵活匹配各种类型数据，下面是一些基本示例。</p>
+
+<pre><code class="language-java">@Test
+    public void sampleTest() {
+        int a = 12;
+        assertThat(a, is(12));
+        assertThat(a, not(11));
+        assertThat(a, greaterThan(1));
+
+        String str = &quot;Hello World&quot;;
+        assertThat(str,containsString(&quot;Hello&quot;));
+        assertThat(str,equalToIgnoringCase(&quot;hello world&quot;));
+
+        List&lt;String&gt; stringList = new ArrayList&lt;&gt;();
+        stringList.add(&quot;e1&quot;);
+        stringList.add(&quot;e2&quot;);
+        assertThat(stringList, hasItem(&quot;e1&quot;));
+        assertThat(stringList, anything());
+    }
+</code></pre>
+
+<p>Hamcrest自带了很多匹配器，如果不能满足，还可以自定义。</p>
+
+<h2 id="四-mockito">四、Mockito </h2>
+
+<p>上面列出的框架主要是断言，从名字知道，Mockito 是一个mock工具，用于模拟各种对象和组件，使单元测试更加独立。</p>
+
+<p>Mockito可以模拟对象，模拟函数返回值，模拟void类型的异常，验证函数执行次数和顺序，对参数进行匹配和捕获。</p>
+
+<pre><code class="language-java">@Test
+    public void mockSample(){
+        ArrayList mockList = mock(ArrayList.class);
+        //stubbing
+        when(mockList.get(0)).thenReturn(&quot;first&quot;).thenReturn(&quot;second&quot;);
+        assertThat(mockList.get(0)).isEqualTo(&quot;first&quot;);
+        assertThat(mockList.get(0)).isEqualTo(&quot;second&quot;);
+
+        when(mockList.get(anyInt())).thenReturn(&quot;element&quot;);
+        assertThat(mockList.get(0)).isEqualTo(&quot;element&quot;);
+        mockList.add(&quot;third&quot;);
+        mockList.clear();
+        mockList.clear();
+
+        //veryfy 执行次数
+        verify(mockList,times(1)).add(&quot;third&quot;);
+        verify(mockList,times(2)).clear();
+        verify(mockList,atLeastOnce()).clear();
+
+        doThrow(new RuntimeException()).when(mockList).clear();
+    }
+</code></pre>
+
+<p>mockito 功能很多很强大，其不一一，后面又时间再补充或专门总结。还有很多实用的注解。</p>
+
+<h2 id="五-jsonassert">五、JSONassert</h2>
+
+<p>除了协议层的Json格式，好多地方都用到json作为数据传递格式，JSONassert是一个专门用于json断言的工具。</p>
+
+<p>语法：</p>
+
+<pre><code class="language-java">JSONAssert.assertEquals(expectedJSON, actualJSON, strictMode);
+</code></pre>
+
+<p>示例</p>
+
+<pre><code class="language-java"> @Test
+    public void test() throws Exception {
+        //get json from server
+        //language=JSON
+        String jsonStr =&quot;{\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;thoreau\&quot;}&quot;;
+        JSONAssert.assertEquals(&quot;{id:1}&quot;, jsonStr, false);
+//        JSONAssert.assertEquals(&quot;{id:1}&quot;, jsonStr, true);//fail
+        JSONAssert.assertEquals(&quot;{id:1,name:thoreau}&quot;, jsonStr, true);
+    }
+</code></pre>
+
+<p>结果JsonPath多读取匹配验证如：</p>
+
+<pre><code class="language-java">String jsonStr =&quot;{\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;thoreau\&quot;,\&quot;hobbies\&quot;:[\&quot;writing\&quot;,\&quot;music\&quot;,\&quot;tennis\&quot;]}&quot;;
+String hobby = JsonPath.parse(jsonStr).read(&quot;$.hobbies[2]&quot;);
+assertThat(hobby).isEqualTo(&quot;tennis&quot;);
+</code></pre>
+
+<p>java测试框架何其多，但这几个是比较常用、强大且优雅的，因此也都集成到spring-test。如果使用spring，添加spring-test的依赖，所有这些jar包都不需要引入了。</p>
+
+<p> </p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#一-junit">一、Junit</a>
+<ul>
+<li><a href="#api">API</a></li>
+<li><a href="#注解">注解</a></li>
+<li><a href="#断言">断言</a></li>
+</ul></li>
+<li><a href="#二-assertj">二、AssertJ</a></li>
+<li><a href="#三-hamcrest">三、 Hamcrest</a></li>
+<li><a href="#四-mockito">四、Mockito </a></li>
+<li><a href="#五-jsonassert">五、JSONassert</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=JAVA%e5%b8%b8%e7%94%a8%e6%b5%8b%e8%af%95%e6%a1%86%e6%9e%b6&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fJAVA-test-tool%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fJAVA-test-tool%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fJAVA-test-tool%2f&amp;description=JAVA%e5%b8%b8%e7%94%a8%e6%b5%8b%e8%af%95%e6%a1%86%e6%9e%b6"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fJAVA-test-tool%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/07/20/java-test-WireMock/">
+          <section class="post">
+              <h2>WireMock进行集成测试</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/05/05/Jenkins-1/">
+          <section class="post">
+              <h2>Jenkins自动化集成/部署</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

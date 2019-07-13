@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>node on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/node/</link>
+    <description>Recent content in node on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Tue, 15 Aug 2017 11:34:56 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/node/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>前端模板swig</title>
+      <link>http://thoreauz.com/2017/08/15/swig/</link>
+      <pubDate>Tue, 15 Aug 2017 11:34:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/15/swig/</guid>
+      <description>概述 前后端没有分离的时候，有的套模板的工作还是由后端做，因为后端方便拿数据，比如使用freemarker。如果让前端去做，还得自己搭建后端环</description>
+    </item>
+    
+  </channel>
+</rss>

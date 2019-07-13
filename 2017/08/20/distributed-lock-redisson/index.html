@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="分布式锁和Redisson实现"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="分布式锁和Redisson实现 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/20/distributed-lock-redisson/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-20T05:53:38Z" />
+
+    
+    <meta property="article:tag" content="并发" />
+    
+    
+
+    <title>分布式锁和Redisson实现 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availabilit" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/20/distributed-lock-redisson/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 分布式锁和Redisson实现,
+    "name": 分布式锁和Redisson实现,
+    "wordCount": 2314,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/08/20/distributed-lock-redisson/,
+    "datePublished": 2017-08-20T05:53Z,
+    "dateModified": 2017-08-20T05:53Z,
+    
+    "keywords": 并发,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/08/20/distributed-lock-redisson/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">分布式锁和Redisson实现</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-20T05:53:38Z">
+            2017-08-20
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/">并发</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三项中的两项。所以在设计系统时，往往需要权衡，在CAP中作选择。当然，这个理论也并不一定完美，不同系统对CAP的要求级别不一样，选择需要考虑方方面面。</p>
+
+<p>在微服务系统中，一个请求存在多级跨服务调用，往往需要牺牲强一致性老保证系统高可用，比如通过分布式事务，异步消息等手段完成。但还是有的场景，需要阻塞所有节点的所有线程，对共享资源的访问。比如并发时“超卖”和“余额减为负数”等情况。</p>
+
+<p>本地锁可以通过语言本身支持，要实现分布式锁，就必须依赖中间件，数据库、redis、zookeeper等。</p>
+
+<!-- more -->
+
+<h2 id="分布式锁特性">分布式锁特性</h2>
+
+<p>不管使用什么中间件，有几点是实现分布式锁必须要考虑到的。<br />
+1. <strong>互斥</strong>：互斥好像是必须的，否则怎么叫锁。<br />
+2. <strong>死锁</strong>: 如果一个线程获得锁，然后挂了，并没有释放锁，致使其他节点(线程)永远无法获取锁，这就是死锁。分布式锁必须做到避免死锁。<br />
+3. <strong>性能</strong>: 高并发分布式系统中，线程互斥等待会成为性能瓶颈，需要好的中间件和实现来保证性能。<br />
+4. <strong>锁特性</strong>：考虑到复杂的场景，分布式锁不能只是加锁，然后一直等待。最好实现如Java Lock的一些功能如：锁判断，超时设置，可重入性等。</p>
+
+<h2 id="redis实现之redisson原理">Redis实现之Redisson原理</h2>
+
+<p>redission实现了JDK中的Lock接口，所以使用方式一样，只是Redssion的锁是分布式的。如下：</p>
+
+<pre><code class="language-java">RLock lock = redisson.getLock(&quot;className&quot;); 
+lock.lock(); 
+try {
+    // do sth.
+} finally {
+    lock.unlock(); 
+}
+</code></pre>
+
+<p>好，Lock主要实现是RedissionLock。<br />
+<img src="http://thoreauz.com/images/2017-08-19-16-44-27.jpg" alt="" /></p>
+
+<p>先来看常用的Lock方法实现。</p>
+
+<pre><code class="language-java">@Override
+public void lock() {
+    try {
+        lockInterruptibly();
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+    }
+}
+@Override
+public void lockInterruptibly() throws InterruptedException {
+    lockInterruptibly(-1, null);
+}
+</code></pre>
+
+<p>再看<code>lockInterruptibly</code>方法：</p>
+
+<pre><code class="language-java">@Override
+public void lockInterruptibly(long leaseTime, TimeUnit unit) throws InterruptedException {
+    long threadId = Thread.currentThread().getId();
+    // 获取锁
+    Long ttl = tryAcquire(leaseTime, unit, threadId);
+    if (ttl == null) { // 获取成功
+        return;
+    }
+
+    // 异步订阅redis chennel
+    RFuture&lt;RedissonLockEntry&gt; future = subscribe(threadId);
+    commandExecutor.syncSubscription(future); // 阻塞获取订阅结果
+
+    try {
+        while (true) {// 循环判断知道获取锁
+            ttl = tryAcquire(leaseTime, unit, threadId);
+            // lock acquired
+            if (ttl == null) {
+                break;
+            }
+
+            // waiting for message
+            if (ttl &gt;= 0) {
+                getEntry(threadId).getLatch().tryAcquire(ttl, TimeUnit.MILLISECONDS);
+            } else {
+                getEntry(threadId).getLatch().acquire();
+            }
+        }
+    } finally {
+        unsubscribe(future, threadId);// 取消订阅
+    }
+}
+</code></pre>
+
+<p>总结<code>lockInterruptibly</code>：获取锁，不成功则订阅释放锁的消息，获得消息前阻塞。得到释放通知后再去循环获取锁。</p>
+
+<p>下面重点看看如何获取锁：Long ttl = tryAcquire(leaseTime, unit, threadId)</p>
+
+<pre><code class="language-java"> private Long tryAcquire(long leaseTime, TimeUnit unit, long threadId) {
+    return get(tryAcquireAsync(leaseTime, unit, threadId));// 通过异步获取锁，但get(future)实现同步
+}
+</code></pre>
+
+<pre><code class="language-java">private &lt;T&gt; RFuture&lt;Long&gt; tryAcquireAsync(long leaseTime, TimeUnit unit, final long threadId) {
+    if (leaseTime != -1) { //1 如果设置了超时时间，直接调用 tryLockInnerAsync
+        return tryLockInnerAsync(leaseTime, unit, threadId, RedisCommands.EVAL_LONG);
+    }
+    //2 如果leaseTime==-1，则默认超时时间为30s
+    RFuture&lt;Long&gt; ttlRemainingFuture = tryLockInnerAsync(LOCK_EXPIRATION_INTERVAL_SECONDS, TimeUnit.SECONDS, threadId, RedisCommands.EVAL_LONG);
+    //3 监听Future，获取Future返回值ttlRemaining(剩余超时时间)，获取锁成功，但是ttlRemaining，则刷新过期时间
+    ttlRemainingFuture.addListener(new FutureListener&lt;Long&gt;() {
+        @Override
+        public void operationComplete(Future&lt;Long&gt; future) throws Exception {
+            if (!future.isSuccess()) {
+                return;
+            }
+
+            Long ttlRemaining = future.getNow();
+            // lock acquired
+            if (ttlRemaining == null) {
+                scheduleExpirationRenewal(threadId);
+            }
+        }
+    });
+    return ttlRemainingFuture;
+}
+</code></pre>
+
+<p>已经在注释中解释了，需要注意的是，此处用到了Netty的Future-listen模型，可以看看我的另一篇对Future的简单讲解：<a href="http://thoreauz.com/2017/08/20/language/java/%E5%9F%BA%E7%A1%80/%E7%BB%99Future%E4%B8%80%E4%B8%AAPromise/">给Future一个Promise</a>。</p>
+
+<p>下面就是最重要的redis获取锁的方法<code>tryLockInnerAsync</code>:</p>
+
+<pre><code class="language-java">&lt;T&gt; RFuture&lt;T&gt; tryLockInnerAsync(long leaseTime, TimeUnit unit, long threadId, RedisStrictCommand&lt;T&gt; command) {
+    internalLockLeaseTime = unit.toMillis(leaseTime);
+    return commandExecutor.evalWriteAsync(
+        getName(), 
+        LongCodec.INSTANCE, 
+        command,
+          &quot;if (redis.call('exists', KEYS[1]) == 0) then &quot; +
+              &quot;redis.call('hset', KEYS[1], ARGV[2], 1); &quot; +
+              &quot;redis.call('pexpire', KEYS[1], ARGV[1]); &quot; +
+              &quot;return nil; &quot; +
+          &quot;end; &quot; +
+          &quot;if (redis.call('hexists', KEYS[1], ARGV[2]) == 1) then &quot; +
+              &quot;redis.call('hincrby', KEYS[1], ARGV[2], 1); &quot; +
+              &quot;redis.call('pexpire', KEYS[1], ARGV[1]); &quot; +
+              &quot;return nil; &quot; +
+          &quot;end; &quot; +
+          &quot;return redis.call('pttl', KEYS[1]);&quot;,
+        Collections.&lt;Object&gt;singletonList(getName()), internalLockLeaseTime, getLockName(threadId));
+}
+</code></pre>
+
+<p>这个方法主要就是调用redis执行<a href="https://redis.io/commands/eval">eval lua</a>，为什么使用eval，因为redis对lua脚本执行具有原子性。把这个方法翻译一下：</p>
+
+<pre><code class="language-lua">-- 1.  没被锁{key不存在}
+eval &quot;return redis.call('exists', KEYS[1])&quot; 1 myLock
+-- (1) 设置Lock为key，uuid:threadId为filed, filed值为1
+eval &quot;return redis.call('hset', KEYS[1], ARGV[2], 1)&quot; 1 myLock 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- (2) 设置key过期时间{防止获取锁后线程挂掉导致死锁}
+eval &quot;return redis.call('pexpire', KEYS[1], ARGV[1])&quot; 1 myLock 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+
+-- 2. 已经被同线程获得锁{key存在并且field存在}
+eval &quot;return redis.call('hexists', KEYS[1], ARGV[2])&quot; 1 myLock 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- (1) 可重入，但filed字段+1
+eval &quot;return redis.call('hincrby', KEYS[1], ARGV[2],1)&quot; 1 myLock 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- (2) 刷新过去时间
+eval &quot;return redis.call('pexpire', KEYS[1], ARGV[1])&quot; 1 myLock 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+
+-- 3. 已经被其他线程锁住{key存在，但是field不存在}：以毫秒为单位返回 key 的剩余超时时间
+eval &quot;return redis.call('pttl', KEYS[1])&quot; 1 myLock
+</code></pre>
+
+<p>这就是核心获取锁的方式，下面直接释放锁方法<code>unlockInnerAsync</code>：</p>
+
+<pre><code class="language-lua">-- 1. key不存在
+eval &quot;return redis.call('exists', KEYS[1])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- (1) 发送释放锁的消息，返回1，释放成功
+eval &quot;return redis.call('publish', KEYS[2], ARGV[1])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+
+-- 2. key存在，但field不存在，说明自己不是锁持有者，无权释放，直接return nil
+eval &quot;return redis.call('hexists', KEYS[1], ARGV[3])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+eval &quot;return nil&quot;
+
+-- 3. filed存在，说明是本线程在锁，但有可能其他地方重入锁，不能直接释放，应该-1
+eval &quot;return redis.call('hincrby', KEYS[1], ARGV[3]，-1)&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+
+-- 4. 如果减1后大于0，说明还有其他重入锁，刷新过期时间,返回0。
+eval &quot;return redis.call('pexpire', KEYS[1], ARGV[2])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+
+-- 5. 如果不大于0，说明最后一把锁，需要释放
+-- 删除key
+eval &quot;return redis.call('del', KEYS[1])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- 发释放消息
+eval &quot;return redis.call('publish', KEYS[2], ARGV[1])&quot; 2 myLock redisson_lock__channel_lock 0 3000 3d7b5418-a86d-48c5-ae15-7fe13ef0034c:110
+-- 返回1，释放成功
+</code></pre>
+
+<p>从释放锁代码中看到，删除key后会发送消息，所以上文提到获取锁失败后，阻塞订阅此消息。</p>
+
+<p>另外，上文提到刷新过期时间方法<code>scheduleExpirationRenewal</code>，指线程获取锁后需要不断刷新失效时间，避免未执行完锁就失效。这个方法的实现原理也类似，只是使用了Netty的TimerTask，每到过期时间1/3就去重新刷一次，如果key不存在则停止刷新。Timer实现大概如下：</p>
+
+<pre><code class="language-java">private static void nettyTimer() {
+    final int expireTime = 6;
+    EventExecutorGroup group = new DefaultEventExecutorGroup(1);
+    final Timer timer = new HashedWheelTimer();
+    timer.newTimeout(timerTask -&gt; {
+        Future&lt;Boolean&gt; future = group.submit(() -&gt; {
+            System.out.println(&quot;刷新key的失效时间为&quot;+expireTime +&quot;秒&quot;);
+            return false;// 但key不存在时，返回true
+        });
+        future.addListener(future1 -&gt; {
+            if (!future.getNow()) {
+                nettyTimer();
+            }
+        });
+    }, expireTime/3, TimeUnit.SECONDS);
+}
+</code></pre>
+
+<hr />
+
+<p>参考列表：<br />
+* <a href="https://mp.weixin.qq.com/s?src=3&amp;timestamp=1503125472&amp;ver=1&amp;signature=xqjBIqXRrTSrhO9bVfPMKw*Gg90a6ZTGaG2SA1uH4jONDItU7r1P9K6CaeV56t9GCC5jkjL3Z7ZetOj1sOHMPAt5aOjS*7wCjjwyg2K7Ve9awDBdmyxko5GRCKE*pDWJ6YfqQCu4sCkQ7VbGJWnrKCOdEMQhUh-P4klm627oYUg=">一分钟实现分布式锁</a><br />
+* <a href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#分布式锁特性">分布式锁特性</a></li>
+<li><a href="#redis实现之redisson原理">Redis实现之Redisson原理</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81%e5%92%8cRedisson%e5%ae%9e%e7%8e%b0&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f20%2fdistributed-lock-redisson%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f20%2fdistributed-lock-redisson%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f20%2fdistributed-lock-redisson%2f&amp;description=%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81%e5%92%8cRedisson%e5%ae%9e%e7%8e%b0"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f20%2fdistributed-lock-redisson%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/23/netty-in-action-start/">
+          <section class="post">
+              <h2>Netty实战-起步</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/20/future-promise/">
+          <section class="post">
+              <h2>给Future一个Promise</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

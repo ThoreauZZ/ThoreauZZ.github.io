@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MQ on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/MQ/</link>
+    <description>Recent content in MQ on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Thu, 10 Aug 2017 22:50:21 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/MQ/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>消息队列</title>
+      <link>http://thoreauz.com/2017/08/10/mq/</link>
+      <pubDate>Thu, 10 Aug 2017 22:50:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/mq/</guid>
+      <description>消息队列 一、概述 现在的后端系统几乎离不开3类基本中间件：数据库，nosql缓存，消息队列（MQ）。为什么需要MQ，主要有以下几个场景：异步处</description>
+    </item>
+    
+  </channel>
+</rss>

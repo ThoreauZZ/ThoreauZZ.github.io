@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Spring Cloud 微服务配置中心(cloud config)"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Spring Cloud 微服务配置中心(cloud config) &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/12/spring-cloud-config/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-12T20:12:00Z" />
+
+    
+    <meta property="article:tag" content="spring" />
+    
+    <meta property="article:tag" content="微服务" />
+    
+    <meta property="article:tag" content="spring cloud" />
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    
+
+    <title>Spring Cloud 微服务配置中心(cloud config) &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Spring Cloud 微服务配置中心(cloud config) Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/12/spring-cloud-config/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Spring Cloud 微服务配置中心(cloud config),
+    "name": Spring Cloud 微服务配置中心(cloud config),
+    "wordCount": 2021,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/12/spring-cloud-config/,
+    "datePublished": 2017-02-12T20:12Z,
+    "dateModified": 2017-02-12T20:12Z,
+    
+    "keywords": spring, 微服务, spring cloud, spring-boot,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/12/spring-cloud-config/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Spring Cloud 微服务配置中心(cloud config)</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-12T20:12:00Z">
+            2017-02-12
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-cloud/">spring cloud</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="spring-cloud-微服务配置中心-cloud-config">Spring Cloud 微服务配置中心(cloud config)</h1>
+
+<p>Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所有环境中应用程序的外部属性。</p>
+
+<p><img src="http://thoreauz.com/images/config01.png" alt="" /><br><br />
+流程：</p>
+
+<ol>
+<li>服务启动时从本地配置获取config server的地址，或者通过注册中心获取config server地址。<br /></li>
+<li>调用config提供的接口获取配置<br /></li>
+<li>如果git仓库有修改，<code>POST</code>请求config server的<code>/bus/refresh</code>接口,config通过消息总线通知服务节点<br /></li>
+<li>服务节点接到通知后，重新到config获取新配置。<br />
+<br /></li>
+</ol>
+
+<blockquote>
+<p>说明：</p>
+
+<ol>
+<li>第3点提到的<code>POST</code>请求可以通过git的hook功能实现。<br /></li>
+<li>为实现高可用，config server集群注册到Eureka等注册中心。<br /></li>
+<li>更新配置可以具体到某一个服务。<br /></li>
+</ol>
+</blockquote>
+
+<h2 id="一-服务端">一、服务端</h2>
+
+<h3 id="1-1-搭建config-server">1.1 搭建config server</h3>
+
+<h4 id="1-1-1-pom-xml-添加依赖">1.1.1 <code>pom.xml</code>添加依赖：</h4>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h4 id="1-1-2-boot-启动main方法">1.1.2 boot 启动main方法</h4>
+
+<p>添加<code>@EnableConfigServer</code>，并且把配置中心作为一个服务注册到eureka<code>@EnableDiscoveryClient</code>，如下：</p>
+
+<pre><code class="language-java">@EnableConfigServer
+@SpringBootApplication
+@EnableDiscoveryClient
+public class ConfigApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigApplication.class, args);
+    }
+}
+</code></pre>
+
+<h4 id="1-1-3-配置">1.1.3 配置</h4>
+
+<p><code>aapplication.properties</code></p>
+
+<pre><code class="language-properties">spring.application.name=config-server
+server.port=9000
+
+# git 仓库地址
+spring.cloud.config.server.git.uri=https://github.com/ThoreauZZ/spring-cloud-example.git
+# 也可以配置本地仓库
+#spring.cloud.config.server.git.uri=file:///${user.home}/config-repo
+# 配置文件搜索路径
+spring.cloud.config.server.git.searchPaths=config-repo
+#注册中心地址        
+eureka.client.serviceUrl.defaultZone=http://discovery:9001/eureka/
+# 使用bus作配置变更通知
+spring.rabbitmq.host=rabbitmq
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+spring.rabbitmq.virtualHost=/
+</code></pre>
+
+<p>如上配置，在<code>config-repo</code>下新建几个文件: <code>application.properties</code></p>
+
+<pre><code class="language-properties">spring.rabbitmq.host=rabbitmq
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+spring.rabbitmq.virtualHost=/
+eureka.client.serviceUrl.defaultZone=http://discovery:9001/eureka/
+</code></pre>
+
+<p><code>user-service-dev.properties</code></p>
+
+<pre><code class="language-properties">server.port = 9002
+spring.datasource.url=jdbc:mysql://db:3306/springcloud?useUnicode=true&amp;characterEncoding=UTF-8
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+</code></pre>
+
+<p>启动：</p>
+
+<h3 id="1-2-服务端提供的rest-api">1.2 服务端提供的REST API</h3>
+
+<pre><code>$ curl -s http://localhost:9000/user-service/dev |jq .
+</code></pre>
+
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;user-service&quot;,
+  &quot;profiles&quot;: [
+    &quot;dev&quot;
+  ],
+  &quot;label&quot;: &quot;master&quot;,
+  &quot;version&quot;: &quot;6d2c48d687e9b9857f15e5e92d8c7c2ea0f73386&quot;,
+  &quot;state&quot;: null,
+  &quot;propertySources&quot;: [
+    {
+      &quot;name&quot;: &quot;https://github.com/ThoreauZZ/spring-cloud-example.git/config-repo/user-service-dev.properties&quot;,
+      &quot;source&quot;: {
+        &quot;spring.datasource.driver-class-name&quot;: &quot;com.mysql.jdbc.Driver&quot;,
+        &quot;spring.datasource.username&quot;: &quot;root&quot;,
+        &quot;server.port&quot;: &quot;9002&quot;,
+        &quot;spring.datasource.password&quot;: &quot;1234&quot;,
+        &quot;spring.datasource.url&quot;: &quot;jdbc:mysql://db:3306/springcloud?useUnicode=true&amp;characterEncoding=UTF-8&quot;,
+        &quot;spring.datasource.type&quot;: &quot;com.alibaba.druid.pool.DruidDataSource&quot;
+      }
+    },
+    {
+      &quot;name&quot;: &quot;https://github.com/ThoreauZZ/spring-cloud-example.git/config-repo/application.properties&quot;,
+      &quot;source&quot;: {
+        &quot;spring.rabbitmq.password&quot;: &quot;guest&quot;,
+        &quot;spring.rabbitmq.port&quot;: &quot;5672&quot;,
+        &quot;spring.rabbitmq.host&quot;: &quot;rabbitmq&quot;,
+        &quot;spring.rabbitmq.virtualHost&quot;: &quot;/&quot;,
+        &quot;spring.rabbitmq.username&quot;: &quot;guest&quot;,
+        &quot;spring.sleuth.sampler.percentage&quot;: &quot;1.0&quot;,
+        &quot;logging.level.org,springframework.cloud.sleuth&quot;: &quot;DEBUG&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+
+<p>从返回的json可以看出，propertySources不仅读取<code>user-service-dev.properties</code>，还读取了<code>application.properties</code>。</p>
+
+<pre><code>curl -s http://localhost:9000/trade-service/dev |jq .
+</code></pre>
+
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;trade-service&quot;,
+  &quot;profiles&quot;: [
+    &quot;dev&quot;
+  ],
+  &quot;label&quot;: &quot;master&quot;,
+  &quot;version&quot;: &quot;6d2c48d687e9b9857f15e5e92d8c7c2ea0f73386&quot;,
+  &quot;state&quot;: null,
+  &quot;propertySources&quot;: [
+    {
+      &quot;name&quot;: &quot;https://github.com/ThoreauZZ/spring-cloud-example.git/config-repo/application.properties&quot;,
+      &quot;source&quot;: {
+        &quot;spring.rabbitmq.password&quot;: &quot;guest&quot;,
+        &quot;spring.rabbitmq.port&quot;: &quot;5672&quot;,
+        &quot;spring.rabbitmq.host&quot;: &quot;rabbitmq&quot;,
+        &quot;spring.rabbitmq.virtualHost&quot;: &quot;/&quot;,
+        &quot;spring.rabbitmq.username&quot;: &quot;guest&quot;,
+        &quot;spring.sleuth.sampler.percentage&quot;: &quot;1.0&quot;,
+        &quot;logging.level.org,springframework.cloud.sleuth&quot;: &quot;DEBUG&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+
+<p>git仓库并没有文件trade-service-dev.properties，说明去读<code>application.properties</code>，共享配置项。</p>
+
+<p>对<code>user-service-dev.properties</code>的访问方式：</p>
+
+<pre><code>curl -s http://localhost:9000/trade-service/dev |jq .
+curl -s http://localhost:9000/trade-service-dev.properties
+curl -s http://localhost:9000/trade-service-dev.json | jq .
+curl -s http://localhost:9000/trade-service-dev.yml
+</code></pre>
+
+<p>HTTP服务资源的构成:</p>
+
+<pre><code>/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
+</code></pre>
+
+<ul>
+<li>{application}:对应客户端的<code>spring.application.name</code>属性;<br /></li>
+<li>{profile}:对应客户端的 <code>spring.profiles.active</code>属性(逗号分隔的列表);<br /></li>
+<li>{label}:对应服务端属性配置文件的版本。对应git是:提交id,分支名称或tag。<br />
+<br /></li>
+</ul>
+
+<p>优先级：</p>
+
+<ul>
+<li>profiles的优先级高于defaults,有多个profiles,最后一个起作用。<br /></li>
+<li><code>/{application}/{profile}[/{label}]</code>优先级高于<code>application.properties</code>。<br />
+<br /></li>
+</ul>
+
+<h3 id="1-3-模式匹配和多资源库">1.3 模式匹配和多资源库</h3>
+
+<p>//TODO</p>
+
+<h3 id="1-4-文件系统">1.4 文件系统</h3>
+
+<p>GIT做文件系统，会被clone到本地文件系统中，默认这些文件会被放置到以config-repo-为前缀的系统临时目录，在 linux 上应该是 /tmp/config-repo-目录，通过设置<code>spring.cloud.config.server.git.basedir</code>参数值为非系统临时目录。 Config Server中,还有一种从本地classpath 或文件系统中加载配置文件的方式，可以通过<code>spring.cloud.config.server.native.searchLocations</code>进行设置</p>
+
+<h2 id="二-客户端">二、客户端</h2>
+
+<h3 id="2-1-示例">2.1 示例</h3>
+
+<p><code>pom.xml</code></p>
+
+<pre><code class="language-xml"> &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p><code>bootstrap.properties</code></p>
+
+<ol>
+<li>配置中心url或者注册中心相关配置要放在<code>bootstrap.properties</code>(启动阶段的上下文)<br /></li>
+<li>spring.cloud.config.name不配置时，默认取spring.application.name<br />
+<br /></li>
+</ol>
+
+<pre><code class="language-properties">spring.application.name=user-service
+# config
+spring.profiles.active=dev
+spring.cloud.config.failFast=true
+spring.cloud.config.discovery.enabled=true
+spring.cloud.config.discovery.serviceId=config-server
+# discovery
+eureka.client.serviceUrl.defaultZone=http://discovery:9001/eureka/
+</code></pre>
+
+<p>推荐解构：</p>
+
+<pre><code>project_name-|
+    |-src/main/java
+    |-src/main/resouces           
+        |- bootstrap.properties
+        |- spring-logback.xml
+</code></pre>
+
+<pre><code class="language-properties">spring.application.name=name# 环境不变
+spring.profiles.active=dev # 启动修改
+spring.cloud.config.discovery.serviceId=config-server #尽量环境不变
+# 注册中心根据profile区分环境。
+eureka.client.serviceUrl.defaultZone=http://discovery-${spring.profiles.active}:9001/eureka/
+</code></pre>
+
+<p>这样，就不需要专门维护<code>bootstrap.properties</code>。根据profile找注册中心，注册中心根据configId找配置中心，在配置中心获取环境相关配置。</p>
+
+<h3 id="2-2-消息通知">2.2 消息通知</h3>
+
+<p>服务端：9000<br><br />
+客户端：9002</p>
+
+<pre><code class="language-bash">curl -s http://localhost:9002/configprops |jq '.&quot;spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties&quot;|{url:.properties.url,username: .properties.username}'
+</code></pre>
+
+<p>返回：</p>
+
+<pre><code class="language-json">{
+  &quot;url&quot;: &quot;jdbc:mysql://db:3306/springcloud?useUnicode=true&amp;characterEncoding=UTF-8&quot;,
+  &quot;username&quot;: &quot;root&quot;
+}
+</code></pre>
+
+<p>修改git文件，把jdbc的username改成root1234，提交，并请求服务端<code>/bus/refresh</code></p>
+
+<pre><code class="language-bash"> curl -X POST http://localhost:9000/bus/refresh
+</code></pre>
+
+<p>再请求9002返回：</p>
+
+<pre><code>{
+  &quot;url&quot;: &quot;jdbc:mysql://db:3306/springcloud?useUnicode=true&amp;characterEncoding=UTF-8&quot;,
+  &quot;username&quot;: &quot;root1234&quot;
+}
+</code></pre>
+
+<p>说明修改并通知成功。</p>
+
+<h3 id="2-3-spring-提供的几个接口">2.3 spring 提供的几个接口</h3>
+
+<h4 id="2-3-1-env">2.3.1 <code>/env</code></h4>
+
+<p><code>`/env</code> 是spring-boot-starter-actuator提供的一个接口，GET方法调用可以查看系统环境变量，POST调用可以更改环境变量的值。这种方式修改的变量值具有最最高优先级。</p>
+
+<pre><code class="language-bash">curl -X POST http://localhost:9002/env -d spring.datasource.username=root
+</code></pre>
+
+<p>如果要求post修改失效，需要调另一个接口：</p>
+
+<pre><code class="language-bash">curl -X POST http://localhost:9002/refresh
+</code></pre>
+
+<p>重置变量</p>
+
+<pre><code>curl -X POST http://localhost:8080/env/reset
+</code></pre>
+
+<h4 id="2-3-2-refresh">2.3.2 <code>/refresh</code></h4>
+
+<p>使@RefreshScope修饰的bean类在下次调用时重新载入配置。</p>
+
+<h4 id="2-3-3-bus-env-和-bus-refresh">2.3.3 <code>/bus/env</code>和 <code>/bus/refresh</code></h4>
+
+<p>作用同上，区别是会对所有节点生效，使用消息总线。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#spring-cloud-微服务配置中心-cloud-config">Spring Cloud 微服务配置中心(cloud config)</a>
+<ul>
+<li><a href="#一-服务端">一、服务端</a>
+<ul>
+<li><a href="#1-1-搭建config-server">1.1 搭建config server</a>
+<ul>
+<li><a href="#1-1-1-pom-xml-添加依赖">1.1.1 <code>pom.xml</code>添加依赖：</a></li>
+<li><a href="#1-1-2-boot-启动main方法">1.1.2 boot 启动main方法</a></li>
+<li><a href="#1-1-3-配置">1.1.3 配置</a></li>
+</ul></li>
+<li><a href="#1-2-服务端提供的rest-api">1.2 服务端提供的REST API</a></li>
+<li><a href="#1-3-模式匹配和多资源库">1.3 模式匹配和多资源库</a></li>
+<li><a href="#1-4-文件系统">1.4 文件系统</a></li>
+</ul></li>
+<li><a href="#二-客户端">二、客户端</a>
+<ul>
+<li><a href="#2-1-示例">2.1 示例</a></li>
+<li><a href="#2-2-消息通知">2.2 消息通知</a></li>
+<li><a href="#2-3-spring-提供的几个接口">2.3 spring 提供的几个接口</a>
+<ul>
+<li><a href="#2-3-1-env">2.3.1 <code>/env</code></a></li>
+<li><a href="#2-3-2-refresh">2.3.2 <code>/refresh</code></a></li>
+<li><a href="#2-3-3-bus-env-和-bus-refresh">2.3.3 <code>/bus/env</code>和 <code>/bus/refresh</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Spring%20Cloud%20%e5%be%ae%e6%9c%8d%e5%8a%a1%e9%85%8d%e7%bd%ae%e4%b8%ad%e5%bf%83%28cloud%20config%29&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-config%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-config%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-config%2f&amp;description=Spring%20Cloud%20%e5%be%ae%e6%9c%8d%e5%8a%a1%e9%85%8d%e7%bd%ae%e4%b8%ad%e5%bf%83%28cloud%20config%29"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fspring-cloud-config%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/12/spring-cloud-hystrix/">
+          <section class="post">
+              <h2>Spring Cloud Hystrix熔断器</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/12/spring-cloud-eureka/">
+          <section class="post">
+              <h2>Spring Cloud 微服务注册中心(Eureka)</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

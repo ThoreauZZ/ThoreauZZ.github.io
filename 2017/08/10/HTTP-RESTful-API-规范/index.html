@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="HTTP RESTful API 规范"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="HTTP RESTful API 规范 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-10T11:34:21Z" />
+
+    
+    <meta property="article:tag" content="架构" />
+    
+    <meta property="article:tag" content="API" />
+    
+    <meta property="article:tag" content="RESTful" />
+    
+    
+
+    <title>HTTP RESTful API 规范 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="使用HTTP API在开发中变得尤为重要，甚至已经作为产品的一部分。对于一个多端产品，和后台的交互主要通过http，于是API变成了最重要的契" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": HTTP RESTful API 规范,
+    "name": HTTP RESTful API 规范,
+    "wordCount": 2395,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/,
+    "datePublished": 2017-08-10T11:34Z,
+    "dateModified": 2017-08-10T11:34Z,
+    
+    "keywords": 架构, API, RESTful,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">HTTP RESTful API 规范</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-10T11:34:21Z">
+            2017-08-10
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E6%9E%B6%E6%9E%84/">架构</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/API/">API</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/RESTful/">RESTful</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>使用HTTP API在开发中变得尤为重要，甚至已经作为产品的一部分。对于一个多端产品，和后台的交互主要通过http，于是API变成了最重要的契约。使用RESTFul架构风格，使前后端更解耦，降低沟通API的沟通成本。</p>
+
+<p>一个优雅的RESTful API设计，关系到架构设计和业务开发，也体现工程师的设计能力。REST最大的几个特点为：资源、统一接口、URI和无状态，能理解<code>资源</code>这个概念就理解了RESTful架构的一半。</p>
+
+<!-- more -->
+
+<h2 id="域名">域名</h2>
+
+<p>将API部署在专用域名之下：</p>
+
+<pre><code class="language-bash">https://api.example.com
+</code></pre>
+
+<h2 id="url路径">URL路径</h2>
+
+<p>除特殊情况下，必须用URL来作为资源的标识。RESTful架构中，每个网址代表一种资源（resource），必须使用名词表述资源。</p>
+
+<p>可能多个模块有很多接口，为了避免路径冲突，使用两个名词组合：<code>/模块/资源</code>，如：</p>
+
+<pre><code class="language-bash">https://api.example.com/user/user #用户模块的用户
+https://api.example.com/user/users # 用户模块的用户列表
+</code></pre>
+
+<h2 id="http-methods">HTTP Methods</h2>
+
+<p>除个别特殊场景，必须使用标准的HTTP Methods 来表示对资源的操作。<br />
+* GET 获取URL定位的资源内容；<br />
+* POST 基于URL定位，创建新的资源；<br />
+* PUT 基于URL定位的资源，执行创建或更新操作；<br />
+* DELETE 基于URL定位的资源，执行删除操作。<br />
+GET 方法和查询参数不能改变资源状态，PUT和POST的使用场景严格区分，比如PUT具有幂等性。但实际业务中，并不是所有操作都符合 CRUD 的情况，比如发送邮件，文章发布。遇到这些情况，通常有2种方式：<br />
+1. 尽量把动作转为资源，比如点赞start可以作为一个子资源<code>/gists/:id/star</code><br />
+2. 使用POST，但添加控制参数如<code>POST /articles/{:id}?published=true</code></p>
+
+<h2 id="状态码">状态码</h2>
+
+<blockquote>
+<p>2xx 成功／已接受<br />
+3xx 重定向<br />
+4xx 客户端请求错误，或者可预期的业务错误<br />
+5xx 服务端错误</p>
+</blockquote>
+
+<pre><code class="language-table">|code|表示状态|说明|客户端支持|服务端支持|
+|200|	OK |成功	|	必须	|必须|
+|201|	Created |已创建，请求成功，并创建了新的资源，常用于POST 和PUT操作|	建议	|建议|
+|202|	Accepted| 已接受	但尚未处理，通常用于异步处理的API	|可选|	建议|
+|301|	Moved Permanently| 永久迁移	资源或API被迁移到新的URL | 必须|可选|
+|302|	Found| 临时重定向	用于基于业务原因，每次被定向到不同的URI的场景|	必须|可选|
+|400|	Bad Request |请求格式错误	例如请求指定Content-Type为application/json, 实际的请求体为form-url-encoded, 服务端应返回400	|必须	|必须|
+|401|	Unauthorized |未授权	用户loginToken无效 或 access token无效 |建议	|建议|
+|403|	Forbidden| 禁止访问	API 不存在时（路由不到 action时），应使用本错误码；鉴权成功，但无权限操作，也使用本Code。	|建议|建议|
+|404|	Not Found| 资源不存在	例如 GET /api/v2.0/user?id=xxx 时，xxx用户不存在，报出 404错误。通常查询一个list, 如果list 不存在,建议返回200, 输出空数组 [ ]。	|建议	|建议|
+|405|	Method Not Allowed |不允许该操作,例如某个只读资源，只允许GET操作，但client 执行了put操作，服务端应返回本错误码| 建议|建议|
+|406|	Not Acceptable 不可接受|表示 client 请求时Accept 头给定的Content-type、编码等服务端不接受，无法处理。例如Accept期望服务端返回application/xml，但服务端只能处理json格式，报该错误码。	|建议	|建议|
+|409|	Conflict	|资源冲突|	建议|	建议|
+|410|	Gone|	资源已失效，已过期或已解散。|	建议	|建议|
+|415| Unsupported Media Type| 不支持的媒体类型	,表示请求时 Content-Type 指定的类型，服务端不支持。|	建议	| 建议|
+|422|	Unprocessable Entity| 无法处理的实体,提交数据校验失败时，使用本错误码。|	必须|	建议|
+|500|	Internal Server Error| 服务端内部错误,例如服务内部异常、数据库连接失败等，报出该错误码。	|必须|	必须|
+</code></pre>
+
+<p>对于可选和建议支持的code，客户端可以采用降级处理的策略，例如201，可以降级视为等同于200 处理。对于4XX的code，如果接口文档没有特殊说明，客户端可将消息中message字段直接显示。对于5XX的code，属服务器内部错误，其message字段客户端只能用作日志及问题调查，不能显示给用户。</p>
+
+<h2 id="http-header">HTTP HEADER</h2>
+
+<p>客户端、服务端都需要知道互相之间的通讯格式。这些格式可以定义在 HTTP header 里面：<br />
+* Content-Type：定义了请求格式<br />
+* Accept：定义了接收相应的格式列表</p>
+
+<p>Header除了<code>Content-Type</code>等信息，还可以传递一些公共字段作为公共参数如：token，userId，traceId。对于自定义的Header命名，可以<code>X-</code>开头，虽然这个协议已经在<a href="https://tools.ietf.org/html/rfc6648">rfc6648</a>中废弃。</p>
+
+<p>在RESTful使用时，通常有4类Header：<br />
+* General header：跟传输的数据无关的header或者公共参数<br />
+* Request header: 请求需求的header<br />
+* Response header: 相应信息，如服务器信息，traceId等<br />
+* Entity header: 包含更多和body相关的信息如content length 、 MIME-type.</p>
+
+<h2 id="返回体">返回体</h2>
+
+<pre><code class="language-json"> {    
+     &quot;code&quot;:  32600, 
+     &quot;message&quot;: &quot;Invalid Request&quot;,
+     &quot;data&quot;:{ }
+ }
+</code></pre>
+
+<p>一般后台的API面对多端，且可能有统一的网关，返回体最好保持某种结构。如上，解释：<br />
+* code：具体业务code，状态还是通过http code表示，它只是为了方便定位问题和前端根据code处理更复杂的业务逻辑。<br />
+* message：错误信息，这个消息可以是具体错误，但多端交互中，message最好抽象成可以给用户展示的错误。<br />
+* data：真正的放回体，错误是为<code>{}</code>。</p>
+
+<p>还有一种情况，出错后，前端需要一些“错误信息”继续处理后续业务。比如登录失败5此不能再登录，次数记录是后台返给前端的。参考Google的设计，可以在必要时返回<code>error</code>字段：</p>
+
+<pre><code class="language-json">{
+  &quot;error&quot;: {
+    &quot;errors&quot;: [
+      {
+        &quot;domain&quot;: &quot;global&quot;,
+        &quot;reason&quot;: &quot;badRequest&quot;,
+        &quot;message&quot;: &quot;Bad Request&quot;
+      }
+    ],
+    &quot;code&quot;: 400,
+    &quot;message&quot;: &quot;Bad Request&quot;
+  }
+}
+</code></pre>
+
+<h2 id="过滤和分页">过滤和分页</h2>
+
+<p>实际使用时，后端提供给前端的数据需要搜索、排序、过滤和分页，可以通过请求参数方式实现，最好有一个强制的命名规范，方便各端开发和理解，避免不必要的混乱。比如分页：</p>
+
+<pre><code>/user/users?pageSize=10&amp;pageNum=3
+</code></pre>
+
+<p>有的情况下，使用传统分页方式会导致列表重复或者丢失，可以通过客户端传上次拿到的最后一个资源id的方式分页</p>
+
+<pre><code>/user/users?pageSize=10&amp;lastId=${lastId}
+</code></pre>
+
+<h2 id="api-版本">API 版本</h2>
+
+<p>api必须有版本，方便在重大改动时通过版本区分，常用有两种方式。</p>
+
+<h3 id="1-url方式">1. URL方式</h3>
+
+<pre><code>/api/v2/user/user?id=1
+</code></pre>
+
+<blockquote>
+<p>v2 表示现在是版本2，一般都采用这种方式。</p>
+</blockquote>
+
+<h3 id="2-hypermedia方式">2. hypermedia方式</h3>
+
+<pre><code>GET /api/user/user HTTP/1.1
+Accept: application/vnd.api.article+xml; version=1.0
+</code></pre>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#域名">域名</a></li>
+<li><a href="#url路径">URL路径</a></li>
+<li><a href="#http-methods">HTTP Methods</a></li>
+<li><a href="#状态码">状态码</a></li>
+<li><a href="#http-header">HTTP HEADER</a></li>
+<li><a href="#返回体">返回体</a></li>
+<li><a href="#过滤和分页">过滤和分页</a></li>
+<li><a href="#api-版本">API 版本</a>
+<ul>
+<li><a href="#1-url方式">1. URL方式</a></li>
+<li><a href="#2-hypermedia方式">2. hypermedia方式</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=HTTP%20RESTful%20API%20%e8%a7%84%e8%8c%83&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fHTTP-RESTful-API-%25E8%25A7%2584%25E8%258C%2583%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fHTTP-RESTful-API-%25E8%25A7%2584%25E8%258C%2583%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fHTTP-RESTful-API-%25E8%25A7%2584%25E8%258C%2583%2f&amp;description=HTTP%20RESTful%20API%20%e8%a7%84%e8%8c%83"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fHTTP-RESTful-API-%25E8%25A7%2584%25E8%258C%2583%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/">
+          <section class="post">
+              <h2>The Twelve-Factory App</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/">
+          <section class="post">
+              <h2>ELK之Logstash</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Cobra- Go的命令行生成库"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Cobra- Go的命令行生成库 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/03/14/Cobra-example/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-03-14T22:17:07Z" />
+
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>Cobra- Go的命令行生成库 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 Cobra 是一个用来创建 CLI 命令行的 golang 库，也可以用来生成以Cobra为基础的应用和命令文件。被广泛使用在各种Go的项目中，比如Kubernetes" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/03/14/Cobra-example/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Cobra- Go的命令行生成库,
+    "name": Cobra- Go的命令行生成库,
+    "wordCount": 1213,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/03/14/Cobra-example/,
+    "datePublished": 2018-03-14T22:17Z,
+    "dateModified": 2018-03-14T22:17Z,
+    
+    "keywords": go,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/03/14/Cobra-example/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Cobra- Go的命令行生成库</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-03-14T22:17:07Z">
+            2018-03-14
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p><img src="https://cloud.githubusercontent.com/assets/173412/10886352/ad566232-814f-11e5-9cd0-aa101788c117.png" alt="" /></p>
+
+<h2 id="概述">概述</h2>
+
+<p>Cobra 是一个用来创建 CLI 命令行的 golang 库，也可以用来生成以Cobra为基础的应用和命令文件。被广泛使用在各种Go的项目中，比如Kubernetes，Docker。</p>
+
+<!-- more -->
+
+<h2 id="概念">概念</h2>
+
+<p>有这样两条命令，下面以它为参考，解释cobra的几个概念。</p>
+
+<pre><code class="language-bash">hugo server --port=1313
+git clone URL --bare
+</code></pre>
+
+<p><strong>Commands</strong><br />
+Command 是程序的中心点，不同Commands有不同行为，一个命令可能有多个子命令。示例中<code>server</code>就是命令。</p>
+
+<p><strong>Flags</strong></p>
+
+<p>Flags 用来改变命令的行为，比如<code>port</code>就是Flag。假设命令的flag为<code>version</code>, 使用方式:<code>--version</code>，也可以配置短别名：<code>-V</code>。详见<a href="https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html">GNU extensions to the POSIX recommendations for command-line options</a></p>
+
+<h2 id="示例">示例</h2>
+
+<p>工程结构</p>
+
+<pre><code>-- netrq
+    |-- cmd
+    |   |-- http.go
+    |   |-- root.go
+    |   `-- version.go
+    |-- config.json
+    |-- main.go
+    `-- pkg
+        `-- request.go
+</code></pre>
+
+<h3 id="create-rootcmd">Create rootCmd</h3>
+
+<p><code>netrq/cmd/root.go</code></p>
+
+<pre><code class="language-go">package cmd
+
+import (
+	&quot;github.com/spf13/cobra&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;github.com/spf13/viper&quot;
+	&quot;github.com/mitchellh/go-homedir&quot;
+	&quot;github.com/fsnotify/fsnotify&quot;
+)
+
+
+var cfgFile string
+var testPersistentFlag,testLocalFlag,author string
+
+var rootCmd = &amp;cobra.Command{
+	Use:   &quot;netrq&quot;,
+	Short: &quot;This tool for network request&quot;,
+	Long: `This tool for network request, 
+Complete documentation is available at http://document.netrq.com `,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println(args)
+		author := viper.GetString(&quot;author&quot;)
+		if len(author) &gt; 0 {
+			fmt.Println(&quot;author: &quot;, author)
+		} else {
+			cmd.Help()
+		}
+	},
+}
+
+func Execute() {
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+func init() {
+	cobra.OnInitialize(initConfig)
+
+	// persistent Flag: 对本命令和所有子命令都有效，Global Flags:
+	rootCmd.PersistentFlags().StringVarP(&amp;testPersistentFlag, &quot;tpFlag&quot;, &quot;p&quot;, &quot;&quot;, &quot;persistent flag&quot;)
+	rootCmd.PersistentFlags().StringVarP(&amp;author, &quot;author&quot;,&quot;a&quot;, &quot;&quot;,&quot;Author name for copyright attribution&quot;)
+
+
+	// local flag: 本地flag，对当前命令有效
+	rootCmd.Flags().StringVarP(&amp;testPersistentFlag, &quot;tlFlag&quot;, &quot;l&quot;, &quot;&quot;, &quot;local flag&quot;)
+
+	viper.BindPFlag(&quot;author&quot;, rootCmd.PersistentFlags().Lookup(&quot;author&quot;))
+
+}
+func initConfig() {
+	if cfgFile != &quot;&quot; {
+		viper.SetConfigName(cfgFile)
+	} else {
+		home, err := homedir.Dir()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		// home目录和当前目录查找配置文件
+		viper.AddConfigPath(home)
+		viper.AddConfigPath(&quot;.&quot;)
+
+		// 注意，我在Windows上，不需要加扩展名
+		viper.SetConfigName(&quot;config&quot;)
+
+		// 监听文件变化
+		viper.WatchConfig()
+		viper.OnConfigChange(func(e fsnotify.Event) {
+			fmt.Println(&quot;Config file changed:&quot;, e.Name)
+		})
+	}
+	viper.AutomaticEnv()
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println(&quot;Can not read config:&quot;, viper.ConfigFileUsed(),err)
+	}
+}
+
+</code></pre>
+
+<p><code>rootCmd</code>: 根命令，是整个应用命令的入口，通过在<code>main</code>函数中调用<code>rootCmd.Execute()</code>启动；<br />
+* Use: 命令<br />
+* Short： 命令的简短描述<br />
+* Long： 命令的详细描述<br />
+* Run: 命令执行入口</p>
+
+<p>函数<code>initConfig()</code>: 用来初始化viper配置文件位置，监听变化<br />
+函数<code>init()</code>: 定义flag和配置处理</p>
+
+<pre><code>rootCmd.PersistentFlags().StringVarP(&amp;author, &quot;author&quot;,&quot;a&quot;, &quot;&quot;,&quot;Author name for copyright attribution&quot;)
+viper.BindPFlag(&quot;author&quot;, rootCmd.PersistentFlags().Lookup(&quot;author&quot;))
+</code></pre>
+
+<p>把viper配置项author和flag绑定，也就是说，&amp;author变量的值会从配置文件中读取，如果命令有flag<code>--author</code>，变量将使用此flag的值：</p>
+
+<h3 id="create-your-main-go">Create your main.go</h3>
+
+<p>文件<code>netrq/main.go</code></p>
+
+<pre><code>import (
+	&quot;netrq/cmd&quot;
+)
+
+func main() {
+	cmd.Execute();
+}
+</code></pre>
+
+<p>有这俩文件，可以编译执行：</p>
+
+<pre><code class="language-bash">cd netrq
+go build .
+./netrq -h #将列出可用命令和flag
+</code></pre>
+
+<h3 id="create-additional-commands">Create additional commands</h3>
+
+<p>我希望执行<code>netrq version</code> 时输出 <code>version :  1.0.0</code>，也就是给netrq添加一个子命令，输出版本号；<br />
+<code>netrq/cmd/version.go</code></p>
+
+<pre><code class="language-go">package cmd
+
+import &quot;github.com/spf13/cobra&quot;
+
+func init() {
+    // versionCmd作为rootCmd的子命令
+    rootCmd.AddCommand(versionCmd)
+}
+
+const version string = &quot;1.0.0&quot;
+
+var versionCmd = &amp;cobra.Command{
+	Use:   &quot;version&quot;,
+	Short: &quot;Print the netrq version number&quot;,
+	Run: func(cmd *cobra.Command, args []string) {
+		println(&quot;version : &quot;, version)
+	},
+}
+</code></pre>
+
+<p>同样，也可以添加一个http的子命令，用来发起http请求；<br />
+<code>netrq/cmd/http.go</code></p>
+
+<pre><code class="language-go">package cmd
+
+import (
+	&quot;github.com/spf13/cobra&quot;
+	&quot;netrq/pkg&quot;
+)
+
+var url,method string
+
+var httpCmd = &amp;cobra.Command{
+	Use:   &quot;http&quot;,
+	Short: &quot;Short desc: invoke http request&quot;,
+	Long:  `Long description: invoke http request 
+		http [flags]
+	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(url) == 0 {
+			cmd.Help()
+			return
+		}
+		pkg.HttpRequest(url, method)
+	},
+}
+func init() {
+	httpCmd.Flags().StringVarP(&amp;url, &quot;url&quot;, &quot;U&quot;, &quot;&quot;, &quot;http url&quot;)
+	// required 
+	httpCmd.MarkFlagRequired(&quot;url&quot;)
+	httpCmd.Flags().StringVarP(&amp;method, &quot;method&quot;, &quot;X&quot;, &quot;GET&quot;, &quot;http method&quot;)
+
+	// add
+	rootCmd.AddCommand(httpCmd)
+}
+</code></pre>
+
+<p><code>netrq/pkg/request.go</code></p>
+
+<pre><code class="language-go">package pkg
+
+import (
+	&quot;net/http&quot;
+	&quot;log&quot;
+	&quot;io/ioutil&quot;
+	&quot;fmt&quot;
+)
+
+func HttpRequest(url string, method string) {
+	client := &amp;http.Client{}
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	//req.Header.Set(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;)
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	fmt.Println(string(body))
+}
+
+</code></pre>
+
+<p>测试:</p>
+
+<pre><code class="language-bash">$ netrq http -X GET -U https://api.github.com/users/ThoreauZZ 
+{&quot;login&quot;:&quot;ThoreauZZ&quot;,&quot;id&quot;:10337273,&quot;avatar_url&quot;:&quot;https://avatars1.githubusercontent.com/u/10337273?v=4&quot;,&quot;gravatar_id&quot;:&quot;&quot;,&quot;url&quot;:&quot;https://api.github.com/users/ThoreauZZ
+&quot;,&quot;html_url&quot;:&quot;https://github.com/ThoreauZZ&quot;,&quot;followers_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/followers&quot;,&quot;following_url&quot;:&quot;https://api.github.com/users/ThoreauZZ
+/following{/other_user}&quot;,&quot;gists_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/gists{/gist_id}&quot;,&quot;starred_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/starred{/owner}{/r
+epo}&quot;,&quot;subscriptions_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/subscriptions&quot;,&quot;organizations_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/orgs&quot;,&quot;repos_url&quot;:&quot;https:
+//api.github.com/users/ThoreauZZ/repos&quot;,&quot;events_url&quot;:&quot;https://api.github.com/users/ThoreauZZ/events{/privacy}&quot;,&quot;received_events_url&quot;:&quot;https://api.github.com/users/Tho
+reauZZ/received_events&quot;,&quot;type&quot;:&quot;User&quot;,&quot;site_admin&quot;:false,&quot;name&quot;:&quot;thoreau&quot;,&quot;company&quot;:null,&quot;blog&quot;:&quot;&quot;,&quot;location&quot;:null,&quot;email&quot;:null,&quot;hireable&quot;:null,&quot;bio&quot;:null,&quot;public_rep
+os&quot;:30,&quot;public_gists&quot;:0,&quot;followers&quot;:10,&quot;following&quot;:4,&quot;created_at&quot;:&quot;2014-12-29T08:15:41Z&quot;,&quot;updated_at&quot;:&quot;2018-03-05T09:27:29Z&quot;}
+
+$ netrq http -X POST -U https://api.github.com/users/ThoreauZZ 
+{&quot;message&quot;:&quot;Not Found&quot;,&quot;documentation_url&quot;:&quot;https://developer.github.com/v3&quot;}
+</code></pre>
+
+<h2 id="cobra-generator">Cobra Generator</h2>
+
+<p>cobra除了作为一个库，还是一个生成工具.</p>
+
+<h3 id="安装">安装</h3>
+
+<pre><code class="language-bash">go get github.com/spf13/cobra/cobra
+</code></pre>
+
+<h3 id="使用">使用</h3>
+
+<pre><code class="language-bash"># 生成项目init
+cobra init github.com/ThoreauZZ/newApp
+cd newApp/
+
+
+# 添加命令add
+cobra add server
+cobra add config
+
+# 自动生成的文件
+tree
+
+|-- LICENSE
+|-- cmd
+|   |-- config.go
+|   |-- root.go
+|   `-- serve.go
+`-- main.go
+</code></pre>
+
+<hr />
+
+<p>参考文档:<br />
+<a href="https://github.com/spf13/cobra">cobra</a><br />
+<a href="https://github.com/spf13/viper">viper</a><br />
+<a href="https://github.com/spf13/pflag">pflag</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#概念">概念</a></li>
+<li><a href="#示例">示例</a>
+<ul>
+<li><a href="#create-rootcmd">Create rootCmd</a></li>
+<li><a href="#create-your-main-go">Create your main.go</a></li>
+<li><a href="#create-additional-commands">Create additional commands</a></li>
+</ul></li>
+<li><a href="#cobra-generator">Cobra Generator</a>
+<ul>
+<li><a href="#安装">安装</a></li>
+<li><a href="#使用">使用</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Cobra-%20Go%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%94%9f%e6%88%90%e5%ba%93&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f14%2fCobra-example%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f14%2fCobra-example%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f14%2fCobra-example%2f&amp;description=Cobra-%20Go%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%94%9f%e6%88%90%e5%ba%93"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f14%2fCobra-example%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/03/15/GO-defer/">
+          <section class="post">
+              <h2>GO-defer语句</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/02/08/local-cache/">
+          <section class="post">
+              <h2>聊聊本地缓存</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>istio on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/istio/</link>
+    <description>Recent content in istio on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 03 Nov 2018 18:33:06 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/istio/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>istio-proxy原理</title>
+      <link>http://thoreauz.com/2018/11/03/istio-proxy/</link>
+      <pubDate>Sat, 03 Nov 2018 18:33:06 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/03/istio-proxy/</guid>
+      <description>前言 在上一篇文章介绍的kubernetes环境的示例中，istio以边车模式部署在pod中，它接管了业务容器所有出入站流量，从而灵活控制网络</description>
+    </item>
+    
+    <item>
+      <title>istio安装使用</title>
+      <link>http://thoreauz.com/2018/10/21/istio-install-sample/</link>
+      <pubDate>Sun, 21 Oct 2018 22:53:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/10/21/istio-install-sample/</guid>
+      <description>什么是service mesh service mesh，也翻译为服务网格。是一种在网络节点间通过动态路由的方式来进行资料与控制指令的传送。这种网络可以保持每个节点</description>
+    </item>
+    
+  </channel>
+</rss>

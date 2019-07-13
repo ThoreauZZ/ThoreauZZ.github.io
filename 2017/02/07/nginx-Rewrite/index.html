@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="nginx入门之Rewrite"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="nginx入门之Rewrite &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/07/nginx-Rewrite/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-07T10:13:37Z" />
+
+    
+    <meta property="article:tag" content="nginx" />
+    
+    
+
+    <title>nginx入门之Rewrite &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="nginx入门之Rewrite Rewrite 是nginx服务器提供的一个重要功能，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/07/nginx-Rewrite/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": nginx入门之Rewrite,
+    "name": nginx入门之Rewrite,
+    "wordCount": 2070,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/07/nginx-Rewrite/,
+    "datePublished": 2017-02-07T10:13Z,
+    "dateModified": 2017-02-07T10:13Z,
+    
+    "keywords": nginx,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/07/nginx-Rewrite/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">nginx入门之Rewrite</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-07T10:13:37Z">
+            2017-02-07
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/nginx/">nginx</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="nginx入门之rewrite">nginx入门之Rewrite</h1>
+
+<p>Rewrite 是nginx服务器提供的一个重要功能，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。</p>
+
+<h2 id="一-正则表达式">一、正则表达式</h2>
+
+<p>rewrite的核心是PCRE。下面看看几个常用的正则表达式语法：<br />
+<code>*</code> : 0次或者多次前面的字符或子表达式；<br />
+<code>+</code>:  1次或者多次前面的字符或子表达式；<br />
+<code>?</code>: 0次或者1次前面的字符或子表达式；<br />
+<code>^</code>: 匹配搜索字符串开始的位置；<br />
+<code>$</code>: 匹配搜索字符串结束的位置；<br />
+<code>.</code>: 匹配除\n 之外的任何单个字符；<br />
+<code>[]</code>: 标记括号表达式的开始和结尾；<br />
+<code>{}</code>: 标记限定表达式的开始和结尾；<br />
+<code>()</code>: 标记子表达式的开始和结尾 ；<br />
+<code>|</code>: 指示在两个或者多个中做选择；</p>
+
+<h2 id="二-rewrite">二、rewrite</h2>
+
+<p>rewrite只能放在server{},location{},if{}中，只对URI起作用(去除域名和参数)。</p>
+
+<p>模块指令处理处理顺序：<br />
+* 执行server块的rewrite指令；<br />
+* 执行location匹配；<br />
+* 执行选定的location中的rewrite指令,如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件,如果循环超过10次，则返回500 Internal Server Error错误</p>
+
+<h3 id="2-1-指令">2.1 指令</h3>
+
+<h4 id="break">break</h4>
+
+<p>停止执行当前虚拟主机的后续rewrite指令集<br />
+&gt;作用域：server, location, if</p>
+
+<p>示例：</p>
+
+<pre><code class="language-nginx">location / {
+    if( $slow){
+        set $id $1 # 配置有效
+        break;
+        limit_rate 10k; #配置无效
+    }
+    ... # 配置有效
+}
+</code></pre>
+
+<h4 id="if">if</h4>
+
+<blockquote>
+<p>作用域：server,location</p>
+</blockquote>
+
+<p>对给定的条件condition进行判断。如果为真，大括号内的rewrite指令将被执行。<br />
+if条件(conditon)可以是如下任何内容:<br />
+* 一个变量名；false， 如果这个变量是空字符串或者以0开始的字符串；<br />
+* 使用<code>=</code>,<code>!=</code> 比较的一个变量和字符串<br />
+* 使用<code>~</code>， <code>~*</code>:  正则表达式匹配，后者表示不区分大小写。<br />
+* 使用-f ，!-f 检查一个文件是否存在<br />
+* 使用-d, !-d 检查一个目录是否存在<br />
+* 使用-e ，!-e 检查一个文件、目录、符号链接是否存在<br />
+* 使用-x ， !-x 检查一个文件是否可执行</p>
+
+<pre><code class="language-nginx"> if ($http_user_agent ~ MSIE) {
+     rewrite ^(.*)$ /msie/$1 break;
+ }
+ if ($http_cookie ~* &quot;id=([^;]+)(?:;|$)&quot;) {
+     set $id $1;
+ }
+ if ($request_method = POST) {
+     return 405;
+ }
+ if ($slow) {
+     limit_rate 10k;
+ }
+ if ($invalid_referer) {
+     return 403;
+ }
+</code></pre>
+
+<h4 id="return">return</h4>
+
+<p>改指令用于完成对请求的处理，直接向客户端返回响应状态码；<br />
+&gt; 作用域：server, location, if</p>
+
+<pre><code>return [text]
+return code URL;
+return URL;
+</code></pre>
+
+<ul>
+<li>text: 响应体内容，支撑变量<br /></li>
+<li>URL:  返回给客户端的URL地址<br /></li>
+<li>code: 状态码<br />
+<br /></li>
+</ul>
+
+<h4 id="rewrite">rewrite</h4>
+
+<p>通过正则表达式改变URI。</p>
+
+<blockquote>
+<p>Syntax:    rewrite regex replacement [flag];<br />
+Default:    —<br />
+Context:    server, location, if</p>
+</blockquote>
+
+<ul>
+<li>regex: 使用正则表达式,使用&rsquo;()&lsquo;标记要截取的内容。<br /></li>
+<li>replacement： 匹配成功后替换URI中被截取的部分。<br /></li>
+<li>flag: 用来设置rewrite对URI的处理行为。有<code>last</code>, <code>break</code>, <code>redirect</code>，<code>permanent</code><br />
+<br /></li>
+</ul>
+
+<p>flag 标志</p>
+
+<ol>
+<li>last : 表示完成rewrite<br /></li>
+<li>break : 停止执行当前虚拟主机的后续rewrite指令集<br /></li>
+<li>redirect : 返回302临时重定向，地址栏会显示跳转后的地址<br /></li>
+<li>permanent : 返回301永久重定向，地址栏会显示跳转后的地址<br />
+<br /></li>
+</ol>
+
+<h2 id="三-rewrite使用">三、rewrite使用</h2>
+
+<h3 id="3-1-三级域名跳转">3.1 三级域名跳转</h3>
+
+<pre><code class="language-nginx">server{
+    listen 80;
+    server_name jump1.myweb.name jump2.myweb.name;
+    if ($http_host ~* ^(.*)\.myweb\.name$)
+    {
+        rewrite ^(.*) http://jump.myweb.name$1;
+        break;
+    }
+}
+</code></pre>
+
+<h3 id="3-2-域名镜像">3.2 域名镜像</h3>
+
+<pre><code class="language-nginx">server{
+    listen 80;
+    server_name jump.myweb.name;
+    location ^~ /source1 { #找到，停止匹配其他 location
+        rewrite ^/source1(.*) http://jump.myweb.name/websrc2$1 last;
+    }
+    location ^~ /source2 { 
+        rewrite ^/source2(.*) http://jump.myweb.name/websrc2$1 last;
+    }
+}
+</code></pre>
+
+<h3 id="3-3-独立域名">3.3 独立域名</h3>
+
+<pre><code class="language-nginx">server{
+    listen 80;
+    server_name bbs.myweb.name;
+    rewrite ^(.*) http://www.myweb.name/bbs$1 last;
+    break;
+}
+server{
+    listen 81;
+    server_name home.myweb.name;
+    rewrite ^(.*) http://www.myweb.name/home$1 last;
+    break;
+}
+</code></pre>
+
+<h4 id="3-4-目录自动加">3.4 目录自动加 “/”</h4>
+
+<pre><code class="language-nginx">server{
+    listen 80;
+    server_name www.myweb.name;
+    location ^~ /bbs {
+        if (-d $request_filename){
+            # 把uri各个部分取出来重新拼装，后面跟上&quot;/&quot; permanent永久重定向
+            rewrite ^(.*)/(.*)([^/])$ http://$host/$1$2/ permanent;
+        }
+    }
+}
+</code></pre>
+
+<h2 id="四-rewrite全局变量">四、rewrite全局变量</h2>
+
+<p>下面是可以用作if判断的全局变量:</p>
+
+<ul>
+<li>$args:  这个变量等于请求行中的参数，同<code>$query_string</code><br /></li>
+<li>$content_length ： 请求头中的Content-length字段。<br /></li>
+<li>$content_type ： 请求头中的Content-Type字段。<br /></li>
+<li>$document_root ： 当前请求在root指令中指定的值。<br /></li>
+<li>$host ： 请求主机头字段，否则为服务器名称。<br /></li>
+<li>$http_user_agent ： 客户端agent信息<br /></li>
+<li>$http_cookie ： 客户端cookie信息<br /></li>
+<li>$limit_rate ： 这个变量可以限制连接速率。<br /></li>
+<li>$request_method ： 客户端请求的动作，通常为GET或POST。<br /></li>
+<li>$remote_addr ： 客户端的IP地址。<br /></li>
+<li>$remote_port ： 客户端的端口。<br /></li>
+<li>$remote_user ： 已经经过Auth Basic Module验证的用户名。<br /></li>
+<li>$request_filename ： 当前请求的文件路径，由root或alias指令与URI请求生成。<br /></li>
+<li>$scheme ： HTTP方法（如http，https）。<br /></li>
+<li>$server_protocol ： 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。<br /></li>
+<li>$server_addr ： 服务器地址，在完成一次系统调用后可以确定这个值。<br /></li>
+<li>$server_name ： 服务器名称。<br /></li>
+<li>$server_port ： 请求到达服务器的端口号。<br /></li>
+<li>$request_uri ： 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。<br /></li>
+<li>$uri： 不带请求参数的当前URI，<code>$uri</code>不包含主机名，如”/foo/bar.html”。<br /></li>
+<li>$document_uri： 与<code>$uri</code>相同。<br />
+<br />
+<br /></li>
+</ul>
+
+<p>例：<a href="http://localhost:88/test1/test2/test.php">http://localhost:88/test1/test2/test.php</a><br />
+* $host：localhost<br />
+* $server_port：88<br />
+* $request_uri：<a href="http://localhost:88/test1/test2/test.php">http://localhost:88/test1/test2/test.php</a><br />
+* $document_uri：/test1/test2/test.php<br />
+* $document_root：/var/www/html<br />
+* $request_filename：/var/www/html/test1/test2/test.php</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#nginx入门之rewrite">nginx入门之Rewrite</a>
+<ul>
+<li><a href="#一-正则表达式">一、正则表达式</a></li>
+<li><a href="#二-rewrite">二、rewrite</a>
+<ul>
+<li><a href="#2-1-指令">2.1 指令</a>
+<ul>
+<li><a href="#break">break</a></li>
+<li><a href="#if">if</a></li>
+<li><a href="#return">return</a></li>
+<li><a href="#rewrite">rewrite</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#三-rewrite使用">三、rewrite使用</a>
+<ul>
+<li><a href="#3-1-三级域名跳转">3.1 三级域名跳转</a></li>
+<li><a href="#3-2-域名镜像">3.2 域名镜像</a></li>
+<li><a href="#3-3-独立域名">3.3 独立域名</a>
+<ul>
+<li><a href="#3-4-目录自动加">3.4 目录自动加 “/”</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#四-rewrite全局变量">四、rewrite全局变量</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=nginx%e5%85%a5%e9%97%a8%e4%b9%8bRewrite&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f07%2fnginx-Rewrite%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f07%2fnginx-Rewrite%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f07%2fnginx-Rewrite%2f&amp;description=nginx%e5%85%a5%e9%97%a8%e4%b9%8bRewrite"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f07%2fnginx-Rewrite%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/07/git-config-command/">
+          <section class="post">
+              <h2>Git配置和常用命令</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/06/nginx-location/">
+          <section class="post">
+              <h2>nginx入门之location</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

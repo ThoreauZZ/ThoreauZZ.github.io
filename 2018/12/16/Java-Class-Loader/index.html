@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Java类加载器"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Java类加载器 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/12/16/Java-Class-Loader/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-12-16T23:26:46Z" />
+
+    
+    <meta property="article:tag" content="java" />
+    
+    <meta property="article:tag" content="jvm" />
+    
+    
+
+    <title>Java类加载器 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 “虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/12/16/Java-Class-Loader/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Java类加载器,
+    "name": Java类加载器,
+    "wordCount": 1838,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/12/16/Java-Class-Loader/,
+    "datePublished": 2018-12-16T23:26Z,
+    "dateModified": 2018-12-16T23:26Z,
+    
+    "keywords": java, jvm,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/12/16/Java-Class-Loader/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Java类加载器</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-12-16T23:26:46Z">
+            2018-12-16
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/java/">java</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/jvm/">jvm</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>“虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制”</p>
+
+<p>Java虚拟机对类的加载都是在程序运行期间进行的，增加了性能开销，但带来灵活度，可以在运行时从网络或者本地加载一个二进制流作为程序运行代码的一部分。</p>
+
+<p>那虚拟机启动时具体初始化哪些类呢？有这样5中情况：<br />
+1. 遇到new、getstatic、putstatic、invokestatic时，如果类没有初始化，会对其执行初始化。<br />
+2. 使用反射调用时会初始化。<br />
+3. 遇到初始化一个类，如果有父类，先对其初始化<br />
+4. 虚拟机启动时，虚拟机会初始化用户指定的主类（main方法）<br />
+5. java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</p>
+
+<p>本文的重点在于类和类加载器。</p>
+
+<!-- more -->
+
+<h2 id="类的唯一性">类的唯一性</h2>
+
+<p>在编写代码时，我们通过报名+类名定位一个类。但对虚拟机来说，还需要算上类加载器：</p>
+
+<pre><code>加载类的类加载器+类本身
+</code></pre>
+
+<p>也就是说，同一个类被不同的加载器加载，也认为不是一个类。</p>
+
+<h2 id="类加载器">类加载器</h2>
+
+<p>广义来说，存在两种类加载器。虚拟机自带的Bootstrap ClassLoader和java实现的外部加载器。细致一点有以下分类：<br />
+* Bootstrap ClassLoader：加载核心类库，加载rt.jar，i18n.jar等；<br />
+* Extention ClassLoader：扩展的类加载器，机JRE_HOME/lib/ext<br />
+* AppLoader: 加载class path下的类，默认情况下是<code>.</code>,可以通过<code>-classpath</code>或者<code>-cp</code>指定，还可以设置环境变量&ndash;CLASSPATH(命令会覆盖环境变量)。</p>
+
+<blockquote>
+<ul>
+<li>虚拟机加载class，也是按照这个顺序依次寻找。如果不是自定义加载器，一般我们也无需关心加载顺序，只需要关心类冲突。<br /></li>
+<li>classpath 除了手动指定之外，如果在classpath下的jar的manifest有Class-Path 属性，也会去指定目录查找。<br /></li>
+</ul>
+</blockquote>
+
+<p>从上到下的加载顺序,如下图：<br />
+<img src="http://thoreauz.com/images/2018-04-24-21-59-16.jpg" alt="" /></p>
+
+<p>加载器有个基本思想：每个加载器都有一个父加载器(不是继承)，当要加载一个类的时候，先委托他的父加载器去加载。</p>
+
+<h2 id="双亲委派模型">双亲委派模型</h2>
+
+<p>双亲委派模式是类加载的最重要的实现方式，先从两个示例开始：</p>
+
+<pre><code class="language-java">public static void main(String[] args) throws Exception {
+        // 自定义一个加载器，细节先不用管
+        ClassLoader myLoader = new ClassLoader() {
+            @Override
+            public Class&lt;?&gt;loadClass(String name) throws ClassNotFoundException {
+                try {
+                    String fileName = name.substring(name.lastIndexOf(&quot;.&quot;) + 1) + &quot;.class&quot;;
+                    InputStream is = getClass().getResourceAsStream(fileName);
+                    if (is == null) {
+                        return super.loadClass(name);
+                    }
+                    byte[] b = new byte[is.available()];
+                    is.read(b);
+                    return defineClass(name, b,0,b.length);
+                } catch (IOException e) {
+                    throw new ClassNotFoundException(name);
+                }
+            }
+        };
+        // 加载并初始化
+        Object obj = myLoader.loadClass(&quot;com.sample.ClassLoaderTest&quot;).newInstance();
+        // 验证
+        System.out.println(obj instanceof ClassLoaderTest);
+        System.out.println(obj.getClass().getClassLoader());
+        System.out.println(ClassLoaderTest.class.getClassLoader());
+}
+</code></pre>
+
+<blockquote>
+<p>false<br />
+com.thoreauz.bootlearn.ClassLoaderTest$1@75bd9247<br />
+jdk.internal.loader.ClassLoaders$AppClassLoader@4f8e5cde</p>
+</blockquote>
+
+<p>执行结果false，说明不是一个类，验证了之前对类唯一性的定位。</p>
+
+<p>再看示例2：</p>
+
+<pre><code class="language-java">Object newInstance = myLoader.loadClass(&quot;java.lang.String&quot;).newInstance();
+System.out.println(newInstance instanceof String);
+System.out.println(String.class.getClassLoader());
+</code></pre>
+
+<blockquote>
+<p>true<br />
+null</p>
+</blockquote>
+
+<p>为什么String就是同一个类呢，且加载器是null，因为它的加载器是jvm的启动类加载器。它的实现逻辑是：<br />
+1. 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成。<br />
+2. 每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它的搜索路径中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
+
+<p>这就是<strong>双亲委派模型</strong>；</p>
+
+<h2 id="自定义加载器">自定义加载器</h2>
+
+<p>分3步：<br />
+1. 继承ClassLoader，允许指定一个父加载器，不指定默认分配一个，<br />
+2. 覆写findClass（）方法。</p>
+
+<p>就这么简单，为什么没有写委托的逻辑呢，上面的示例触发的方法是<code>loadClass()</code>，父类<code>ClassLoader</code>已经把相关工作给做了，委托父加载器加载不到时，会调用我们覆写的<code>findClass(String name)</code>方法。代码如下：</p>
+
+<pre><code class="language-java">public class CustomClassLoader extends ClassLoader {
+    @Override
+    public Class&lt;?&gt; findClass(String name) {
+        byte[] bt = loadClassData(name);
+        return defineClass(name, bt, 0, bt.length);
+    }
+    private byte[] loadClassData(String className) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(className.replace(&quot;.&quot;, &quot;/&quot;)+&quot;.class&quot;);
+        ByteArrayOutputStream byteSt = new ByteArrayOutputStream();
+        int len =0;
+        try {
+            while((len=is.read())!=-1){
+                byteSt.write(len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return byteSt.toByteArray();
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>不提倡覆盖loadClass（），而是把加载逻辑写在findClass()，这样就可以保证新写出来的类加载器是符合双亲委派规则的。</p>
+</blockquote>
+
+<p>上例中loadClassData()方法，主要就是加载类的二进制流，我们可以通过本地或者网络获取，具体看需求实现。</p>
+
+<h2 id="使用场景">使用场景</h2>
+
+<ol>
+<li>隔离：很多框架和容器都自定义了加载器，避免和业务代码使用的jar包冲突。比如tomcat。<br /></li>
+<li>热部署：虚拟机自然不会监测文件变化自动更新，如果要热部署，需要在自己的类加载器实现相应逻辑。<br /></li>
+<li>加密： 比如从网络加载class，就可以加密它，然后在自定义加载器的findClass解密。<br /></li>
+</ol>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#类的唯一性">类的唯一性</a></li>
+<li><a href="#类加载器">类加载器</a></li>
+<li><a href="#双亲委派模型">双亲委派模型</a></li>
+<li><a href="#自定义加载器">自定义加载器</a></li>
+<li><a href="#使用场景">使用场景</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Java%e7%b1%bb%e5%8a%a0%e8%bd%bd%e5%99%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f16%2fJava-Class-Loader%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f16%2fJava-Class-Loader%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f16%2fJava-Class-Loader%2f&amp;description=Java%e7%b1%bb%e5%8a%a0%e8%bd%bd%e5%99%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f16%2fJava-Class-Loader%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/">
+          <section class="post">
+              <h2>spring-boot 可执行jar启动原理</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/">
+          <section class="post">
+              <h2>限流-Sentinel使用</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

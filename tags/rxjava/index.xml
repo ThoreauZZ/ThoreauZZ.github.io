@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rxjava on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/rxjava/</link>
+    <description>Recent content in rxjava on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Fri, 08 Jun 2018 21:25:23 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/rxjava/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>rxjava原理篇</title>
+      <link>http://thoreauz.com/2018/06/08/rxjava-2/</link>
+      <pubDate>Fri, 08 Jun 2018 21:25:23 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/06/08/rxjava-2/</guid>
+      <description>概述 本文简述rxjava2的实现原理。搞清原理，使用起来才得心应手。 基本原理 先看一个最简单的示例： // 被观察者 Observable&amp;lt;Object&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;Object&amp;gt;() { @Override public void subscribe(ObservableEmitter&amp;lt;Object&amp;gt; emitter) throws Exception { System.out.println(&amp;quot;emit a</description>
+    </item>
+    
+    <item>
+      <title>rxjava基础篇</title>
+      <link>http://thoreauz.com/2018/03/29/rxjava-1/</link>
+      <pubDate>Thu, 29 Mar 2018 21:08:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/29/rxjava-1/</guid>
+      <description>概念 响应式编程是一种处理异步数据流的规范，它为数据流的转换和聚合以及数据流的控制管理提供了工具支持。整个数据流可能包含一个或者多个事件。 如果</description>
+    </item>
+    
+  </channel>
+</rss>

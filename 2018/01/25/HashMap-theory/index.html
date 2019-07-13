@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="HashMap详解"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="HashMap详解 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/01/25/HashMap-theory/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-01-25T14:24:25Z" />
+
+    
+    <meta property="article:tag" content="java" />
+    
+    
+
+    <title>HashMap详解 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.ran" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/01/25/HashMap-theory/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": HashMap详解,
+    "name": HashMap详解,
+    "wordCount": 2927,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/01/25/HashMap-theory/,
+    "datePublished": 2018-01-25T14:24Z,
+    "dateModified": 2018-01-25T14:24Z,
+    
+    "keywords": java,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/01/25/HashMap-theory/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">HashMap详解</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-01-25T14:24:25Z">
+            2018-01-25
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/java/">java</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例：</p>
+
+<pre><code class="language-java">public static void main(String[] args) {
+        // init 
+        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+        // put
+        IntStream.range(0, 20).forEach(item-&gt;map.put(item,item+1));
+        // iterator
+        map.forEach((k,v)-&gt; System.out.println(&quot;k:&quot;+k+&quot; v:&quot;+v));
+        // get
+        System.out.println(map.get(1);
+}
+</code></pre>
+
+<p><img src="http://thoreauz.com/images/2018-01-09-23-18-17.jpg" alt="" /><br />
+继承AbstractMap，实现 Cloneable, Serializable。<br />
+重要filed：<br />
+* initialCapacity:初始容量，是哈希表创建中桶的数量。默认16(1&lt;&lt;4)<br />
+* loadFactor:加载因子(默认0.75)，指容量自动增加之前可以达到多满的一个系数。</p>
+
+<p>所以，使用时，如果明确知道map的容量，可以定一个初始值，避免自动扩容的消耗。<br />
+<!-- more --><br />
+常量：</p>
+
+<pre><code class="language-java">/**
+ * 默认的初始容量（容量为HashMap中槽的数目）是16
+ */
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+
+/**
+ * 最大容量 : 必须是2的幂且小于2的30次方，传入容量过大将被这个值替换
+ */
+static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;
+
+/**
+ *  默认加载因子
+ */
+static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
+/**
+ * 链表转为红黑树的临界值
+ */
+static final int TREEIFY_THRESHOLD = 8;
+
+/**
+ * 删除冲突节点后，hash相同的节点数目小于这个数，红黑树就恢复成链表
+ */
+static final int UNTREEIFY_THRESHOLD = 6;
+
+/**
+ * 可能被树化的最小容量
+ */
+static final int MIN_TREEIFY_CAPACITY = 64;
+</code></pre>
+
+<h2 id="初始化">初始化</h2>
+
+<p>如果使用模式默认构造方法，loadFactor=0.75f：</p>
+
+<pre><code class="language-java">public HashMap() {
+    this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+}
+</code></pre>
+
+<p>指定容量初始化:</p>
+
+<pre><code class="language-java">public HashMap(int initialCapacity, float loadFactor) {
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +  initialCapacity);
+    if (initialCapacity &gt; MAXIMUM_CAPACITY)
+        initialCapacity = MAXIMUM_CAPACITY;
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +loadFactor);
+    this.loadFactor = loadFactor;
+    this.threshold = tableSizeFor(initialCapacity);
+}
+</code></pre>
+
+<p><code>threshold</code>: (capacity * load factor) , 扩容时容量大小。但此处使用了方法tableSizeFor。</p>
+
+<pre><code class="language-java">//  返回容量对应的2的幂:比如cap=31，return 32，cap=33，return 64
+static final int tableSizeFor(int cap) {
+    int n = cap - 1;
+    n |= n &gt;&gt;&gt; 1;
+    n |= n &gt;&gt;&gt; 2;
+    n |= n &gt;&gt;&gt; 4;
+    n |= n &gt;&gt;&gt; 8;
+    n |= n &gt;&gt;&gt; 16;
+    return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+</code></pre>
+
+<h2 id="1-put">1. PUT</h2>
+
+<p>Put主要包含以下步骤：<br />
+1. 对key的hashcode做hash处理，再获取index<br />
+2. 如果没有hash碰撞，直接put<br />
+3. 如果碰撞，以链表形式存储<br />
+4. 如果链表过长，装换为红黑树<br />
+5. 如果已经存在，替换value<br />
+6. 如果达到扩展临界值，则扩容</p>
+
+<p>结构图:</p>
+
+<p><img src="http://thoreauz.com/images/2018-01-10-20-40-00.jpg" alt="" /><br />
+从图中看出，HashMap有数组、链表、红黑树等数据结构。使用数组是为方便hash后定位到具体节点(也作bucket)，如果bucket位置相同，使用链表方便插入，但是链表过长，查找时间复杂度增加O(n)。使用红黑树，查找时间复杂度O(logn)。</p>
+
+<p>Node和TreeNode结构如下：<br />
+<img src="http://thoreauz.com/images/2018-01-10-20-21-39.jpg" alt="" />              <img src="http://thoreauz.com/images/2018-01-10-20-26-05.jpg" alt="" /></p>
+
+<p><strong>源码</strong></p>
+
+<pre><code class="language-java">/**
+ * 1.  存放key-value，如果key已经存在，则替换掉
+ * 2.  如果已经有key，返回对应value，否则返回null
+ * 3. 对 key 作hash并传递给putVal方法
+ */
+ public V put(K key, V value) {
+        return putVal(hash(key), key, value, false, true);
+ }
+</code></pre>
+
+<pre><code class="language-java">static final int hash(Object key) {
+    int h;
+    // key 为null 返回 0
+    // key 非null：获取hashcode 和hashcode无符号右移16位安位与，即大于2的16次方后，重新调整hashcode。
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
+}
+</code></pre>
+
+<p>例如”string“对应的hash值如下：</p>
+
+<pre><code class="language-bash">h :     1100 1010 1101 0101  0110 0000 0001 0001
+h&gt;&gt;&gt;16: 0000 0000 0000 0000  1100 1010 1101 0101
+^       1100 1010 1101 0101  1010 1010 1100 0100
+</code></pre>
+
+<pre><code class="language-java"> final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
+  
+        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+        
+         // tab为空则通过resize创建
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+         // 计算index = (n - 1) &amp; hash，如果此下标Node空，新建一个Node
+        if ((p = tab[i = (n - 1) &amp; hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            Node&lt;K,V&gt; e; K k;
+            if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+                // hash相同，key相同：节点存在
+                e = p;
+            else if (p instanceof TreeNode)
+             // 该链为树
+                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+            else {
+                // 链表
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                           // 链表转为树
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        // size 叨叨临界值，扩容
+        if (++size &gt; threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+</code></pre>
+
+<p>上述<br />
+内部类Node很重要，用来存储数据。如果put发现tab下标(index)对应的值为空，直接new 一个Node存放。</p>
+
+<pre><code class="language-java">tab[i] = newNode(hash, key, value, null);// 第一个node
+p.next = newNode(hash, key, value, null);// 链表添加node
+</code></pre>
+
+<h2 id="2-扩容">2. 扩容</h2>
+
+<p>扩容resize，当bucket数量超过threshold,需要对数组table扩容，否则hash碰撞太厉害，影响性能。也就是put源码中的：</p>
+
+<pre><code class="language-java">if (++size &gt; threshold){
+    resize();
+}
+</code></pre>
+
+<p>每次扩容，新容量(newCap)都是原来的2倍，重新分配每个桶上的数据，下面重点看如何分配：<br />
+从一个示例开始：</p>
+
+<pre><code class="language-java">public class App {
+    public static void main(String[] args) {
+        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+        for (int i = 0; i &lt; 16; i++) {
+            map.put(&quot;key&quot; + i, &quot;value&quot; + i);
+        }
+    }
+}
+</code></pre>
+
+<p><strong>case1</strong>:  没有碰撞，不用扩容<br />
+循环插入16个数据从key0-&gt;key15。初始化map后：</p>
+
+<pre><code class="language-java">cap = 16 
+threshold = 16 * 0.75 = 12
+</code></pre>
+
+<p>对于<code>put(&quot;key0&quot;,&quot;value0&quot;)</code>，key0的hash值为十进制为3288451，则：hash &amp; （cap-1）</p>
+
+<pre><code>hash 0011 0010 0010 1101 1000 0011
+‭n-1  0000 0000 0000 0000 0000 1111
+rst  0000 0000 0000 0000 0000 0011
+</code></pre>
+
+<p>结果是: 3<br />
+表示key0位置在数据是table[3] = node(3288451,&laquo;key0&raquo;,&laquo;value0&raquo;,null)；</p>
+
+<p><strong>case2</strong>: 碰撞，转为链表<br />
+对于<code>put(&quot;key12&quot;,&quot;value12&quot;)</code><br />
+key12的hash值为十进制为101945043, 则：hash &amp; （cap-1）</p>
+
+<pre><code>0110 0001 0011 1000 1110 1101 0011
+0000 0000 0000 0000 0000 0000 1111
+0000 0000 0000 0000 0000 0000 0011
+</code></pre>
+
+<p>结果是3，和key0位置相同，赋值为key0.next</p>
+
+<pre><code> p.next = newNode(hash, key, value, null);
+</code></pre>
+
+<p>如下图：<br />
+<img src="http://thoreauz.com/images/2018-01-25-11-52-30.jpg" alt="" /><br />
+此时，size = 13 &gt; 12。到达扩容界限，进行扩容：</p>
+
+<pre><code class="language-java">cap = 32
+threshold = oldThr &lt;&lt;1  = 24
+</code></pre>
+
+<p>重新分配数据，还是以key0和key12为例:<br />
+hash &amp; (‭cap&lt;&lt;1)-1</p>
+
+<p><strong>key0</strong></p>
+
+<pre><code>hash        0011 0010 0010 1101 1000 0011
+(‭n&lt;&lt;1)-1    0000 0000 0000 0000 0001 1111
+rst         0000 0000 0000 0000 0000 0011
+</code></pre>
+
+<p>结果还是3，还是原来桶的位置；</p>
+
+<p><strong>key12</strong></p>
+
+<pre><code>0110 0001 0011 1000 1110 1101 0011
+0000 0000 0000 0000 0000 0001 1111
+0000 0000 0000 0000 0000 0001 0011
+</code></pre>
+
+<p>结果是16 + 3 = 19, 位置改变，重新分配。</p>
+
+<p>从key12 的例子可以看到。<br />
+hash &amp; (cap-1)： 其中hash值不变，不需要重新计算，<br />
+<strong>cap左移一位(扩容一次)</strong><br />
+1. 如果hash对应位置上是0，则hash &amp; (cap-1)结果不变<br />
+2. 如果hash对应位置上是1，结果是（hash &amp; (cap-1) + cap  = hash &amp; (cap &lt;&lt; 2 -1)，即原值+cap</p>
+
+<p>这样，数据迁移的成本不是很高。</p>
+
+<p>下面是resize源码：</p>
+
+<pre><code class="language-java">final Node&lt;K,V&gt;[] resize() {
+    Node&lt;K,V&gt;[] oldTab = table;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    int oldThr = threshold;
+    int newCap, newThr = 0;
+    if (oldCap &gt; 0) {
+         // 超过最大值就不再扩容
+        if (oldCap &gt;= MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return oldTab;
+        }else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp; oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+            newThr = oldThr &lt;&lt; 1; // 扩展为原来两倍(double threshold)
+    }else if (oldThr &gt; 0) {// initial capacity was placed in threshold
+        newCap = oldThr;
+    }else {               // zero initial threshold signifies using defaults
+        newCap = DEFAULT_INITIAL_CAPACITY;
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
+    // 计算新threshold
+    if (newThr == 0) {
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?(int)ft : Integer.MAX_VALUE);
+    }
+    threshold = newThr;
+    @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+    table = newTab;
+    if (oldTab != null) {
+        for (int j = 0; j &lt; oldCap; ++j) {
+            Node&lt;K,V&gt; e;
+            if ((e = oldTab[j]) != null) {
+                oldTab[j] = null;
+                if (e.next == null)
+                    newTab[e.hash &amp; (newCap - 1)] = e;
+                else if (e instanceof TreeNode)
+                    // 对树的处理
+                    ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                else { // preserve order
+                    Node&lt;K,V&gt; loHead = null, loTail = null;
+                    Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                    Node&lt;K,V&gt; next;
+                    // 对链表的处理
+                    do {
+                        next = e.next;
+                        if ((e.hash &amp; oldCap) == 0) {
+                            if (loTail == null)
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
+                        }
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
+                        }
+                    } while ((e = next) != null);
+                    if (loTail != null) {
+                        loTail.next = null;
+                        newTab[j] = loHead;
+                    }
+                    if (hiTail != null) {
+                        hiTail.next = null;
+                        newTab[j + oldCap] = hiHead;
+                    }
+                }
+            }
+        }
+    }
+    return newTab;
+}
+</code></pre>
+
+<p>知道put和resize方法，get方法就比较简单了。这儿不作分析。</p>
+
+<p>总结： Hashmap由3种数据结构组成，分别是数组、链表、红黑树。数组相当于桶，桶里面是链表或红黑树，桶的定位通过hashcode和(hashcode&gt;&gt;&gt;16)异或计算结果。每次扩容都是原来两倍，保证数据迁移要么在原位，要么+oldCap，减少重新计算桶和数据迁移复杂性。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#初始化">初始化</a></li>
+<li><a href="#1-put">1. PUT</a></li>
+<li><a href="#2-扩容">2. 扩容</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=HashMap%e8%af%a6%e8%a7%a3&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f25%2fHashMap-theory%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f25%2fHashMap-theory%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f25%2fHashMap-theory%2f&amp;description=HashMap%e8%af%a6%e8%a7%a3"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f25%2fHashMap-theory%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/26/ConsistentHash/">
+          <section class="post">
+              <h2>一致性hash算法</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/21/Red-Black-Trees/">
+          <section class="post">
+              <h2>红黑树</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

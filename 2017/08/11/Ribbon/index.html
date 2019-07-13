@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Ribbon源码阅读"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Ribbon源码阅读 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/11/Ribbon/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-11T20:12:38Z" />
+
+    
+    <meta property="article:tag" content="spring" />
+    
+    <meta property="article:tag" content="微服务" />
+    
+    <meta property="article:tag" content="spring cloud" />
+    
+    
+
+    <title>Ribbon源码阅读 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。 在sp" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/11/Ribbon/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Ribbon源码阅读,
+    "name": Ribbon源码阅读,
+    "wordCount": 2168,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/08/11/Ribbon/,
+    "datePublished": 2017-08-11T20:12Z,
+    "dateModified": 2017-08-11T20:12Z,
+    
+    "keywords": spring, 微服务, spring cloud,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/08/11/Ribbon/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Ribbon源码阅读</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-11T20:12:38Z">
+            2017-08-11
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-cloud/">spring cloud</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。<br />
+在spring cloud可以通过简单配置，即可完成客户端负载均衡，用法如下：配置，注入，请求</p>
+
+<pre><code class="language-java"> @Bean
+@LoadBalanced
+RestTemplate restTemplate() {
+    return new RestTemplate();
+
+}
+@Autowired
+private RestTemplate restTemplate;
+
+public Object getUser(Long id) {
+    return restTemplate.getForEntity(&quot;http://CLOUD-SERVICE-USER/user/persionalInfo?id=&quot; + id, Object.class).getBody();
+}
+</code></pre>
+
+<p>带着问题看源码：<br />
+1. Ribbon怎么和RestTemplate整合<br />
+2. 怎么样自定义负载均衡算法<br />
+3. 底层http客户端怎么修改</p>
+
+<!-- more -->
+
+<h2 id="common-包">common 包</h2>
+
+<p>在spring-cloud-common中提供了这样一个接口<code>LoadBalancerClient</code>，注释说明是客户端负载均衡器。</p>
+
+<pre><code class="language-java">public interface LoadBalancerClient extends ServiceInstanceChooser {
+	&lt;T&gt; T execute(String serviceId, LoadBalancerRequest&lt;T&gt; request) throws IOException;
+	/**
+	 * 使用来自LoadBalancer的ServiceInstance，对起执行请求
+	 * @param serviceId 
+	 * @param 服务实例
+	 * @param Request。允许在执行前后添加metric
+	 * @return 回调结果
+	 */
+	&lt;T&gt; T execute(String serviceId, ServiceInstance serviceInstance, LoadBalancerRequest&lt;T&gt; request) throws IOException;
+	/**
+	 * 创建一个真正的URL包含主机和端口：
+	 * http://myservice/path/to/service --&gt; http://host:port/path/to/service
+	 * @param 服务实例
+	 * @param 源url，是一个包含serviceId或者dns的URL
+	 * @return 重新构造的URL
+	 */
+	URI reconstructURI(ServiceInstance instance, URI original);
+}
+</code></pre>
+
+<p>此接口提供了三个方法，继承ServiceInstanceChooser，我们再来看下这个接口：</p>
+
+<pre><code class="language-java">public interface ServiceInstanceChooser {
+    ServiceInstance choose(String serviceId);
+}
+</code></pre>
+
+<p>这个接口只提供了一个方法：通过serviceId获取需要访问的实例。而Ribbon则实现了LoadBalancerClient。</p>
+
+<p><img src="http://thoreauz.com/images/2017-08-11-00-34-40.jpg" alt="" /></p>
+
+<p>下面分析这个类怎么具体实现接口中的choose方法：</p>
+
+<h3 id="choose实现">choose实现</h3>
+
+<pre><code class="language-java">@Override
+public ServiceInstance choose(String serviceId) {
+	Server server = getServer(serviceId);
+	if (server == null) {
+		return null;
+	}
+	return new RibbonServer(serviceId, server, isSecure(server, serviceId),
+			serverIntrospector(serviceId).getMetadata(server));
+}
+</code></pre>
+
+<p>第一行返回一个server，server包含了服务的地址端口和状态区域等信息，通过serviceId获取这个服务是关键。</p>
+
+<pre><code class="language-java">Server{
+	public static final String UNKNOWN_ZONE = &quot;UNKNOWN&quot;;
+    private String host;
+    private int port = 80;
+    private volatile String id;
+    private volatile boolean isAliveFlag;
+    private String zone = &quot;UNKNOWN&quot;;
+    private volatile boolean readyToServe = true;
+}
+</code></pre>
+
+<p>再看获取服务的方法：</p>
+
+<pre><code class="language-java">protected Server getServer(String serviceId) {
+	return getServer(getLoadBalancer(serviceId));
+}
+protected Server getServer(ILoadBalancer loadBalancer) {
+	if (loadBalancer == null) {
+		return null;
+	}
+	return loadBalancer.chooseServer(&quot;default&quot;); // TODO: better handling of key
+}
+</code></pre>
+
+<p>获取ILoadBalancer对象，再传递给另一个同名方法。下面分析ILoadBalancer及其实现成了重点。</p>
+
+<p><img src="http://thoreauz.com/images/2017-08-11-10-42-59.jpg" alt="" /></p>
+
+<p>追查ILoadBalancer的实现，最终落实到DynamicServerListLoadBalancer，下面从接口开始分析这个实现类。<br />
+先看几个抽象类和接口中需要实现的方法：</p>
+
+<pre><code class="language-java">public interface ILoadBalancer {
+    void addServers(List&lt;Server&gt; var1); // 初始化服务列表
+    Server chooseServer(Object var1);	// 从列表中选择一个服务
+    void markServerDown(Server var1);	// 标记服务为down
+    List&lt;Server&gt; getReachableServers();	// 获取up和reachable的服务
+    List&lt;Server&gt; getAllServers();		//获取所有服务（reachable and unreachable）
+}
+ public abstract List&lt;Server&gt; getServerList(ServerGroup serverGroup);
+ public abstract LoadBalancerStats getLoadBalancerStats();    
+ public void primeCompleted(Server s, Throwable lastException);
+ public abstract void initWithNiwsConfig(IClientConfig clientConfig);
+</code></pre>
+
+<p>接着再看下面调用链：下面列出的代码中省略了很多逻辑。</p>
+
+<pre><code class="language-java">public ILoadBalancer getLoadBalancer(String name) {
+	return getInstance(name, ILoadBalancer.class);
+}
+
+//类：DynamicServerListLoadBalancer
+@Override
+public &lt;C&gt; C getInstance(String name, Class&lt;C&gt; type) {
+	C instance = super.getInstance(name, type);
+	if (instance != null) {
+		return instance; 
+	}
+	IClientConfig config = getInstance(name, IClientConfig.class);
+	return instantiateWithConfig(getContext(name), type, config);
+}
+
+//类：DynamicServerListLoadBalancer
+protected Server getServer(ILoadBalancer loadBalancer) { 
+	return loadBalancer.chooseServer(&quot;default&quot;); 
+	}
+
+//类：ZoneAwareLoadBalancer
+@Override
+public Server chooseServer(Object key) {
+    return zoneLoadBalancer.chooseServer(key);
+}
+
+//类：BaseLoadBalancer
+public Server chooseServer(Object key) {
+    return rule.choose(key); // 重要方法 rule = new RoundRobinRule()  
+}
+</code></pre>
+
+<p>总之，逻辑是这样的：<br />
+1. 获取负载均衡器(LoadBalancer)的实例(getInstance)。<br />
+2. 负载均衡器通过IRule实现的算法逻辑实现选择。<br />
+3. 最后获得一个Server(服务)</p>
+
+<p>负载均衡的算法主要通过ribbon提供的一些列算法实现IRule，默认是轮询。<br />
+<img src="http://thoreauz.com/images/2017-08-11-18-04-51.jpg" alt="" /><br />
+Ribbon提供了一些其他算法：<br />
+* RetryRule:根据轮询的方式重试<br />
+* RandomRule: 随机<br />
+* WeightedResponseTimeRule：根据响应时间去分配权重<br />
+* ZoneAvoidanceRule：区域可用性</p>
+
+<p>至于切换算法的配置，主要集中在初始化时的配置类里面<code>IClientConfig</code>，而这个bean的信息通过对restTemplate添加注解@LoadBalanced完成。具体的负载均衡算法可以通过bean注入，如下。</p>
+
+<pre><code class="language-java">@Bean
+public IRule ribbonRule() {
+    return new RandomRule();//这里配置策略，和配置文件对应
+}
+</code></pre>
+
+<p>这就解决了我在文章开头的第二个问题。如果需要自定义算法，实现IRule，通过bean的配置完成注入。至于服务列表维护，此文跳过。</p>
+
+<h2 id="resttemplate整合">restTemplate整合</h2>
+
+<p>上文提到通过注解即可开启restTemplate，那是如何做到的？</p>
+
+<pre><code class="language-java">@Configuration
+@ConditionalOnClass(RestTemplate.class)
+@ConditionalOnBean(LoadBalancerClient.class)
+@EnableConfigurationProperties(LoadBalancerRetryProperties.class)
+public class LoadBalancerAutoConfiguration {
+
+	@LoadBalanced
+	@Autowired(required = false)
+	private List&lt;RestTemplate&gt; restTemplates = Collections.emptyList();
+
+	@Bean
+	public SmartInitializingSingleton loadBalancedRestTemplateInitializer(
+			final List&lt;RestTemplateCustomizer&gt; customizers) {
+		return new SmartInitializingSingleton() {
+			@Override
+			public void afterSingletonsInstantiated() {
+				for (RestTemplate restTemplate : LoadBalancerAutoConfiguration.this.restTemplates) {
+					for (RestTemplateCustomizer customizer : customizers) {
+						customizer.customize(restTemplate);
+					}
+				}
+			}
+		};
+	}
+}
+</code></pre>
+
+<p>这是一个自动配置类，首先维护了一个<code>restTemplates</code>列表，并通过<code>RestTemplateCustomizer</code>对这些他们添加一个拦截器，如下。</p>
+
+<pre><code class="language-java">@Bean
+@ConditionalOnMissingBean
+public RestTemplateCustomizer restTemplateCustomizer(
+		final LoadBalancerInterceptor loadBalancerInterceptor) {
+	return new RestTemplateCustomizer() {
+		@Override
+		public void customize(RestTemplate restTemplate) {
+			List&lt;ClientHttpRequestInterceptor&gt; list = new ArrayList&lt;&gt;(
+					restTemplate.getInterceptors());
+			list.add(loadBalancerInterceptor);
+			restTemplate.setInterceptors(list);
+		}
+	};
+}
+</code></pre>
+
+<p>而拦截器的主要就是把serviceId取出来，再使用负载均衡器发起http请求。</p>
+
+<pre><code class="language-java">@Override
+public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
+		final ClientHttpRequestExecution execution) throws IOException {
+	final URI originalUri = request.getURI();
+	String serviceName = originalUri.getHost();
+	Assert.state(serviceName != null, &quot;Request URI does not contain a valid hostname: &quot; + originalUri);
+	return this.loadBalancer.execute(serviceName, requestFactory.createRequest(request, body, execution));
+}
+</code></pre>
+
+<p>又回到了common中提到的四个方法中的第一个。至此，很明了，就是通过注入给restTemplate注入一个拦截器达到使用loadBalancer的目的。</p>
+
+<p>RestTemplate 本身并没有做 HTTP 底层的实现，而是利用了现有的第三方库：<br />
+1. HttpURLConnection<br />
+2. Apache httpclient<br />
+3. ok http<br />
+4. netty</p>
+
+<p>不同的底层实现，只需要定义直接的RequestFactory，实现ClientHttpRequestFactory。在spring cloud给出了http client切换成okhttp的配置。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#common-包">common 包</a>
+<ul>
+<li><a href="#choose实现">choose实现</a></li>
+</ul></li>
+<li><a href="#resttemplate整合">restTemplate整合</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Ribbon%e6%ba%90%e7%a0%81%e9%98%85%e8%af%bb&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f11%2fRibbon%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f11%2fRibbon%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f11%2fRibbon%2f&amp;description=Ribbon%e6%ba%90%e7%a0%81%e9%98%85%e8%af%bb"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f11%2fRibbon%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/11/jq/">
+          <section class="post">
+              <h2>jq使用</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/10/mq/">
+          <section class="post">
+              <h2>消息队列</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

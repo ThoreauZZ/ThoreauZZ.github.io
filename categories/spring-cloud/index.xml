@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spring cloud on 造舟野渡</title>
+    <link>http://thoreauz.com/categories/spring-cloud/</link>
+    <description>Recent content in spring cloud on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Fri, 11 Aug 2017 20:12:38 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/categories/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ribbon源码阅读</title>
+      <link>http://thoreauz.com/2017/08/11/Ribbon/</link>
+      <pubDate>Fri, 11 Aug 2017 20:12:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/11/Ribbon/</guid>
+      <description>Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。 在sp</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud Config 存储复杂数据结构</title>
+      <link>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</link>
+      <pubDate>Mon, 24 Apr 2017 17:33:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</guid>
+      <description>假设现在有这样一个接口： GET /emojes { &amp;quot;emojies&amp;quot;: [{ &amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;呵呵&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://xxx.png&amp;quot; }, { &amp;quot;id&amp;quot;: &amp;quot;2&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;嘿嘿&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://ooo.png&amp;quot; }] } 里面的数据希望存储</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 分布式系统追踪</title>
+      <link>http://thoreauz.com/2017/04/12/spring-cloud-trace/</link>
+      <pubDate>Wed, 12 Apr 2017 17:40:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/12/spring-cloud-trace/</guid>
+      <description>Spring Cloud 分布式系统追踪 微服务的特点就是服务多，依赖关系复杂。一个请求进来，整个调用链是什么样的，各个服务的调用时间，错误出现在哪个服务、哪台机器</description>
+    </item>
+    
+    <item>
+      <title>spring cloud 服务网关ZULL</title>
+      <link>http://thoreauz.com/2017/03/07/spring-cloud-zuul/</link>
+      <pubDate>Tue, 07 Mar 2017 22:56:57 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/07/spring-cloud-zuul/</guid>
+      <description>spring cloud 服务网关ZUUL 路由是微服务架构中不可或缺的一部分。比如，/ 可能需要映射到你的web应用, /api/users 映射到用户服务, /api/shop 映射到商城服务. Zuul是</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud  异常处理和状态码</title>
+      <link>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</link>
+      <pubDate>Mon, 13 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</guid>
+      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;quot;/trade/order&amp;quot;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud Hystrix熔断器</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-hystrix/</link>
+      <pubDate>Sun, 12 Feb 2017 20:14:15 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-hystrix/</guid>
+      <description>Spring Cloud Hystrix熔断器 在微服务中，一个请求进来可能需要调用多个服务，如果其中一个服务出现故障，比如超时堵塞。导致其他请求进来也堵塞从而导致</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 微服务配置中心(cloud config)</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-config/</link>
+      <pubDate>Sun, 12 Feb 2017 20:12:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-config/</guid>
+      <description>Spring Cloud 微服务配置中心(cloud config) Spring Cloud Config为分布式系统中的外部化配置提供服务器和客户端支持，使用Config Server可以集中管理所</description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud 微服务注册中心(Eureka)</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-eureka/</link>
+      <pubDate>Sun, 12 Feb 2017 19:11:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-eureka/</guid>
+      <description>Spring Cloud 微服务注册中心(Eureka) Eureka，服务注册和发现，它提供了一个服务注册中心、服务发现的客户端，还有一个方便的查看所有注册服务的</description>
+    </item>
+    
+    <item>
+      <title>spring cloud 微服务组件</title>
+      <link>http://thoreauz.com/2017/02/12/spring-cloud-netflix/</link>
+      <pubDate>Sun, 12 Feb 2017 18:11:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/spring-cloud-netflix/</guid>
+      <description>spring cloud 微服务组件 简介 spring cloud 为开发人员提供了快速构建分布式系统的一些通用组件。这些组件实现的功能比如有：服务注册中心，配置中心，服务网关，服务跟踪</description>
+    </item>
+    
+  </channel>
+</rss>

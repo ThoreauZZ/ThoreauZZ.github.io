@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on 造舟野渡</title>
+    <link>http://thoreauz.com/categories/mysql/</link>
+    <description>Recent content in mysql on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Tue, 12 Mar 2019 23:54:31 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>InnoDB存储引擎</title>
+      <link>http://thoreauz.com/2019/03/12/InnoDB/</link>
+      <pubDate>Tue, 12 Mar 2019 23:54:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/03/12/InnoDB/</guid>
+      <description>概述 作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15； &amp;gt; 架构图 查看和使用I</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-索引</title>
+      <link>http://thoreauz.com/2017/12/02/high-performance-mysql-key/</link>
+      <pubDate>Sat, 02 Dec 2017 19:14:50 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/12/02/high-performance-mysql-key/</guid>
+      <description>概述 索引在大数量量时对性能尤为重要，创建合适的索引和使用成了其中关键，本文介绍如何创建高性能的索引。 索引基础 类型 mysql中，有不同的索引类</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-schema与数据类型优化</title>
+      <link>http://thoreauz.com/2017/11/25/high-performance-mysql-schma/</link>
+      <pubDate>Sat, 25 Nov 2017 19:19:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/25/high-performance-mysql-schma/</guid>
+      <description>选择优化的数据类型 遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添</description>
+    </item>
+    
+    <item>
+      <title>高性能Mysql-性能剖析</title>
+      <link>http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/</link>
+      <pubDate>Sat, 25 Nov 2017 14:53:08 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/</guid>
+      <description>性能优化的两个原则： 1. 我们通过任务和时间而不是资源来衡量性能。 2. 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。</description>
+    </item>
+    
+  </channel>
+</rss>

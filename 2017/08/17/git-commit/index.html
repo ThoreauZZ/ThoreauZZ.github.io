@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="如何写好Git Commit"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="如何写好Git Commit &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/17/git-commit/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-17T16:10:19Z" />
+
+    
+    <meta property="article:tag" content="git" />
+    
+    
+
+    <title>如何写好Git Commit &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="什么是好的git commit，有以下几点： * message清楚反应本次提交内容 * 方便回退到某个版本 * 反应产品演进过程 主要针对团队开发，对于开" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/17/git-commit/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 如何写好Git Commit,
+    "name": 如何写好Git Commit,
+    "wordCount": 1312,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/08/17/git-commit/,
+    "datePublished": 2017-08-17T16:10Z,
+    "dateModified": 2017-08-17T16:10Z,
+    
+    "keywords": git,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/08/17/git-commit/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">如何写好Git Commit</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-17T16:10:19Z">
+            2017-08-17
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/git/">git</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>什么是好的git commit，有以下几点：<br />
+* message清楚反应本次提交内容<br />
+* 方便回退到某个版本<br />
+* 反应产品演进过程</p>
+
+<p>主要针对团队开发，对于开源和非开源项目要求可能不一样。个人认为，开源项目的master提交尽量反应产品演进，所以，分支合并时，可以把分支的多个commit合并为一条。但团队非开源项目，我觉得没必要这么做，多点“小步提交“的message没什么关系。</p>
+
+<p>当然，对个人的提交来说，可以按照自己的习惯，从msg格式和提交上把commit写好。</p>
+
+<!-- more -->
+
+<h2 id="message格式">message格式</h2>
+
+<pre><code>feat: 添加阅读数量
+
+给文章添加阅读数量功能
+- 添加xx1
+- 添加xx2
+
+Issue #1, #2
+Close #1
+</code></pre>
+
+<p>说明：<br />
+<strong>第一行:</strong> ：header</p>
+
+<pre><code>keyword: 简要说说明
+</code></pre>
+
+<p>keyword:<br />
+* feat: 新增feature<br />
+* fix：bugfix<br />
+* docs：文档修改<br />
+* style: 改变编码风格<br />
+*  refactor:重构<br />
+* perf：改善<br />
+* test：添加测试<br />
+* revert: 回退到前一版本</p>
+
+<p><strong>第二行</strong>：body，详细说明<br />
+<strong>第三行</strong>：footer，指向或者关闭issues</p>
+
+<p>所以，在提交是尽量避免如下命令</p>
+
+<pre><code>git commit -am &quot;xxx&quot;
+</code></pre>
+
+<p>下文还是这样使用，只是为了方便演示。</p>
+
+<h2 id="修改提交">修改提交</h2>
+
+<p>本来开发都会尽快小步提交，如果提交的message写得不好，直接通过<code>--amend</code>选项修改：</p>
+
+<pre><code>git commit --amend
+</code></pre>
+
+<p>如果是新的修改提交，也可以用相同的命令，把这次提交合并到上次的commit中。</p>
+
+<p>可以使用rebase作各种变基嫁接操作，下面看一个示例</p>
+
+<pre><code>$ ls
+README.md file1.txt
+
+$ git lg
+* 6ffc8d0 - (HEAD -&gt; master) add file1 (3 minutes ago) &lt;thoreau&gt;
+* d12e8cf - refactor(package): 提炼方法 (21 minutes ago) &lt;thoreau&gt;
+</code></pre>
+
+<p>下面添加file2并简单(方便演示)提交：</p>
+
+<pre><code class="language-bash">$ touch file2.txt
+$ ga 
+$ gcm &quot;add file2&quot;
+$ git lg
+* bc004ef - (HEAD -&gt; master) add file2 (8 seconds ago) &lt;thoreau&gt;
+* 6ffc8d0 - add file1 (5 minutes ago) &lt;thoreau&gt;
+* d12e8cf - refactor(package): 提炼方法 (23 minutes ago) &lt;thoreau&gt;
+</code></pre>
+
+<p>现在，我们想把第二个提交删除，把最后一个提交的msg修改为&raquo;new file2&raquo;：</p>
+
+<pre><code>git rebase -i d12e8cf
+</code></pre>
+
+<p><img src="http://thoreauz.com/images/2017-08-17-15-32-18.jpg" alt="" /><br />
+修改如下：<br />
+<img src="http://thoreauz.com/images/2017-08-17-15-33-21.jpg" alt="" /><br />
+紧接着编辑最后一个提交的msg。执行git log<br />
+<img src="http://thoreauz.com/images/2017-08-17-15-34-54.jpg" alt="" /><br />
+做到了我们想要的结果，删一个改一个，再看文件，发现file1.txt不存在了。</p>
+
+<p>使用<code>rebase</code>的好处是想怎么改就怎么改，但最后是针对自己阶段性提交的修改，否则造成commit history对不上，分支合并出现问题。除非是修改历史敏感信息，这个命令需要谨慎使用。</p>
+
+<p>从技术上，还是有补救办法，如果不想删除第二个提交，想回退rebase，怎么办？<br />
+<code>git reflog</code><br />
+<img src="http://thoreauz.com/images/2017-08-17-15-40-59.jpg" alt="" /></p>
+
+<pre><code>git reset --hard bc004ef #撤销
+</code></pre>
+
+<h3 id="分支合并时的commit">分支合并时的commit</h3>
+
+<p>在上述三个commit的master上建一个分支：b1，并修改file2，新建file_b1</p>
+
+<pre><code class="language-bash">* 9bd82c9 - (HEAD -&gt; b1) add file_b1 (82 seconds ago) &lt;thoreau&gt;
+* 5cab28f - edit file2 (2 minutes ago) &lt;thoreau&gt;
+* bc004ef - (master) add file2 (21 minutes ago) &lt;thoreau&gt;
+* 6ffc8d0 - add file1 (26 minutes ago) &lt;thoreau&gt;
+* d12e8cf - refactor(package): 提炼方法 (44 minutes ago) &lt;thoreau&gt;
+</code></pre>
+
+<p>现在把分支合并到主干，但我希望把分支的commit都合并成一个，可以使用<code>--squash</code></p>
+
+<pre><code>git checkout master
+git merge --squash b1
+git commit -m &quot;feat: new file_b1 and Bugfix&quot;
+</code></pre>
+
+<p><img src="http://thoreauz.com/images/2017-08-17-15-55-24.jpg" alt="" /></p>
+
+<h3 id="远程分支合并">远程分支合并</h3>
+
+<p>如果你在本地新增提交的时候，远程分支已经有新提交，此时由于commit history不一样，是不允许提交的，需要先把分支合并过来，形成一个新的提交，如下图。<br />
+<img src="http://thoreauz.com/images/2017-08-16-11-08-02.jpg" alt="" /><br />
+可以看到，分支br上的提交6e989ff合并到master时，生成一个新提交ea74b46。我们可以使用嫁接的方式（也叫分支衍合），把6e989ff直接嫁接到master提交1becaca后，还是使用<code>rebase</code>,不会产生新的提交，如下，是git官方说明。<br />
+<img src="http://thoreauz.com/images/2017-08-17-16-07-04.jpg" alt="" /></p>
+
+<hr />
+
+<p>参考列表：<br />
+* <a href="https://github.com/torvalds/linux/pull/17#issuecomment-5654674">https://github.com/torvalds/linux/pull/17#issuecomment-5654674</a><br />
+* <a href="http://yanhaijing.com/git/2016/02/17/my-commit-message/">http://yanhaijing.com/git/2016/02/17/my-commit-message/</a><br />
+* <a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</a><br />
+* <a href="https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88">https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#message格式">message格式</a></li>
+<li><a href="#修改提交">修改提交</a>
+<ul>
+<li><a href="#分支合并时的commit">分支合并时的commit</a></li>
+<li><a href="#远程分支合并">远程分支合并</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e5%a6%82%e4%bd%95%e5%86%99%e5%a5%bdGit%20Commit&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f17%2fgit-commit%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f17%2fgit-commit%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f17%2fgit-commit%2f&amp;description=%e5%a6%82%e4%bd%95%e5%86%99%e5%a5%bdGit%20Commit"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f17%2fgit-commit%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/20/future-promise/">
+          <section class="post">
+              <h2>给Future一个Promise</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/15/swig/">
+          <section class="post">
+              <h2>前端模板swig</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

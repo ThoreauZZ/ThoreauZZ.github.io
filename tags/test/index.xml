@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>test on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/test/</link>
+    <description>Recent content in test on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 19 May 2019 13:59:10 +0800</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/test/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java测试驱动看这篇就够了</title>
+      <link>http://thoreauz.com/2019/05/19/java-tdd/</link>
+      <pubDate>Sun, 19 May 2019 13:59:10 +0800</pubDate>
+      
+      <guid>http://thoreauz.com/2019/05/19/java-tdd/</guid>
+      <description>tdd 测试驱动开发，从字面谁上很好理解，开发流程应该是这样的。 关键在于测试编写先于实现，如果是写完实现再补测试，虽然总比没有强，但它不是TDD。</description>
+    </item>
+    
+    <item>
+      <title>用Postman测试API</title>
+      <link>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</link>
+      <pubDate>Mon, 13 Nov 2017 16:18:30 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</guid>
+      <description>概述 API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试，</description>
+    </item>
+    
+    <item>
+      <title>WireMock进行集成测试</title>
+      <link>http://thoreauz.com/2017/07/20/java-test-WireMock/</link>
+      <pubDate>Thu, 20 Jul 2017 11:11:03 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/20/java-test-WireMock/</guid>
+      <description>概述 在开发中，我们需要mock Http API，主要有两种使用场景： 1. 前后端分离开发，API first，可以提供虚拟接口，方便前端开发。 2. 集成测试依</description>
+    </item>
+    
+    <item>
+      <title>JAVA常用测试框架</title>
+      <link>http://thoreauz.com/2017/07/20/JAVA-test-tool/</link>
+      <pubDate>Thu, 20 Jul 2017 00:28:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/20/JAVA-test-tool/</guid>
+      <description>要做好测试驱动开发，意识习惯最重要，其次也得回编写优雅的单元测试。java测试框架很多，各种断言和注解，有点混乱，编写测试时老师搞不清该用哪</description>
+    </item>
+    
+  </channel>
+</rss>

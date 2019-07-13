@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="GO— 异常错误处理"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="GO— 异常错误处理 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/01/09/Go-Error-handling/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-01-09T11:41:53Z" />
+
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>GO— 异常错误处理 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/01/09/Go-Error-handling/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": GO— 异常错误处理,
+    "name": GO— 异常错误处理,
+    "wordCount": 1713,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/01/09/Go-Error-handling/,
+    "datePublished": 2018-01-09T11:41Z,
+    "dateModified": 2018-01-09T11:41Z,
+    
+    "keywords": go,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/01/09/Go-Error-handling/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">GO— 异常错误处理</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-01-09T11:41:53Z">
+            2018-01-09
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="error标识符">error标识符</h2>
+
+<h3 id="概述">概述</h3>
+
+<p>error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下:</p>
+
+<pre><code class="language-go">type error interface {
+    Error() string
+}
+</code></pre>
+
+<p>所以，任何实现<code>Error() string</code>方法的类型结构都可以作为error使用。<br />
+go标准库的errors包提供了创建error类型的函数New()，可以这样使用<br />
+<!-- more --></p>
+
+<pre><code class="language-go">func c(i int) error{
+	if i&lt;0 {
+		return errors.New(&quot;i is a negative number&quot;)
+	}
+	return nil
+}
+</code></pre>
+
+<p>我们看下new的实现：</p>
+
+<pre><code class="language-go">package errors
+func New(text string) error {
+	return &amp;errorString{text}
+}
+type errorString struct {
+	s string
+}
+func (e *errorString) Error() string {
+	return e.s
+}
+</code></pre>
+
+<p>new是text参数作为errors包下私有类似<code>errorString</code>的初始化参数，Error()的指针接收者为errorString，也就是说，errorString类型实现了erorr的<code>Error() string</code>方法，他就是一个error类型。new就是返回一个error类型值。</p>
+
+<p>可以产生error类型值的另一个内建方式：</p>
+
+<pre><code class="language-go">fmt.Errorf(&quot;%d is a negative number&quot;,i)
+</code></pre>
+
+<p>他也是通过errors.new 和Sprintf实现，并不会在屏幕打印字符串。</p>
+
+<h3 id="自定义">自定义</h3>
+
+<p>有时候，调用一个方法，我们需要根据返回error类型做不同的操作，比如http 4xx和5xx错误打印不同的日志等。可以定义自己的错误类型；自定义其实就跟new函数实现类似。</p>
+
+<pre><code class="language-go">var e4xxError = errors.New(&quot;4xx&quot;)
+func main() {
+	if err:=c(400);err == e4xxError{
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(&quot;unknown err&quot;)
+}
+func c(i int) error{
+	if i&lt;500 &amp;&amp; i&gt;=400 {
+		return e4xxError
+	}
+	return errors.New(&quot;no 4xx error&quot;)
+}
+</code></pre>
+
+<p>但是使用==比较，只能是完全相同的变量值。这里通常指作为一个错误信号使用。</p>
+
+<p>对于需要复杂的错误对象，比如error codes等，这种方式不太好，还是应该创建自己error实现类型结构,需要注意的是，返回值推荐设置为error类型，而非自定义错误类型。通常为了扩展复杂的错误信息，可以如下实现：</p>
+
+<pre><code class="language-go">type Error interface {
+    error
+    Timeout() bool  
+    Temporary() bool 
+}
+</code></pre>
+
+<p>调用时，通过类型断言err是不是net.Error,来细化错误的处理，比如使用switch语句判断。</p>
+
+<pre><code class="language-go">if nerr, ok := err.(net.Error); ok &amp;&amp; nerr.Temporary() {
+	time.Sleep(1e9)
+	continue
+}
+if err != nil {
+	log.Fatal(err)
+}
+</code></pre>
+
+<h3 id="压缩代码行数">压缩代码行数</h3>
+
+<pre><code class="language-go">d, err := F()
+if err != nil {
+	fmt.Println(err)
+	return err
+}
+
+c, err := F1()
+if err != nil {
+	fmt.Println(err)
+	return err
+}
+</code></pre>
+
+<p>编程go时，经常有这种代码，每调用一次函数判断一次，可以换一种方式编写：</p>
+
+<pre><code class="language-go">var d int
+if d, err := F(); err != nil {
+	fmt.Println(err) // some int
+	return err
+}
+fmt.Println(d) // 0
+</code></pre>
+
+<h3 id="统一处理">统一处理</h3>
+
+<p>有时候，业务代码不需要没走不都判断错误，可以有一个统一错误处理方法解决；<br />
+1. 把错误都定义在同一个包下；</p>
+
+<pre><code class="language-go">// Kubernetes 源码
+package errors
+type StatusError struct {
+	ErrStatus metav1.Status
+}
+
+type APIStatus interface {
+	Status() metav1.Status
+}
+
+var _ error = &amp;StatusError{}
+
+// Error implements the Error interface.
+func (e *StatusError) Error() string {
+	return e.ErrStatus.Message
+}
+
+func (e *StatusError) Status() metav1.Status {
+	return e.ErrStatus
+}
+
+func (e *StatusError) DebugError() (string, []interface{}) {
+	if out, err := json.MarshalIndent(e.ErrStatus, &quot;&quot;, &quot;  &quot;); err == nil {
+		return &quot;server response object: %s&quot;, []interface{}{string(out)}
+	}
+	return &quot;server response object: %#v&quot;, []interface{}{e.ErrStatus}
+}
+// error包下还可以这样定义一堆error
+var ERR_EOF = errors.New(&quot;EOF&quot;)
+var ERR_CLOSED_PIPE = errors.New(&quot;io: read/write on closed pipe&quot;)
+var ERR_NO_PROGRESS = errors.New(&quot;multiple Read calls return no data or error&quot;)
+var ERR_SHORT_BUFFER = errors.New(&quot;short buffer&quot;)
+var ERR_SHORT_WRITE = errors.New(&quot;short write&quot;)
+var ERR_UNEXPECTED_EOF = errors.New(&quot;unexpected EOF&quot;)
+</code></pre>
+
+<p>这个包下好友很多check函数，对于一直错误条件的check，可以直接返回bool类型。</p>
+
+<pre><code class="language-go">func IsBadRequest(err error) bool {
+	return ReasonForError(err) == metav1.StatusReasonBadRequest
+}
+</code></pre>
+
+<ol>
+<li>编写代码时，最后通过谓语句判断直接return，外层统一处理，比如：<br />
+<code>go
+// Kubernetes 源码
+cmdutil.CheckErr(options.RunCreate(f, cmd))
+</code><br />
+统一在CheckErr()中处理。<br />
+<br /></li>
+</ol>
+
+<h2 id="异常panic">异常panic</h2>
+
+<p>直接看一个示例：</p>
+
+<pre><code class="language-go">func main() {
+	B()
+	fmt.Println(&quot;会执行.&quot;)
+}
+func A()  {
+	fmt.Println(&quot;func A : do somethings&quot;)
+	// 出现问题，抛出异常(panic)
+	panic(&quot;not expect error&quot;)
+	fmt.Println(&quot;不会执行.&quot;)
+
+}
+func B()  {
+	// defer 在前
+	defer func(){
+		if r := recover(); r != nil {
+			log.Println(&quot;捕获panic:&quot;,r)
+		}
+	}()
+	A()
+	fmt.Println(&quot;不会执行.&quot;)
+}
+</code></pre>
+
+<blockquote>
+<p>func A : do somethings<br />
+会执行.<br />
+2018/03/16 11:49:20 捕获panic: not expect error</p>
+</blockquote>
+
+<p>执行函数A，出现严重问题、致命错误时，使用panic。panic用于停止当前控制流程，并报告一个运行时恐慌/异常(panic)。之后的语句不会被执行，直接把控制权交给函数调用方，直到goroutine调用栈的最顶层。执行B，因为A出现panic，所以后面的语句不会执行，但是defer会执行，从而捕获panic。在main函数中，panic不再出现，所有B函数调用后的语句会被执行。</p>
+
+<p>总结：<br />
+1. panic 会根据函数的调用顺序逐层传递；<br />
+2. panic 仅限于当前协程（routine），子协程抛出 panic，父协程无法捕获；<br />
+3. 虽然子协程 panic 父协程无法捕获，但子协程的 panic 会导致父协程 crash（所以子协程最好捕获 panic），想要父协程获取子协程的 panic 信息，可以在子协程 recover 之后用 channel 传递出去；</p>
+
+<hr />
+
+<p>参考：<br />
+[1]. <a href="https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee">go-best-practices-error-handling</a><br />
+[2]. <a href="https://blog.golang.org/error-handling-and-go">error-handling-and-go</a><br />
+[3]. <a href="https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.1.md">错误处理</a><br />
+[4]. <a href="https://github.com/juju/errors">juju/errors</a><br />
+[5]. <a href="http://blog.zhangjiee.com/go-defer-panic-reover.html">go-defer-panic-reover</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#error标识符">error标识符</a>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#自定义">自定义</a></li>
+<li><a href="#压缩代码行数">压缩代码行数</a></li>
+<li><a href="#统一处理">统一处理</a></li>
+</ul></li>
+<li><a href="#异常panic">异常panic</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=GO%e2%80%94%e2%80%8a%e5%bc%82%e5%b8%b8%e9%94%99%e8%af%af%e5%a4%84%e7%90%86&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f09%2fGo-Error-handling%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f09%2fGo-Error-handling%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f09%2fGo-Error-handling%2f&amp;description=GO%e2%80%94%e2%80%8a%e5%bc%82%e5%b8%b8%e9%94%99%e8%af%af%e5%a4%84%e7%90%86"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f09%2fGo-Error-handling%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">
+          <section class="post">
+              <h2>二叉搜索树</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/09/go-web-example/">
+          <section class="post">
+              <h2>go 开发web应用</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

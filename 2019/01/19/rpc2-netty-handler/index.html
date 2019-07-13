@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="RPC二-NettyHandler处理消息"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="RPC二-NettyHandler处理消息 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/01/19/rpc2-netty-handler/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-01-19T11:37:42Z" />
+
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    <meta property="article:tag" content="rpc" />
+    
+    <meta property="article:tag" content="netty" />
+    
+    
+
+    <title>RPC二-NettyHandler处理消息 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": RPC二-NettyHandler处理消息,
+    "name": RPC二-NettyHandler处理消息,
+    "wordCount": 2023,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2019/01/19/rpc2-netty-handler/,
+    "datePublished": 2019-01-19T11:37Z,
+    "dateModified": 2019-01-19T11:37Z,
+    
+    "keywords": 分布式系统, rpc, netty,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2019/01/19/rpc2-netty-handler/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">RPC二-NettyHandler处理消息</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-01-19T11:37:42Z">
+            2019-01-19
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/rpc/">rpc</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/netty/">netty</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p><img src="http://thoreauz.com/images/2019-03-03-11-38-55.jpg" alt="" /></p>
+
+<p><strong>RPC系列</strong><br />
+1. <a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型</a><br />
+2. <a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息</a><br />
+3. <a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码</a><br />
+4. <a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链</a><br />
+5. <a href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计</a><br />
+6. <a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理</a><br />
+7. <a href="http://thoreauz.com/2019/01/12/service-registry-discovery/">服务发现-注册中心设计</a></p>
+
+<h2 id="概述">概述</h2>
+
+<p>netty官网给出了<a href="http://netty.io/4.1/xref/io/netty/example/echo/package-summary.html">EchoServer</a>示例，很容易实现一个应答服务。EchoClientHandler处理客户端发出请求和接收消息。我稍微改动下，大概代码如下：</p>
+
+<!-- more -->
+
+<pre><code class="language-java">public class ClientHandler extends SimpleChannelInboundHandler&lt;ByteBuf&gt; {
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    	  // 请求：发送data
+        ctx.writeAndFlush(&quot;hello&quot;.getBytes());
+    }
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws IOException {
+        // 返回：读取返回值
+        System.out.println(in.toString()); 
+    }
+}
+</code></pre>
+
+<p>示例中，ClientHandler在channelActive()就绪后发送数据，在监听到返回值后执行channelRead0()方法。看起来很简单，但是channelActive和channelRead0两个方法都是异步触发，我们需要找到发送数据的入口和拿到数据的方法。</p>
+
+<h2 id="发送数据">发送数据</h2>
+
+<p>方案：ClientHandler持有ChannelHandlerContext，在handler就绪后初始化handler持有的context，如：</p>
+
+<pre><code class="language-java">public class ClientHandler extends SimpleChannelInboundHandler&lt;ByteBuf&gt; {
+	private ChannelHandlerContext ctx;
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        this.ctx = ctx;// 拿到ctx，赋值
+    }
+    // 调用此方法发送数据
+    pulic byte[] sendMsg(bytep[] bytes){
+    	ByteBuf buf = Unpooled.buffer();
+    	buf.writeBytes(bytes);
+    	// 如果chanel未就绪，ctx为空，此处将出现空指针异常
+    	ctx.writeAndFlush(buf);
+    }
+}
+</code></pre>
+
+<h2 id="获取数据">获取数据</h2>
+
+<h3 id="使用阻塞队列">使用阻塞队列</h3>
+
+<p>Netty中所有IO操作都是异步的，所以<code>ctx.writeAndFlush(buf)</code>告诉handler执行后马上返回，不会等到服务端返回数据。</p>
+
+<p>所以，需要一个异步通知的机制，在channelRead0()方法中通知客户端。<br />
+可以通过BlockingQueue实现：<br />
+<img src="http://thoreauz.com/images/handler.png" alt="" /></p>
+
+<pre><code class="language-java">public class ClientHandler extends SimpleChannelInboundHandler&lt;ByteBuf&gt; {
+	private final BlockingQueue&lt;String&gt; responses = new LinkedBlockingQueue&lt;&gt;();
+	private ChannelHandlerContext ctx;
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        this.ctx = ctx;// 拿到ctx
+    }
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws IOException {
+        responses.add(in.toString());
+    }
+    // 调用此方法发送数据
+    pulic String sendMsg(bytep[] bytes){
+    	ByteBuf buf = Unpooled.buffer();
+    	buf.writeBytes(bytes);
+    	ctx.writeAndFlush(buf);
+    	String result = responses.take()
+    	return result;
+    }
+}
+</code></pre>
+
+<h3 id="多路复用">多路复用</h3>
+
+<p>使用netty tcp客户端，一般都是多路复用，建立连接后，把handler放入缓存。使用时直接从缓存中获取，而不是每个请求都建立一次连接。也就是多路复用，这儿就成了复用handler。</p>
+
+<pre><code>            +-----------+       +--------+
+thread a+-&gt; |           |       |        |
+            |  handler  +-----&gt; | server |
+            |           |       |        |
+thread b+-&gt; +-----------+       +--------+
+
+</code></pre>
+
+<p>多线程调用时，每个请求的返回顺序并不一致，如上图，线程a先执行，线程b后执行，但哪个线程的结果先返回就说不好了。如何判断返回值属于哪个线程呢？</p>
+
+<p>对上文中的BlockingQueue做改造：</p>
+
+<pre><code class="language-java">ConcurrentHashMap&lt;Long, BlockingQueue&lt;Response&gt;&gt; responseMap = new ConcurrentHashMap&lt;&gt;();
+</code></pre>
+
+<p>引入ConcurrentHashMap：</p>
+
+<ul>
+<li>key： request分配的唯一id<br /></li>
+<li>value： 长度为1的LinkedBlockingQueue为value<br />
+<br /></li>
+</ul>
+
+<p>步骤：<br />
+1. 构造request并生成唯一requestId<br />
+2. responseMap.put(requstId,new LinkedBlockingQueue(1))<br />
+3. 执行异步IO：ctx.writeAndFlush()<br />
+4. 阻塞等待：responseMap.get(requestId).poll()<br />
+5. 处理事件：如果监听到事件，responseMap.get(requestId).add(Response)<br />
+6. 等待结束，返回response。</p>
+
+<h3 id="使用listenablefuture">使用ListenableFuture</h3>
+
+<p>上文中直接使用阻塞队列的方式还是不太好，也就是说，只能发起同步调用，如果是异步，需要返回LinkedBlockingQueue给客户端自己处理。使用更高抽象的Future-promise模型是更好的选择。</p>
+
+<p><strong>Future</strong>：<br />
+它的值是一个异步计算的结果集。可以判断异步结果是否执行完成，可以取消(不再关心结果)，可以阻塞获取结果。但只能读取，无法修改。</p>
+
+<pre><code class="language-java">public interface Future&lt;V&gt; {
+    boolean cancel(boolean mayInterruptIfRunning);
+    boolean isCancelled();
+    boolean isDone();
+    V get(); 
+    V get(long timeout, TimeUnit unit);
+}
+</code></pre>
+
+<p>guava又在其基础上作了扩展。如ListenableFuture，可以添加监听器，可以阻塞等待，操作更自由，不需要循环判断<code>future.isDone()</code>。netty又扩展了更丰富的方法如<code>syncUninterruptibly()</code>。</p>
+
+<p><strong>Promise</strong>:<br />
+promise由Future扩展而来，区别是不仅能读取，还可以主动写返回。如<code>setSuccess()</code>,<code>setFailure()</code>。</p>
+
+<p>对Future使用，可以参考我在其他文章给出的示例jdk、guava、netty的3个示例：<a href="http://thoreauz.com/2017/08/20/language/java/%E5%9F%BA%E7%A1%80/%E7%BB%99Future%E4%B8%80%E4%B8%AAPromise/">给Future一个Promise</a>。</p>
+
+<p>异步获取netty客户端请求返回值，Future-promise再适合不过。如下图：<br />
+<img src="http://thoreauz.com/images/2018-05-24-21-54-21.jpg" alt="" /></p>
+
+<p>guava提供了几个比较好的类如：<br />
+* AbstractFuture: 一个抽象类，继承可以实ListenableFuture<br />
+* SettableFuture：AbstractFuture的一个实现类，提供set(),setException(),setFuture()<br />
+* Futures: 创建Future的工程方法。</p>
+
+<p>下文基于guava几个类，创建自己的RpcFuture(promis)：</p>
+
+<pre><code class="language-java">public class RpcFuture&lt;V&gt; extends AbstractFuture&lt;V&gt;{
+    private final Executor executor;
+    public RpcFuture(Executor executor) {
+        this.executor = executor;
+    }
+    public void addListener(final Runnable listener) {
+        super.addListener(listener, executor);
+    }
+    @Override
+    public boolean set(V value) {
+        boolean result = super.set(value);
+        if (!result) {
+            throw new IllegalStateException(&quot;set future result failed&quot;);
+        }
+        return result;
+    }
+}
+</code></pre>
+
+<p>模仿Futures也创建一个自己的工程方法：</p>
+
+<pre><code class="language-java">public class Futures {
+    public static &lt;T&gt; RpcFuture&lt;T&gt; createListenableFuture() {
+        return new RpcFuture&lt;&gt;(MoreExecutors.directExecutor());
+    }
+}
+</code></pre>
+
+<p>于是，我们的客户端请求方法就变成了：</p>
+
+<pre><code class="language-java">RpcFuture&lt;Response&gt; future = client.invoke(request);
+RpcFuture&lt;Response&gt; future = client.invoke(request.callback);
+</code></pre>
+
+<p>同步调用通过future.get()返回Response，异步调用直接返回Future。</p>
+
+<hr />
+
+<p><a href="http://netty.io/4.1/xref/io/netty/example/echo/package-summary.html">http://netty.io/4.1/xref/io/netty/example/echo/package-summary.html</a><br />
+<a href="https://www.jianshu.com/p/a06da3256f0c">https://www.jianshu.com/p/a06da3256f0c</a><br />
+<a href="http://colobu.com/2015/06/11/Scala-Future-and-Promise/">http://colobu.com/2015/06/11/Scala-Future-and-Promise/</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#发送数据">发送数据</a></li>
+<li><a href="#获取数据">获取数据</a>
+<ul>
+<li><a href="#使用阻塞队列">使用阻塞队列</a></li>
+<li><a href="#多路复用">多路复用</a></li>
+<li><a href="#使用listenablefuture">使用ListenableFuture</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=RPC%e4%ba%8c-NettyHandler%e5%a4%84%e7%90%86%e6%b6%88%e6%81%af&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc2-netty-handler%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc2-netty-handler%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc2-netty-handler%2f&amp;description=RPC%e4%ba%8c-NettyHandler%e5%a4%84%e7%90%86%e6%b6%88%e6%81%af"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc2-netty-handler%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">
+          <section class="post">
+              <h2>RPC三-rpc协议和编解码</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">
+          <section class="post">
+              <h2>RPC一-线程模型</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

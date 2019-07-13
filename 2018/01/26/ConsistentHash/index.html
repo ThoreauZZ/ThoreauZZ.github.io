@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="一致性hash算法"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="一致性hash算法 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/01/26/ConsistentHash/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-01-26T19:56:52Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    <meta property="article:tag" content="hash" />
+    
+    
+
+    <title>一致性hash算法 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/01/26/ConsistentHash/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 一致性hash算法,
+    "name": 一致性hash算法,
+    "wordCount": 2143,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/01/26/ConsistentHash/,
+    "datePublished": 2018-01-26T19:56Z,
+    "dateModified": 2018-01-26T19:56Z,
+    
+    "keywords": algorithm, hash,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/01/26/ConsistentHash/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">一致性hash算法</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-01-26T19:56:52Z">
+            2018-01-26
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/hash/">hash</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="概述">概述</h2>
+
+<p>现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实例。</p>
+
+<p>这里面涉及几个问题：故障；扩容；数据均匀分配。下面，我们看一致性hash算法怎么解决这些问题。</p>
+
+<!-- more -->
+
+<h2 id="简陋实现">简陋实现</h2>
+
+<p>现有四台redis：</p>
+
+<pre><code>node1 (192.168.99.101:6379)
+node2 (192.168.99.102:6379)
+node3 (192.168.99.103:6379)
+node4 (192.168.99.104:6379)
+</code></pre>
+
+<p>实例数量n=4； 如果缓存k,v如：&raquo;name&raquo;:&laquo;thoreau&raquo;， 通过hash计算出对应的redis实例：</p>
+
+<pre><code class="language-java">// hashcode绝对值取模
+index = (Math.abs(&quot;name&quot;.hashCode()) % n)
+</code></pre>
+
+<p>index =3, 定位到第四台redis，这就是最简单的实现，那它有什么问题呢，我们看一个示例：</p>
+
+<pre><code class="language-java">AtomicInteger atomicInteger = new AtomicInteger();
+@Test
+public void testNodeChange() {
+    int n = 4, newNode = 5;
+    for (int i = 0; i &lt; 100_0000; i++) {
+        int r1 = Math.abs((&quot;key&quot; + i).hashCode()) % n;
+        int r2 = Math.abs((&quot;key&quot; + i).hashCode()) % newNode;
+        if (r1 != r2) {
+            atomicInteger.addAndGet(1);
+        }
+    }
+    System.out.println(atomicInteger);
+}
+</code></pre>
+
+<blockquote>
+<p>输出：800112</p>
+</blockquote>
+
+<p>也就是说，新增一个节点，100万数据有80万需要迁移到新node，其实很好理解，就是4/5的数据都需要迁移。节点数(redis实例)越多，每加一个节点，数据迁移量越大，给扩容带来很大的麻烦。</p>
+
+<h2 id="hash环">hash环</h2>
+
+<p><img src="http://thoreauz.com/images/2018-01-26-22-30-14.jpg" alt="" /><br />
+为了解决扩容带来的大数据量迁移的问题，引入hash环。如图2，假设hash值范围是0到2^32-1，首尾连成环，环上分布3个Node。假如key1的hash结果是A，沿环顺时针寻找，找到的第一个节点N1，这个实例就是key的数据落点。</p>
+
+<p>优点: 如果新增一个节点，那么，需要迁移的数据只有hash值处于新节点和逆时针方向第一个节点间的范围。如图3，新增N4，那么，只有N3到N4间的数据受影响，解决了取模运算方式大量数据迁移的麻烦。<br />
+<img src="http://thoreauz.com/images/2018-01-26-22-31-06.jpg" alt="" /></p>
+
+<p>Java实现：</p>
+
+<pre><code class="language-java">/**
+ * 物理节点接口
+ */
+public interface PhysicalNode {
+    /**
+     * 返回用于计算hash的key
+     */
+    String getKey();
+}
+</code></pre>
+
+<pre><code class="language-java">/**
+ * hash算法接口
+ */
+public interface IHash {
+    /**
+     * 根据字符串key，获取long型hash值
+    */
+    long getHash(String key);
+}
+</code></pre>
+
+<pre><code class="language-java">public class ConsistentHash {
+    private SortedMap&lt;Long, PhysicalNode&gt; hashWheel = new TreeMap&lt;&gt;();
+    private IHash hashfunc = new MD5Hash();
+    public void addNode(PhysicalNode physicalNode) {
+        long hash = hashfunc.getHash(physicalNode.getKey());
+        hashWheel.put(hash, physicalNode);
+    }
+    public PhysicalNode getNode(String key) {
+        long hash = hashfunc.getHash(key);
+        SortedMap&lt;Long, PhysicalNode&gt; collect = hashWheel.tailMap(hash);
+        return hashWheel.get(collect.firstKey());
+    }
+}
+</code></pre>
+
+<p>hash算法可以选择(FNV1_32_HASH, MD5, crc32,&hellip;.)，实现IHash的getHash方法。<br />
+hash轮使用treeMap存储：<br />
+1. treeMap基于红黑树实现，查找时间复杂度O(logN)<br />
+2. 提供tailMap(K fromKey)，返回fromKey之后的map。正好适用hash环顺时针查找。</p>
+
+<p>测试一下：</p>
+
+<pre><code class="language-java">@Test
+public void testNode() {
+    List&lt;PhysicalNode&gt; redisNodes = new ArrayList&lt;&gt;();
+    IHash hash = new MD5Hash();
+    redisNodes.add(new RedisNode(&quot;192.168.99.100&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.101&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.102&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.103&quot;, 8080));
+    ConsistentHash consistentHash = new ConsistentHash(redisNodes);
+    String key1 = &quot;hello&quot;;
+    String key2 = &quot;world&quot;;
+    String key3 = &quot;1&quot;;
+    String key4 = &quot;pwdpwdpwdpwdpwd&quot;;
+    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key1, hash.getHash(key1), consistentHash.getNode(key1));
+    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key2, hash.getHash(key2), consistentHash.getNode(key2));
+    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key3, hash.getHash(key3), consistentHash.getNode(key3));
+    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key4, hash.getHash(key4), consistentHash.getNode(key4));
+}
+</code></pre>
+
+<p>格式输出：<br />
+&gt;add node[192.168.99.100:8080],hash:[1546744927]<br />
+add node[192.168.99.101:8080],hash:[3621727994]<br />
+add node[192.168.99.102:8080],hash:[426906814]<br />
+add node[192.168.99.103:8080],hash:[4138500944]</p>
+
+<blockquote>
+<p>key:hello,              hash:1564557354,    node:192.168.99.101:8080<br />
+key:world,              hash:2105094199,    node:192.168.99.101:8080<br />
+key:1,                  hash:3301589560,    node:192.168.99.101:8080<br />
+key:pwdpwdpwdpwdpwd,    hash:37046274,      node:192.168.99.102:8080</p>
+</blockquote>
+
+<p>可以看到，4台redis的ip+端口进行hash，值从小到大依次是：1546744927(node1) -&gt; 3621727994 (node2)-&gt; 4138500944(node4) -&gt;426906814(node3)。 四个key有3个的hash值在node1和node2之间，所以对于节点是node2。</p>
+
+<p>如果新增一个节点<code>192.168.99.104:8080</code>，hash值：2941049386，相当于在node1和node2直接新增节点，node1和新增节点间的数据需要迁移。</p>
+
+<p>这样，一个简单的hash环实现了一致性hash算法。但从示例中也看得出来，数据分布不不均匀。要解决这个问题，需要引入虚拟节点。</p>
+
+<h2 id="虚拟节点">虚拟节点</h2>
+
+<p><img src="http://thoreauz.com/images/2018-01-26-22-31-46.jpg" alt="" /><br />
+如上图，如果物理节点N1-N4的hash值比较集中在一个小范围，将会导致，N1到N2之间的所有数据将被分配到N2节点。我们引入虚拟节点，每个物理节点管理一定数量的虚拟节点，虚拟节点分布在环上，和物理节点有映射。如下图，通过引入虚拟节点，环上的小球归属同颜色的N1-N3，一个物理节点存0~ 2^32-1范围内多个片段的数据，从而是分配更均匀，也没破坏迁移成本。<br />
+<img src="http://thoreauz.com/images/2018-01-26-22-32-05.jpg" alt="" /><br />
+java 实现：</p>
+
+<pre><code class="language-java">@Getter
+public class VirtualNode {
+    /**
+     * 虚拟节点序号
+     */
+    private int replicaNumber;
+    /**
+     * 对应的物理节点
+     */
+    private PhysicalNode parent;
+
+    public VirtualNode(PhysicalNode parent, int replicaNumber) {
+        this.replicaNumber = replicaNumber;
+        this.parent = parent;
+    }
+    /**
+     * 使用物理节点的&quot;key#12&quot;作为虚拟节点的key
+     *
+     * @return String
+     */
+    public String getKey() {
+        return parent.getKey() + &quot;#&quot; + replicaNumber;
+    }
+}
+</code></pre>
+
+<p>具体实现:</p>
+
+<pre><code class="language-java">@Slf4j
+public class ConsistentHash {
+    /**
+     * hash 轮使用treeMap存储：
+     * &lt;p&gt;
+     * 1. treeMap基于红黑树实现，查找时间复杂度O(logN)
+     * 2. 提供tailMap(K fromKey)，返回fromKey之后的map。正好和hash环顺时针查找切和
+     */
+    private SortedMap&lt;Long, VirtualNode&gt; hashWheel = new TreeMap&lt;&gt;();
+    /**
+     * 默认虚拟节点数
+     */
+    private final static int DEFAULT_VNODE_SIZE = 150;
+    /**
+     * md5实现hash
+     */
+    private IHash hashfunc = new MD5Hash();
+
+    /**
+     * 初始化节点
+     *
+     * @param servers
+     */
+    public ConsistentHash(Collection&lt;PhysicalNode&gt; servers) {
+        for (PhysicalNode server : servers) {
+            addNode(server);
+        }
+    }
+
+    /**
+     * 添加节点
+     *
+     * @param physicalNode 节点
+     */
+    public void addNode(PhysicalNode physicalNode) {
+        // 获取虚拟节点序号
+        int virtualNumber = getVirtualNumber(physicalNode.getKey());
+        for (int i = 0; i &lt; DEFAULT_VNODE_SIZE; i++) {
+            VirtualNode virtualNode = new VirtualNode(physicalNode, virtualNumber + i);
+            // 对虚拟节点key计算hash值
+            long hash = hashfunc.getHash(virtualNode.getKey());
+            hashWheel.put(hash, virtualNode);
+        }
+        log.info(&quot;add node[{}],hash:[{}]&quot;, physicalNode.getKey());
+    }
+
+    /**
+     * 获取节点
+     *
+     * @param key key
+     * @return 节点信息
+     */
+    public PhysicalNode getNode(String key) {
+        long hash = hashfunc.getHash(key);
+        SortedMap&lt;Long, VirtualNode&gt; collect = hashWheel.tailMap(hash);
+        if (collect.size() == 0) {
+            return hashWheel.get(hashWheel.firstKey()).getParent();
+        }
+        return hashWheel.get(collect.firstKey()).getParent();
+    }
+
+    /**
+     * parentKey#number
+     *
+     * @param nodeKey nodeKey
+     * @return number
+     */
+    private int getVirtualNumber(String nodeKey) {
+        int num = 0;
+        for (VirtualNode node : hashWheel.values()) {
+            if (node.getKey().equals(nodeKey)) {
+                num++;
+            }
+        }
+        return num;
+    }
+}
+</code></pre>
+
+<p>测试hash分布：</p>
+
+<pre><code class="language-java">Map&lt;String, AtomicInteger&gt; count = new HashMap&lt;&gt;();
+@Test
+public void testBalance() {
+    List&lt;PhysicalNode&gt; redisNodes = new ArrayList&lt;&gt;();
+    IHash hash = new MD5Hash();
+    redisNodes.add(new RedisNode(&quot;192.168.99.100&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.101&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.102&quot;, 8080));
+    redisNodes.add(new RedisNode(&quot;192.168.99.103&quot;, 8080));
+    ConsistentHash consistentHash = new ConsistentHash(redisNodes);
+    for (int i = 0; i &lt; 1000000; i++) {
+        addCount(consistentHash.getNode(&quot;key&quot; + i));
+    }
+    System.out.println(count);
+}
+
+private void addCount(PhysicalNode node) {
+    if (count.get(node.getKey()) == null) {
+        count.put(node.getKey(), new AtomicInteger(1));
+    } else {
+        count.get(node.getKey()).addAndGet(1);
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>输出 {192.168.99.101:8080=267981, 192.168.99.103:8080=248429, 192.168.99.102:8080=227529, 192.168.99.100:8080=256061}</p>
+</blockquote>
+
+<p>测试结果显示，100万数据，每个节点有25万左右，相对均匀。这样，一致性hash算法的实现就算完成了。</p>
+
+<hr />
+
+<p>参考:<br />
+[1]. <a href="https://yikun.github.io/2016/06/09/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%AE%9E%E8%B7%B5/">一致性哈希算法的理解与实践/</a><br />
+[2]. <a href="http://www.importnew.com/22488.html">对一致性Hash算法，Java代码实现的深入研究</a><br />
+[3]. <a href="http://www.oschina.net/translate/state-of-hash-functions">Hash 函数概览</a><br />
+[4]. <a href="http://calvin1978.blogcn.com/articles/murmur.html">陌生但默默一统江湖的MurmurHash</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#简陋实现">简陋实现</a></li>
+<li><a href="#hash环">hash环</a></li>
+<li><a href="#虚拟节点">虚拟节点</a></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e4%b8%80%e8%87%b4%e6%80%a7hash%e7%ae%97%e6%b3%95&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f26%2fConsistentHash%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f26%2fConsistentHash%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f26%2fConsistentHash%2f&amp;description=%e4%b8%80%e8%87%b4%e6%80%a7hash%e7%ae%97%e6%b3%95"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f26%2fConsistentHash%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/02/08/local-cache/">
+          <section class="post">
+              <h2>聊聊本地缓存</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/25/HashMap-theory/">
+          <section class="post">
+              <h2>HashMap详解</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

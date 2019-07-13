@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hash on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/hash/</link>
+    <description>Recent content in hash on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Fri, 26 Jan 2018 19:56:52 +0000</lastBuildDate>
+    
+	<atom:link href="http://thoreauz.com/tags/hash/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>一致性hash算法</title>
+      <link>http://thoreauz.com/2018/01/26/ConsistentHash/</link>
+      <pubDate>Fri, 26 Jan 2018 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/26/ConsistentHash/</guid>
+      <description>概述 现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实</description>
+    </item>
+    
+  </channel>
+</rss>

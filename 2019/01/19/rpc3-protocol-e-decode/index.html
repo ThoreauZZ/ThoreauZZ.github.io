@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="RPC三-rpc协议和编解码"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="RPC三-rpc协议和编解码 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-01-19T11:37:46Z" />
+
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    <meta property="article:tag" content="rpc" />
+    
+    
+
+    <title>RPC三-rpc协议和编解码 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": RPC三-rpc协议和编解码,
+    "name": RPC三-rpc协议和编解码,
+    "wordCount": 1940,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/,
+    "datePublished": 2019-01-19T11:37Z,
+    "dateModified": 2019-01-19T11:37Z,
+    
+    "keywords": 分布式系统, rpc,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">RPC三-rpc协议和编解码</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-01-19T11:37:46Z">
+            2019-01-19
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/rpc/">rpc</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p><img src="http://thoreauz.com/images/2019-03-03-11-38-55.jpg" alt="" /></p>
+
+<p><strong>RPC系列</strong><br />
+1. <a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型</a><br />
+2. <a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息</a><br />
+3. <a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码</a><br />
+4. <a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链</a><br />
+5. <a href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计</a><br />
+6. <a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理</a><br />
+7. <a href="http://thoreauz.com/2019/01/12/service-registry-discovery/">服务发现-注册中心设计</a></p>
+
+<h2 id="rpc协议">rpc协议</h2>
+
+<p>rpc涉及的网络传输协议，有两种选择：公有协议、私有协议。</p>
+
+<p>公有协议如grpc使用http2，公有协议因为要满足大多数使用场景，协议包含很多东西，而且像http header使用使用键值对的文本编码，使得报文包太大，自定义的好处就是灵活满足rpc需求即可，可以极大减少包大小。本文主要讨论私有协议。<br />
+一般都是消息头和消息体构成：</p>
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>长度</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>hader</td>
+<td>header</td>
+<td>不定</td>
+<td>消息头</td>
+<td></td>
+</tr>
+
+<tr>
+<td>body</td>
+<td>byte[]</td>
+<td>不定</td>
+<td>消息体</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<!-- more -->
+
+<h3 id="消息头">消息头</h3>
+
+<p>消息头主要存放协议公共字段和扩展字段。</p>
+
+<table>
+<thead>
+<tr>
+<th>名字</th>
+<th>字节数</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>verion</td>
+<td>1</td>
+<td>版本</td>
+<td>为了以后协议更改的兼容性考虑</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>1</td>
+<td>消息类型</td>
+<td>通过0，1，2，3..表示不同消息类型</td>
+</tr>
+
+<tr>
+<td>serializer</td>
+<td>1</td>
+<td>序列化方式</td>
+<td>头信息必须包含序列化方式，否则没法获取消息体</td>
+</tr>
+
+<tr>
+<td>requestId</td>
+<td>8</td>
+<td>请求ID</td>
+<td>Long类型的请求Id，用于标识请求的唯一性</td>
+</tr>
+
+<tr>
+<td>ext</td>
+<td>4</td>
+<td>扩展字段</td>
+<td>默认都为0，方便扩展时为其定义指定含义</td>
+</tr>
+
+<tr>
+<td>bodylength</td>
+<td>4</td>
+<td>body字节数</td>
+<td>用于指定长度读取消息体</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>可以在前面添加协议标识，方便代理或者抓包软件判断<br />
+可以把超时时间、接口、方法等放到header，减少包大小。</p>
+</blockquote>
+
+<h3 id="消息体">消息体</h3>
+
+<p>消息体主要存放消息实体，为了扩展性，可以封装一个成标准对象。</p>
+
+<pre><code class="language-java">public void Request{
+    private String interfaceName;
+    private String methodName;
+    private Object[] args;
+}
+</code></pre>
+
+<p>##协议编码解码<br />
+网络节点间的传输通过字节，如何把字节转为目标节点的数据格式，和从节点数据格式转为传输字节，就是编码器和解码器改干的活。</p>
+
+<p>如果上面提到的rpc协议用java数据格式来描述，如下：</p>
+
+<pre><code class="language-java">public class RequestPacket{
+    private byte version;
+    private byte type;
+    private byte serializer;
+    private long requestId;
+    private byte[] ext;
+    private int bodylength;
+    private byte[] body;
+}
+</code></pre>
+
+<p>netty提供了字节容器ByteBuf，灵活易用的api方面我们实现编解码的处理，于是，我们编码的主要工作就变为：<br />
+* 编码：Pocket&mdash;&gt;ByteBuf<br />
+* 解码:  ByteBuf&ndash;&gt;Pocket</p>
+
+<h3 id="netty-编码器">netty 编码器</h3>
+
+<p>netty提供了抽象类MessageToByteEncoder，继承它并实现encode()方法，它会把ByteBuf转发给ChannelPipeline的下一个出站处理器。</p>
+
+<pre><code class="language-java">public class Encoder extends MessageToByteEncoder {
+    @Override
+    protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) {
+        if (msg instanceof RequestPacket) {
+            RequestPacket requestPacket = (RequestPacket) msg;
+            // 分配buf：容量= Body+头
+            ByteBuf byteBuf = ctx.alloc().buffer(ProtocolConstants.HEADER_LENGTH + body.length);
+            // header
+            byteBuf.writeByte(requestPacket.getVersion());
+            byteBuf.writeByte(requestPacket.getType());
+            byteBuf.writeByte(requestPacket.getSerializer());
+            byteBuf.writeLong(requestPacket.getRequestId());
+            for (int i = 0; i &lt; ProtocolConstants.HEADER_EXT_SIZE; i++) {
+                // 扩展字段，默认0
+                byteBuf.writeByte(0);
+            }
+            byteBuf.writeInt(body.length);
+
+            // body
+            byteBuf.writeBytes(body);
+            out.writeBytes(byteBuf);
+        }
+    }
+}
+</code></pre>
+
+<p>这就是一个客户端请求报格式写入byteBuf的示例，netty会指定把byteBuf中的数据写入通道。</p>
+
+<p>因为netty灵活的链式处理，编码器可以有多个。比如上游可以继承<code>MessageToMessageEncoder</code>,把消息添加到pipeline。</p>
+
+<pre><code class="language-java">public class Encoder extends MessageToMessageEncoder {
+    @Override
+    protected void encode(ChannelHandlerContext ctx, Object msg, List out) throws Exception {
+        // msg处理
+        out.add(msg);// 再交给MessageToByteEncoder处理
+    }
+}
+</code></pre>
+
+<p>同样，服务端处理返回包也是类似，只是RequestPacket换成了ResponsePacket</p>
+
+<h3 id="netty解码器">netty解码器</h3>
+
+<p>解码刚好和编码反过来。常规使用的抽象类：<br />
+* ByteToMessageDecoder<br />
+* MessageToMessageDecoder</p>
+
+<p>实现decode方法，读取ByteBuf中的字节，映射到对应实体。</p>
+
+<p>不过解码器的实现有很多需要注意的细节，比如TCP粘包拆包。</p>
+
+<p><strong>TCP粘包拆包</strong><br />
+tcp套字节缓存区有大小，于是可能会有3情况：<br />
+* 一个tcp数据包就是一条完整的消息<br />
+* 一条消息大于缓冲区大小，被拆成2个甚至更多的包<br />
+* 一个数据包包含几条消息</p>
+
+<p>ByteToMessageDecoder会循环读取数据并调用子类实现的decode方法。所以我们面对的其实就是ByteBuf，它可能包含多个完整消息，也可能是一个不完整的消息(半包)。下面看看这么在覆写的decode方法中实现读取网站消息：</p>
+
+<pre><code class="language-java">public class Decoder extends ByteToMessageDecoder {
+    @Override
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out) {
+        if (in.readableBytes() &lt; ProtocolConstants.HEADER_LENGTH) {
+            // **** 可读字节数连header长度都不到，不处理
+            return;
+        }
+        // 1. 获取读索引
+        int readerIndex = in.readerIndex();
+
+        // 2. 读header
+        byte version = in.getByte(readerIndex);
+        byte type = in.getByte(readerIndex + 1);
+        byte serializer = in.getByte(readerIndex + 2);
+        Long requestId = in.getLong(readerIndex + 3);
+        int bodyLength = in.getInt(readerIndex + 15);
+        int pocketLength = ProtocolConstants.HEADER_LENGTH + bodyLength;
+        if (pocketLength &gt; in.readableBytes()) {
+            //  **** 不是正常请求应答消息，可能是半包，等待完整后处理
+            return;
+        }
+        // 3. 读body
+        byte[] body = new byte[bodyLength];
+        in.getBytes(readerIndex + ProtocolConstants.HEADER_LENGTH, body);
+        // 4. 通过header和body构造RequestPocket
+        // 5. 把RequestPocket交给后续的handlers处理
+        out.add(requestPocket);
+        // 6. 此消息读取结束，修改byteBuf读索引
+        in.skipBytes(pocketLength);
+        
+        // 7. 如果还有可读消息，继续解析下一个消息
+        if (in.readableBytes() &gt; ProtocolConstants.HEADER_LENGTH) {
+            decode(ctx, in, out);
+        }
+    }
+}
+</code></pre>
+
+<p>上面伪代码基本表达了一个解码器的工作：<br />
+1. 读ByteBuf中的数据使用getXX()方法，方便半包不处理时不改变readerIndex。但是如果接收到完整消息后，一定记得skipBytes(pocketLength)，否则每次都从buf的0位置重复读。<br />
+2. 通过in.readableBytes()获取可读数据大小，用来作半包判断。<br />
+3. 有可能读完一个消息后，数据包中还有另一个消息，注释7下代码决定是否继续解析。</p>
+
+<hr />
+
+<p><a href="https://my.oschina.net/andylucc/blog/625315">https://my.oschina.net/andylucc/blog/625315</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#rpc协议">rpc协议</a>
+<ul>
+<li><a href="#消息头">消息头</a></li>
+<li><a href="#消息体">消息体</a></li>
+<li><a href="#netty-编码器">netty 编码器</a></li>
+<li><a href="#netty解码器">netty解码器</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=RPC%e4%b8%89-rpc%e5%8d%8f%e8%ae%ae%e5%92%8c%e7%bc%96%e8%a7%a3%e7%a0%81&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc3-protocol-e-decode%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc3-protocol-e-decode%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc3-protocol-e-decode%2f&amp;description=RPC%e4%b8%89-rpc%e5%8d%8f%e8%ae%ae%e5%92%8c%e7%bc%96%e8%a7%a3%e7%a0%81"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f01%2f19%2frpc3-protocol-e-decode%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">
+          <section class="post">
+              <h2>RPC四-netty异步双向责任链</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">
+          <section class="post">
+              <h2>RPC二-NettyHandler处理消息</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

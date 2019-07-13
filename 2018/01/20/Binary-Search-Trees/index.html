@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="二叉搜索树"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="二叉搜索树 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/01/20/Binary-Search-Trees/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-01-20T11:01:45Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    <meta property="article:tag" content="tree" />
+    
+    
+
+    <title>二叉搜索树 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="二叉树 概念 二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": 二叉搜索树,
+    "name": 二叉搜索树,
+    "wordCount": 1657,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2018/01/20/Binary-Search-Trees/,
+    "datePublished": 2018-01-20T11:01Z,
+    "dateModified": 2018-01-20T11:01Z,
+    
+    "keywords": algorithm, tree,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2018/01/20/Binary-Search-Trees/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">二叉搜索树</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-01-20T11:01:45Z">
+            2018-01-20
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/tree/">tree</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="二叉树">二叉树</h1>
+
+<h2 id="概念">概念</h2>
+
+<blockquote>
+<p>二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右子树”。二叉树的分支具有左右次序，不能颠倒。<br />
+                                    &ndash; wikipedia</p>
+</blockquote>
+
+<ol>
+<li>根节点： 没有父节点的节点。一棵二叉树树只有一个根节点。<br /></li>
+<li>叶子节点: 没有子节点的节点，也叫终端结点。<br /></li>
+<li>层：指树的层次结构<br /></li>
+<li>满二叉树：每一个层次的节点数都达到最大值<br /></li>
+<li>完全二叉树:深度为k有n个节点的二叉树，当且仅当其中的每一节点，都可以和同样深度k的满二叉树，序号为1到n的节点一对一对应时，称为“完全二叉树”<br />
+<br /></li>
+</ol>
+
+<!-- more -->
+
+<h2 id="属性">属性</h2>
+
+<ul>
+<li>第i层最多有2^(i-1)节点，深度为k的二叉树至多总共有2^(k+1)-1个节点数。<br /></li>
+<li>左子树值小于节点值，节点值小于右子树节点值。<br />
+<br /></li>
+</ul>
+
+<h2 id="数据结构">数据结构</h2>
+
+<pre><code class="language-java">public class BinaryNode&lt;T extends Comparable&gt; {
+    public T data;// 节点值
+    public BinaryNode&lt;T&gt; left;//左子树
+    public BinaryNode&lt;T&gt; right;//右子树
+
+    /**
+     * data和左右子树构造节点
+     *
+     * @param data  节点值
+     * @param left  左子树
+     * @param right 右子树
+     */
+    public BinaryNode(T data, BinaryNode&lt;T&gt; left, BinaryNode&lt;T&gt; right) {
+        this.data = data;
+        this.left = left;
+        this.right = right;
+    }
+
+    /**
+     * data构造节点
+     *
+     * @param data 节点值
+     */
+    public BinaryNode(T data) {
+        this(data, null, null);
+    }
+}
+</code></pre>
+
+<h2 id="操作">操作</h2>
+
+<p>定义BinarySearchTree实现二叉查找一些方法。</p>
+
+<h3 id="插入">插入</h3>
+
+<p>插入思路比较简单，和节点比较，如果小于插入左边节点，如果大于插入右边，因为是从根节点开始，采用递归方式。</p>
+
+<pre><code class="language-java">public void insert(T data) {
+    if (data == null) {
+        throw new RuntimeException(&quot;data is null&quot;);
+    }
+    root = insert(data, root);
+}
+private BinaryNode&lt;T&gt; insert(T data, BinaryNode&lt;T&gt; node) {
+    if (node == null) {     //节点为空，则赋值
+        node = new BinaryNode&lt;T&gt;(data);
+    }
+    int result = data.compareTo(node.data);
+    if (result &lt; 0) {       // 左
+        node.left = insert(data, node.left);
+    } else if (result &gt; 0) {// 右
+        node.right = insert(data, node.right);
+    }
+    return node;
+}
+</code></pre>
+
+<p>递归思路很简单，按逻辑写下去，找到进入点、停止条件、返回值。</p>
+
+<h3 id="删除">删除</h3>
+
+<p>删除操作有以下几种情况：<br />
+1. 没有子节点：直接删除<br />
+2. 有一子个节点：删除后子节点替代被删除节点位置<br />
+3. 有两个子节点：找到右子树中最小节点，替换被删除节点(子树的最小节点替换时，也按照同样逻辑)</p>
+
+<pre><code class="language-java">@Override
+public void remove(T data) {
+    remove(data, root);
+}
+
+private BinaryNode&lt;T&gt; remove(T data, BinaryNode&lt;T&gt; node) {
+    if (node == null) {//结束条件: 未找到
+        return node;
+    }
+    int result = data.compareTo(node.data);
+    if (result &lt; 0) {
+        node.left = remove(data, node.left);
+    } else if (result &gt; 0) {
+        node.right = remove(data, node.right);
+    } else if (node.left != null &amp;&amp; node.right != null) {// 找到对应值
+        node.data = findMin(node.right).data;// 找到右子树最小值替换
+        node.right = remove(node.data, node.right);
+    } else {// 只有一个子
+        node = (node.left != null) ? node.left : node.right;
+    }
+    return node;
+}
+</code></pre>
+
+<h3 id="找子树中最小节点-值">找子树中最小节点(值)</h3>
+
+<p>递归左子树，左节点为空时，对应节点为最小节点,同样，最大子节点也类似。</p>
+
+<pre><code class="language-java">public T findMin() {
+    if (root == null) {
+        throw new RuntimeException(&quot;root is null&quot;);
+    }
+    return findMin(root).data;
+}
+
+/**
+ * 根据输入节点作为根节点查找树中最小节点
+ *
+ * @param node
+ * @return 最小节点
+ */
+private BinaryNode&lt;T&gt; findMin(BinaryNode&lt;T&gt; node) {
+    if (node == null) {
+        throw new RuntimeException(&quot;Node is null&quot;);
+    }
+    if (node.left == null) {// (1). 左节点空，则最小
+        return node;
+    }
+    return findMin(node.left);//(2). 不空，则递归
+}
+</code></pre>
+
+<h3 id="深度">深度</h3>
+
+<p>深度，即二叉树有几个层级。<br />
+<img src="http://thoreauz.com/images/height.png" alt="" /><br />
+递归遍历，子树比较后，大的值加1。如7，没有子节点，则为1，节点8左子树遍历返回值1，右子树返回0，结果是1+1=2.</p>
+
+<pre><code class="language-java">private int height(BinaryNode&lt;T&gt; node) {
+    if (node == null) {
+        return 0;
+    }else {
+        int l = height(node.left);
+        int r = height(node.right);
+        return (l &gt; r) ? l+1 : r+1;
+    }
+}
+</code></pre>
+
+<h3 id="节点数size">节点数size</h3>
+
+<p>节点数计算和深度类似，只是把左右节点累加，递归算法如下：</p>
+
+<pre><code class="language-java">private int size(BinaryNode&lt;T&gt; node) {
+    if (node == null) {
+        return 0;
+    } else {
+        return size(node.left) + 1 + size(node.right);
+    }
+
+}
+
+</code></pre>
+
+<h3 id="第k层的节点数">第K层的节点数</h3>
+
+<p><img src="http://thoreauz.com/images/ksize.png" alt="" /><br />
+如图，求3层节点数，从根节点遍历。子树为空返回0，否则一直k-1，直到k=1时返回1.再把左右遍历返回值相加。</p>
+
+<pre><code class="language-java"> private int kSize(BinaryNode&lt;T&gt; node,int k) {
+    if (node == null) {
+        return 0;
+    }
+    if (k == 1) {
+        return 1;
+    }
+    return kSize(node.left, k - 1) + kSize(node.right, k - 1);
+}
+</code></pre>
+
+<h3 id="判断两棵二叉树是否结构相同">判断两棵二叉树是否结构相同</h3>
+
+<p>递归比对节点，如果有一个节点为空，另一数的节点不为空，结构就不同。</p>
+
+<pre><code class="language-java">public boolean compareTree(BinaryNode&lt;T&gt; node1, BinaryNode&lt;T&gt; node2) {
+    if (node1 == null &amp;&amp; node2 == null) {
+        return true;
+    } else if (node1 == null || node2 == null) {
+        return false;
+    }
+    return compareTree(node1.left, node2.left) &amp;&amp; compareTree(node1.right, node2.right);
+}
+</code></pre>
+
+<h3 id="求二叉树镜像">求二叉树镜像</h3>
+
+<p>交换每个节点的左右子树即可，镜像后，中序遍历为逆序。</p>
+
+<pre><code class="language-java">private void mirror(BinaryNode&lt;T&gt; node) {
+    if (node == null) {
+        return;
+    }
+    BinaryNode&lt;T&gt; temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+    mirror(node.left);
+    mirror(node.right);
+}
+</code></pre>
+
+<h3 id="遍历">遍历</h3>
+
+<h4 id="前序遍历">前序遍历</h4>
+
+<p>先访问根节点，再访问左子树，最后访问右子树。</p>
+
+<pre><code class="language-java">private String preOrder(BinaryNode&lt;T&gt; subTree) {
+    StringBuilder sb = new StringBuilder();
+    if (subTree != null) {
+        sb.append(subTree.data).append(&quot; &quot;);
+        sb.append(preOrder(subTree.left));
+        sb.append(preOrder(subTree.right));
+    }
+    return sb.toString();
+}
+</code></pre>
+
+<h4 id="中序遍历">中序遍历</h4>
+
+<p>先访问左子树，再访问根节点，最后访问右子树。</p>
+
+<pre><code class="language-java">private String inOrder(BinaryNode&lt;T&gt; subTree) {
+    StringBuilder sb = new StringBuilder();
+    if (subTree != null) {
+        sb.append(inOrder(subTree.left));
+        sb.append(subTree.data).append(&quot; &quot;);
+        sb.append(inOrder(subTree.right));
+    }
+    return sb.toString();
+}
+</code></pre>
+
+<h4 id="后序遍历">后序遍历</h4>
+
+<p>先访问左子树，再访问右子树，最后访问根节点。</p>
+
+<pre><code class="language-java">private String postOrder(BinaryNode&lt;T&gt; subTree) {
+    StringBuilder sb = new StringBuilder();
+    if (subTree != null) {
+        sb.append(postOrder(subTree.left));
+        sb.append(postOrder(subTree.right));
+        sb.append(subTree.data).append(&quot; &quot;);
+    }
+    return sb.toString();
+}
+</code></pre>
+
+<h4 id="层次遍历">层次遍历</h4>
+
+<p>按照层级从左到右遍历。<br />
+这种遍历方式相对复杂，因为左右没有关联关系，只能一个个节点访问，按顺序把节点存起来，再从队列中取出节点访问其子树。可以通过一个FIFO队列实现。</p>
+
+<pre><code class="language-java">public String levelOrder() {
+    LinkedBlockingQueue&lt;BinaryNode&lt;T&gt;&gt; queue = new LinkedBlockingQueue();
+    StringBuilder sb = new StringBuilder();
+    BinaryNode&lt;T&gt; tree = root;
+    while (tree != null) {
+        sb.append(tree.data).append(&quot; &quot;);
+        if (tree.left != null) {
+            queue.add(tree.left);
+        }
+        if (tree.right != null) {
+            queue.add(tree.right);
+        }
+        tree = queue.poll();
+    }
+    return sb.toString();
+}
+</code></pre>
+
+<hr />
+
+<p>参考:<br />
+[1]. <a href="https://en.wikipedia.org/wiki/Binary_search_tree">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#二叉树">二叉树</a>
+<ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#属性">属性</a></li>
+<li><a href="#数据结构">数据结构</a></li>
+<li><a href="#操作">操作</a>
+<ul>
+<li><a href="#插入">插入</a></li>
+<li><a href="#删除">删除</a></li>
+<li><a href="#找子树中最小节点-值">找子树中最小节点(值)</a></li>
+<li><a href="#深度">深度</a></li>
+<li><a href="#节点数size">节点数size</a></li>
+<li><a href="#第k层的节点数">第K层的节点数</a></li>
+<li><a href="#判断两棵二叉树是否结构相同">判断两棵二叉树是否结构相同</a></li>
+<li><a href="#求二叉树镜像">求二叉树镜像</a></li>
+<li><a href="#遍历">遍历</a>
+<ul>
+<li><a href="#前序遍历">前序遍历</a></li>
+<li><a href="#中序遍历">中序遍历</a></li>
+<li><a href="#后序遍历">后序遍历</a></li>
+<li><a href="#层次遍历">层次遍历</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e4%ba%8c%e5%8f%89%e6%90%9c%e7%b4%a2%e6%a0%91&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f20%2fBinary-Search-Trees%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f20%2fBinary-Search-Trees%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f20%2fBinary-Search-Trees%2f&amp;description=%e4%ba%8c%e5%8f%89%e6%90%9c%e7%b4%a2%e6%a0%91"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f20%2fBinary-Search-Trees%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/21/Red-Black-Trees/">
+          <section class="post">
+              <h2>红黑树</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/09/Go-Error-handling/">
+          <section class="post">
+              <h2>GO— 异常错误处理</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

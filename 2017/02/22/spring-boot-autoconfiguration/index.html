@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="spring boot自动配置和自定义配置"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="spring boot自动配置和自定义配置 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" />
+
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-22T20:42:45Z" />
+
+    
+    <meta property="article:tag" content="spring" />
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    
+
+    <title>spring boot自动配置和自定义配置 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="spring boot自动配置和自定义配置 本文介绍spring boot的自动配置原理，redis自动配置示例，如何配置多数据源。 一、Spring Boot 自动配" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": http://thoreauz.comDog-b.svg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": http://thoreauz.comDog-b.svg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": http://thoreauz.com,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": spring boot自动配置和自定义配置,
+    "name": spring boot自动配置和自定义配置,
+    "wordCount": 1851,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/,
+    "datePublished": 2017-02-22T20:42Z,
+    "dateModified": 2017-02-22T20:42Z,
+    
+    "keywords": spring, spring-boot,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">spring boot自动配置和自定义配置</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-22T20:42:45Z">
+            2017-02-22
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="spring-boot自动配置和自定义配置">spring boot自动配置和自定义配置</h1>
+
+<p>本文介绍spring boot的自动配置原理，redis自动配置示例，如何配置多数据源。</p>
+
+<!-- more -->
+
+<h2 id="一-spring-boot-自动配置分析">一、Spring Boot 自动配置分析</h2>
+
+<p>spring Boot很大的改变就是<code>xml</code>配置改成配置类。并且为很多常用的中间件引入了自动配置，用户只需要依赖对应jar包并在properties种配置即可使用。</p>
+
+<p>我们为spring boot项目添加一个启动类，使用<code>@SpringBootApplication</code>注解，即可右键启动项目。先看看这个注解的源码：</p>
+
+<pre><code class="language-java">@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(excludeFilters = @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class))
+public @interface SpringBootApplication {
+    
+        ...
+}
+</code></pre>
+
+<p>继续找到<code>@EnableAutoConfiguration</code>源码：</p>
+
+<pre><code class="language-java">@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@AutoConfigurationPackage
+@Import(EnableAutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration {
+
+	String ENABLED_OVERRIDE_PROPERTY = &quot;spring.boot.enableautoconfiguration&quot;;
+
+	Class&lt;?&gt;[] exclude() default {};
+
+	String[] excludeName() default {};
+}
+</code></pre>
+
+<p>对于这段代码，有几个需要关注的地方：<br />
+1. <code>@Import</code>:功能等效于xml配置文件中的<import/>，xml中import引入的xml文件也将被解析，@import主要用来引入@Configuration注解的类。注意，如果要引入的就是xml配置问题，请使用@ImportResource。<br />
+2. <code>@AutoConfigurationPackage</code>:存储自动配置类的包通过@Import(EnableAutoConfigurationImportSelector.class)查看EnableAutoConfigurationImportSelector类的部分源码：</p>
+
+<pre><code class="language-java">/**
+*返回自动配置类的名字
+*/
+protected List&lt;String&gt; getCandidateConfigurations(AnnotationMetadata metadata,
+		AnnotationAttributes attributes) {
+	List&lt;String&gt; configurations = SpringFactoriesLoader.loadFactoryNames(
+			getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader());
+	Assert.notEmpty(configurations,
+			&quot;No auto configuration classes found in META-INF/spring.factories. If you &quot;
+					+ &quot;are using a custom packaging, make sure that file is correct.&quot;);
+	return configurations;
+}
+</code></pre>
+
+<p>自动配置类位于 <code>META-INF/spring.factories</code>文件中，内容如下（只列出部分）：</p>
+
+<pre><code># Initializers
+org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.solr.SolrRepositoriesAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\
+org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration,\
+org.springframework.boot.autoconfigure.elasticsearch.jest.JestAutoConfiguration,\
+org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration,\
+org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration,\
+org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration,\
+org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration,\
+org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfiguration,\
+org.springframework.boot.autoconfigure.hazelcast.HazelcastJpaDependencyAutoConfiguration,\
+org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration,\
+org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration,\
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration,\
+org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\
+org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration,\
+org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration,\
+org.springframework.boot.autoconfigure.jdbc.XADataSourceAutoConfiguration,\
+org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,\
+org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration,\
+org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration,\
+org.springframework.boot.autoconfigure.jms.JndiConnectionFactoryAutoConfiguration,\
+org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration,\
+org.springframework.boot.autoconfigure.jms.artemis.ArtemisAutoConfiguration,\
+org.springframework.boot.autoconfigure.jms.hornetq.HornetQAutoConfiguration,\
+org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration,\
+org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+</code></pre>
+
+<p>以redis 为例子,在文件搜redis，发现配置类为：<code>org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration</code>,根据它找到源码：</p>
+
+<pre><code class="language-java">@Configuration
+@ConditionalOnClass({ JedisConnection.class, RedisOperations.class, Jedis.class })
+@EnableConfigurationProperties(RedisProperties.class)
+public class RedisAutoConfiguration {
+    
+        .....
+}
+</code></pre>
+
+<p>解读：<br />
+1. @Configuration：表示声明一个或者多个方法，生成spring容器的bean。<br />
+2. @ConditionalOnClass ：注解参数对应的类(JedisConnection,RedisOperations,Jedis)必须存在，否则不解析该注解修饰的配置类。也就是说，不引入redis客户端相关包，自动配置不会生效。<br />
+3. @EnableConfigurationProperties:让RedisAutoConfiguration以RedisProperties所定义的配置标准读取配置。</p>
+
+<p>先看下<code>RedisProperties</code>部分代码：</p>
+
+<pre><code class="language-java">@ConfigurationProperties(prefix = &quot;spring.redis&quot;)
+public class RedisProperties {
+    //application.properties中 spring.redis.port 的值会赋给port属性。
+	private int database = 0;
+	private String host = &quot;localhost&quot;;
+	private String password;
+	private int port = 6379;
+
+	@Configuration
+	protected static class RedisConfiguration {
+
+		@Bean
+		@ConditionalOnMissingBean(name = &quot;redisTemplate&quot;)
+		public RedisTemplate&lt;Object, Object&gt; redisTemplate(
+				RedisConnectionFactory redisConnectionFactory)
+						throws UnknownHostException {
+			RedisTemplate&lt;Object, Object&gt; template = new RedisTemplate&lt;Object, Object&gt;();
+			template.setConnectionFactory(redisConnectionFactory);
+			return template;
+		}
+
+		@Bean
+		@ConditionalOnMissingBean(StringRedisTemplate.class)
+		public StringRedisTemplate stringRedisTemplate(
+				RedisConnectionFactory redisConnectionFactory)
+						throws UnknownHostException {
+			StringRedisTemplate template = new StringRedisTemplate();
+			template.setConnectionFactory(redisConnectionFactory);
+			return template;
+		}
+}
+</code></pre>
+
+<p>解读：<br />
+1. 获取前缀为<code>spring.redis</code>的配置，如果没有配置，host 默认localhost，端口默认6379。<br />
+2. <code>@ConditionalOnMissingBean(StringRedisTemplate.class)</code>: 如果StringRedisTemplate这个bean不存在配置才生效，意思就是说如果我们自己配置了StringRedisTemplate，自动配置就不会生效。</p>
+
+<h2 id="二-spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</h2>
+
+<h3 id="2-1-maven-添加依赖">2.1 maven 添加依赖</h3>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h3 id="2-2-添加配置">2.2 添加配置</h3>
+
+<p>这儿使用redis伪集群，在<code>properties</code>中添加如下配置：</p>
+
+<pre><code class="language-properties">spring.redis.cluster.nodes=192.168.99.100:7001,192.168.99.100:7002,192.168.99.100:7003,192.168.99.100:7004,192.168.99.100:7005,192.168.99.100:7006
+spring.redis.pool.max-active=8
+spring.redis.pool.max-idle=8
+spring.redis.pool.max-wait=-1
+spring.redis.pool.min-idle=0
+spring.redis.timeout=0
+</code></pre>
+
+<h3 id="2-3-使用">2.3 使用</h3>
+
+<pre><code class="language-java">@SpringBootApplication
+public class UserApplication implements CommandLineRunner {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    public static void main(String[] args) {
+        SpringApplication.run(UserApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        ValueOperations&lt;String, String&gt; opsForValue = redisTemplate.opsForValue();
+        String key = &quot;name&quot;;
+        opsForValue.set(key, &quot;erdaoya&quot;);
+        System.out.println(&quot;redis key &quot; + key + &quot;, value=&quot; + opsForValue.get(key));
+    }
+}
+</code></pre>
+
+<p>说明：<br />
+<code>StringRedisTemplate</code>就相当于<code>RedisTemplate&lt;String,String&gt;</code>,如果只是简单的key-value 字符串操作，推荐用前者。后者提供更丰富的功能，如对java对象序列化存储。</p>
+
+<h2 id="三-spring-boot-jdbc-mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</h2>
+
+<h3 id="3-1-添加依赖">3.1 添加依赖</h3>
+
+<pre><code class="language-xml">  &lt;!--mysql--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;druid&lt;/artifactId&gt;
+    &lt;version&gt;${druid.version}&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;${mybatis-spring-boot-starter.version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h3 id="3-2-编写配置类">3.2 编写配置类</h3>
+
+<pre><code class="language-java">@Configuration
+public class DataSourceConfig {
+
+    @Primary
+    @Bean(name = &quot;primaryDataSource&quot;)
+    @Qualifier(&quot;primaryDataSource&quot;)
+    @ConfigurationProperties(prefix = &quot;spring.datasource.user.primary&quot;)
+    public DataSource primaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = &quot;secondaryDataSource&quot;)
+    @Qualifier(&quot;secondaryDataSource&quot;)
+    @ConfigurationProperties(prefix = &quot;spring.datasource.user.secondary&quot;)
+    public DataSource secondaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = &quot;primarySqlSessionFactory&quot;)
+    @Primary
+    public SqlSessionFactory sqlSessionFactory(@Qualifier(&quot;primaryDataSource&quot;) DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+         bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(&quot;classpath:mybatis/mybatis-config.xml&quot;));
+        return bean.getObject();
+    }
+
+    @Bean(name = &quot;primaryTransactionManager&quot;)
+    @Primary
+    public DataSourceTransactionManager transactionManager(@Qualifier(&quot;primaryDataSource&quot;) DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean(name = &quot;primarySqlSessionTemplate&quot;)
+    @Primary
+    public SqlSessionTemplate sqlSessionTemplate(
+            @Qualifier(&quot;primarySqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    @Bean(name = &quot;secondarySqlSessionFactory&quot;)
+    public SqlSessionFactory secondarySqlSessionFactory(@Qualifier(&quot;secondaryDataSource&quot;) DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+         bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(&quot;classpath:mybatis/mybatis-config.xml&quot;));
+        return bean.getObject();
+    }
+
+    @Bean(name = &quot;secondaryTransactionManager&quot;)
+    public DataSourceTransactionManager secondaryTransactionManager(@Qualifier(&quot;secondaryDataSource&quot;) DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean(name = &quot;secondarySqlSessionTemplate&quot;)
+    public SqlSessionTemplate secondarySqlSessionTemplate(
+            @Qualifier(&quot;secondarySqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+}
+</code></pre>
+
+<p>可以看出，其实配置类跟xml相差无几。</p>
+
+<h3 id="3-3-添加配置">3.3 添加配置</h3>
+
+<pre><code class="language-properties">spring.datasource.user.primary.url=jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8
+spring.datasource.user.primary.username=root
+spring.datasource.user.primary.password=1234
+spring.datasource.user.primary.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.user.primary.type=com.alibaba.druid.pool.DruidDataSource
+
+spring.datasource.user.secondary.url=jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8
+spring.datasource.user.secondary.username=root
+spring.datasource.user.secondary.password=1234
+spring.datasource.user.secondary.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.user.secondary.type=com.alibaba.druid.pool.DruidDataSource
+</code></pre>
+
+<h3 id="3-4-使用">3.4 使用</h3>
+
+<pre><code class="language-java">@Repository
+public class UserDao {
+
+    @Autowired
+    @Qualifier(&quot;primarySqlSessionTemplate&quot;)
+    private SqlSessionTemplate primarySqlSessionTemplate;
+
+    @Autowired
+    @Qualifier(&quot;secondarySqlSessionTemplate&quot;)
+    private SqlSessionTemplate secondarySqlSessionTemplate;
+
+    public User selectUserFromDB1ById(Long id) {
+        return primarySqlSessionTemplate.selectOne(&quot;selectUserById&quot;, id);
+    }
+
+    public User selectUserFromDB2ById(Long id) {
+        return secondarySqlSessionTemplate.selectOne(&quot;selectUserById&quot;, id);
+    }
+}
+</code></pre>
+
+<p>访问<code>/health</code>监控端口，可以看到2个配置都<code>UP</code>。<br />
+<img src="http://thoreauz.com/images/2017-02-22-18-24-28.jpg" alt="" /></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#spring-boot自动配置和自定义配置">spring boot自动配置和自定义配置</a>
+<ul>
+<li><a href="#一-spring-boot-自动配置分析">一、Spring Boot 自动配置分析</a></li>
+<li><a href="#二-spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</a>
+<ul>
+<li><a href="#2-1-maven-添加依赖">2.1 maven 添加依赖</a></li>
+<li><a href="#2-2-添加配置">2.2 添加配置</a></li>
+<li><a href="#2-3-使用">2.3 使用</a></li>
+</ul></li>
+<li><a href="#三-spring-boot-jdbc-mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</a>
+<ul>
+<li><a href="#3-1-添加依赖">3.1 添加依赖</a></li>
+<li><a href="#3-2-编写配置类">3.2 编写配置类</a></li>
+<li><a href="#3-3-添加配置">3.3 添加配置</a></li>
+<li><a href="#3-4-使用">3.4 使用</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=spring%20boot%e8%87%aa%e5%8a%a8%e9%85%8d%e7%bd%ae%e5%92%8c%e8%87%aa%e5%ae%9a%e4%b9%89%e9%85%8d%e7%bd%ae&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f22%2fspring-boot-autoconfiguration%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f22%2fspring-boot-autoconfiguration%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f22%2fspring-boot-autoconfiguration%2f&amp;description=spring%20boot%e8%87%aa%e5%8a%a8%e9%85%8d%e7%bd%ae%e5%92%8c%e8%87%aa%e5%ae%9a%e4%b9%89%e9%85%8d%e7%bd%ae"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f22%2fspring-boot-autoconfiguration%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">
+          <section class="post">
+              <h2>设计模式四：命令模式</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/17/docker-registry/">
+          <section class="post">
+              <h2>Docker镜像仓库</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+
