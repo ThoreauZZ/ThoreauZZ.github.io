@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Kubernetes部署DNS和Dashboard &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": Kubernetes部署DNS和Dashboard,
-    "name": Kubernetes部署DNS和Dashboard,
-    "wordCount": 1600,
+    "headline": "Kubernetes部署DNS和Dashboard",
+    "name": "Kubernetes部署DNS和Dashboard",
+    "wordCount":  1600 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/,
-    "datePublished": 2017-04-16T18:56Z,
-    "dateModified": 2017-04-16T18:56Z,
+    "url": "http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/",
+    "datePublished": "2017-04-16T18:56Z",
+    "dateModified": "2017-04-16T18:56Z",
     
-    "keywords": docker, kubernetes,
-    "description": ,
+    "keywords": "docker, kubernetes",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/
+        "@id": "http://thoreauz.com/2017/04/16/kubernetes-install-dashboard/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,280 +247,243 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="kubernetes部署dns和dashboard">Kubernetes部署DNS和Dashboard</h1>
-
-<h2 id="一-部署dns">一、部署DNS</h2>
-
+      <h1 id="kubernetes部署dns和dashboard">Kubernetes部署DNS和Dashboard</h1>
+<h2 id="一部署dns">一、部署DNS</h2>
 <p>k8s的<a href="http://https://github.com/kubernetes/kubernetes">github</a> 有很多组件的安装文档，但是，安装需要核对自己的k8s版本，找到对应版本的github，否则安装过程中会有很多问题。</p>
-
 <p>本文k8s机器基于kubernetes1.5.x + centos集群，安装方式见：<a href="http://thoreauz.com/2017/03/18/docker/Centos7%E6%90%AD%E5%BB%BAkubernetes%E6%90%AD%E5%BB%BA/">Centos7搭建kubernetes搭建</a></p>
-
 <h3 id="安装">安装</h3>
-
-<p>获取/cluster/addons/dns/kubedns-controller.yaml.sed, 修改domain和镜像(如果能翻墙，可以不修改镜像)。<br />
+<p>获取/cluster/addons/dns/kubedns-controller.yaml.sed, 修改domain和镜像(如果能翻墙，可以不修改镜像)。
 dns 基础配置：</p>
-
-<pre><code>$DNS_DOMAIN=cluster.local
+<pre tabindex="0"><code>$DNS_DOMAIN=cluster.local
 $DNS_SERVER_IP=10.254.0.100
-</code></pre>
-
-<p>deployment文件skydns-rc.yaml如下：</p>
-
-<pre><code class="language-yml">apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: kube-dns
-  namespace: kube-system
-  labels:
-    k8s-app: kube-dns
-    kubernetes.io/cluster-service: &quot;true&quot;
-spec:
-  # replicas: not specified here:
-  # 1. In order to make Addon Manager do not reconcile this replicas parameter.
-  # 2. Default is 1.
-  # 3. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
-  strategy:
-    rollingUpdate:
-      maxSurge: 10%
-      maxUnavailable: 0
-  selector:
-    matchLabels:
-      k8s-app: kube-dns
-  template:
-    metadata:
-      labels:
-        k8s-app: kube-dns
-      annotations:
-        scheduler.alpha.kubernetes.io/critical-pod: ''
-        scheduler.alpha.kubernetes.io/tolerations: '[{&quot;key&quot;:&quot;CriticalAddonsOnly&quot;, &quot;operator&quot;:&quot;Exists&quot;}]'
-    spec:
-      containers:
-      - name: kubedns
-        # image: gcr.io/google_containers/kubedns-amd64:1.9
-        image: registry.cn-hangzhou.aliyuncs.com/google-containers/kubedns-amd64:1.9
-        resources:
-          # TODO: Set memory limits when we've profiled the container for large
-          # clusters, then set request = limit to keep this container in
-          # guaranteed class. Currently, this container falls into the
-          # &quot;burstable&quot; category so the kubelet doesn't backoff from restarting it.
-          limits:
-            memory: 170Mi
-          requests:
-            cpu: 100m
-            memory: 70Mi
-        livenessProbe:
-          httpGet:
-            path: /healthz-kubedns
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 5
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 8081
-            scheme: HTTP
-          # we poll on pod startup for the Kubernetes master service and
-          # only setup the /readiness HTTP server once that's available.
-          initialDelaySeconds: 3
-          timeoutSeconds: 5
-        args:
-        # - --domain=cluster.local.
-        - --domain=cluster.local.
-        - --dns-port=10053
-        - --config-map=kube-dns
-        # This should be set to v=2 only after the new image (cut from 1.5) has
-        # been released, otherwise we will flood the logs.
-        - --v=2
-        - --kube-master-url=http://192.168.99.100:8080 # 指定api
-        env:
-        - name: PROMETHEUS_PORT
-          value: &quot;10055&quot;
-        ports:
-        - containerPort: 10053
-          name: dns-local
-          protocol: UDP
-        - containerPort: 10053
-          name: dns-tcp-local
-          protocol: TCP
-        - containerPort: 10055
-          name: metrics
-          protocol: TCP
-      - name: dnsmasq
-        # image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4.1
-        image: registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.4
-        livenessProbe:
-          httpGet:
-            path: /healthz-dnsmasq
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 5
-        args:
-        - --cache-size=1000
-        - --no-resolv
-        - --server=127.0.0.1#10053
-        # - --log-facility=-
-        ports:
-        - containerPort: 53
-          name: dns
-          protocol: UDP
-        - containerPort: 53
-          name: dns-tcp
-          protocol: TCP
-        # see: https://github.com/kubernetes/kubernetes/issues/29055 for details
-        resources:
-          requests:
-            cpu: 150m
-            memory: 10Mi
-      - name: dnsmasq-metrics
-        # image: gcr.io/google_containers/dnsmasq-metrics-amd64:1.0.1
-        image: registry.cn-hangzhou.aliyuncs.com/google-containers/dnsmasq-metrics-amd64:1.0
-        livenessProbe:
-          httpGet:
-            path: /metrics
-            port: 10054
-            scheme: HTTP
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 5
-        args:
-        - --v=2
-        - --logtostderr
-        ports:
-        - containerPort: 10054
-          name: metrics
-          protocol: TCP
-        resources:
-          requests:
-            memory: 10Mi
-      - name: healthz
-        # image: gcr.io/google_containers/exechealthz-amd64:1.2
-        image: registry.cn-hangzhou.aliyuncs.com/google-containers/exechealthz-amd64:1.2
-        resources:
-          limits:
-            memory: 50Mi
-          requests:
-            cpu: 10m
-            # Note that this container shouldn't really need 50Mi of memory. The
-            # limits are set higher than expected pending investigation on #29688.
-            # The extra memory was stolen from the kubedns container to keep the
-            # net memory requested by the pod constant.
-            memory: 50Mi
-        args:
-        - --cmd=nslookup kubernetes.default.svc.cluster.local 127.0.0.1 &gt;/dev/null
-        - --url=/healthz-dnsmasq
-        - --cmd=nslookup kubernetes.default.svc.cluster.local 127.0.0.1:10053 &gt;/dev/null
-        - --url=/healthz-kubedns
-        - --port=8080
-        - --quiet
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-      dnsPolicy: Default  # Don't use cluster DNS.
-</code></pre>
-
-<p>修改service文件<code>skydns-svc.yaml</code>:</p>
-
-<pre><code class="language-yml">apiVersion: v1
-kind: Service
-metadata:
-  name: kube-dns
-  namespace: kube-system
-  labels:
-    k8s-app: kube-dns
-    kubernetes.io/cluster-service: &quot;true&quot;
-    kubernetes.io/name: &quot;KubeDNS&quot;
-spec:
-  selector:
-    k8s-app: kube-dns
-  # clusterIP: $DNS_SERVER_IP
-  clusterIP: 10.254.0.100
-  ports:
-  - name: dns
-    port: 53
-    protocol: UDP
-  - name: dns-tcp
-    port: 53
-    protocol: TCP
-</code></pre>
-
-<p>启动</p>
-
-<pre><code class="language-shell">kubectl create -f  skydns-rc.yaml
-kubectl create -f  skydns-svc.yaml
-</code></pre>
-
-<p>修改各个node节点的kubelet配置并重启：</p>
-
-<pre><code class="language-bash">vim /etc/kubernetes/kubelet
-# 添加这一行
-KUBELET_ARGS=&quot;--cluster_dns=10.254.0.100 --cluster_domain=cluster.local&quot;
-</code></pre>
-
-<pre><code>systemctl restart kubelet
-</code></pre>
-
-<h3 id="验证">验证</h3>
-
+</code></pre><p>deployment文件skydns-rc.yaml如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">kube-system</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/cluster-service</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># replicas: not specified here:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 1. In order to make Addon Manager do not reconcile this replicas parameter.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 2. Default is 1.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 3. Will be tuned in real time if DNS horizontal auto-scaling is turned on.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">strategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">rollingUpdate</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">maxSurge</span>: <span style="color:#ae81ff">10</span><span style="color:#ae81ff">%</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">maxUnavailable</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">scheduler.alpha.kubernetes.io/critical-pod</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">scheduler.alpha.kubernetes.io/tolerations</span>: <span style="color:#e6db74">&#39;[{&#34;key&#34;:&#34;CriticalAddonsOnly&#34;, &#34;operator&#34;:&#34;Exists&#34;}]&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubedns</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># image: gcr.io/google_containers/kubedns-amd64:1.9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/google-containers/kubedns-amd64:1.9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># TODO: Set memory limits when we&#39;ve profiled the container for large</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># clusters, then set request = limit to keep this container in</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># guaranteed class. Currently, this container falls into the</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># &#34;burstable&#34; category so the kubelet doesn&#39;t backoff from restarting it.</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">limits</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">170Mi</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">100m</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">70Mi</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">livenessProbe</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">httpGet</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/healthz-kubedns</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">scheme</span>: <span style="color:#ae81ff">HTTP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">initialDelaySeconds</span>: <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">timeoutSeconds</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">successThreshold</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">failureThreshold</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">readinessProbe</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">httpGet</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/readiness</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">scheme</span>: <span style="color:#ae81ff">HTTP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># we poll on pod startup for the Kubernetes master service and</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># only setup the /readiness HTTP server once that&#39;s available.</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">initialDelaySeconds</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">timeoutSeconds</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># - --domain=cluster.local.</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">domain=cluster.local.</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">dns-port=10053</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">config-map=kube-dns</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># This should be set to v=2 only after the new image (cut from 1.5) has</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># been released, otherwise we will flood the logs.</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">v=2</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">kube-master-url=http://192.168.99.100:8080</span> <span style="color:#75715e"># 指定api</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">PROMETHEUS_PORT</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;10055&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">10053</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns-local</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">UDP</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">10053</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns-tcp-local</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">10055</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">metrics</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dnsmasq</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4.1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/google-containers/kube-dnsmasq-amd64:1.4</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">livenessProbe</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">httpGet</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/healthz-dnsmasq</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">scheme</span>: <span style="color:#ae81ff">HTTP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">initialDelaySeconds</span>: <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">timeoutSeconds</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">successThreshold</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">failureThreshold</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">cache-size=1000</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#66d9ef">no</span>-<span style="color:#ae81ff">resolv</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">server=127.0.0.1#10053</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># - --log-facility=-</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">53</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">UDP</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">53</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns-tcp</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># see: https://github.com/kubernetes/kubernetes/issues/29055 for details</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">150m</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">10Mi</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dnsmasq-metrics</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># image: gcr.io/google_containers/dnsmasq-metrics-amd64:1.0.1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/google-containers/dnsmasq-metrics-amd64:1.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">livenessProbe</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">httpGet</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/metrics</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>: <span style="color:#ae81ff">10054</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">scheme</span>: <span style="color:#ae81ff">HTTP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">initialDelaySeconds</span>: <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">timeoutSeconds</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">successThreshold</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">failureThreshold</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">v=2</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">logtostderr</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">10054</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">metrics</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">10Mi</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">healthz</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># image: gcr.io/google_containers/exechealthz-amd64:1.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/google-containers/exechealthz-amd64:1.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">limits</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">50Mi</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">10m</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Note that this container shouldn&#39;t really need 50Mi of memory. The</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># limits are set higher than expected pending investigation on #29688.</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># The extra memory was stolen from the kubedns container to keep the</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># net memory requested by the pod constant.</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">50Mi</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">cmd=nslookup kubernetes.default.svc.cluster.local 127.0.0.1 &gt;/dev/null</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">url=http://thoreauz.com/healthz-dnsmasq</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">cmd=nslookup kubernetes.default.svc.cluster.local 127.0.0.1:10053 &gt;/dev/null</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">url=http://thoreauz.com/healthz-kubedns</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">port=8080</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">quiet</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dnsPolicy</span>: <span style="color:#ae81ff">Default </span> <span style="color:#75715e"># Don&#39;t use cluster DNS.</span>
+</span></span></code></pre></div><p>修改service文件<code>skydns-svc.yaml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">kube-system</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/cluster-service</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/name</span>: <span style="color:#e6db74">&#34;KubeDNS&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kube-dns</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># clusterIP: $DNS_SERVER_IP</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">clusterIP</span>: <span style="color:#ae81ff">10.254.0.100</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">53</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">UDP</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dns-tcp</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">53</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span></code></pre></div><p>启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create -f  skydns-rc.yaml
+</span></span><span style="display:flex;"><span>kubectl create -f  skydns-svc.yaml
+</span></span></code></pre></div><p>修改各个node节点的kubelet配置并重启：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/kubernetes/kubelet
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加这一行</span>
+</span></span><span style="display:flex;"><span>KUBELET_ARGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--cluster_dns=10.254.0.100 --cluster_domain=cluster.local&#34;</span>
+</span></span></code></pre></div><pre tabindex="0"><code>systemctl restart kubelet
+</code></pre><h3 id="验证">验证</h3>
 <p>cat nginx-deploy.yaml</p>
-
-<pre><code class="language-yml">apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  template: # create pods using pod definition in this template
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.7.9
-        ports:
-        - containerPort: 80
-</code></pre>
-
-<p>启动查看</p>
-
-<pre><code class="language-shell">$ kubectl create -f nginx-deploy.yaml
-nginx-deployment-4087004473-k35hw   1/1       Running   0          10m
-nginx-deployment-4087004473-z081c   1/1       Running   0          10m
-</code></pre>
-
-<p>cat nginx-svc.yaml</p>
-
-<pre><code class="language-yml">apiVersion: v1
-kind: Service
-metadata:
-  name: nginx
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-  selector:
-    app: nginx
-</code></pre>
-
-<pre><code>$ kubectl create -f nginx-svc.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">2</span> <span style="color:#75715e"># tells deployment to run 2 pods matching the template</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>: <span style="color:#75715e"># create pods using pod definition in this template</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.7.9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>启动查看</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create -f nginx-deploy.yaml
+</span></span><span style="display:flex;"><span>nginx-deployment-4087004473-k35hw   1/1       Running   <span style="color:#ae81ff">0</span>          10m
+</span></span><span style="display:flex;"><span>nginx-deployment-4087004473-z081c   1/1       Running   <span style="color:#ae81ff">0</span>          10m
+</span></span></code></pre></div><p>cat nginx-svc.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">port</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span></code></pre></div><pre tabindex="0"><code>$ kubectl create -f nginx-svc.yaml
 $ kubectl get svc
 NAME         CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 kubernetes   10.254.0.1       &lt;none&gt;        443/TCP   4d
 nginx        10.254.126.209   &lt;none&gt;        80/TCP    2h
-</code></pre>
-
-<p>现在，部署了nginx pods和对应的service，启动一个容器测试下：</p>
-
-<pre><code>$ kubectl run curl --image=radial/busyboxplus:curl -i --tty
+</code></pre><p>现在，部署了nginx pods和对应的service，启动一个容器测试下：</p>
+<pre tabindex="0"><code>$ kubectl run curl --image=radial/busyboxplus:curl -i --tty
 [ root@curl-2421989462-w9lhz:/ ]$ cat /etc/resolv.conf
 search default.svc.cluster.local svc.cluster.local cluster.local DHCP
 nameserver 10.254.0.100
@@ -552,98 +516,68 @@ Address 1: 10.254.126.209 nginx.default.svc.cluster.local
 working. Further configuration is required.&lt;/p&gt;
 
 &lt;p&gt;For online documentation and support please refer to
-&lt;a href=&quot;http://nginx.org/&quot;&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
+&lt;a href=&#34;http://nginx.org/&#34;&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
 Commercial support is available at
-&lt;a href=&quot;http://nginx.com/&quot;&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;http://nginx.com/&#34;&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;/em&gt;&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code></pre>
-
-<p>至此，dns部署成功。可以做服务发现，比如新加一个nginx pod，可以直接访问service name <code>nginx</code> 作负载均衡转发给对应pod。</p>
-
-<h2 id="二-部署dashboard">二、部署Dashboard</h2>
-
-<pre><code>wget https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml 
-</code></pre>
-
-<p>修改</p>
-
-<pre><code class="language-yml"> args:
-          - --apiserver-host=http://192.168.99.100:8080
-</code></pre>
-
-<p>启动</p>
-
-<pre><code class="language-bash">$ kubectl create -f kubernetes-dashboard.yaml 
-$ kubectl get po -n kube-system
-NAME                                    READY     STATUS             RESTARTS   AGE
-kube-dns-1607457672-0bmxp               4/4       Running            8          1d
-kubernetes-dashboard-3697257891-h2fcx   1/1       Running            2          20h
-</code></pre>
-
-<pre><code class="language-bash">$ kubectl get svc -n kube-system
-NAME                   CLUSTER-IP      EXTERNAL-IP   PORT(S)         AGE
-kube-dns               10.254.0.100    &lt;none&gt;        53/UDP,53/TCP   2d
-kubernetes-dashboard   10.254.224.65   &lt;nodes&gt;       80:30732/TCP    20h
-</code></pre>
-
-<p>浏览器访问<a href="http://nodeIP:30732">http://nodeIP:30732</a><br />
-<img src="http://thoreauz.com/images/2017-04-16-18-54-05.jpg" alt="" /></p>
-
+</code></pre><p>至此，dns部署成功。可以做服务发现，比如新加一个nginx pod，可以直接访问service name <code>nginx</code> 作负载均衡转发给对应pod。</p>
+<h2 id="二部署dashboard">二、部署Dashboard</h2>
+<pre tabindex="0"><code>wget https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml 
+</code></pre><p>修改</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span> <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>          - --<span style="color:#ae81ff">apiserver-host=http://192.168.99.100:8080</span>
+</span></span></code></pre></div><p>启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl create -f kubernetes-dashboard.yaml 
+</span></span><span style="display:flex;"><span>$ kubectl get po -n kube-system
+</span></span><span style="display:flex;"><span>NAME                                    READY     STATUS             RESTARTS   AGE
+</span></span><span style="display:flex;"><span>kube-dns-1607457672-0bmxp               4/4       Running            <span style="color:#ae81ff">8</span>          1d
+</span></span><span style="display:flex;"><span>kubernetes-dashboard-3697257891-h2fcx   1/1       Running            <span style="color:#ae81ff">2</span>          20h
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get svc -n kube-system
+</span></span><span style="display:flex;"><span>NAME                   CLUSTER-IP      EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>         AGE
+</span></span><span style="display:flex;"><span>kube-dns               10.254.0.100    &lt;none&gt;        53/UDP,53/TCP   2d
+</span></span><span style="display:flex;"><span>kubernetes-dashboard   10.254.224.65   &lt;nodes&gt;       80:30732/TCP    20h
+</span></span></code></pre></div><p>浏览器访问http://nodeIP:30732
+<img src="http://thoreauz.com/images/2017-04-16-18-54-05.jpg" alt=""></p>
 <p>但是，每次重启kubernetes-dashboard，CLUSTER-IP和PORT都会变，为了方便暴露给外部访问，可以结合DNS使用。</p>
-
 <p>编辑任意一个node的/etc/resolv.conf，添加nameserver</p>
-
-<pre><code>search default.svc.cluster.local svc.cluster.local cluster.local DHCP
+<pre tabindex="0"><code>search default.svc.cluster.local svc.cluster.local cluster.local DHCP
 nameserver 10.254.0.100
-</code></pre>
-
-<p>修改kube-proxy: /etc/kubernetes/proxy</p>
-
-<pre><code>KUBE_PROXY_ARGS=&quot;--cluster-cidr=172.30.0.0/16&quot;
-</code></pre>
-
-<blockquote>
+</code></pre><p>修改kube-proxy: /etc/kubernetes/proxy</p>
+<pre tabindex="0"><code>KUBE_PROXY_ARGS=&#34;--cluster-cidr=172.30.0.0/16&#34;
+</code></pre><blockquote>
 <p>&ndash;cluster-cidr:  用于桥接来自群集外部的流量。 如果没有配置，则不执行群外桥接。</p>
 </blockquote>
-
 <p>修改后重启kube-proxy，然后通过service name.namespace访问dashbord:</p>
-
-<pre><code>&amp; curl kubernetes-dashboard.kube-system
- &lt;!doctype html&gt; &lt;html ng-app=&quot;kubernetesDashboard&quot;&gt; &lt;head&gt; &lt;meta charset=&quot;utf-8&quot;&gt; &lt;title ng-controller=&quot;kdTitle as $ctrl&quot; ng-bind=&quot;$ctrl.title()&quot;&gt;&lt;/title&gt; &lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;assets/images/kubernetes-logo.png&quot;&gt; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;static/vendor.4f4b705f.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;static/app.93b90a74.css&quot;&gt; &lt;/head&gt; &lt;body&gt; &lt;!--[if lt IE 10]&gt;
-      &lt;p class=&quot;browsehappy&quot;&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser.
-      Please &lt;a href=&quot;http://browsehappy.com/&quot;&gt;upgrade your browser&lt;/a&gt; to improve your
+<pre tabindex="0"><code>&amp; curl kubernetes-dashboard.kube-system
+ &lt;!doctype html&gt; &lt;html ng-app=&#34;kubernetesDashboard&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;utf-8&#34;&gt; &lt;title ng-controller=&#34;kdTitle as $ctrl&#34; ng-bind=&#34;$ctrl.title()&#34;&gt;&lt;/title&gt; &lt;link rel=&#34;icon&#34; type=&#34;image/png&#34; href=&#34;assets/images/kubernetes-logo.png&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width&#34;&gt; &lt;link rel=&#34;stylesheet&#34; href=&#34;static/vendor.4f4b705f.css&#34;&gt; &lt;link rel=&#34;stylesheet&#34; href=&#34;static/app.93b90a74.css&#34;&gt; &lt;/head&gt; &lt;body&gt; &lt;!--[if lt IE 10]&gt;
+      &lt;p class=&#34;browsehappy&#34;&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser.
+      Please &lt;a href=&#34;http://browsehappy.com/&#34;&gt;upgrade your browser&lt;/a&gt; to improve your
       experience.&lt;/p&gt;
-    &lt;![endif]--&gt; &lt;kd-chrome layout=&quot;column&quot; layout-fill&gt; &lt;/kd-chrome&gt; &lt;script src=&quot;static/vendor.6952e31e.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;api/appConfig.json&quot;&gt;&lt;/script&gt; &lt;script src=&quot;static/app.8a6b8127.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;/html&gt;
-</code></pre>
-
-<p>这样，可以配置nginx代理。集群外就能访问dashboard，也不用担心虚拟ip和端口改变。</p>
-
-<pre><code>location / {
+    &lt;![endif]--&gt; &lt;kd-chrome layout=&#34;column&#34; layout-fill&gt; &lt;/kd-chrome&gt; &lt;script src=&#34;static/vendor.6952e31e.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;api/appConfig.json&#34;&gt;&lt;/script&gt; &lt;script src=&#34;static/app.8a6b8127.js&#34;&gt;&lt;/script&gt; &lt;/body&gt; &lt;/html&gt;
+</code></pre><p>这样，可以配置nginx代理。集群外就能访问dashboard，也不用担心虚拟ip和端口改变。</p>
+<pre tabindex="0"><code>location / {
 		proxy_set_header    Host    $host;
         proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
 	  	proxy_pass http://kubernetes-dashboard.kube-system;
         }
 ｝
 </code></pre>
-
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#kubernetes部署dns和dashboard">Kubernetes部署DNS和Dashboard</a>
-<ul>
-<li><a href="#一-部署dns">一、部署DNS</a>
-<ul>
-<li><a href="#安装">安装</a></li>
-<li><a href="#验证">验证</a></li>
-</ul></li>
-<li><a href="#二-部署dashboard">二、部署Dashboard</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一部署dns">一、部署DNS</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#验证">验证</a></li>
+      </ul>
+    </li>
+    <li><a href="#二部署dashboard">二、部署Dashboard</a></li>
+  </ul>
 </nav>
     </section>
 

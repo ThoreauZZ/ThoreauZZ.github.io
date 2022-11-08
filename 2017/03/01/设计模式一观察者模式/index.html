@@ -21,7 +21,7 @@
   	<meta property="og:title" content="设计模式一：观察者模式 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 设计模式一：观察者模式,
-    "name": 设计模式一：观察者模式,
-    "wordCount": 570,
+    "headline": "设计模式一：观察者模式",
+    "name": "设计模式一：观察者模式",
+    "wordCount":  570 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/,
-    "datePublished": 2017-03-01T18:15Z,
-    "dateModified": 2017-03-01T18:15Z,
+    "url": "http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/",
+    "datePublished": "2017-03-01T18:15Z",
+    "dateModified": "2017-03-01T18:15Z",
     
-    "keywords": 设计模式,
-    "description": ,
+    "keywords": "设计模式",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/
+        "@id": "http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,172 +243,136 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="观察者模式">观察者模式</h1>
-
+      <h1 id="观察者模式">观察者模式</h1>
 <p>本文摘自：《Head First 设计模式》</p>
-
 <p>观察者模式= 出版者+订阅者。定义了对象之间的一对多依赖，当一个对象改变状态时，所有依赖者都收到通知并更新。最好示例如：微信公众号和用户，微信用户可以关注和取消关注某公众号，公号更新内容时通知所有订阅者。这里的公众号对应观察者模式的“主题”(subject)，微信用户即“观察者”(Observer)。</p>
-
 <h2 id="观察者模式对象">观察者模式对象</h2>
-
 <h3 id="主题">主题</h3>
-
 <ul>
-<li>观察者订阅<br /></li>
-<li>观察者取消订阅<br /></li>
-<li>有新数据时通知所有订阅者<br />
-<br /></li>
+<li>观察者订阅</li>
+<li>观察者取消订阅</li>
+<li>有新数据时通知所有订阅者</li>
 </ul>
-
 <h3 id="观察者">观察者</h3>
-
 <ul>
-<li>接受主题通知<br />
-<br /></li>
+<li>接受主题通知</li>
 </ul>
-
 <h2 id="类图">类图</h2>
-
-<p><img src="http://thoreauz.com/images/Observer.png" alt="" /></p>
-
-<h2 id="示例-气象观察站">示例：气象观察站</h2>
-
+<p><img src="http://thoreauz.com/images/Observer.png" alt=""></p>
+<h2 id="示例气象观察站">示例：气象观察站</h2>
 <p>主题接口</p>
-
-<pre><code class="language-java">public interface Subject {
-    public void registerObserver(Observer o);
-
-    public void removeObeserver(Observer o);
-
-    public void notifyObserver();
-}
-</code></pre>
-
-<p>观察者接口</p>
-
-<pre><code class="language-java">public interface Observer {
-    public void update(float temp, float humidity, float pressure);
-}
-</code></pre>
-
-<pre><code class="language-java">public interface DisplayElement {
-    public void display();
-}
-</code></pre>
-
-<p>具体主题</p>
-
-<pre><code class="language-java">public class WeatherData implements Subject {
-    private ArrayList observers;
-    private float temperature;
-    private float humidity;
-    private float pressure;
-
-    public WeatherData(){
-        observers = new ArrayList();
-    }
-    @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
-    }
-    @Override
-    public void remoteObeserver(Observer o) {
-        int i = observers.indexOf(o);
-        if (i &gt;=0 ){
-            observers.remove(i);
-        }
-    }
-    @Override
-    public void notifyObserver() {
-        for (int i = 0; i &lt; observers.size(); i++) {
-            Observer observer = (Observer) observers.get(i);
-            observer.update(temperature, humidity, pressure);
-        }
-    }
-    public void measurementsChanged(){
-        notifyObserver();
-    }
-    public void setMeasurements(float temperature, float humidity, float pressure){
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.pressure = pressure;
-
-        measurementsChanged();
-    }
-}
-</code></pre>
-
-<p>观察者类</p>
-
-<pre><code class="language-java">public class CurrentConditionDisplay implements Observer, DisplayElement {
-    private float temperature;
-    private float humidity;
-    private Subject weatherData;
-
-    public CurrentConditionDisplay (Subject weatherData){
-        this.weatherData = weatherData;
-        weatherData.registerObserver(this);
-    }
-
-    @Override
-    public void update(float temp, float humidity, float pressure) {
-        // udate 被调用时，把数据保存其阿里
-        this.temperature = temp;
-        this.humidity = humidity;
-        display();
-    }
-
-    @Override
-    public void display() {
-        //把最近的温度和湿度展示出来
-        System.out.println(&quot;Current conditions: &quot; + temperature +
-        &quot;F degrees and &quot; + humidity + &quot;% humidty&quot;);
-    }
-}
-</code></pre>
-
-<p>测试</p>
-
-<pre><code class="language-java">public static void main(String[] args) {
-        WeatherData weatherData = new WeatherData();
-        CurrentConditionDisplay currentConditionDisplay =
-                new CurrentConditionDisplay(weatherData);
-        weatherData.setMeasurements(80, 65, 33.4f);
-    }
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subject</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerObserver</span><span style="color:#f92672">(</span>Observer o<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeObeserver</span><span style="color:#f92672">(</span>Observer o<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">notifyObserver</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>观察者接口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Observer</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> temp<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> humidity<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> pressure<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">DisplayElement</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">display</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>具体主题</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeatherData</span> <span style="color:#66d9ef">implements</span> Subject <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> ArrayList observers<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">float</span> temperature<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">float</span> humidity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">float</span> pressure<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">WeatherData</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        observers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerObserver</span><span style="color:#f92672">(</span>Observer o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        observers<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remoteObeserver</span><span style="color:#f92672">(</span>Observer o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> observers<span style="color:#f92672">.</span><span style="color:#a6e22e">indexOf</span><span style="color:#f92672">(</span>o<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span>0 <span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>            observers<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">notifyObserver</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> observers<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">();</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Observer observer <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Observer<span style="color:#f92672">)</span> observers<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span>temperature<span style="color:#f92672">,</span> humidity<span style="color:#f92672">,</span> pressure<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">measurementsChanged</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        notifyObserver<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMeasurements</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> temperature<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> humidity<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> pressure<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">temperature</span> <span style="color:#f92672">=</span> temperature<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">humidity</span> <span style="color:#f92672">=</span> humidity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">pressure</span> <span style="color:#f92672">=</span> pressure<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        measurementsChanged<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>观察者类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CurrentConditionDisplay</span> <span style="color:#66d9ef">implements</span> Observer<span style="color:#f92672">,</span> DisplayElement <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">float</span> temperature<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">float</span> humidity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Subject weatherData<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CurrentConditionDisplay</span> <span style="color:#f92672">(</span>Subject weatherData<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">weatherData</span> <span style="color:#f92672">=</span> weatherData<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        weatherData<span style="color:#f92672">.</span><span style="color:#a6e22e">registerObserver</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> temp<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> humidity<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> pressure<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// udate 被调用时，把数据保存其阿里
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">temperature</span> <span style="color:#f92672">=</span> temp<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">humidity</span> <span style="color:#f92672">=</span> humidity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        display<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">display</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//把最近的温度和湿度展示出来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Current conditions: &#34;</span> <span style="color:#f92672">+</span> temperature <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;F degrees and &#34;</span> <span style="color:#f92672">+</span> humidity <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;% humidty&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        WeatherData weatherData <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WeatherData<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        CurrentConditionDisplay currentConditionDisplay <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> CurrentConditionDisplay<span style="color:#f92672">(</span>weatherData<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        weatherData<span style="color:#f92672">.</span><span style="color:#a6e22e">setMeasurements</span><span style="color:#f92672">(</span>80<span style="color:#f92672">,</span> 65<span style="color:#f92672">,</span> 33<span style="color:#f92672">.</span><span style="color:#a6e22e">4f</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>Current conditions: 80.0F degrees and 65.0% humidty</p>
 </blockquote>
-
 <h2 id="设计原则">设计原则</h2>
-
 <ol>
-<li>找出程序中会变化的方面，然后将其和固定不变的方面分离<br /></li>
-<li>针对接口编程，不针对实现编程<br /></li>
-<li>多用组合，少用继承<br /></li>
-<li>为交互对象之间的松耦合设计而努力<br /></li>
+<li>找出程序中会变化的方面，然后将其和固定不变的方面分离</li>
+<li>针对接口编程，不针对实现编程</li>
+<li>多用组合，少用继承</li>
+<li>为交互对象之间的松耦合设计而努力</li>
 </ol>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#观察者模式">观察者模式</a>
-<ul>
-<li><a href="#观察者模式对象">观察者模式对象</a>
-<ul>
-<li><a href="#主题">主题</a></li>
-<li><a href="#观察者">观察者</a></li>
-</ul></li>
-<li><a href="#类图">类图</a></li>
-<li><a href="#示例-气象观察站">示例：气象观察站</a></li>
-<li><a href="#设计原则">设计原则</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#观察者模式对象">观察者模式对象</a>
+      <ul>
+        <li><a href="#主题">主题</a></li>
+        <li><a href="#观察者">观察者</a></li>
+      </ul>
+    </li>
+    <li><a href="#类图">类图</a></li>
+    <li><a href="#示例气象观察站">示例：气象观察站</a></li>
+    <li><a href="#设计原则">设计原则</a></li>
+  </ul>
 </nav>
     </section>
 

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Spring Cloud 分布式系统追踪 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/04/12/spring-cloud-trace/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/04/12/spring-cloud-trace/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": Spring Cloud 分布式系统追踪,
-    "name": Spring Cloud 分布式系统追踪,
-    "wordCount": 2215,
+    "headline": "Spring Cloud 分布式系统追踪",
+    "name": "Spring Cloud 分布式系统追踪",
+    "wordCount":  2214 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/04/12/spring-cloud-trace/,
-    "datePublished": 2017-04-12T17:40Z,
-    "dateModified": 2017-04-12T17:40Z,
+    "url": "http://thoreauz.com/2017/04/12/spring-cloud-trace/",
+    "datePublished": "2017-04-12T17:40Z",
+    "dateModified": "2017-04-12T17:40Z",
     
-    "keywords": spring, 微服务, spring cloud,
-    "description": ,
+    "keywords": "spring, 微服务, spring cloud",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/04/12/spring-cloud-trace/
+        "@id": "http://thoreauz.com/2017/04/12/spring-cloud-trace/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,283 +251,229 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="spring-cloud-分布式系统追踪">Spring Cloud 分布式系统追踪</h1>
-
+      <h1 id="spring-cloud-分布式系统追踪">Spring Cloud 分布式系统追踪</h1>
 <p>微服务的特点就是服务多，依赖关系复杂。一个请求进来，整个调用链是什么样的，各个服务的调用时间，错误出现在哪个服务、哪台机器上等等问题。如果没有贯穿前后的调用链，很难定位问题。</p>
-
 <p>Spring Cloud 系统提供 sleuth + zipkin 的整合方式解决这个问题。下面先从一个示例开始。</p>
-
 <h2 id="在服务中使用sleuth">在服务中使用sleuth</h2>
-
 <p>在spring cloud中使用很简单，依赖<code>spring-cloud-starter-sleuth</code>即可，如果需要导出到zikip，根据选择http还是mq方式另加包。</p>
-
 <p>maven 依赖：</p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-sleuth-stream&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-stream-binder-rabbit&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<ol>
-<li>spring-cloud-starter-sleuth ： 添加这个包，就可以在日志中打印出traceId和spanId。如果不要使用zipkin做分析，这个包就可以了。<br /></li>
-<li>spring-cloud-sleuth-stream 和 spring-cloud-stream-binder-rabbit ：通过stream把元信息通过mq发送给使用方(zipkin)。如果不使用zipkin，这俩包不需要。<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-sleuth<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-sleuth-stream<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-stream-binder-rabbit<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><ol>
+<li>spring-cloud-starter-sleuth ： 添加这个包，就可以在日志中打印出traceId和spanId。如果不要使用zipkin做分析，这个包就可以了。</li>
+<li>spring-cloud-sleuth-stream 和 spring-cloud-stream-binder-rabbit ：通过stream把元信息通过mq发送给使用方(zipkin)。如果不使用zipkin，这俩包不需要。</li>
 </ol>
-
 <p>在微服务中引入以上依赖，spring cloud微服务日志如下：</p>
-
-<pre><code>2017-04-11 22:50:10.365  INFO [cloud-api-gateway,1c6ffcbf0c03cd09,1c6ffcbf0c03cd09,false] 15563 --- [nio-9006-exec-8] c.e.s.gateway.filter.AccessFilter        : request method:GET, request url: http://localhost:9006/trade/order
+<pre tabindex="0"><code>2017-04-11 22:50:10.365  INFO [cloud-api-gateway,1c6ffcbf0c03cd09,1c6ffcbf0c03cd09,false] 15563 --- [nio-9006-exec-8] c.e.s.gateway.filter.AccessFilter        : request method:GET, request url: http://localhost:9006/trade/order
 
 2017-04-11 22:50:10.545  INFO [cloud-service-trade,1c6ffcbf0c03cd09,5dcbb6e53fa2c2e5,false] 15715 --- [nio-9007-exec-1] c.e.springcloud.trade.web.OrderResouce   : gateway call me
-</code></pre>
-
-<p>日志日别(INFO)后的[]中四个data很关键，第一个服务名(对应spring.application.name)，第二个是traceId，第三个是spanId，第四个标注sleuth元信息是否导出(mq等)。对traceId和spanId，span生命周期等不做介绍，详细信息请看<a href="https://github.com/spring-cloud/spring-cloud-sleuth/blob/master/README.adoc">sleuth github</a>。</p>
-
+</code></pre><p>日志日别(INFO)后的[]中四个data很关键，第一个服务名(对应spring.application.name)，第二个是traceId，第三个是spanId，第四个标注sleuth元信息是否导出(mq等)。对traceId和spanId，span生命周期等不做介绍，详细信息请看<a href="https://github.com/spring-cloud/spring-cloud-sleuth/blob/master/README.adoc">sleuth github</a>。</p>
 <p>简单说，一个请求，不管经过几次调用调用几个服务，所有traceId都一样。可以在gateway(ZUUL)中，把traceId放到HTTP的restpose header，如果请求有问题，通过header拿到traceId，就可以到日志文件或者ELK搜索相应日志信息。</p>
-
 <p>Logstash fileter配置如下：</p>
-
-<pre><code>input {
+<pre tabindex="0"><code>input {
     file {
-		type =&gt; &quot;spring-cloud&quot;
-        path =&gt; &quot;/tmp/cloud.log&quot;
+		type =&gt; &#34;spring-cloud&#34;
+        path =&gt; &#34;/tmp/cloud.log&#34;
 		codec =&gt; multiline {
-			pattern =&gt; &quot;^\d{4}-\d{2}-\d{2}&quot;
+			pattern =&gt; &#34;^\d{4}-\d{2}-\d{2}&#34;
 			negate =&gt; true
-			what =&gt; &quot;previous&quot;
+			what =&gt; &#34;previous&#34;
 		}
 
 	}
 }
 filter {
     grok {
-        match =&gt; { &quot;message&quot; =&gt; &quot;%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest}&quot; 
+        match =&gt; { &#34;message&#34; =&gt; &#34;%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest}&#34; 
         }
     }
 }
 
 output {
 	stdout { codec=&gt; rubydebug }
-	elasticsearch { hosts =&gt; &quot;localhost&quot; }
+	elasticsearch { hosts =&gt; &#34;localhost&#34; }
 }
-</code></pre>
-
-<p>Kibana展示:<br />
-<img src="http://thoreauz.com/images/2017-04-12-10-35-55.jpg" alt="" /><br />
-&gt; 部分敏感信息马赛克了，EKL安装见我的另一篇博客<a href="http://thoreauz.com/2017/02/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/">ELK日志搜集查询</a></p>
-
+</code></pre><p>Kibana展示:
+<img src="http://thoreauz.com/images/2017-04-12-10-35-55.jpg" alt=""></p>
+<blockquote>
+<p>部分敏感信息马赛克了，EKL安装见我的另一篇博客<a href="http://thoreauz.com/2017/02/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/">ELK日志搜集查询</a></p>
+</blockquote>
 <h2 id="结合zipkin展示">结合Zipkin展示</h2>
-
 <p><strong>1.mavem依赖</strong></p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-sleuth-zipkin-stream&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-stream-binder-rabbit&lt;/artifactId&gt;
-&lt;/dependency&gt;
-
-
-&lt;dependency&gt;
-    &lt;groupId&gt;io.zipkin.java&lt;/groupId&gt;
-    &lt;artifactId&gt;zipkin-server&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;io.zipkin.java&lt;/groupId&gt;
-    &lt;artifactId&gt;zipkin-autoconfigure-ui&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p><strong>2. 启动函数</strong></p>
-
-<pre><code class="language-java">@SpringBootApplication
-@EnableDiscoveryClient
-@EnableZipkinStreamServer
-public class ZipkinServerApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(ZipkinServerApplication.class, args);
-    }
-}
-</code></pre>
-
-<p>配置消费mq中的sleuth信息。格式如下:<br />
-<img src="http://thoreauz.com/images/AECF8BA5-1770-4118-8A05-4BCC08D3187D.png" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-sleuth-zipkin-stream<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-sleuth<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-stream-binder-rabbit<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>io.zipkin.java<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>zipkin-server<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>io.zipkin.java<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>zipkin-autoconfigure-ui<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><strong>2. 启动函数</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableDiscoveryClient</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableZipkinStreamServer</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ZipkinServerApplication</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>ZipkinServerApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>配置消费mq中的sleuth信息。格式如下:
+<img src="http://thoreauz.com/images/AECF8BA5-1770-4118-8A05-4BCC08D3187D.png" alt=""></p>
 <blockquote>
 <p>注意： 默认情况下，并不是每一条都导出到mq中，只有10%，如果测试时想得到结果，可以把<code>spring.sleuth.sampler.percentage</code>配置为<code>1.0</code>,也可以通过定义bean的方式覆盖默认配置。</p>
 </blockquote>
-
-<p>zikin UI 展示：<br />
-<img src="http://thoreauz.com/images/4D470383-498D-48DA-9789-F82573B70D5C.png" alt="" /></p>
-
-<p>可以从查看整个调用链每个节点上用了多次时间，是否保存等信息，还可以分析出微服务依赖图,如下:<br />
-<img src="http://thoreauz.com/images/2017-04-12-11-41-44.jpg" alt="" /></p>
-
+<p>zikin UI 展示：
+<img src="http://thoreauz.com/images/4D470383-498D-48DA-9789-F82573B70D5C.png" alt=""></p>
+<p>可以从查看整个调用链每个节点上用了多次时间，是否保存等信息，还可以分析出微服务依赖图,如下:
+<img src="http://thoreauz.com/images/2017-04-12-11-41-44.jpg" alt=""></p>
 <p>默认zipkin把消费的信息存入内存，如果用到开发环境中，应改存储为mysql或者Elasticsearch等。下面介绍mysql示例：</p>
-
-<pre><code class="language-xml">&lt;!--mysql--&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;io.zipkin.java&lt;/groupId&gt;
-    &lt;artifactId&gt;zipkin-autoconfigure-storage-mysql&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;mysql&lt;/groupId&gt;
-    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>bootstrp.yaml配置：</p>
-
-<pre><code class="language-yml">spring:
-  profiles: dev
-  datasource:
-    schema: classpath:/mysql.sql
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.99.100:3306/zipkin
-    username: root
-    password: 1234
-    initialize: true
-    continueOnError: true
-  sleuth:
-    enabled: false
-    
-zipkin:
-  storage:
-    type: mysql
-</code></pre>
-
-<p>初始化数据库脚本可以从github获取: <a href="https://github.com/openzipkin/zipkin">oopenzipkin</a></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;!--mysql--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>io.zipkin.java<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>zipkin-autoconfigure-storage-mysql<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-jdbc<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>mysql<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>mysql-connector-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>bootstrp.yaml配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">spring</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">profiles</span>: <span style="color:#ae81ff">dev</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">datasource</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">schema</span>: <span style="color:#ae81ff">classpath:/mysql.sql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver-class-name</span>: <span style="color:#ae81ff">com.mysql.jdbc.Driver</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">url</span>: <span style="color:#ae81ff">jdbc:mysql://192.168.99.100:3306/zipkin</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">username</span>: <span style="color:#ae81ff">root</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">password</span>: <span style="color:#ae81ff">1234</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">initialize</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">continueOnError</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sleuth</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#f92672">zipkin</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storage</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">mysql</span>
+</span></span></code></pre></div><p>初始化数据库脚本可以从github获取: <a href="https://github.com/openzipkin/zipkin">oopenzipkin</a></p>
 <p>使用Elasticsearch Storage 配置也差不多，但得配合Spark job 才能出依赖关系图<a href="https://github.com/openzipkin/zipkin-dependencies">zipkin-dependencies</a></p>
-
 <h1 id="sleuth原理">Sleuth原理</h1>
-
 <p>sleuth 实现原理，简单说就是通过拦截器(Filter)处理http请求头信息，把需要日志打印的信息放入slf4j.MDC，logback获取相应信息输出到文件或控制台等(不建议直接从logback通过网络导出lagstash、kafka等)。</p>
-
 <h2 id="过滤器">过滤器</h2>
-
 <p>下面看下最重要的过滤器: TraceFilter</p>
-
-<pre><code class="language-java">@Order(TraceFilter.ORDER)//@Order(-2147483643)
-public class TraceFilter extends GenericFilterBean {
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-            FilterChain filterChain) throws IOException, ServletException {
-        
-        if (!(servletRequest instanceof HttpServletRequest) || !(servletResponse instanceof HttpServletResponse)) {
-            throw new ServletException(&quot;Filter just supports HTTP requests&quot;);
-        }
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String uri = this.urlPathHelper.getPathWithinApplication(request);
-        
-        // 如果请求访问静态页面、图片、health、swargger等资源是，跳过
-        // 如果请求或者返回Header中有X-B3-Sampled，跳过        
-        boolean skip = this.skipPattern.matcher(uri).matches()
-                || Span.SPAN_NOT_SAMPLED.equals(ServletUtils.getHeader(request, response, Span.SAMPLED_NAME));
-        
-        // 获取请求体中的spanId
-        Span spanFromRequest = getSpanFromAttribute(request);
-        if (spanFromRequest != null) {
-            // 如果spanId 不为空，沿用此ID
-            continueSpan(request, spanFromRequest);
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug(&quot;Received a request to uri [&quot; + uri + &quot;] that should not be sampled [&quot; + skip + &quot;]&quot;);
-        }
-        // 如果出现异常，关闭span
-        if (!httpStatusSuccessful(response) &amp;&amp; isSpanContinued(request)) {
-            Span parentSpan = parentSpan(spanFromRequest);
-            processErrorRequest(filterChain, request, new TraceHttpServletResponse(response, parentSpan), spanFromRequest);
-            return;
-        }
-
-        String name = HTTP_COMPONENT + &quot;:&quot; + uri;
-        Throwable exception = null;
-        try {
-            // 给request创建span，以过滤器的类名+.TRACE 作为属性名放入request attribute
-            /* span
-                name=http:+url
-                spanId=随机数生成器序列的均匀分布的long值，转换为16进制
-                traceId=随机数生成器序列的均匀分布的long值，最顶层和spanId一致
-                logEvent= 时间戳+span的生命周期(sr,ss,cs)
-            */            
-            spanFromRequest = createSpan(request, skip, spanFromRequest, name);
-            filterChain.doFilter(request, new TraceHttpServletResponse(response, spanFromRequest));
-        } catch (Throwable e) {
-            exception = e;
-            // 出现异常，在trace中添加error标记
-            this.tracer.addTag(Span.SPAN_ERROR_TAG_NAME, ExceptionUtils.getExceptionMessage(e));
-            throw e;
-        } finally {
-            if (isAsyncStarted(request) || request.isAsyncStarted()) {
-                if (log.isDebugEnabled()) {
-                    log.debug(&quot;The span &quot; + spanFromRequest + &quot; will get detached by a HandleInterceptor&quot;);
-                }
-                return;
-            }
-            spanFromRequest = createSpanIfRequestNotHandled(request, spanFromRequest, name, skip);
-            detachOrCloseSpans(request, response, spanFromRequest, exception);
-        }
-    }
-}
-</code></pre>
-
-<p>对于ZUll网关，它有两个filter：TracePreZuulFilter，TracePostZuulFilter。分别在路由前后生成一个span和结束一个span。</p>
-
-<pre><code>2017-04-11 23:40:20.685 DEBUG [cloud-api-gateway,,,] 15747 --- [nio-9006-exec-8] o.s.c.sleuth.instrument.web.TraceFilter  : Received a request to uri [/trade/order] that should not be sampled [false]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Order</span><span style="color:#f92672">(</span>TraceFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">ORDER</span><span style="color:#f92672">)</span><span style="color:#75715e">//@Order(-2147483643)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TraceFilter</span> <span style="color:#66d9ef">extends</span> GenericFilterBean <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doFilter</span><span style="color:#f92672">(</span>ServletRequest servletRequest<span style="color:#f92672">,</span> ServletResponse servletResponse<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>            FilterChain filterChain<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> ServletException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!(</span>servletRequest <span style="color:#66d9ef">instanceof</span> HttpServletRequest<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!(</span>servletResponse <span style="color:#66d9ef">instanceof</span> HttpServletResponse<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ServletException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Filter just supports HTTP requests&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        HttpServletRequest request <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpServletRequest<span style="color:#f92672">)</span> servletRequest<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        HttpServletResponse response <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpServletResponse<span style="color:#f92672">)</span> servletResponse<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        String uri <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">urlPathHelper</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getPathWithinApplication</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果请求访问静态页面、图片、health、swargger等资源是，跳过
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 如果请求或者返回Header中有X-B3-Sampled，跳过        
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">boolean</span> skip <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">skipPattern</span><span style="color:#f92672">.</span><span style="color:#a6e22e">matcher</span><span style="color:#f92672">(</span>uri<span style="color:#f92672">).</span><span style="color:#a6e22e">matches</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">||</span> Span<span style="color:#f92672">.</span><span style="color:#a6e22e">SPAN_NOT_SAMPLED</span><span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>ServletUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeader</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">,</span> Span<span style="color:#f92672">.</span><span style="color:#a6e22e">SAMPLED_NAME</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取请求体中的spanId
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Span spanFromRequest <span style="color:#f92672">=</span> getSpanFromAttribute<span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>spanFromRequest <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果spanId 不为空，沿用此ID
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            continueSpan<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> spanFromRequest<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>log<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Received a request to uri [&#34;</span> <span style="color:#f92672">+</span> uri <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;] that should not be sampled [&#34;</span> <span style="color:#f92672">+</span> skip <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;]&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果出现异常，关闭span
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>httpStatusSuccessful<span style="color:#f92672">(</span>response<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> isSpanContinued<span style="color:#f92672">(</span>request<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Span parentSpan <span style="color:#f92672">=</span> parentSpan<span style="color:#f92672">(</span>spanFromRequest<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            processErrorRequest<span style="color:#f92672">(</span>filterChain<span style="color:#f92672">,</span> request<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> TraceHttpServletResponse<span style="color:#f92672">(</span>response<span style="color:#f92672">,</span> parentSpan<span style="color:#f92672">),</span> spanFromRequest<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String name <span style="color:#f92672">=</span> HTTP_COMPONENT <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> uri<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        Throwable exception <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 给request创建span，以过滤器的类名+.TRACE 作为属性名放入request attribute
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">/* span
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                name=http:+url
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                spanId=随机数生成器序列的均匀分布的long值，转换为16进制
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                traceId=随机数生成器序列的均匀分布的long值，最顶层和spanId一致
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                logEvent= 时间戳+span的生命周期(sr,ss,cs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            */</span>            
+</span></span><span style="display:flex;"><span>            spanFromRequest <span style="color:#f92672">=</span> createSpan<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> skip<span style="color:#f92672">,</span> spanFromRequest<span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            filterChain<span style="color:#f92672">.</span><span style="color:#a6e22e">doFilter</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> TraceHttpServletResponse<span style="color:#f92672">(</span>response<span style="color:#f92672">,</span> spanFromRequest<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            exception <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 出现异常，在trace中添加error标记
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tracer</span><span style="color:#f92672">.</span><span style="color:#a6e22e">addTag</span><span style="color:#f92672">(</span>Span<span style="color:#f92672">.</span><span style="color:#a6e22e">SPAN_ERROR_TAG_NAME</span><span style="color:#f92672">,</span> ExceptionUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">getExceptionMessage</span><span style="color:#f92672">(</span>e<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> e<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isAsyncStarted<span style="color:#f92672">(</span>request<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">isAsyncStarted</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>log<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;The span &#34;</span> <span style="color:#f92672">+</span> spanFromRequest <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; will get detached by a HandleInterceptor&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            spanFromRequest <span style="color:#f92672">=</span> createSpanIfRequestNotHandled<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> spanFromRequest<span style="color:#f92672">,</span> name<span style="color:#f92672">,</span> skip<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            detachOrCloseSpans<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">,</span> spanFromRequest<span style="color:#f92672">,</span> exception<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>对于ZUll网关，它有两个filter：TracePreZuulFilter，TracePostZuulFilter。分别在路由前后生成一个span和结束一个span。</p>
+<pre tabindex="0"><code>2017-04-11 23:40:20.685 DEBUG [cloud-api-gateway,,,] 15747 --- [nio-9006-exec-8] o.s.c.sleuth.instrument.web.TraceFilter  : Received a request to uri [/trade/order] that should not be sampled [false]
 
 2017-04-11 23:36:12.754 DEBUG [cloud-api-gateway,f2be362bff25eecb,f2be362bff25eecb,false] 15747 --- [nio-9006-exec-6] o.s.c.sleuth.instrument.web.TraceFilter  : No parent span present - creating a new span
-</code></pre>
-
-<h2 id="日志">日志</h2>
-
+</code></pre><h2 id="日志">日志</h2>
 <p>默认情况下，默认logging.pattern.level 设置<code>%5p</code>,<code>[${spring.zipkin.service.name:${spring.application.name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]</code>, 使用Logback + SLF4J不需要任何配置。</p>
-
 <p>如果想定制自己的日志输出格式，可以在<code>logback-spring.xml</code>文件中覆写log pattern:</p>
-
-<pre><code>&lt;property name=&quot;CONSOLE_LOG_PATTERN&quot;  value=&quot;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}&quot;/&gt;
+<pre tabindex="0"><code>&lt;property name=&#34;CONSOLE_LOG_PATTERN&#34;  value=&#34;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}&#34;/&gt;
 </code></pre>
-
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#spring-cloud-分布式系统追踪">Spring Cloud 分布式系统追踪</a>
-<ul>
-<li><a href="#在服务中使用sleuth">在服务中使用sleuth</a></li>
-<li><a href="#结合zipkin展示">结合Zipkin展示</a></li>
-</ul></li>
-<li><a href="#sleuth原理">Sleuth原理</a>
-<ul>
-<li><a href="#过滤器">过滤器</a></li>
-<li><a href="#日志">日志</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#在服务中使用sleuth">在服务中使用sleuth</a></li>
+    <li><a href="#结合zipkin展示">结合Zipkin展示</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#过滤器">过滤器</a></li>
+    <li><a href="#日志">日志</a></li>
+  </ul>
 </nav>
     </section>
 

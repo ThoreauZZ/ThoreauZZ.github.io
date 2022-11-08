@@ -21,7 +21,7 @@
   	<meta property="og:title" content="nginx入门之Rewrite &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/07/nginx-Rewrite/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/07/nginx-Rewrite/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": nginx入门之Rewrite,
-    "name": nginx入门之Rewrite,
-    "wordCount": 2070,
+    "headline": "nginx入门之Rewrite",
+    "name": "nginx入门之Rewrite",
+    "wordCount":  2047 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/07/nginx-Rewrite/,
-    "datePublished": 2017-02-07T10:13Z,
-    "dateModified": 2017-02-07T10:13Z,
+    "url": "http://thoreauz.com/2017/02/07/nginx-Rewrite/",
+    "datePublished": "2017-02-07T10:13Z",
+    "dateModified": "2017-02-07T10:13Z",
     
-    "keywords": nginx,
-    "description": ,
+    "keywords": "nginx",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/07/nginx-Rewrite/
+        "@id": "http://thoreauz.com/2017/02/07/nginx-Rewrite/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,258 +243,206 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="nginx入门之rewrite">nginx入门之Rewrite</h1>
-
+      <h1 id="nginx入门之rewrite">nginx入门之Rewrite</h1>
 <p>Rewrite 是nginx服务器提供的一个重要功能，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。</p>
-
-<h2 id="一-正则表达式">一、正则表达式</h2>
-
-<p>rewrite的核心是PCRE。下面看看几个常用的正则表达式语法：<br />
-<code>*</code> : 0次或者多次前面的字符或子表达式；<br />
-<code>+</code>:  1次或者多次前面的字符或子表达式；<br />
-<code>?</code>: 0次或者1次前面的字符或子表达式；<br />
-<code>^</code>: 匹配搜索字符串开始的位置；<br />
-<code>$</code>: 匹配搜索字符串结束的位置；<br />
-<code>.</code>: 匹配除\n 之外的任何单个字符；<br />
-<code>[]</code>: 标记括号表达式的开始和结尾；<br />
-<code>{}</code>: 标记限定表达式的开始和结尾；<br />
-<code>()</code>: 标记子表达式的开始和结尾 ；<br />
+<h2 id="一正则表达式">一、正则表达式</h2>
+<p>rewrite的核心是PCRE。下面看看几个常用的正则表达式语法：
+<code>*</code> : 0次或者多次前面的字符或子表达式；
+<code>+</code>:  1次或者多次前面的字符或子表达式；
+<code>?</code>: 0次或者1次前面的字符或子表达式；
+<code>^</code>: 匹配搜索字符串开始的位置；
+<code>$</code>: 匹配搜索字符串结束的位置；
+<code>.</code>: 匹配除\n 之外的任何单个字符；
+<code>[]</code>: 标记括号表达式的开始和结尾；
+<code>{}</code>: 标记限定表达式的开始和结尾；
+<code>()</code>: 标记子表达式的开始和结尾 ；
 <code>|</code>: 指示在两个或者多个中做选择；</p>
-
-<h2 id="二-rewrite">二、rewrite</h2>
-
+<h2 id="二rewrite">二、rewrite</h2>
 <p>rewrite只能放在server{},location{},if{}中，只对URI起作用(去除域名和参数)。</p>
-
-<p>模块指令处理处理顺序：<br />
-* 执行server块的rewrite指令；<br />
-* 执行location匹配；<br />
-* 执行选定的location中的rewrite指令,如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件,如果循环超过10次，则返回500 Internal Server Error错误</p>
-
-<h3 id="2-1-指令">2.1 指令</h3>
-
+<p>模块指令处理处理顺序：</p>
+<ul>
+<li>执行server块的rewrite指令；</li>
+<li>执行location匹配；</li>
+<li>执行选定的location中的rewrite指令,如果其中某步URI被重写，则重新循环执行1-3，直到找到真实存在的文件,如果循环超过10次，则返回500 Internal Server Error错误</li>
+</ul>
+<h3 id="21-指令">2.1 指令</h3>
 <h4 id="break">break</h4>
-
-<p>停止执行当前虚拟主机的后续rewrite指令集<br />
-&gt;作用域：server, location, if</p>
-
+<p>停止执行当前虚拟主机的后续rewrite指令集</p>
+<blockquote>
+<p>作用域：server, location, if</p>
+</blockquote>
 <p>示例：</p>
-
-<pre><code class="language-nginx">location / {
-    if( $slow){
-        set $id $1 # 配置有效
-        break;
-        limit_rate 10k; #配置无效
-    }
-    ... # 配置有效
-}
-</code></pre>
-
-<h4 id="if">if</h4>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">location</span> <span style="color:#e6db74">/</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">if(</span> $slow<span style="color:#e6db74">)</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">set</span> $id $1 <span style="color:#75715e"># 配置有效
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">limit_rate</span> <span style="color:#ae81ff">10k</span>; <span style="color:#75715e">#配置无效
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span> <span style="color:#75715e"># 配置有效
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></code></pre></div><h4 id="if">if</h4>
 <blockquote>
 <p>作用域：server,location</p>
 </blockquote>
-
-<p>对给定的条件condition进行判断。如果为真，大括号内的rewrite指令将被执行。<br />
-if条件(conditon)可以是如下任何内容:<br />
-* 一个变量名；false， 如果这个变量是空字符串或者以0开始的字符串；<br />
-* 使用<code>=</code>,<code>!=</code> 比较的一个变量和字符串<br />
-* 使用<code>~</code>， <code>~*</code>:  正则表达式匹配，后者表示不区分大小写。<br />
-* 使用-f ，!-f 检查一个文件是否存在<br />
-* 使用-d, !-d 检查一个目录是否存在<br />
-* 使用-e ，!-e 检查一个文件、目录、符号链接是否存在<br />
-* 使用-x ， !-x 检查一个文件是否可执行</p>
-
-<pre><code class="language-nginx"> if ($http_user_agent ~ MSIE) {
-     rewrite ^(.*)$ /msie/$1 break;
- }
- if ($http_cookie ~* &quot;id=([^;]+)(?:;|$)&quot;) {
-     set $id $1;
- }
- if ($request_method = POST) {
-     return 405;
- }
- if ($slow) {
-     limit_rate 10k;
- }
- if ($invalid_referer) {
-     return 403;
- }
-</code></pre>
-
-<h4 id="return">return</h4>
-
-<p>改指令用于完成对请求的处理，直接向客户端返回响应状态码；<br />
-&gt; 作用域：server, location, if</p>
-
-<pre><code>return [text]
+<p>对给定的条件condition进行判断。如果为真，大括号内的rewrite指令将被执行。
+if条件(conditon)可以是如下任何内容:</p>
+<ul>
+<li>一个变量名；false， 如果这个变量是空字符串或者以0开始的字符串；</li>
+<li>使用<code>=</code>,<code>!=</code> 比较的一个变量和字符串</li>
+<li>使用<code>~</code>， <code>~*</code>:  正则表达式匹配，后者表示不区分大小写。</li>
+<li>使用-f ，!-f 检查一个文件是否存在</li>
+<li>使用-d, !-d 检查一个目录是否存在</li>
+<li>使用-e ，!-e 检查一个文件、目录、符号链接是否存在</li>
+<li>使用-x ， !-x 检查一个文件是否可执行</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$http_user_agent ~ <span style="color:#e6db74">MSIE)</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^(.*)</span>$ <span style="color:#e6db74">/msie/</span>$1 <span style="color:#e6db74">break</span>;
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$http_cookie ~<span style="color:#e6db74">*</span> <span style="color:#e6db74">&#34;id=([^</span>;<span style="color:#66d9ef">]+)(?:</span>;<span style="color:#66d9ef">|$)&#34;)</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">set</span> $id $1;
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$request_method = <span style="color:#e6db74">POST)</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">return</span> <span style="color:#ae81ff">405</span>;
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$slow<span style="color:#e6db74">)</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">limit_rate</span> <span style="color:#ae81ff">10k</span>;
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$invalid_referer<span style="color:#e6db74">)</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">return</span> <span style="color:#ae81ff">403</span>;
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><h4 id="return">return</h4>
+<p>改指令用于完成对请求的处理，直接向客户端返回响应状态码；</p>
+<blockquote>
+<p>作用域：server, location, if</p>
+</blockquote>
+<pre tabindex="0"><code>return [text]
 return code URL;
 return URL;
-</code></pre>
-
-<ul>
-<li>text: 响应体内容，支撑变量<br /></li>
-<li>URL:  返回给客户端的URL地址<br /></li>
-<li>code: 状态码<br />
-<br /></li>
+</code></pre><ul>
+<li>text: 响应体内容，支撑变量</li>
+<li>URL:  返回给客户端的URL地址</li>
+<li>code: 状态码</li>
 </ul>
-
 <h4 id="rewrite">rewrite</h4>
-
 <p>通过正则表达式改变URI。</p>
-
 <blockquote>
-<p>Syntax:    rewrite regex replacement [flag];<br />
-Default:    —<br />
-Context:    server, location, if</p>
+<p>Syntax:	rewrite regex replacement [flag];
+Default:	—
+Context:	server, location, if</p>
 </blockquote>
-
 <ul>
-<li>regex: 使用正则表达式,使用&rsquo;()&lsquo;标记要截取的内容。<br /></li>
-<li>replacement： 匹配成功后替换URI中被截取的部分。<br /></li>
-<li>flag: 用来设置rewrite对URI的处理行为。有<code>last</code>, <code>break</code>, <code>redirect</code>，<code>permanent</code><br />
-<br /></li>
+<li>regex: 使用正则表达式,使用&rsquo;()&lsquo;标记要截取的内容。</li>
+<li>replacement： 匹配成功后替换URI中被截取的部分。</li>
+<li>flag: 用来设置rewrite对URI的处理行为。有<code>last</code>, <code>break</code>, <code>redirect</code>，<code>permanent</code></li>
 </ul>
-
 <p>flag 标志</p>
-
 <ol>
-<li>last : 表示完成rewrite<br /></li>
-<li>break : 停止执行当前虚拟主机的后续rewrite指令集<br /></li>
-<li>redirect : 返回302临时重定向，地址栏会显示跳转后的地址<br /></li>
-<li>permanent : 返回301永久重定向，地址栏会显示跳转后的地址<br />
-<br /></li>
+<li>last : 表示完成rewrite</li>
+<li>break : 停止执行当前虚拟主机的后续rewrite指令集</li>
+<li>redirect : 返回302临时重定向，地址栏会显示跳转后的地址</li>
+<li>permanent : 返回301永久重定向，地址栏会显示跳转后的地址</li>
 </ol>
-
-<h2 id="三-rewrite使用">三、rewrite使用</h2>
-
-<h3 id="3-1-三级域名跳转">3.1 三级域名跳转</h3>
-
-<pre><code class="language-nginx">server{
-    listen 80;
-    server_name jump1.myweb.name jump2.myweb.name;
-    if ($http_host ~* ^(.*)\.myweb\.name$)
-    {
-        rewrite ^(.*) http://jump.myweb.name$1;
-        break;
-    }
-}
-</code></pre>
-
-<h3 id="3-2-域名镜像">3.2 域名镜像</h3>
-
-<pre><code class="language-nginx">server{
-    listen 80;
-    server_name jump.myweb.name;
-    location ^~ /source1 { #找到，停止匹配其他 location
-        rewrite ^/source1(.*) http://jump.myweb.name/websrc2$1 last;
-    }
-    location ^~ /source2 { 
-        rewrite ^/source2(.*) http://jump.myweb.name/websrc2$1 last;
-    }
-}
-</code></pre>
-
-<h3 id="3-3-独立域名">3.3 独立域名</h3>
-
-<pre><code class="language-nginx">server{
-    listen 80;
-    server_name bbs.myweb.name;
-    rewrite ^(.*) http://www.myweb.name/bbs$1 last;
-    break;
-}
-server{
-    listen 81;
-    server_name home.myweb.name;
-    rewrite ^(.*) http://www.myweb.name/home$1 last;
-    break;
-}
-</code></pre>
-
-<h4 id="3-4-目录自动加">3.4 目录自动加 “/”</h4>
-
-<pre><code class="language-nginx">server{
-    listen 80;
-    server_name www.myweb.name;
-    location ^~ /bbs {
-        if (-d $request_filename){
-            # 把uri各个部分取出来重新拼装，后面跟上&quot;/&quot; permanent永久重定向
-            rewrite ^(.*)/(.*)([^/])$ http://$host/$1$2/ permanent;
-        }
-    }
-}
-</code></pre>
-
-<h2 id="四-rewrite全局变量">四、rewrite全局变量</h2>
-
+<h2 id="三rewrite使用">三、rewrite使用</h2>
+<h3 id="31-三级域名跳转">3.1 三级域名跳转</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">server{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">listen</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">server_name</span> <span style="color:#e6db74">jump1.myweb.name</span> <span style="color:#e6db74">jump2.myweb.name</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$http_host ~<span style="color:#e6db74">*</span> <span style="color:#e6db74">^(.*)\.myweb\.name</span>$<span style="color:#e6db74">)</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^(.*)</span> <span style="color:#e6db74">http://jump.myweb.name</span>$1;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">}</span>
+</span></span></code></pre></div><h3 id="32-域名镜像">3.2 域名镜像</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">server{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">listen</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">server_name</span> <span style="color:#e6db74">jump.myweb.name</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">location</span> <span style="color:#e6db74">^~</span> <span style="color:#e6db74">/source1</span> { <span style="color:#75715e">#找到，停止匹配其他 location
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^/source1(.*)</span> <span style="color:#e6db74">http://jump.myweb.name/websrc2</span>$1 <span style="color:#e6db74">last</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">location</span> <span style="color:#e6db74">^~</span> <span style="color:#e6db74">/source2</span> { 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^/source2(.*)</span> <span style="color:#e6db74">http://jump.myweb.name/websrc2</span>$1 <span style="color:#e6db74">last</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">}</span>
+</span></span></code></pre></div><h3 id="33-独立域名">3.3 独立域名</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">server{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">listen</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">server_name</span> <span style="color:#e6db74">bbs.myweb.name</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">rewrite</span> <span style="color:#e6db74">^(.*)</span> <span style="color:#e6db74">http://www.myweb.name/bbs</span>$1 <span style="color:#e6db74">last</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">server</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">listen</span> <span style="color:#ae81ff">81</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server_name</span> <span style="color:#e6db74">home.myweb.name</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^(.*)</span> <span style="color:#e6db74">http://www.myweb.name/home</span>$1 <span style="color:#e6db74">last</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">break</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="34-目录自动加-">3.4 目录自动加 “/”</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">server{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">listen</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">server_name</span> <span style="color:#e6db74">www.myweb.name</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">location</span> <span style="color:#e6db74">^~</span> <span style="color:#e6db74">/bbs</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">if</span> <span style="color:#e6db74">(-d</span> $request_filename<span style="color:#e6db74">)</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 把uri各个部分取出来重新拼装，后面跟上&#34;/&#34; permanent永久重定向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^(.*)/(.*)([^/])</span>$ <span style="color:#e6db74">http://</span>$host/$1$2/ <span style="color:#e6db74">permanent</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">}</span>
+</span></span></code></pre></div><h2 id="四rewrite全局变量">四、rewrite全局变量</h2>
 <p>下面是可以用作if判断的全局变量:</p>
-
 <ul>
-<li>$args:  这个变量等于请求行中的参数，同<code>$query_string</code><br /></li>
-<li>$content_length ： 请求头中的Content-length字段。<br /></li>
-<li>$content_type ： 请求头中的Content-Type字段。<br /></li>
-<li>$document_root ： 当前请求在root指令中指定的值。<br /></li>
-<li>$host ： 请求主机头字段，否则为服务器名称。<br /></li>
-<li>$http_user_agent ： 客户端agent信息<br /></li>
-<li>$http_cookie ： 客户端cookie信息<br /></li>
-<li>$limit_rate ： 这个变量可以限制连接速率。<br /></li>
-<li>$request_method ： 客户端请求的动作，通常为GET或POST。<br /></li>
-<li>$remote_addr ： 客户端的IP地址。<br /></li>
-<li>$remote_port ： 客户端的端口。<br /></li>
-<li>$remote_user ： 已经经过Auth Basic Module验证的用户名。<br /></li>
-<li>$request_filename ： 当前请求的文件路径，由root或alias指令与URI请求生成。<br /></li>
-<li>$scheme ： HTTP方法（如http，https）。<br /></li>
-<li>$server_protocol ： 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。<br /></li>
-<li>$server_addr ： 服务器地址，在完成一次系统调用后可以确定这个值。<br /></li>
-<li>$server_name ： 服务器名称。<br /></li>
-<li>$server_port ： 请求到达服务器的端口号。<br /></li>
-<li>$request_uri ： 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。<br /></li>
-<li>$uri： 不带请求参数的当前URI，<code>$uri</code>不包含主机名，如”/foo/bar.html”。<br /></li>
-<li>$document_uri： 与<code>$uri</code>相同。<br />
-<br />
-<br /></li>
+<li>$args:  这个变量等于请求行中的参数，同<code>$query_string</code></li>
+<li>$content_length ： 请求头中的Content-length字段。</li>
+<li>$content_type ： 请求头中的Content-Type字段。</li>
+<li>$document_root ： 当前请求在root指令中指定的值。</li>
+<li>$host ： 请求主机头字段，否则为服务器名称。</li>
+<li>$http_user_agent ： 客户端agent信息</li>
+<li>$http_cookie ： 客户端cookie信息</li>
+<li>$limit_rate ： 这个变量可以限制连接速率。</li>
+<li>$request_method ： 客户端请求的动作，通常为GET或POST。</li>
+<li>$remote_addr ： 客户端的IP地址。</li>
+<li>$remote_port ： 客户端的端口。</li>
+<li>$remote_user ： 已经经过Auth Basic Module验证的用户名。</li>
+<li>$request_filename ： 当前请求的文件路径，由root或alias指令与URI请求生成。</li>
+<li>$scheme ： HTTP方法（如http，https）。</li>
+<li>$server_protocol ： 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。</li>
+<li>$server_addr ： 服务器地址，在完成一次系统调用后可以确定这个值。</li>
+<li>$server_name ： 服务器名称。</li>
+<li>$server_port ： 请求到达服务器的端口号。</li>
+<li>$request_uri ： 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。</li>
+<li>$uri： 不带请求参数的当前URI，<code>$uri</code>不包含主机名，如”/foo/bar.html”。</li>
+<li>$document_uri： 与<code>$uri</code>相同。</li>
 </ul>
-
-<p>例：<a href="http://localhost:88/test1/test2/test.php">http://localhost:88/test1/test2/test.php</a><br />
-* $host：localhost<br />
-* $server_port：88<br />
-* $request_uri：<a href="http://localhost:88/test1/test2/test.php">http://localhost:88/test1/test2/test.php</a><br />
-* $document_uri：/test1/test2/test.php<br />
-* $document_root：/var/www/html<br />
-* $request_filename：/var/www/html/test1/test2/test.php</p>
+<p>例：http://localhost:88/test1/test2/test.php</p>
+<ul>
+<li>$host：localhost</li>
+<li>$server_port：88</li>
+<li>$request_uri：http://localhost:88/test1/test2/test.php</li>
+<li>$document_uri：/test1/test2/test.php</li>
+<li>$document_root：/var/www/html</li>
+<li>$request_filename：/var/www/html/test1/test2/test.php</li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#nginx入门之rewrite">nginx入门之Rewrite</a>
-<ul>
-<li><a href="#一-正则表达式">一、正则表达式</a></li>
-<li><a href="#二-rewrite">二、rewrite</a>
-<ul>
-<li><a href="#2-1-指令">2.1 指令</a>
-<ul>
-<li><a href="#break">break</a></li>
-<li><a href="#if">if</a></li>
-<li><a href="#return">return</a></li>
-<li><a href="#rewrite">rewrite</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#三-rewrite使用">三、rewrite使用</a>
-<ul>
-<li><a href="#3-1-三级域名跳转">3.1 三级域名跳转</a></li>
-<li><a href="#3-2-域名镜像">3.2 域名镜像</a></li>
-<li><a href="#3-3-独立域名">3.3 独立域名</a>
-<ul>
-<li><a href="#3-4-目录自动加">3.4 目录自动加 “/”</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#四-rewrite全局变量">四、rewrite全局变量</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一正则表达式">一、正则表达式</a></li>
+    <li><a href="#二rewrite">二、rewrite</a>
+      <ul>
+        <li><a href="#21-指令">2.1 指令</a></li>
+      </ul>
+    </li>
+    <li><a href="#三rewrite使用">三、rewrite使用</a>
+      <ul>
+        <li><a href="#31-三级域名跳转">3.1 三级域名跳转</a></li>
+        <li><a href="#32-域名镜像">3.2 域名镜像</a></li>
+        <li><a href="#33-独立域名">3.3 独立域名</a></li>
+      </ul>
+    </li>
+    <li><a href="#四rewrite全局变量">四、rewrite全局变量</a></li>
+  </ul>
 </nav>
     </section>
 

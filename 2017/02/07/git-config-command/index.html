@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Git配置和常用命令 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/07/git-config-command/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>Git配置和常用命令 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;quot;thoreau&amp;quot; git config --global user.email &amp;quot;zz.thoreau@Gmail.com&amp;quot" />
+    <meta name="description" content="用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;#34;thoreau&amp;#34; git config --global user.email &amp;#34;zz.thoreau@Gmail.com&amp;#34; gi" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/07/git-config-command/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Git配置和常用命令,
-    "name": Git配置和常用命令,
-    "wordCount": 945,
+    "headline": "Git配置和常用命令",
+    "name": "Git配置和常用命令",
+    "wordCount":  945 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/07/git-config-command/,
-    "datePublished": 2017-02-07T21:22Z,
-    "dateModified": 2017-02-07T21:22Z,
+    "url": "http://thoreauz.com/2017/02/07/git-config-command/",
+    "datePublished": "2017-02-07T21:22Z",
+    "dateModified": "2017-02-07T21:22Z",
     
-    "keywords": git,
-    "description": ,
+    "keywords": "git",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/07/git-config-command/
+        "@id": "http://thoreauz.com/2017/02/07/git-config-command/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,150 +243,102 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。</p>
-
-<!-- more -->
-
-<h2 id="一-初始化和配置">一、初始化和配置</h2>
-
-<pre><code class="language-bash">git config --global user.name &quot;thoreau&quot;
-git config --global user.email &quot;zz.thoreau@Gmail.com&quot;
-</code></pre>
-
-<p><strong>gitconfig</strong></p>
-
-<pre><code class="language-bash">[user]
-    name = thoreau
-    email = zz.thoreau@Gmail.com
-[color]
-    ui = true
-[alias]
-    st = status
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit
-    co = checkout
-    br = branch
-    ci = commit
-    unstage = reset HEAD --
-
-[core]
-    autocrlf = true
-
-[gui]
-    encoding = utf-8
-[i18n]
-    commitencoding = utf-8
-    logoutputencoding=utf-8
-</code></pre>
-
-<h2 id="二-回退">二、回退</h2>
-
+      <p>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。</p>
+<!-- raw HTML omitted -->
+<h2 id="一初始化和配置">一、初始化和配置</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global user.name <span style="color:#e6db74">&#34;thoreau&#34;</span>
+</span></span><span style="display:flex;"><span>git config --global user.email <span style="color:#e6db74">&#34;zz.thoreau@Gmail.com&#34;</span>
+</span></span></code></pre></div><p><strong>gitconfig</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>user<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> thoreau
+</span></span><span style="display:flex;"><span>    email <span style="color:#f92672">=</span> zz.thoreau@Gmail.com
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>color<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    ui <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>alias<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    st <span style="color:#f92672">=</span> status
+</span></span><span style="display:flex;"><span>    lg <span style="color:#f92672">=</span> log --color --graph --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit
+</span></span><span style="display:flex;"><span>    co <span style="color:#f92672">=</span> checkout
+</span></span><span style="display:flex;"><span>    br <span style="color:#f92672">=</span> branch
+</span></span><span style="display:flex;"><span>    ci <span style="color:#f92672">=</span> commit
+</span></span><span style="display:flex;"><span>    unstage <span style="color:#f92672">=</span> reset HEAD --
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>core<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    autocrlf <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>gui<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    encoding <span style="color:#f92672">=</span> utf-8
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>i18n<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    commitencoding <span style="color:#f92672">=</span> utf-8
+</span></span><span style="display:flex;"><span>    logoutputencoding<span style="color:#f92672">=</span>utf-8
+</span></span></code></pre></div><h2 id="二回退">二、回退</h2>
 <p>回退用得很多，特别是多人开发，各种提交何必整个被玩坏了的时候。git reset、git checkout 和 git revert 是Git中很有用的命令，用来撤销代码仓库中的某些更改。但它们非常相似，所以我们经常会搞混，</p>
-
 <p><strong>reset</strong></p>
-
-<pre><code class="language-bash">git reset --mixed HEAD #将你当前的改动从缓存区中移除
-git reset --hard HEAD^ #放弃修改，直接把head 指向对应版本
-git reset --hard 3628164
-git reflog #记录你的每一次命令
-git log --pretty=oneline #one line 
-</code></pre>
-
-<p>工作副本&ndash;add&ndash;&gt;缓存区&ndash;commit&mdash;&gt;版本库</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git reset --mixed HEAD <span style="color:#75715e">#将你当前的改动从缓存区中移除</span>
+</span></span><span style="display:flex;"><span>git reset --hard HEAD^ <span style="color:#75715e">#放弃修改，直接把head 指向对应版本</span>
+</span></span><span style="display:flex;"><span>git reset --hard <span style="color:#ae81ff">3628164</span>
+</span></span><span style="display:flex;"><span>git reflog <span style="color:#75715e">#记录你的每一次命令</span>
+</span></span><span style="display:flex;"><span>git log --pretty<span style="color:#f92672">=</span>oneline <span style="color:#75715e">#one line </span>
+</span></span></code></pre></div><p>工作副本&ndash;add&ndash;&gt;缓存区&ndash;commit&mdash;&gt;版本库</p>
 <p><strong>撤销</strong></p>
-
-<pre><code class="language-bash">git diff HEAD -- readme.txt #查看工作区和版本库里面最新版本的区别
-git checkout -- file #回到最近一次修改，最近一次git commit或git add时的状态
-</code></pre>
-
-<p><strong>删除</strong></p>
-
-<pre><code class="language-bash">git rm file
-git checkout -- #撤销删除
-</code></pre>
-
-<p><strong>Revert</strong><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git diff HEAD -- readme.txt <span style="color:#75715e">#查看工作区和版本库里面最新版本的区别</span>
+</span></span><span style="display:flex;"><span>git checkout -- file <span style="color:#75715e">#回到最近一次修改，最近一次git commit或git add时的状态</span>
+</span></span></code></pre></div><p><strong>删除</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm file
+</span></span><span style="display:flex;"><span>git checkout -- <span style="color:#75715e">#撤销删除</span>
+</span></span></code></pre></div><p><strong>Revert</strong>
 Revert 撤销一个提交的同时会创建一个新的提交。这是一个安全的方法，因为它不会重写提交历史。比如你想把已经提交到master的代码回退到某一个版本，就比较是否revert，如果直接reset或者commit -amend，会导致提交历史不同，导致分支合并是的问题。</p>
-
-<pre><code class="language-bash">git checkout hotfix
-git revert HEAD~2
-</code></pre>
-
-<h2 id="三-远程主机">三、远程主机</h2>
-
-<pre><code class="language-bash">git remote
-git remote -v
-git clone -o jQuery https://github.com/jquery/jquery.git #alise
-git remote show origin #detail
-</code></pre>
-
-<p>其他命令</p>
-
-<pre><code class="language-bash"> $ git remote show origin #查看该主机的详细信息
- $ git remote add &lt;主机名&gt; &lt;网址&gt; #添加远程主机
- $ git remote rm &lt;主机名&gt; #于删除远程主机
- $ git remote rename &lt;原主机名&gt; &lt;新主机名&gt; #重命名主机名
-</code></pre>
-
-<h2 id="四-分支">四、分支</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git checkout hotfix
+</span></span><span style="display:flex;"><span>git revert HEAD~2
+</span></span></code></pre></div><h2 id="三远程主机">三、远程主机</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git remote
+</span></span><span style="display:flex;"><span>git remote -v
+</span></span><span style="display:flex;"><span>git clone -o jQuery https://github.com/jquery/jquery.git <span style="color:#75715e">#alise</span>
+</span></span><span style="display:flex;"><span>git remote show origin <span style="color:#75715e">#detail</span>
+</span></span></code></pre></div><p>其他命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> $ git remote show origin <span style="color:#75715e">#查看该主机的详细信息</span>
+</span></span><span style="display:flex;"><span> $ git remote add &lt;主机名&gt; &lt;网址&gt; <span style="color:#75715e">#添加远程主机</span>
+</span></span><span style="display:flex;"><span> $ git remote rm &lt;主机名&gt; <span style="color:#75715e">#于删除远程主机</span>
+</span></span><span style="display:flex;"><span> $ git remote rename &lt;原主机名&gt; &lt;新主机名&gt; <span style="color:#75715e">#重命名主机名</span>
+</span></span></code></pre></div><h2 id="四分支">四、分支</h2>
 <ol>
-<li>git checkout -b dev # 创建并切换到dev分支<br /></li>
-<li>提交等操作<br /></li>
-<li>git checkout master<br /></li>
-<li>git merge dev #合并到master：把master的指针指向master<br /></li>
-<li>git branch -d dev # 删除分支<br />
-<br /></li>
+<li>git checkout -b dev # 创建并切换到dev分支</li>
+<li>提交等操作</li>
+<li>git checkout master</li>
+<li>git merge dev #合并到master：把master的指针指向master</li>
+<li>git branch -d dev # 删除分支</li>
 </ol>
-
-<pre><code>#查看分支合并情况
+<pre tabindex="0"><code>#查看分支合并情况
 git log --graph --pretty=oneline --abbrev-commit
-</code></pre>
-
-<p><strong>分支管理策略</strong></p>
-
+</code></pre><p><strong>分支管理策略</strong></p>
 <p><code>--no-ff</code>参数，表示禁用Fast forward</p>
-
-<pre><code>git merge --no-ff -m &quot;merge with no-ff&quot; dev 
-</code></pre>
-
-<p><strong>储藏室</strong><br />
+<pre tabindex="0"><code>git merge --no-ff -m &#34;merge with no-ff&#34; dev 
+</code></pre><p><strong>储藏室</strong>
 如果当前工作不能提交，就要进行切换分支，合并代码等操作时，可以把当前分支的工作存储起来，干完其他活后，再回来继续；</p>
-
-<pre><code class="language-bash">git stash
-git stash list #列出储藏室
-git stash apply #运用存储室
-git stash drop #删除储藏室
-git stash pop #恢复并删除
-</code></pre>
-
-<h2 id="五-标签">五、标签</h2>
-
-<pre><code class="language-bash"> git tag v1.0 #创建
- git tag #查看
- git tag v0.9 6224937 #对应版本tag
- git show v0.9 #查看标签信息
- git tag -d v0.1 #删除
- git push origin v1.0 #推送标签
- git push origin :refs/tags/v0.9 #远程删除
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git stash
+</span></span><span style="display:flex;"><span>git stash list <span style="color:#75715e">#列出储藏室</span>
+</span></span><span style="display:flex;"><span>git stash apply <span style="color:#75715e">#运用存储室</span>
+</span></span><span style="display:flex;"><span>git stash drop <span style="color:#75715e">#删除储藏室</span>
+</span></span><span style="display:flex;"><span>git stash pop <span style="color:#75715e">#恢复并删除</span>
+</span></span></code></pre></div><h2 id="五标签">五、标签</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> git tag v1.0 <span style="color:#75715e">#创建</span>
+</span></span><span style="display:flex;"><span> git tag <span style="color:#75715e">#查看</span>
+</span></span><span style="display:flex;"><span> git tag v0.9 <span style="color:#ae81ff">6224937</span> <span style="color:#75715e">#对应版本tag</span>
+</span></span><span style="display:flex;"><span> git show v0.9 <span style="color:#75715e">#查看标签信息</span>
+</span></span><span style="display:flex;"><span> git tag -d v0.1 <span style="color:#75715e">#删除</span>
+</span></span><span style="display:flex;"><span> git push origin v1.0 <span style="color:#75715e">#推送标签</span>
+</span></span><span style="display:flex;"><span> git push origin :refs/tags/v0.9 <span style="color:#75715e">#远程删除</span>
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#一-初始化和配置">一、初始化和配置</a></li>
-<li><a href="#二-回退">二、回退</a></li>
-<li><a href="#三-远程主机">三、远程主机</a></li>
-<li><a href="#四-分支">四、分支</a></li>
-<li><a href="#五-标签">五、标签</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一初始化和配置">一、初始化和配置</a></li>
+    <li><a href="#二回退">二、回退</a></li>
+    <li><a href="#三远程主机">三、远程主机</a></li>
+    <li><a href="#四分支">四、分支</a></li>
+    <li><a href="#五标签">五、标签</a></li>
+  </ul>
 </nav>
     </section>
 

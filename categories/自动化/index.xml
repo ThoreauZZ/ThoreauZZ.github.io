@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>自动化 on 造舟野渡</title>
@@ -7,18 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Fri, 05 May 2017 22:16:08 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 05 May 2017 22:16:08 +0000</lastBuildDate><atom:link href="http://thoreauz.com/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jenkins自动化集成/部署</title>
       <link>http://thoreauz.com/2017/05/05/Jenkins-1/</link>
       <pubDate>Fri, 05 May 2017 22:16:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/05/05/Jenkins-1/</guid>
-      <description>一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 1. 构建打包：</description>
+      <description>一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 构建打包： 从</description>
     </item>
     
     <item>

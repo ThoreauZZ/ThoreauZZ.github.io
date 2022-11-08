@@ -21,7 +21,7 @@
   	<meta property="og:title" content="rxjava原理篇 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/06/08/rxjava-2/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/06/08/rxjava-2/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": rxjava原理篇,
-    "name": rxjava原理篇,
-    "wordCount": 2167,
+    "headline": "rxjava原理篇",
+    "name": "rxjava原理篇",
+    "wordCount":  2149 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/06/08/rxjava-2/,
-    "datePublished": 2018-06-08T21:25Z,
-    "dateModified": 2018-06-08T21:25Z,
+    "url": "http://thoreauz.com/2018/06/08/rxjava-2/",
+    "datePublished": "2018-06-08T21:25Z",
+    "dateModified": "2018-06-08T21:25Z",
     
-    "keywords": rxjava,
-    "description": ,
+    "keywords": "rxjava",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/06/08/rxjava-2/
+        "@id": "http://thoreauz.com/2018/06/08/rxjava-2/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,309 +243,251 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
+      <h2 id="概述">概述</h2>
 <p>本文<strong>简述</strong>rxjava2的实现原理。搞清原理，使用起来才得心应手。</p>
-
 <h2 id="基本原理">基本原理</h2>
-
 <p>先看一个最简单的示例：</p>
-
-<!-- more-->
-
-<pre><code class="language-java">// 被观察者
- Observable&lt;Object&gt; observable = Observable.create(new ObservableOnSubscribe&lt;Object&gt;() {
-        @Override
-        public void subscribe(ObservableEmitter&lt;Object&gt; emitter) throws Exception {
-            System.out.println(&quot;emit a data&quot;);
-            emitter.onNext(&quot;data&quot;);
-        }
-    });
-    // 观察者
-    Observer&lt;Object&gt; observer = new Observer&lt;Object&gt;() {
-        private Disposable disposable;
-        @Override
-        public void onSubscribe(Disposable d) {
-            this.disposable = d;
-        }
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onComplete() {
-            System.out.println(&quot;订阅结束....&quot;);
-            System.out.println(&quot;订阅取消&quot;+disposable.isDisposed());
-        }
-
-        @Override
-        public void onNext(Object s) {
-            System.out.println(&quot;接收消息：&quot;+s);
-        }
-    };
-    // 订阅
-    observable.subscribe(observer);
-}
-</code></pre>
-
-<ol>
-<li>创建一个发生器(emitter)，并把观察者(observer)传递给发生器<br /></li>
-<li>被观察者拿发送器，并用发射器发射数据。<br /></li>
-<li>发生器拿到数据后，回调观察者的对应方法。<br />
-<br /></li>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 被观察者
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> Observable<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> observable <span style="color:#f92672">=</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>ObservableEmitter<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> emitter<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit a data&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;data&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 观察者
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Observer<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> observer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Observer<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> Disposable disposable<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSubscribe</span><span style="color:#f92672">(</span>Disposable d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disposable</span> <span style="color:#f92672">=</span> d<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onComplete</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;订阅结束....&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;订阅取消&#34;</span><span style="color:#f92672">+</span>disposable<span style="color:#f92672">.</span><span style="color:#a6e22e">isDisposed</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>Object s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;接收消息：&#34;</span><span style="color:#f92672">+</span>s<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 订阅
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    observable<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>observer<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ol>
+<li>创建一个发生器(emitter)，并把观察者(observer)传递给发生器</li>
+<li>被观察者拿发送器，并用发射器发射数据。</li>
+<li>发生器拿到数据后，回调观察者的对应方法。</li>
 </ol>
-
 <p>源码：</p>
-
-<pre><code class="language-java"> @Override
-    protected void subscribeActual(Observer&lt;? super T&gt; observer) {
-        // 创建发射器，发射器持有observer的引用
-        CreateEmitter&lt;T&gt; parent = new CreateEmitter&lt;T&gt;(observer);
-        observer.onSubscribe(parent);
-        try {
-            // 把创建好的发射器给被观察者，让它发送数据
-            source.subscribe(parent);
-        } catch (Throwable ex) {
-            Exceptions.throwIfFatal(ex);
-            parent.onError(ex);
-        }
-    }
-</code></pre>
-
-<p>从第一个示例中我们看到，通过 emitter.onNext(&laquo;data&raquo;)发射数据。看下这个方法。</p>
-
-<pre><code class="language-java">@Override
-public void onNext(T t) {
-    if (t == null) {
-        onError(new NullPointerException(&quot;onNext called with null. Null values are generally not allowed in 2.x operators and sources.&quot;));
-        return;
-    }
-    if (!isDisposed()) {
-        // 如果订阅关系还在，就执行回调观察者的onNext方法。
-        observer.onNext(t);
-    }
-}
-</code></pre>
-
-<p>如果从如此简单的源码还是无法理解，那先来看看回调模式：</p>
-
-<pre><code class="language-java">public interface CallBack {
-    void call();
-}
-</code></pre>
-
-<pre><code class="language-java">public class Caller {
-    private CallBack callBack;
-
-    public Caller(CallBack callBack) {
-        this.callBack = callBack;
-    }
-    public void doSomething(){
-        System.out.println(&quot;do somethings...&quot;);
-        callBack.call();
-    }
-}
-</code></pre>
-
-<pre><code class="language-java">public class Client {
-    public static void main(String[] args) {
-        Caller caller = new Caller(new CallBack() {
-            @Override
-            public void call() {
-                System.out.println(&quot;回调方法被执行...&quot;);
-            }
-        });
-        caller.doSomething();
-    }
-}
-</code></pre>
-
-<blockquote>
-<p>结果：<br />
-do somethings&hellip;<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">subscribeActual</span><span style="color:#f92672">(</span>Observer<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> T<span style="color:#f92672">&gt;</span> observer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 创建发射器，发射器持有observer的引用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        CreateEmitter<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CreateEmitter<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;(</span>observer<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onSubscribe</span><span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 把创建好的发射器给被观察者，让它发送数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            source<span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Exceptions<span style="color:#f92672">.</span><span style="color:#a6e22e">throwIfFatal</span><span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">.</span><span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>ex<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>从第一个示例中我们看到，通过 emitter.onNext(&ldquo;data&rdquo;)发射数据。看下这个方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>T t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>t <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        onError<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> NullPointerException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;onNext called with null. Null values are generally not allowed in 2.x operators and sources.&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>isDisposed<span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果订阅关系还在，就执行回调观察者的onNext方法。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>如果从如此简单的源码还是无法理解，那先来看看回调模式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">CallBack</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Caller</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> CallBack callBack<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Caller</span><span style="color:#f92672">(</span>CallBack callBack<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">callBack</span> <span style="color:#f92672">=</span> callBack<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doSomething</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;do somethings...&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        callBack<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Caller caller <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Caller<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallBack<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">call</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;回调方法被执行...&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>        caller<span style="color:#f92672">.</span><span style="color:#a6e22e">doSomething</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>结果：
+do somethings&hellip;
 回调方法被执行&hellip;</p>
 </blockquote>
-
 <p>这就是最简单的回调方法的实现，对它稍多修改：</p>
-
-<pre><code class="language-java">interface Callback&lt;T&gt; {
-    void onCompleted();
-    void onError(Throwable t);
-    void onNext(T var1);
-}
-public class Callable {
-    final OnCall onCall;
-    public Callable(OnCall onCall) {
-        this.onCall = onCall;
-    }
-    public void invoke(Callback callback) {
-        onCall.call(callback);
-    }
-    public interface OnCall&lt;T&gt; {
-        void call(Callback callback);
-    }
-    public static void main(String[] args) {
-        new Callable(observer -&gt; {
-            observer.onNext(1);
-            observer.onCompleted();
-        }).invoke(new Callback() {
-            @Override
-            public void onCompleted() { System.out.println(&quot;complete ... &quot;); }
-            @Override
-            public void onError(Throwable t) { }
-            @Override
-            public void onNext(Object obj) { System.out.println(&quot;revived data: &quot;+obj); }
-        });
-    }
-}
-</code></pre>
-
-<blockquote>
-<p>revived data: 1<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Callback</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCompleted</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>T var1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Callable</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> OnCall onCall<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Callable</span><span style="color:#f92672">(</span>OnCall onCall<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onCall</span> <span style="color:#f92672">=</span> onCall<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>Callback callback<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        onCall<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>callback<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">OnCall</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>Callback callback<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Callable<span style="color:#f92672">(</span>observer <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onCompleted</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Callback<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCompleted</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;complete ... &#34;</span><span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;revived data: &#34;</span><span style="color:#f92672">+</span>obj<span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>revived data: 1
 complete &hellip;</p>
 </blockquote>
-
 <p>是不是跟rxjava很像，其实它就是rxjava最简化的实现。现在回去看rxjava最基本的实现就简单很多了吧。简化后的角色关系如下：</p>
-
-<p><img src="http://thoreauz.com/images/2018-06-08-20-30-00.jpg" alt="" /></p>
-
+<p><img src="http://thoreauz.com/images/2018-06-08-20-30-00.jpg" alt=""></p>
 <h2 id="操作符原理">操作符原理</h2>
-
 <p>rxjava得益于它强大的操作符。操作符其实就是桥接作用，订阅者向操作符订阅，操作符再向上层的可被订阅者订阅，如果到了顶层，发射数据再依次往下传递。相对比较好理解。下面看一个map操作符的示例：</p>
-
-<pre><code class="language-java">Observable.create(emitter -&gt; {
-    System.out.println(&quot;emit 1&quot;);
-    emitter.onNext(1);
-    System.out.println(&quot;emit 2&quot;);
-    emitter.onNext(2);
-}).map(new Function&lt;Object, Object&gt;() {
-    @Override
-    public Object apply(Object o) throws Exception {
-        if (o instanceof Integer) {
-            Integer o1 = (Integer) o;
-            return (o1 + &quot;A&quot;);
-        }
-        return o;
-    }
-}).subscribe(new Observer&lt;Object&gt;() {
-    @Override
-    public void onSubscribe(Disposable d) {
-    }
-    @Override
-    public void onNext(Object o) {
-        System.out.println(&quot;接收消息：&quot; + o);
-    }
-    @Override
-    public void onError(Throwable e) {}
-    @Override
-    public void onComplete() {}
-});
-</code></pre>
-
-<blockquote>
-<p>emit 1<br />
-接收消息：1A<br />
-emit 2<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit 1&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit 2&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Function<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Object o<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>o <span style="color:#66d9ef">instanceof</span> Integer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Integer o1 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Integer<span style="color:#f92672">)</span> o<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>o1 <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> o<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Observer<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onSubscribe</span><span style="color:#f92672">(</span>Disposable d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>Object o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;接收消息：&#34;</span> <span style="color:#f92672">+</span> o<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable e<span style="color:#f92672">)</span> <span style="color:#f92672">{}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onComplete</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">});</span>
+</span></span></code></pre></div><blockquote>
+<p>emit 1
+接收消息：1A
+emit 2
 接收消息：2A</p>
 </blockquote>
-
-<p>如下图：<br />
-<img src="http://thoreauz.com/images/rxjava.png" alt="" /><br />
+<p>如下图：
+<img src="http://thoreauz.com/images/rxjava.png" alt="">
 需要注意的是，数据是emit1-&gt;map1-&gt;observer1-&gt;emit2-&gt;map1-observer2这样的执行顺序，而不是先把1和2都经过map后再发给observer。这点很重要，也就意味着，如果map1阻塞，那么emit2压根不会执行。</p>
-
 <p>每发射一个数据，都经历订阅者链上的所有操作符和observer。如果发射器都同步发射数据，所有链都走完，才会处理下一个数据。</p>
-
 <p>当然了，不同的操作符实现不一样。比如reduce：</p>
-
-<pre><code class="language-java"> Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; {
-            emitter.onNext(1);
-            emitter.onNext(2);
-            emitter.onNext(3);
-            emitter.onComplete();
-}).reduce((integer, integer2) -&gt; integer + integer2)
-.subscribe(System.out::println);
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">((</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;)</span> emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onComplete</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">reduce</span><span style="color:#f92672">((</span>integer<span style="color:#f92672">,</span> integer2<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> integer <span style="color:#f92672">+</span> integer2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
 <p>结果打印6</p>
 </blockquote>
-
-<p>操作符reduce把上游数据都加起来，再发给订阅者。它的原理是：<br />
-1. 把上游数据作用于reduce的方法，结果保存起来<br />
-2. 直到收到onComplete事件，才调用下游的onNext()方法。</p>
-
+<p>操作符reduce把上游数据都加起来，再发给订阅者。它的原理是：</p>
+<ol>
+<li>把上游数据作用于reduce的方法，结果保存起来</li>
+<li>直到收到onComplete事件，才调用下游的onNext()方法。</li>
+</ol>
 <p>总之可以这么理解，下游订阅到操作符时，操作符可以异步往上订阅，可以决定发给你下游的时机，从而实现不同功能的操作符。</p>
-
 <h2 id="线程调度">线程调度</h2>
-
 <p>还是先看示例：</p>
-
-<pre><code class="language-java">Observable.create(emitter -&gt; {
-    for (int i = 0; i &lt; 30; i++) {
-        log.info(&quot;emit &quot; + i);
-        emitter.onNext(i);
-    }
-}).observeOn(Schedulers.io())
-          .map(o -&gt; {
-              if (o instanceof Integer) {
-                  Integer o1 = (Integer) o;
-                  log.info(&quot;map-&gt;&quot; + o1);
-                  return (o1 + &quot;A&quot;);
-              }
-              return o;
-          }).subscribe(o -&gt; log.info(&quot;接收数据: &quot; + o));
-Thread.sleep(3000);
-</code></pre>
-
-<p>如果看输出结果，顺序不再像先前map示例中每个数据走完订阅链才发送下一个数据。observeOn(Schedulers.io())使得上游和下游在不同的线程中执行。</p>
-
-<p>原理其实也简单，observeOn也是一个操作符，他的工作主要是：<br />
-1. 开启一个缓冲区<br />
-2. 在observeOn指定的线程中订阅上游数据，放入缓冲区<br />
-3. 另一个线程从缓冲区拿出数据，发给下游订阅者</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 30<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit &#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>o <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>o <span style="color:#66d9ef">instanceof</span> Integer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  Integer o1 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Integer<span style="color:#f92672">)</span> o<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                  log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;map-&gt;&#34;</span> <span style="color:#f92672">+</span> o1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>o1 <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">return</span> o<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">}).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>o <span style="color:#f92672">-&gt;</span> log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;接收数据: &#34;</span> <span style="color:#f92672">+</span> o<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>3000<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>如果看输出结果，顺序不再像先前map示例中每个数据走完订阅链才发送下一个数据。observeOn(Schedulers.io())使得上游和下游在不同的线程中执行。</p>
+<p>原理其实也简单，observeOn也是一个操作符，他的工作主要是：</p>
+<ol>
+<li>开启一个缓冲区</li>
+<li>在observeOn指定的线程中订阅上游数据，放入缓冲区</li>
+<li>另一个线程从缓冲区拿出数据，发给下游订阅者</li>
+</ol>
 <p>这就意味着，线程切换上游不再受下游处理速度的限制，如果下游处理过慢，缓冲区堆积的数据会越来越多，可能导致内存溢出。</p>
-
-<p><img src="http://thoreauz.com/images/2018-06-08-20-40-11.jpg" alt="" /></p>
-
+<p><img src="http://thoreauz.com/images/2018-06-08-20-40-11.jpg" alt=""></p>
 <h2 id="背压">背压</h2>
-
 <p>上文提到，使用线程时，如果上游发送的数据下游处理不过来，可能产生内存溢出。当要处理的数据大于1000个时，我们考虑背压的方式控制上游发送速度。</p>
-
-<p>rxjava2和rxjava1的其中一个区别:<br />
-* Observable的缓冲区没有限制，不支持背压<br />
-* Flowable支持背压，缓冲区大小默认是128。</p>
-
+<p>rxjava2和rxjava1的其中一个区别:</p>
+<ul>
+<li>Observable的缓冲区没有限制，不支持背压</li>
+<li>Flowable支持背压，缓冲区大小默认是128。</li>
+</ul>
 <p>可以看Flowable源码的第一行：</p>
-
-<pre><code class="language-java">static final int BUFFER_SIZE = Math.max(1, Integer.getInteger(&quot;rx2.buffer-size&quot;, 128).intValue());
-</code></pre>
-
-<p>使用observeOn后，上游订阅的数据往缓冲队列放，下游订阅线程从队列里面读数据。背压的关键就是BUFFER_SIZE，如果下游消费95个数据，会清理一次。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> BUFFER_SIZE <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rx2.buffer-size&#34;</span><span style="color:#f92672">,</span> 128<span style="color:#f92672">).</span><span style="color:#a6e22e">intValue</span><span style="color:#f92672">());</span>
+</span></span></code></pre></div><p>使用observeOn后，上游订阅的数据往缓冲队列放，下游订阅线程从队列里面读数据。背压的关键就是BUFFER_SIZE，如果下游消费95个数据，会清理一次。</p>
 <p>上游的发射器能获取到buffer目前的大小（flowableEmitter.requested()），只要保证buffer不满（flowableEmitter.requested()不为0），就不会出现溢出的情况，从而实现背压。</p>
-
-<hr />
-
-<p><a href="https://zouzhberk.github.io/rxjava-study/">https://zouzhberk.github.io/rxjava-study/</a><br />
+<hr>
+<p><a href="https://zouzhberk.github.io/rxjava-study/">https://zouzhberk.github.io/rxjava-study/</a>
 <a href="https://www.jianshu.com/p/9419b102f442">https://www.jianshu.com/p/9419b102f442</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#基本原理">基本原理</a></li>
-<li><a href="#操作符原理">操作符原理</a></li>
-<li><a href="#线程调度">线程调度</a></li>
-<li><a href="#背压">背压</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#基本原理">基本原理</a></li>
+    <li><a href="#操作符原理">操作符原理</a></li>
+    <li><a href="#线程调度">线程调度</a></li>
+    <li><a href="#背压">背压</a></li>
+  </ul>
 </nav>
     </section>
 

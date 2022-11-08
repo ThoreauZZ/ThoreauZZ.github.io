@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Compose配置文件介绍 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/12/docker-network-compose/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/12/docker-network-compose/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Compose配置文件介绍,
-    "name": Compose配置文件介绍,
-    "wordCount": 2661,
+    "headline": "Compose配置文件介绍",
+    "name": "Compose配置文件介绍",
+    "wordCount":  2643 ,
     "timeRequired": "PT6M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/12/docker-network-compose/,
-    "datePublished": 2017-02-12T17:42Z,
-    "dateModified": 2017-02-12T17:42Z,
+    "url": "http://thoreauz.com/2017/02/12/docker-network-compose/",
+    "datePublished": "2017-02-12T17:42Z",
+    "dateModified": "2017-02-12T17:42Z",
     
-    "keywords": docker,
-    "description": ,
+    "keywords": "docker",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/12/docker-network-compose/
+        "@id": "http://thoreauz.com/2017/02/12/docker-network-compose/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,659 +243,464 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="compose配置文件介绍">Compose配置文件介绍</h1>
-
+      <h1 id="compose配置文件介绍">Compose配置文件介绍</h1>
 <p>此文主要描述Docker Compose file version 3 格式，第三版本会和1x,2x有很多不同。</p>
-
-<h2 id="一-服务配置">一、服务配置</h2>
-
+<h2 id="一服务配置">一、服务配置</h2>
 <p>Compose文件是一个<code>YAML</code>文件，用于定义服务，网络和数据卷等。 Compose文件的默认路径为<code>./docker-compose.yml</code>。</p>
-
 <p>Compose作服务编排，简单的说，就是把<code>docker run</code>的一堆启动参数文件化，使一条命令(<code>docker-compose up</code>)完成多个容器的构建启动成为可能。</p>
-
 <h3 id="build">build</h3>
-
 <p>顾名思义，就是构建镜像，可以指定<code>Dockerfile</code>路径，构建参数等。</p>
-
-<pre><code class="language-yml">build: ./dir
-
-build:
-  context: ./dir
-  dockerfile: Dockerfile-alternate
-  args:
-    buildno: 1
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>: <span style="color:#ae81ff">./dir</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./dir</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile-alternate</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">buildno</span>: <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><blockquote>
 <p>注：如果这个compose文件是用来部署一个stack到swarm节点，这个选项就不能有，因为 <code>docker stack</code>命令只接受已经构建的镜像</p>
 </blockquote>
-
 <h3 id="context">context</h3>
-
 <p>指定Dockerfile路径，可以是本地文件(绝对路径或者相对路径)，可以是git仓库。</p>
-
-<pre><code class="language-yml">build:
-  context: ./dir
-</code></pre>
-
-<h3 id="dockerfile">dockerfile</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./dir</span>
+</span></span></code></pre></div><h3 id="dockerfile">dockerfile</h3>
 <p>如果上例子指定的dockerfile名字不叫<code>Dockerfile</code>，可以通过该指令给出。</p>
-
-<pre><code>build:
+<pre tabindex="0"><code>build:
   context: .
   dockerfile: Dockerfile-alternate
-</code></pre>
-
-<h3 id="args">args</h3>
-
+</code></pre><h3 id="args">args</h3>
 <p>用于构建阶段的参数</p>
-
-<h3 id="cap-add-cap-drop">cap_add, cap_drop</h3>
-
+<h3 id="cap_add-cap_drop">cap_add, cap_drop</h3>
 <p>添加或者删除容器功能</p>
-
-<pre><code class="language-yml">cap_add:
-  - ALL
-cap_drop:
-  - NET_ADMIN
-  - SYS_ADMIN
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">cap_add</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ALL</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">cap_drop</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">NET_ADMIN</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">SYS_ADMIN</span>
+</span></span></code></pre></div><blockquote>
 <blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
 </blockquote>
-
 <h3 id="command">command</h3>
-
 <p>覆盖镜像默认的command</p>
-
-<pre><code class="language-yml">command: bundle exec thin -p 3000
-# 可以是一个list
-command: [bundle, exec, thin, -p, 3000]
-</code></pre>
-
-<h3 id="cgroup-parent">cgroup_parent</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">command</span>: <span style="color:#ae81ff">bundle exec thin -p 3000</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以是一个list</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">command</span>: [<span style="color:#ae81ff">bundle, exec, thin, -p, 3000]</span>
+</span></span></code></pre></div><h3 id="cgroup_parent">cgroup_parent</h3>
 <p>为容器指定父cgroup</p>
-
-<pre><code class="language-bash">cgroup_parent: m-executor-abcd
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cgroup_parent: m-executor-abcd
+</span></span></code></pre></div><blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
-
-<h3 id="container-name">container_name</h3>
-
+<h3 id="container_name">container_name</h3>
 <p>默认自动为容器命名，可以通过该选择指定。</p>
-
 <h3 id="deploy">deploy</h3>
-
 <p>部署相关配置，如部署数量，重启策略。如果通过<code>docker-compose run</code>启动，会自动忽略该配置。</p>
-
-<pre><code class="language-yml">deploy:
-  replicas: 6
-  update_config:
-    parallelism: 2
-    delay: 10s
-  restart_policy:
-    condition: on-failure
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">update_config</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">parallelism</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">10s</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">restart_policy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">condition</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure</span>
+</span></span></code></pre></div><blockquote>
 <p>注：只支持version 3</p>
 </blockquote>
-
 <h3 id="mode">mode</h3>
-
-<p>Either global (exactly one container per swarm node) or replicated (a specified number of containers). The default is replicated.<br />
+<p>Either global (exactly one container per swarm node) or replicated (a specified number of containers). The default is replicated.
 如果配置为<code>globle</code>,表示所有swarm节点都有一个容器，如果配置为<code>replicated</code>，可以指定容器数量，默认为<code>replicated</code></p>
-
-<pre><code class="language-bash">mode: global
-</code></pre>
-
-<h3 id="replicas">replicas</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mode: global
+</span></span></code></pre></div><h3 id="replicas">replicas</h3>
 <p>如果服务mode配置为<code>replicated</code>,<code>replicas</code>就是用来指定容器数量的</p>
-
-<pre><code class="language-yml">mode: replicated
-replicas: 6
-</code></pre>
-
-<h3 id="placement">placement</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">mode</span>: <span style="color:#ae81ff">replicated</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">6</span>
+</span></span></code></pre></div><h3 id="placement">placement</h3>
 <p>指定容器的放置约束。</p>
-
-<pre><code class="language-yml">placement:
-  constraints:
-    - node.role == manager
-    - engine.labels.operatingsystem == ubuntu 14.04
-</code></pre>
-
-<h3 id="update-config">update_config</h3>
-
-<p>服务更新配置：<br />
-* parallelism: 同事update的容器数<br />
-* delay: 一组容器update时间隔时间<br />
-* failure_action: 如果1个容器更新失败，是继续(continue)还是暂停(pausem default)<br />
-* monitor: 每次任务后，监视故障的持续时间<br />
-* max_failure_ratio: 升级的最大失败次数</p>
-
-<pre><code class="language-yml"> update_config:
-      parallelism: 2
-      delay: 10s
-</code></pre>
-
-<h3 id="resources">resources</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">placement</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">constraints</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">node.role == manager</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">engine.labels.operatingsystem == ubuntu 14.04</span>
+</span></span></code></pre></div><h3 id="update_config">update_config</h3>
+<p>服务更新配置：</p>
+<ul>
+<li>parallelism: 同事update的容器数</li>
+<li>delay: 一组容器update时间隔时间</li>
+<li>failure_action: 如果1个容器更新失败，是继续(continue)还是暂停(pausem default)</li>
+<li>monitor: 每次任务后，监视故障的持续时间</li>
+<li>max_failure_ratio: 升级的最大失败次数</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span> <span style="color:#f92672">update_config</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">parallelism</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">10s</span>
+</span></span></code></pre></div><h3 id="resources">resources</h3>
 <p>配置资源约束。 这将替换版本3之前的文件中的旧资源约束选项（cpu_shares，cpu_quota，cpuset，mem_limit，memswap_limit）。</p>
-
-<pre><code class="language-yml">resources:
-  limits:
-    cpus: '0.001'
-    memory: 50M
-  reservations:
-    cpus: '0.0001'
-    memory: 20M
-</code></pre>
-
-<h3 id="restart-policy">restart_policy</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">limits</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cpus</span>: <span style="color:#e6db74">&#39;0.001&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">50M</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">reservations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cpus</span>: <span style="color:#e6db74">&#39;0.0001&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">20M</span>
+</span></span></code></pre></div><h3 id="restart_policy">restart_policy</h3>
 <p>Configures if and how to restart containers when they exit. Replaces restart.</p>
-
-<p>配置容器退出时的启动策略。替换<code>restart</code><br />
-* condition: <code>none</code>,<code>on-failure</code> , 或者<code>any</code> (默认: any).<br />
-* delay: 重启间隔(default: 0).<br />
-* max_attempts: 最大重启次数 (default: never give up).<br />
-* window: 在决定重新启动是否成功之前等待的时间，default: decide immediately).</p>
-
-<pre><code class="language-yml">restart_policy:
-      condition: on-failure
-      delay: 5s
-      max_attempts: 3
-      window: 120s
-</code></pre>
-
-<h3 id="labels">labels</h3>
-
+<p>配置容器退出时的启动策略。替换<code>restart</code></p>
+<ul>
+<li>condition: <code>none</code>,<code>on-failure</code> , 或者<code>any</code> (默认: any).</li>
+<li>delay: 重启间隔(default: 0).</li>
+<li>max_attempts: 最大重启次数 (default: never give up).</li>
+<li>window: 在决定重新启动是否成功之前等待的时间，default: decide immediately).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">restart_policy</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">condition</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">5s</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">max_attempts</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">window</span>: <span style="color:#ae81ff">120s</span>
+</span></span></code></pre></div><h3 id="labels">labels</h3>
 <p>指定服务的标签。 这些标签只能在服务上设置，而不能在服务的任何容器上设置。</p>
-
-<pre><code class="language-yml">version: &quot;3&quot;
-services:
-  web:
-    image: web
-    deploy:
-      labels:
-        com.example.description: &quot;This label will appear on the web service&quot;
-</code></pre>
-
-<p>在<code>deploy</code>外设置</p>
-
-<pre><code class="language-yml">version: &quot;3&quot;
-services:
-  web:
-    image: web
-    labels:
-      com.example.description: &quot;This label will appear on all containers for the web service&quot;
-</code></pre>
-
-<h3 id="devices">devices</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">web</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">com.example.description</span>: <span style="color:#e6db74">&#34;This label will appear on the web service&#34;</span>
+</span></span></code></pre></div><p>在<code>deploy</code>外设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">web</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">com.example.description</span>: <span style="color:#e6db74">&#34;This label will appear on all containers for the web service&#34;</span>
+</span></span></code></pre></div><h3 id="devices">devices</h3>
 <p>列出devices</p>
-
-<pre><code class="language-yml">devices:
-  - &quot;/dev/ttyUSB0:/dev/ttyUSB0&quot;
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">devices</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;/dev/ttyUSB0:/dev/ttyUSB0&#34;</span>
+</span></span></code></pre></div><blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
-
-<h3 id="depends-on">depends_on</h3>
-
+<h3 id="depends_on">depends_on</h3>
 <p>服务依赖，如果使用<code>docker-compose up</code>启动，也将会启动所依赖的服务。</p>
-
-<pre><code class="language-yml">version: '2'
-services:
-  web:
-    build: .
-    depends_on:
-      - db
-      - redis
-  redis:
-    image: redis
-  db:
-    image: postgres
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redis</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+</span></span></code></pre></div><blockquote>
 <p>注：depends_on 不会等待所依赖的服务启动完成后再启动，因为无法判断一个服务是否已经启动完成。</p>
 </blockquote>
-
 <p>可以结合<code>healthcheck</code>判断服务健康状态。但注意只在<code>2.1</code>版本中, 后文会介绍到。</p>
-
-<pre><code class="language-yml">version: '2.1'
-services:
-  web:
-    build: .
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_started
-  redis:
-    image: redis
-  db:
-    image: redis
-    healthcheck:
-      test: &quot;exit 0&quot;
-</code></pre>
-
-<h3 id="dns">dns</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.1&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">service_healthy</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">redis</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">service_started</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redis</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">healthcheck</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">test</span>: <span style="color:#e6db74">&#34;exit 0&#34;</span>
+</span></span></code></pre></div><h3 id="dns">dns</h3>
 <p>指定dns服务</p>
-
-<pre><code class="language-yml">dns: 8.8.8.8
-dns:
-  - 8.8.8.8
-  - 9.9.9.9
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">dns</span>: <span style="color:#ae81ff">8.8.8.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dns</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">8.8.8.8</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">9.9.9.9</span>
+</span></span></code></pre></div><blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
-
-<h3 id="dns-search">dns_search</h3>
-
+<h3 id="dns_search">dns_search</h3>
 <p>指定dns domain</p>
-
-<pre><code class="language-yml">dns_search: example.com
-dns_search:
-  - dc1.example.com
-  - dc2.example.com
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">dns_search</span>: <span style="color:#ae81ff">example.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dns_search</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">dc1.example.com</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">dc2.example.com</span>
+</span></span></code></pre></div><blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
-
 <h3 id="tmpfs">tmpfs</h3>
-
 <p>挂载一个临时目录到容器</p>
-
-<pre><code class="language-yml">tmpfs: /run
-tmpfs:
-  - /run
-  - /tmp
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">tmpfs</span>: <span style="color:#ae81ff">/run</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">tmpfs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">/run</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">/tmp</span>
+</span></span></code></pre></div><blockquote>
 <p>注：stack 部署会忽略该选项。</p>
 </blockquote>
-
 <h3 id="entrypoint">entrypoint</h3>
-
 <p>覆盖默认的entrypoint</p>
-
-<pre><code class="language-yml">entrypoint: /code/entrypoint.sh
-
-entrypoint:
-    - php
-    - -d
-    - zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
-    - -d
-    - memory_limit=-1
-    - vendor/bin/phpunit
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/code/entrypoint.sh</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">entrypoint</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">php</span>
+</span></span><span style="display:flex;"><span>    - -<span style="color:#ae81ff">d</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so</span>
+</span></span><span style="display:flex;"><span>    - -<span style="color:#ae81ff">d</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">memory_limit=-1</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">vendor/bin/phpunit</span>
+</span></span></code></pre></div><blockquote>
 <p>注：这会覆盖任何镜像ENTRYPOINT默认的entrypoint，如果dockerfile只有一个CMD指令，他将被忽略。</p>
 </blockquote>
-
-<h3 id="env-file">env_file</h3>
-
+<h3 id="env_file">env_file</h3>
 <p>通过文件添加环境变量，将覆盖默认的变量。</p>
-
-<pre><code class="language-yml">env_file: .env
-
-env_file:
-  - ./common.env
-  - ./apps/web.env
-  - /opt/secrets.env
-</code></pre>
-
-<p>一行一个key=value，以#开头的会被忽略</p>
-
-<pre><code># Set Rails/Rack environment
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">env_file</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">./common.env</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">./apps/web.env</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">/opt/secrets.env</span>
+</span></span></code></pre></div><p>一行一个key=value，以#开头的会被忽略</p>
+<pre tabindex="0"><code># Set Rails/Rack environment
 RACK_ENV=development
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>注：如果您的服务指定了构建选项，则在构建期间不会自动显示环境文件中定义的变量。 使用build的args子选项来定义构建时环境变量。</p>
 </blockquote>
-
 <p>值只能是一个值，不能是变量。</p>
-
 <h3 id="environment">environment</h3>
-
 <p>添加环境变量。如果是boolean，注意引号的使用方式。</p>
-
-<pre><code class="language-yml">environment:
-  RACK_ENV: development
-  SHOW: 'true'
-  SESSION_SECRET:
-
-environment:
-  - RACK_ENV=development
-  - SHOW=true
-  - SESSION_SECRET
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">RACK_ENV</span>: <span style="color:#ae81ff">development</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SHOW</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SESSION_SECRET</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">RACK_ENV=development</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">SHOW=true</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">SESSION_SECRET</span>
+</span></span></code></pre></div><blockquote>
 <p>注：如果您的服务指定了构建选项，则在构建期间将不会自动显示在环境中定义的变量。 使用build的args子选项来定义构建时环境变量。</p>
 </blockquote>
-
 <h3 id="expose">expose</h3>
-
 <p>暴露端口给主机。</p>
-
-<pre><code class="language-yml">expose:
- - &quot;3000&quot;
- - &quot;8000&quot;
-</code></pre>
-
-<h3 id="extends">extends</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;8000&#34;</span>
+</span></span></code></pre></div><h3 id="extends">extends</h3>
 <p>在当前文件或另一个文件中扩展另一个服务，可选地覆盖配置。</p>
-
 <p>您可以在任何服务上使用扩展与其他配置键。 extends值必须是使用必需的服务和可选文件键定义的字典。</p>
-
-<pre><code class="language-yml">extends:
-  file: common.yml
-  service: webapp
-</code></pre>
-
-<p>如果省略文件Compose在当前文件中查找服务配置。 文件值可以是绝对路径或相对路径。 如果指定相对路径，则Compose将其视为相对于当前文件的位置。</p>
-
-<p>不支持循环引用。<br />
-&gt;注：部署到stack时不支持该选项，可以通过 <code>docker-compose config</code>生成配置再部署</p>
-
-<h3 id="external-links">external_links</h3>
-
-<p>连接 <code>docker-compose.yml</code>外的服务</p>
-
-<pre><code class="language-yml">external_links:
- - redis_1
- - project_db_1:mysql
- - project_db_1:postgresql
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">extends</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">file</span>: <span style="color:#ae81ff">common.yml</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">service</span>: <span style="color:#ae81ff">webapp</span>
+</span></span></code></pre></div><p>如果省略文件Compose在当前文件中查找服务配置。 文件值可以是绝对路径或相对路径。 如果指定相对路径，则Compose将其视为相对于当前文件的位置。</p>
+<p>不支持循环引用。</p>
 <blockquote>
+<p>注：部署到stack时不支持该选项，可以通过 <code>docker-compose config </code>生成配置再部署</p>
+</blockquote>
+<h3 id="external_links">external_links</h3>
+<p>连接 <code>docker-compose.yml</code>外的服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">external_links</span>:
+</span></span><span style="display:flex;"><span> - <span style="color:#ae81ff">redis_1</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#ae81ff">project_db_1:mysql</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#ae81ff">project_db_1:postgresql</span>
+</span></span></code></pre></div><blockquote>
 <p>注：如果使用version 2和以上版本，至少有一个外部容器和他共用相同网络。部署到stack时会被忽略。</p>
 </blockquote>
-
-<h3 id="extra-hosts">extra_hosts</h3>
-
-<pre><code>extra_hosts:
- - &quot;somehost:162.242.195.82&quot;
- - &quot;otherhost:50.31.209.229&quot;
-</code></pre>
-
-<h3 id="group-add">group_add</h3>
-
+<h3 id="extra_hosts">extra_hosts</h3>
+<pre tabindex="0"><code>extra_hosts:
+ - &#34;somehost:162.242.195.82&#34;
+ - &#34;otherhost:50.31.209.229&#34;
+</code></pre><h3 id="group_add">group_add</h3>
 <blockquote>
 <p>Version 2 file format and up.</p>
 </blockquote>
-
 <p>添加组，组必须同时存在于要添加的容器和主机系统中。</p>
-
-<pre><code class="language-yml">version: '2'
-services:
-    image: alpine
-    group_add:
-      - mail
-</code></pre>
-
-<h3 id="healthcheck">healthcheck</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">group_add</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">mail</span>
+</span></span></code></pre></div><h3 id="healthcheck">healthcheck</h3>
 <blockquote>
 <p>Version 2.1 file format and up.</p>
 </blockquote>
-
 <p>配置容器启动监控检查：</p>
-
-<pre><code class="language-yml">healthcheck:
-  test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost&quot;]
-  interval: 1m30s
-  timeout: 10s
-  retries: 3
-</code></pre>
-
-<pre><code># Hit the local web app
-test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;http://localhost&quot;]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">healthcheck</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">test</span>: [<span style="color:#e6db74">&#34;CMD&#34;</span>, <span style="color:#e6db74">&#34;curl&#34;</span>, <span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;http://localhost&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">1m30s</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">10s</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><pre tabindex="0"><code># Hit the local web app
+test: [&#34;CMD&#34;, &#34;curl&#34;, &#34;-f&#34;, &#34;http://localhost&#34;]
 
 # As above, but wrapped in /bin/sh. Both forms below are equivalent.
-test: [&quot;CMD-SHELL&quot;, &quot;curl -f http://localhost &amp;&amp; echo 'cool, it works'&quot;]
-test: curl -f https://localhost &amp;&amp; echo 'cool, it works'
+test: [&#34;CMD-SHELL&#34;, &#34;curl -f http://localhost &amp;&amp; echo &#39;cool, it works&#39;&#34;]
+test: curl -f https://localhost &amp;&amp; echo &#39;cool, it works&#39;
 
 #禁用
 healthcheck:
   disable: true
-</code></pre>
-
-<h3 id="image">image</h3>
-
+</code></pre><h3 id="image">image</h3>
 <p>指定镜像：格式可以有以下几种</p>
-
-<pre><code class="language-yml">image: redis
-image: ubuntu:14.04
-image: tutum/influxdb
-image: example-registry.com:4000/postgresql
-image: a4bc65fd
-</code></pre>
-
-<h3 id="labels-1">labels</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">ubuntu:14.04</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">tutum/influxdb</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">example-registry.com:4000/postgresql</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">a4bc65fd</span>
+</span></span></code></pre></div><h3 id="labels-1">labels</h3>
 <p>给容器添加元数据</p>
-
-<pre><code class="language-yml">labels:
-  com.example.description: &quot;Accounting webapp&quot;
-  com.example.department: &quot;Finance&quot;
-  com.example.label-with-empty-value: &quot;&quot;
-
-labels:
-  - &quot;com.example.description=Accounting webapp&quot;
-  - &quot;com.example.department=Finance&quot;
-  - &quot;com.example.label-with-empty-value&quot;
-</code></pre>
-
-<h3 id="links">links</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">com.example.description</span>: <span style="color:#e6db74">&#34;Accounting webapp&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">com.example.department</span>: <span style="color:#e6db74">&#34;Finance&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">com.example.label-with-empty-value</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;com.example.description=Accounting webapp&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;com.example.department=Finance&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;com.example.label-with-empty-value&#34;</span>
+</span></span></code></pre></div><h3 id="links">links</h3>
 <p>容器间的连接：</p>
-
-<pre><code class="language-yml">web:
-  links:
-   - db
-   - db:database
-   - redis
-</code></pre>
-
-<p>其实就是在容器中的<code>/etc/hosts</code>添加容器id和别名的映射。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">links</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>   - <span style="color:#ae81ff">db:database</span>
+</span></span><span style="display:flex;"><span>   - <span style="color:#ae81ff">redis</span>
+</span></span></code></pre></div><p>其实就是在容器中的<code>/etc/hosts</code>添加容器id和别名的映射。</p>
 <blockquote>
-<p>如果同时配置了link是和networks，至少有一个共用的网络。<br />
- 部署到stack会被忽略</p>
+<p>如果同时配置了link是和networks，至少有一个共用的网络。
+部署到stack会被忽略</p>
 </blockquote>
-
 <h3 id="logging">logging</h3>
-
-<p>Logging configuration for the service.<br />
+<p>Logging configuration for the service.
 记录服务的日志：</p>
-
-<pre><code class="language-yml">logging:
-  driver: syslog
-  options:
-    syslog-address: &quot;tcp://192.168.0.42:123&quot;
-
-driver: &quot;json-file&quot; # default
-driver: &quot;syslog&quot;
-driver: &quot;none&quot;
-
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">logging</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">syslog</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">options</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">syslog-address</span>: <span style="color:#e6db74">&#34;tcp://192.168.0.42:123&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">driver</span>: <span style="color:#e6db74">&#34;json-file&#34;</span> <span style="color:#75715e"># default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">driver</span>: <span style="color:#e6db74">&#34;syslog&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">driver</span>: <span style="color:#e6db74">&#34;none&#34;</span>
+</span></span></code></pre></div><blockquote>
 <p>注：只有使用<code>json-file</code>和<code>journald</code>时，可以通过docker-compose logs 查看日志。其他方式将不打印任何日志</p>
 </blockquote>
-
-<h3 id="network-mode">network_mode</h3>
-
+<h3 id="network_mode">network_mode</h3>
 <p>网络模式。和docker run -net 拒用相同功能。</p>
-
-<pre><code class="language-yml">network_mode: &quot;bridge&quot;
-network_mode: &quot;host&quot;
-network_mode: &quot;none&quot;
-network_mode: &quot;service:[service name]&quot;
-network_mode: &quot;container:[container name/id]&quot;
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;bridge&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;host&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;none&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;service:[service name]&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">network_mode</span>: <span style="color:#e6db74">&#34;container:[container name/id]&#34;</span>
+</span></span></code></pre></div><blockquote>
 <p>注：部署stack时会被忽略</p>
 </blockquote>
-
 <h3 id="networks">networks</h3>
-
 <p>引用顶级网络配置的条目</p>
-
-<pre><code class="language-yml">services:
-  some-service:
-    networks:
-     - some-network
-     - other-network
-</code></pre>
-
-<h4 id="ipv4-address-ipv6-address">ipv4_address, ipv6_address</h4>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">some-service</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>     - <span style="color:#ae81ff">some-network</span>
+</span></span><span style="display:flex;"><span>     - <span style="color:#ae81ff">other-network</span>
+</span></span></code></pre></div><h4 id="ipv4_address-ipv6_address">ipv4_address, ipv6_address</h4>
 <p>给容器指定静态ip。和networks结合使用。</p>
-
-<pre><code class="language-yml">version: '2.1'
-
-services:
-  app:
-    image: busybox
-    command: ifconfig
-    networks:
-      app_net:
-        ipv4_address: 172.16.238.10
-        ipv6_address: 2001:3984:3989::10
-
-networks:
-  app_net:
-    driver: bridge
-    enable_ipv6: true
-    ipam:
-      driver: default
-      config:
-      - subnet: 172.16.238.0/24
-        gateway: 172.16.238.1
-      - subnet: 2001:3984:3989::/64
-        gateway: 2001:3984:3989::1
-</code></pre>
-
-<h3 id="ports">ports</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">app</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">ifconfig</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app_net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">172.16.238.10</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv6_address</span>: <span style="color:#ae81ff">2001</span>:<span style="color:#ae81ff">3984</span>:<span style="color:#ae81ff">3989</span>::<span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">app_net</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enable_ipv6</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ipam</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">subnet</span>: <span style="color:#ae81ff">172.16.238.0</span><span style="color:#ae81ff">/24</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">gateway</span>: <span style="color:#ae81ff">172.16.238.1</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">subnet</span>: <span style="color:#ae81ff">2001</span>:<span style="color:#ae81ff">3984</span>:<span style="color:#ae81ff">3989</span>::<span style="color:#ae81ff">/64</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">gateway</span>: <span style="color:#ae81ff">2001</span>:<span style="color:#ae81ff">3984</span>:<span style="color:#ae81ff">3989</span>::<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h3 id="ports">ports</h3>
 <p>容器和主机的端口映射</p>
-
-<pre><code class="language-yml">ports:
- - &quot;3000&quot;
- - &quot;3000-3005&quot;
- - &quot;8000:8000&quot;
- - &quot;9090-9091:8080-8081&quot;
- - &quot;49100:22&quot;
- - &quot;127.0.0.1:8001:8001&quot;
- - &quot;127.0.0.1:5000-5010:5000-5010&quot;
- - &quot;6060:6060/udp&quot;
-</code></pre>
-
-<h4 id="volumes">volumes</h4>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;3000-3005&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;8000:8000&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;9090-9091:8080-8081&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;49100:22&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;127.0.0.1:8001:8001&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;127.0.0.1:5000-5010:5000-5010&#34;</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#e6db74">&#34;6060:6060/udp&#34;</span>
+</span></span></code></pre></div><h4 id="volumes">volumes</h4>
 <p>数据卷挂载</p>
-
-<pre><code class="language-yml">version: &quot;3&quot;
-
-services:
-  db:
-    image: db
-    volumes:
-      - data-volume:/var/lib/db
-  backup:
-    image: backup-service
-    volumes:
-      - data-volume:/var/lib/backup/data
-
-volumes:
-  data-volume:
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">data-volume:/var/lib/db</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">backup</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">backup-service</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">data-volume:/var/lib/backup/data</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">data-volume</span>:
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#compose配置文件介绍">Compose配置文件介绍</a>
-<ul>
-<li><a href="#一-服务配置">一、服务配置</a>
-<ul>
-<li><a href="#build">build</a></li>
-<li><a href="#context">context</a></li>
-<li><a href="#dockerfile">dockerfile</a></li>
-<li><a href="#args">args</a></li>
-<li><a href="#cap-add-cap-drop">cap_add, cap_drop</a></li>
-<li><a href="#command">command</a></li>
-<li><a href="#cgroup-parent">cgroup_parent</a></li>
-<li><a href="#container-name">container_name</a></li>
-<li><a href="#deploy">deploy</a></li>
-<li><a href="#mode">mode</a></li>
-<li><a href="#replicas">replicas</a></li>
-<li><a href="#placement">placement</a></li>
-<li><a href="#update-config">update_config</a></li>
-<li><a href="#resources">resources</a></li>
-<li><a href="#restart-policy">restart_policy</a></li>
-<li><a href="#labels">labels</a></li>
-<li><a href="#devices">devices</a></li>
-<li><a href="#depends-on">depends_on</a></li>
-<li><a href="#dns">dns</a></li>
-<li><a href="#dns-search">dns_search</a></li>
-<li><a href="#tmpfs">tmpfs</a></li>
-<li><a href="#entrypoint">entrypoint</a></li>
-<li><a href="#env-file">env_file</a></li>
-<li><a href="#environment">environment</a></li>
-<li><a href="#expose">expose</a></li>
-<li><a href="#extends">extends</a></li>
-<li><a href="#external-links">external_links</a></li>
-<li><a href="#extra-hosts">extra_hosts</a></li>
-<li><a href="#group-add">group_add</a></li>
-<li><a href="#healthcheck">healthcheck</a></li>
-<li><a href="#image">image</a></li>
-<li><a href="#labels-1">labels</a></li>
-<li><a href="#links">links</a></li>
-<li><a href="#logging">logging</a></li>
-<li><a href="#network-mode">network_mode</a></li>
-<li><a href="#networks">networks</a>
-<ul>
-<li><a href="#ipv4-address-ipv6-address">ipv4_address, ipv6_address</a></li>
-</ul></li>
-<li><a href="#ports">ports</a>
-<ul>
-<li><a href="#volumes">volumes</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一服务配置">一、服务配置</a>
+      <ul>
+        <li><a href="#build">build</a></li>
+        <li><a href="#context">context</a></li>
+        <li><a href="#dockerfile">dockerfile</a></li>
+        <li><a href="#args">args</a></li>
+        <li><a href="#cap_add-cap_drop">cap_add, cap_drop</a></li>
+        <li><a href="#command">command</a></li>
+        <li><a href="#cgroup_parent">cgroup_parent</a></li>
+        <li><a href="#container_name">container_name</a></li>
+        <li><a href="#deploy">deploy</a></li>
+        <li><a href="#mode">mode</a></li>
+        <li><a href="#replicas">replicas</a></li>
+        <li><a href="#placement">placement</a></li>
+        <li><a href="#update_config">update_config</a></li>
+        <li><a href="#resources">resources</a></li>
+        <li><a href="#restart_policy">restart_policy</a></li>
+        <li><a href="#labels">labels</a></li>
+        <li><a href="#devices">devices</a></li>
+        <li><a href="#depends_on">depends_on</a></li>
+        <li><a href="#dns">dns</a></li>
+        <li><a href="#dns_search">dns_search</a></li>
+        <li><a href="#tmpfs">tmpfs</a></li>
+        <li><a href="#entrypoint">entrypoint</a></li>
+        <li><a href="#env_file">env_file</a></li>
+        <li><a href="#environment">environment</a></li>
+        <li><a href="#expose">expose</a></li>
+        <li><a href="#extends">extends</a></li>
+        <li><a href="#external_links">external_links</a></li>
+        <li><a href="#extra_hosts">extra_hosts</a></li>
+        <li><a href="#group_add">group_add</a></li>
+        <li><a href="#healthcheck">healthcheck</a></li>
+        <li><a href="#image">image</a></li>
+        <li><a href="#labels-1">labels</a></li>
+        <li><a href="#links">links</a></li>
+        <li><a href="#logging">logging</a></li>
+        <li><a href="#network_mode">network_mode</a></li>
+        <li><a href="#networks">networks</a></li>
+        <li><a href="#ports">ports</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

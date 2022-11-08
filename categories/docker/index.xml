@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/categories/docker/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate><atom:link href="http://thoreauz.com/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在mac上安装minikube</title>
       <link>http://thoreauz.com/2018/11/04/mac-install-minikube/</link>
@@ -54,7 +50,7 @@
       <pubDate>Tue, 21 Mar 2017 23:31:53 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</guid>
-      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &#39;touch /app.jar&#39; ENV JAVA_OPTS=&amp;quot;&amp;quot; ENTRYPOINT [ &amp;quot;sh&amp;quot;, &amp;quot;-c&amp;quot;, &amp;quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;quot; ] 解释：</description>
+      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &amp;#39;touch /app.jar&amp;#39; ENV JAVA_OPTS=&amp;#34;&amp;#34; ENTRYPOINT [ &amp;#34;sh&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;#34; ] 解释：</description>
     </item>
     
     <item>
@@ -63,7 +59,7 @@
       <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
-      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： 参建副本集和 Pods 检查部署状态 更新</description>
     </item>
     
     <item>
@@ -135,7 +131,7 @@
       <pubDate>Sun, 08 Jan 2017 12:39:04 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/01/08/Docker-start/</guid>
-      <description>#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存</description>
+      <description>#Docker入门 一、安装 概述： 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 Registry：用来保存镜像</description>
     </item>
     
   </channel>

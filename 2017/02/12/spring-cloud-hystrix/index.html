@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Spring Cloud Hystrix熔断器 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/12/spring-cloud-hystrix/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/12/spring-cloud-hystrix/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": Spring Cloud Hystrix熔断器,
-    "name": Spring Cloud Hystrix熔断器,
-    "wordCount": 764,
+    "headline": "Spring Cloud Hystrix熔断器",
+    "name": "Spring Cloud Hystrix熔断器",
+    "wordCount":  765 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/12/spring-cloud-hystrix/,
-    "datePublished": 2017-02-12T20:14Z,
-    "dateModified": 2017-02-12T20:14Z,
+    "url": "http://thoreauz.com/2017/02/12/spring-cloud-hystrix/",
+    "datePublished": "2017-02-12T20:14Z",
+    "dateModified": "2017-02-12T20:14Z",
     
-    "keywords": spring, 微服务, spring cloud,
-    "description": ,
+    "keywords": "spring, 微服务, spring cloud",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/12/spring-cloud-hystrix/
+        "@id": "http://thoreauz.com/2017/02/12/spring-cloud-hystrix/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,147 +251,118 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="spring-cloud-hystrix熔断器">Spring Cloud Hystrix熔断器</h1>
-
-<p>在微服务中，一个请求进来可能需要调用多个服务，如果其中一个服务出现故障，比如超时堵塞。导致其他请求进来也堵塞从而导致线程耗尽等情况。一个服务不可能用导致整个服务不可用，Hystrix为解决这个问题。<br />
-断路器(Cricuit Breaker):<br />
-1. 服务不可用自动断开（快速失败）：如果对某服务调用错误次数达到一个值，后续服务都会快速失败，有点像保险丝。<br />
-2. 服务可用时自动恢复：熔断并没有完全断，还会允许少量请求，以判断服务状态是否允许恢复。<br />
-3. 资源隔离：对依赖服务调用会在单独的线程池中进行。<br />
-4. 监控：Dashboard 提供成功率、平时响应时间、调用频次、断路器状态等监控。</p>
-
-<h2 id="一-快速起步">一、快速起步</h2>
-
+      <h1 id="spring-cloud-hystrix熔断器">Spring Cloud Hystrix熔断器</h1>
+<p>在微服务中，一个请求进来可能需要调用多个服务，如果其中一个服务出现故障，比如超时堵塞。导致其他请求进来也堵塞从而导致线程耗尽等情况。一个服务不可能用导致整个服务不可用，Hystrix为解决这个问题。
+断路器(Cricuit Breaker):</p>
+<ol>
+<li>服务不可用自动断开（快速失败）：如果对某服务调用错误次数达到一个值，后续服务都会快速失败，有点像保险丝。</li>
+<li>服务可用时自动恢复：熔断并没有完全断，还会允许少量请求，以判断服务状态是否允许恢复。</li>
+<li>资源隔离：对依赖服务调用会在单独的线程池中进行。</li>
+<li>监控：Dashboard 提供成功率、平时响应时间、调用频次、断路器状态等监控。</li>
+</ol>
+<h2 id="一快速起步">一、快速起步</h2>
 <p>maven pom.xml</p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>spring boot 启动函数</p>
-
-<pre><code class="language-java">@SpringBootApplication
-@EnableCircuitBreaker
-public class Application {
-    public static void main(String[] args) {
-        new SpringApplicationBuilder(Application.class).web(true).run(args);
-    }
-}
-@Component
-public class StoreIntegration {
-    @HystrixCommand(fallbackMethod = &quot;defaultStores&quot;)
-    public Object getStores(Map&lt;String, Object&gt; parameters) {
-        //do stuff that might fail
-    }
-    public Object defaultStores(Map&lt;String, Object&gt; parameters) {
-        return /* something useful */;
-    }
-}
-</code></pre>
-
-<p>可以使用commandProperties参数和@HystrixProperty注解的集合来配置@HystrixCommand和线程池。</p>
-
-<pre><code class="language-java">@HystrixCommand(
-		commandProperties = {@HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;500&quot;)},
-		threadPoolProperties = {
-				@HystrixProperty(name = &quot;coreSize&quot;, value = &quot;30&quot;),
-				@HystrixProperty(name = &quot;maxQueueSize&quot;, value = &quot;101&quot;),
-				@HystrixProperty(name = &quot;keepAliveTimeMinutes&quot;, value = &quot;2&quot;),
-				@HystrixProperty(name = &quot;queueSizeRejectionThreshold&quot;, value = &quot;15&quot;),
-				@HystrixProperty(name = &quot;metrics.rollingStats.numBuckets&quot;, value = &quot;12&quot;),
-				@HystrixProperty(name = &quot;metrics.rollingStats.timeInMilliseconds&quot;, value = &quot;1440&quot;)
-		})
-public String getUserById(String id) {
-	return null;
-}
-</code></pre>
-
-<h2 id="二-配置">二、配置</h2>
-
-<pre><code># 超时设置
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-hystrix<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>spring boot 启动函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableCircuitBreaker</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> SpringApplicationBuilder<span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">web</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">).</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StoreIntegration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@HystrixCommand</span><span style="color:#f92672">(</span>fallbackMethod <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;defaultStores&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getStores</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> parameters<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//do stuff that might fail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">defaultStores</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> parameters<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#75715e">/* something useful */</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>可以使用commandProperties参数和@HystrixProperty注解的集合来配置@HystrixCommand和线程池。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@HystrixCommand</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>		commandProperties <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;execution.isolation.thread.timeoutInMilliseconds&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">)},</span>
+</span></span><span style="display:flex;"><span>		threadPoolProperties <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;coreSize&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;30&#34;</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;maxQueueSize&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;101&#34;</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;keepAliveTimeMinutes&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;queueSizeRejectionThreshold&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;15&#34;</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;metrics.rollingStats.numBuckets&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;12&#34;</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">@HystrixProperty</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;metrics.rollingStats.timeInMilliseconds&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1440&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getUserById</span><span style="color:#f92672">(</span>String id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="二配置">二、配置</h2>
+<pre tabindex="0"><code># 超时设置
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds = 30000
-</code></pre>
-
-<h2 id="三-仪表盘">三、仪表盘</h2>
-
+</code></pre><h2 id="三仪表盘">三、仪表盘</h2>
 <p>Hystrix的主要作用是会采集每一个HystrixCommand的信息指标，把每一个断路器的信息指标显示的Hystrix仪表盘上。但是仪表盘只能一次查看一个服务的hystrix.stream，如果服务多节点多，监控起来很麻烦。我们可以引入turbine，让turbine去注册中心获取所有hystrix.stream，然后汇总。</p>
-
 <h3 id="代码">代码</h3>
-
 <p>maven</p>
-
-<pre><code class="language-xml">&lt;dependencies&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-cloud-netflix-turbine&lt;/artifactId&gt;
-	&lt;/dependency&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-cloud-starter-turbine&lt;/artifactId&gt;
-	&lt;/dependency&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
-	&lt;/dependency&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
-	&lt;/dependency&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
-	&lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre>
-
-<p>spring boot main</p>
-
-<pre><code class="language-java">@SpringBootApplication
-@EnableTurbine
-@EnableDiscoveryClient
-@EnableHystrixDashboard
-public class TurbineApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(TurbineApplication.class, args);
-    }
-}
-</code></pre>
-
-<p>配置</p>
-
-<pre><code class="language-properties">spring.application.name=turbine-dashbord
-server.port=9010
-turbine.appConfig= client-server
-turbine.aggregator.clusterConfig= default
-turbine.clusterNameExpression= new String(&quot;default&quot;)
-eureka.client.serviceUrl.defaultZone=http://discovery:9001/eureka/
-</code></pre>
-
-<p>面板：<br />
-<img src="http://thoreauz.com/images/Hystrix Dashboard.png" alt="" /><br />
-[图1:HystrixDashboard ]<br />
-<img src="http://thoreauz.com/images/Hystrix Stream turbine.png" alt="" /><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-netflix-turbine<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-turbine<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-eureka<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-hystrix<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-hystrix-dashboard<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>spring boot main</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableTurbine</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableDiscoveryClient</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableHystrixDashboard</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TurbineApplication</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>TurbineApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">spring.application.name</span><span style="color:#f92672">=</span><span style="color:#e6db74">turbine-dashbord</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">server.port</span><span style="color:#f92672">=</span><span style="color:#e6db74">9010</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">turbine.appConfig</span><span style="color:#f92672">=</span> <span style="color:#e6db74">client-server</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">turbine.aggregator.clusterConfig</span><span style="color:#f92672">=</span> <span style="color:#e6db74">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">turbine.clusterNameExpression</span><span style="color:#f92672">=</span> <span style="color:#e6db74">new String(&#34;default&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.serviceUrl.defaultZone</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://discovery:9001/eureka/</span>
+</span></span></code></pre></div><p>面板：
+![](/images/Hystrix Dashboard.png)
+[图1:HystrixDashboard ]
+![](/images/Hystrix Stream turbine.png)
 [图2:HystrixDashboard 汇总 turbine ]</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#spring-cloud-hystrix熔断器">Spring Cloud Hystrix熔断器</a>
-<ul>
-<li><a href="#一-快速起步">一、快速起步</a></li>
-<li><a href="#二-配置">二、配置</a></li>
-<li><a href="#三-仪表盘">三、仪表盘</a>
-<ul>
-<li><a href="#代码">代码</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一快速起步">一、快速起步</a></li>
+    <li><a href="#二配置">二、配置</a></li>
+    <li><a href="#三仪表盘">三、仪表盘</a>
+      <ul>
+        <li><a href="#代码">代码</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

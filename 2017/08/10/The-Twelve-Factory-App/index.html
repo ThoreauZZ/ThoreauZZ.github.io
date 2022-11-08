@@ -21,7 +21,7 @@
   	<meta property="og:title" content="The Twelve-Factory App &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": The Twelve-Factory App,
-    "name": The Twelve-Factory App,
-    "wordCount": 2127,
+    "headline": "The Twelve-Factory App",
+    "name": "The Twelve-Factory App",
+    "wordCount":  2120 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/,
-    "datePublished": 2017-08-10T11:57Z,
-    "dateModified": 2017-08-10T11:57Z,
+    "url": "http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/",
+    "datePublished": "2017-08-10T11:57Z",
+    "dateModified": "2017-08-10T11:57Z",
     
-    "keywords": 架构,
-    "description": ,
+    "keywords": "架构",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/
+        "@id": "http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,172 +243,121 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="the-twelve-factory-app">The Twelve-Factory App</h1>
-
+      <h1 id="the-twelve-factory-app">The Twelve-Factory App</h1>
 <p>摘自：<a href="https://12factor.net/">The Twelve-Factory App</a></p>
-
 <p>Cloud Native是一种应用开发风格，鼓励在持续交付和价值驱动开发领域轻松采用最佳实践。相关的学科是建立12因素应用程序，其中开发实践与交付和运营目标相一致，例如通过使用声明式编程和管理和监控。</p>
-
-<p>软件通常会作为一种服务来交付，它们被称为网络应用程序，或软件即服务（SaaS）。12-Factor 为构建如下的 SaaS 应用提供了方法论：<br />
-* 使用标准化流程自动配置，从而使新的开发者花费最少的学习成本加入这个项目。<br />
-* 和操作系统之间尽可能的划清界限，在各个系统中提供最大的可移植性。<br />
-* 适合部署在现代的云计算平台，从而在服务器和系统管理方面节省资源。<br />
-* 将开发环境和生产环境的差异降至最低，并使用持续交付实施敏捷开发。<br />
-* 可以在工具、架构和开发流程不发生明显变化的前提下实现扩展。</p>
-
-<p><img src="http://thoreauz.com/images/2017-08-10-11-54-53.jpg" alt="" /></p>
-
-<!-- more -->
-
-<h2 id="一-基准代码">一、基准代码</h2>
-
+<p>软件通常会作为一种服务来交付，它们被称为网络应用程序，或软件即服务（SaaS）。12-Factor 为构建如下的 SaaS 应用提供了方法论：</p>
+<ul>
+<li>使用标准化流程自动配置，从而使新的开发者花费最少的学习成本加入这个项目。</li>
+<li>和操作系统之间尽可能的划清界限，在各个系统中提供最大的可移植性。</li>
+<li>适合部署在现代的云计算平台，从而在服务器和系统管理方面节省资源。</li>
+<li>将开发环境和生产环境的差异降至最低，并使用持续交付实施敏捷开发。</li>
+<li>可以在工具、架构和开发流程不发生明显变化的前提下实现扩展。</li>
+</ul>
+<p><img src="http://thoreauz.com/images/2017-08-10-11-54-53.jpg" alt=""></p>
+<!-- raw HTML omitted -->
+<h2 id="一基准代码">一、基准代码</h2>
 <blockquote>
 <p>一份基准代码（Codebase），多份部署（deploy）</p>
 </blockquote>
-
 <p>所有部署的基准代码相同，但每份部署可以使用其不同的版本。比如，开发人员可能有一些提交还没有同步至预发布环境；预发布环境也有一些提交没有同步至生产环境。但它们都共享一份基准代码，我们就认为它们只是相同应用的不同部署而已。</p>
-
-<h2 id="二-依赖">二、依赖</h2>
-
+<h2 id="二依赖">二、依赖</h2>
 <blockquote>
 <p>显式声明依赖关系（ dependency ）</p>
 </blockquote>
-
 <p>12-Factor规则下的应用程序不会隐式依赖系统级的类库。 它一定通过 依赖清单 ，确切地声明所有依赖项。此外，在运行过程中通过依赖隔离工具来确保程序不会调用系统中存在但清单中未声明的依赖项。这一做法会统一应用到生产和开发环境。</p>
-
 <h2 id="三-配置">三、 配置</h2>
-
 <blockquote>
 <p>代码和配置严格分离</p>
 </blockquote>
-
 <p>判断一个应用是否正确地将配置排除在代码之外，一个简单的方法是看该应用的基准代码是否可以立刻开源，而不用担心会暴露任何敏感的信息。</p>
-
 <p>12-Factor推荐将应用的配置存储于环境变量中。</p>
-
-<h2 id="四-后端服务">四、后端服务</h2>
-
+<h2 id="四后端服务">四、后端服务</h2>
 <blockquote>
 <p>把后端服务(backing services)当作附加资源</p>
 </blockquote>
-
 <p>12-Factor 应用不会区别对待本地或第三方服务, 对应用程序而言，两种都是附加资源，通过一个ur 或是其他存储在配置中的服务定位/服务证书来获取数据。每个不同的后端服务是一份资源 。例如，一个 MySQL 数据库是一个资源，两个MySQL数据库（用来数据分区）就被当作是 2 个不同的资源。12-Factor 应用将这些数据库都视作附加资源 ，这些资源和它们附属的部署保持松耦合。</p>
-
 <p>部署可以按需加载或卸载资源。例如，如果应用的数据库服务由于硬件问题出现异常，管理员可以从最近的备份中恢复一个数据库，卸载当前的数据库，然后加载新的数据库 – 整个过程都不需要修改代码。</p>
-
-<h2 id="五-构建-发布-运行">五、构建，发布，运行</h2>
-
+<h2 id="五构建发布运行">五、构建，发布，运行</h2>
 <blockquote>
 <p>严格分离构建和运行</p>
 </blockquote>
-
 <p>基准代码 转化为一份部署(非开发环境)需要以下三个阶段：</p>
-
 <ul>
-<li>构建阶段: 代码仓库转化为可执行包的过程<br /></li>
-<li>发布阶段 :将构建的结果和当前部署所需配置相结合.<br /></li>
-<li>运行阶段: 启动一系列应用程序进程。<br />
-<br /></li>
+<li>构建阶段: 代码仓库转化为可执行包的过程</li>
+<li>发布阶段 :将构建的结果和当前部署所需配置相结合.</li>
+<li>运行阶段: 启动一系列应用程序进程。</li>
 </ul>
-
-<h2 id="六-进程">六、进程</h2>
-
+<h2 id="六进程">六、进程</h2>
 <blockquote>
 <p>以一个或多个无状态进程运行应用</p>
 </blockquote>
-
 <p>12-Factor 应用的进程必须无状态且无共享。 任何需要持久化的数据都要存储在后端服务内， 比如数据库。一些互联网系统依赖于 “粘性session”， 这是指将用户session中的数据缓存至某进程的内存中，并将同一用户的后续请求路由到同一个进程。粘性 session 是 12-Factor 极力反对的。Session 中的数据应该保存在诸如 Memcached 或 Redis 这样的带有过期时间的缓存中。</p>
-
-<h2 id="七-端口绑定">七、端口绑定</h2>
-
+<h2 id="七端口绑定">七、端口绑定</h2>
 <blockquote>
 <p>通过端口绑定(Port binding)来提供服务</p>
 </blockquote>
-
 <p>12-Factor 应用完全自我加载而不依赖于任何网络服务器就可以创建一个面向网络的服务。互联网应用通过端口绑定来提供服务，并监听发送至该端口的请求。</p>
-
-<h2 id="八-并发">八、并发</h2>
-
+<h2 id="八并发">八、并发</h2>
 <blockquote>
 <p>通过进程模型进行扩展</p>
 </blockquote>
-
 <p>在 12-factor 应用中，进程是一等公民。12-Factor 应用的进程主要借鉴于 unix 守护进程模型。开发人员可以运用这个模型去设计应用架构，将不同的工作分配给不同的进程类型 。例如，HTTP 请求可以交给web进程来处理，而常驻的后台工作则交由 worker 进程负责。</p>
-
 <p>12-Factor 应用的进程不需要守护进程或是写入PID文件。相反的，应该借助操作系统的进程管理器(例如 Upstart ，分布式的进程管理云平台，或是类似 Foreman 的工具)，来管理输出流 ，响应崩溃的进程，以及处理用户触发的重启和关闭超级进程的请求。</p>
-
-<h2 id="九-易处理">九、易处理</h2>
-
+<h2 id="九易处理">九、易处理</h2>
 <blockquote>
 <p>快速启动和优雅终止可最大化健壮性</p>
 </blockquote>
-
 <ol>
-<li>12-Factor 应用的进程是易处理（disposable）的，意思是说它们可以瞬间开启或停止.<br /></li>
-<li>进程应当追求最小启动时间<br /></li>
-<li>进程 一旦接收终止信号（SIGTERM） 就会优雅的终止<br /></li>
-<li>对于 worker 进程来说，优雅终止是指将当前任务退回队列<br /></li>
-<li>进程还应当在面对突然死亡时保持健壮<br />
-<br /></li>
+<li>12-Factor 应用的进程是易处理（disposable）的，意思是说它们可以瞬间开启或停止.</li>
+<li>进程应当追求最小启动时间</li>
+<li>进程 一旦接收终止信号（SIGTERM） 就会优雅的终止</li>
+<li>对于 worker 进程来说，优雅终止是指将当前任务退回队列</li>
+<li>进程还应当在面对突然死亡时保持健壮</li>
 </ol>
-
-<h2 id="十-开发环境与线上环境等价">十、开发环境与线上环境等价</h2>
-
+<h2 id="十开发环境与线上环境等价">十、开发环境与线上环境等价</h2>
 <blockquote>
 <p>尽可能的保持开发，预发布，线上环境相同</p>
 </blockquote>
-
-<h2 id="十一-日志">十一、日志</h2>
-
+<h2 id="十一日志">十一、日志</h2>
 <blockquote>
 <p>把日志当作事件流</p>
 </blockquote>
-
 <p>日志使得应用程序运行的动作变得透明。在基于服务器的环境中，日志通常被写在硬盘的一个文件里，但这只是一种输出格式。</p>
-
 <p>12-factor应用本身从不考虑存储自己的输出流。不应该试图去写或者管理日志文件。相反，每一个运行的进程都会直接的标准输出（stdout）事件流。开发环境中，开发人员可以通过这些数据流，实时在终端看到应用的活动。</p>
-
-<h2 id="十二-管理进程">十二、管理进程</h2>
-
+<h2 id="十二管理进程">十二、管理进程</h2>
 <blockquote>
 <p>后台管理任务当作一次性进程运行</p>
 </blockquote>
-
 <p>一次性管理进程应该和正常的常驻进程使用同样的环境。这些管理进程和任何其他的进程一样使用相同的代码 和配置 ，基于某个发布版本运行。后台管理代码应该随其他应用程序代码一起发布，从而避免同步问题。</p>
-
 <blockquote>
 <p>待续，研读《beyond-the-twelve-factor-app》</p>
 </blockquote>
-
-<hr />
-
-<p>参考：<br />
-* <a href="https://12factor.net/zh_cn/">https://12factor.net/zh_cn/</a><br />
-* <a href="https://content.pivotal.io/blog/beyond-the-twelve-factor-app">https://content.pivotal.io/blog/beyond-the-twelve-factor-app</a></p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://12factor.net/zh_cn/">https://12factor.net/zh_cn/</a></li>
+<li><a href="https://content.pivotal.io/blog/beyond-the-twelve-factor-app">https://content.pivotal.io/blog/beyond-the-twelve-factor-app</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#the-twelve-factory-app">The Twelve-Factory App</a>
-<ul>
-<li><a href="#一-基准代码">一、基准代码</a></li>
-<li><a href="#二-依赖">二、依赖</a></li>
-<li><a href="#三-配置">三、 配置</a></li>
-<li><a href="#四-后端服务">四、后端服务</a></li>
-<li><a href="#五-构建-发布-运行">五、构建，发布，运行</a></li>
-<li><a href="#六-进程">六、进程</a></li>
-<li><a href="#七-端口绑定">七、端口绑定</a></li>
-<li><a href="#八-并发">八、并发</a></li>
-<li><a href="#九-易处理">九、易处理</a></li>
-<li><a href="#十-开发环境与线上环境等价">十、开发环境与线上环境等价</a></li>
-<li><a href="#十一-日志">十一、日志</a></li>
-<li><a href="#十二-管理进程">十二、管理进程</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一基准代码">一、基准代码</a></li>
+    <li><a href="#二依赖">二、依赖</a></li>
+    <li><a href="#三-配置">三、 配置</a></li>
+    <li><a href="#四后端服务">四、后端服务</a></li>
+    <li><a href="#五构建发布运行">五、构建，发布，运行</a></li>
+    <li><a href="#六进程">六、进程</a></li>
+    <li><a href="#七端口绑定">七、端口绑定</a></li>
+    <li><a href="#八并发">八、并发</a></li>
+    <li><a href="#九易处理">九、易处理</a></li>
+    <li><a href="#十开发环境与线上环境等价">十、开发环境与线上环境等价</a></li>
+    <li><a href="#十一日志">十一、日志</a></li>
+    <li><a href="#十二管理进程">十二、管理进程</a></li>
+  </ul>
 </nav>
     </section>
 

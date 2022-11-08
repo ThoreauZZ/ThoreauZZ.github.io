@@ -21,7 +21,7 @@
   	<meta property="og:title" content="消息队列 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/10/mq/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/10/mq/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 消息队列,
-    "name": 消息队列,
-    "wordCount": 1554,
+    "headline": "消息队列",
+    "name": "消息队列",
+    "wordCount":  1551 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/10/mq/,
-    "datePublished": 2017-08-10T22:50Z,
-    "dateModified": 2017-08-10T22:50Z,
+    "url": "http://thoreauz.com/2017/08/10/mq/",
+    "datePublished": "2017-08-10T22:50Z",
+    "dateModified": "2017-08-10T22:50Z",
     
-    "keywords": MQ,
-    "description": ,
+    "keywords": "MQ",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/10/mq/
+        "@id": "http://thoreauz.com/2017/08/10/mq/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,103 +243,71 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="消息队列">消息队列</h1>
-
-<h2 id="一-概述">一、概述</h2>
-
+      <h1 id="消息队列">消息队列</h1>
+<h2 id="一概述">一、概述</h2>
 <p>现在的后端系统几乎离不开3类基本中间件：数据库，nosql缓存，消息队列（MQ）。为什么需要MQ，主要有以下几个场景：异步处理、应用解耦、系统间通讯、消息队列驱动型架构、错峰与流控、日志收集、广播等待。</p>
-
 <p>开源的消息队列有很多如rabbitmq，kafka，rocketmq，activemq，ZeroMQ &hellip;，针对不同的业务场景、使用不同的编程语言，可能有不同的选择。不同的队列都有优缺点，性能、稳定性、文档、客户端等方面各有优势。但不管选择哪一个，有些业务中，消息队列并不能解决全部问题，比如消息丢失、消息重复、消息顺序等问题，需要根据队列的特性在应用中自己设计处理。</p>
-
-<!-- more -->
-
-<h2 id="二-消息队列的协议">二、消息队列的协议</h2>
-
+<!-- raw HTML omitted -->
+<h2 id="二消息队列的协议">二、消息队列的协议</h2>
 <p>不同的消息队列，可能会遵循不同的公共协议，也有可能自己制定的协议。比如OpenMQ支持JMS协议，rabbitmq支持AMQP协议，ActiveMQ支持比较多，而Kafka和rocketmq则有自己的一套玩法，现在ali在搞Open Messaging规范，希望大家都支持。下面简单介绍几种协议。</p>
-
-<h3 id="2-1-jms协议">2.1 JMS协议</h3>
-
+<h3 id="21-jms协议">2.1 JMS协议</h3>
 <p>Java Message Service (JMS)，即java标准化组织制定的一个消息通讯的标准。只要有点对点和发布订阅两种模式，点对点很好理解，发布订阅可理解为一对多。</p>
-
-<h3 id="2-2-amqp-协议">2.2 AMQP 协议</h3>
-
-<p>AMQP，即高级消息队列协议。生产者（publishers），消费者（consumers）之间，还有一个代理(broker)。<br />
+<h3 id="22-amqp-协议">2.2 AMQP 协议</h3>
+<p>AMQP，即高级消息队列协议。生产者（publishers），消费者（consumers）之间，还有一个代理(broker)。
 代理中有队列，交换机和绑定等统称为<strong>AMQP实体</strong>。消息存在队列中，消费者消费，有两种途径达到消费的目的：push 和 pull。为了保证消费，需要有一个确认，所以AMQP模块包含了一个消息确认（message acknowledgements）的概念。</p>
-
-<h2 id="三-消息队列问题">三、消息队列问题</h2>
-
+<h2 id="三消息队列问题">三、消息队列问题</h2>
 <p>使用消息队列，需要考虑一系列问题，作为选型和设计开发的判断依据。</p>
-
-<h3 id="3-1-可靠性">3.1 可靠性</h3>
-
+<h3 id="31-可靠性">3.1 可靠性</h3>
 <p>高可用和持久化策略，如何保证数据不丢。在消息投递和消费层面，大多数MQ都有自己的保障机制，对于持久的情况，只能在对集群做同步双写。rocketmq有同步双写，rabbitmq可以配置镜像(副本)。</p>
-
-<h3 id="3-2-消息重复">3.2 消息重复</h3>
-
+<h3 id="32-消息重复">3.2 消息重复</h3>
 <p>队列通过确认机制可能保证至少有一条消息，但可能无法保证只有一条，也就是保证可靠投递就无法保证只有一条，所以设计时需要考虑幂等性。我常考虑的方案如把消息Id缓存半小时，消费时通过id检查消息重复，当然，如果能保证消息处理的幂等性就更好。</p>
-
-<h3 id="3-3-消息顺序">3.3 消息顺序</h3>
-
-<p>可能队列能保证消息的顺序，但多个消费者因为网络或者处理时间的原因，可能导致先到达的消息后消费完。在有的业务场景需要保证顺序。<br />
+<h3 id="33-消息顺序">3.3 消息顺序</h3>
+<p>可能队列能保证消息的顺序，但多个消费者因为网络或者处理时间的原因，可能导致先到达的消息后消费完。在有的业务场景需要保证顺序。
 大多数的解决方案是保证生产者 - MQServer - 消费者是一对一对一的关系，但是引入的问题的单点无法保证可用性和吞吐量。rocketmq采用的方式是根据某个id，把它路由到同一个队列。简单说就是主动去分配队列，单个消费者实现。</p>
-
 <p>不管什么方案，保证消息顺序是最复杂的问题，在设计考虑是最好能屏蔽掉需要依赖顺序的情况。</p>
-
-<h3 id="3-4-性能">3.4 性能</h3>
-
+<h3 id="34-性能">3.4 性能</h3>
 <p>对稳定性和吞吐量的需求考虑。比如实时日志处理，不太在乎重复或者丢失，但数据量大，需要吞吐量好的队列如kafka，rocketmq。</p>
-
-<h3 id="3-5-定时消息">3.5 定时消息</h3>
-
+<h3 id="35-定时消息">3.5 定时消息</h3>
 <p>有的场景需要消费者定时去消费，比如24小时候干嘛，5分钟后干嘛之列的业务场景。rockemq本身支持延时消息，也可以自己设计，比如通过定时器设置“环形队列”。</p>
-
-<h3 id="3-6-异常处理">3.6 异常处理</h3>
-
+<h3 id="36-异常处理">3.6 异常处理</h3>
 <p>除了中间件自己的可靠性，业务中使用客户端时如果出现异常( 发信息失败、消费方出现异常)，需要考虑重试机制和消息落库反补策略。</p>
-
-<h3 id="3-7-消息堆积">3.7 消息堆积</h3>
-
+<h3 id="37-消息堆积">3.7 消息堆积</h3>
 <p>业务消息有没有突然大量堆积的情况出现，如果堆满了，broker是一个什么样的处理策略。</p>
-
 <h2 id="总结">总结</h2>
-
 <p>总之，消息中间件很多，各有优缺点，选型时需要考虑具体业务场景，并根据业务需求设计开发补充中间件所不能支持的场景。</p>
-
-<hr />
-
-<p>参考文档：<br />
-* <a href="https://mp.weixin.qq.com/s?src=3&amp;timestamp=1502375524&amp;ver=1&amp;signature=xqjBIqXRrTSrhO9bVfPMKw*Gg90a6ZTGaG2SA1uH4jPidiexpFvb-KcO-EU1OfMqA**OvhUf9-prKreBy7UVqB9ayUqoR4rLbPS1K1-QPjnOhVshTvxyUWYziN5YsYE5I*RMFPMW-wdg-gFASGkjWoqVjKXt59-O2HuuGKF5knE=">1分钟实现“延迟消息”功能</a><br />
-* <a href="http://gd-rus-public.cn-hangzhou.oss-pub.aliyun-inc.com/attachment/201604/08/20160408164929/RocketMQ_experience.pdf">rocketmq最佳实践</a><br />
-* <a href="https://tech.meituan.com/mq-design.html">https://tech.meituan.com/mq-design.html</a></p>
+<hr>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?src=3&amp;timestamp=1502375524&amp;ver=1&amp;signature=xqjBIqXRrTSrhO9bVfPMKw*Gg90a6ZTGaG2SA1uH4jPidiexpFvb-KcO-EU1OfMqA**OvhUf9-prKreBy7UVqB9ayUqoR4rLbPS1K1-QPjnOhVshTvxyUWYziN5YsYE5I*RMFPMW-wdg-gFASGkjWoqVjKXt59-O2HuuGKF5knE=">1分钟实现“延迟消息”功能</a></li>
+<li><a href="http://gd-rus-public.cn-hangzhou.oss-pub.aliyun-inc.com/attachment/201604/08/20160408164929/RocketMQ_experience.pdf">rocketmq最佳实践</a></li>
+<li><a href="https://tech.meituan.com/mq-design.html">https://tech.meituan.com/mq-design.html</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#消息队列">消息队列</a>
-<ul>
-<li><a href="#一-概述">一、概述</a></li>
-<li><a href="#二-消息队列的协议">二、消息队列的协议</a>
-<ul>
-<li><a href="#2-1-jms协议">2.1 JMS协议</a></li>
-<li><a href="#2-2-amqp-协议">2.2 AMQP 协议</a></li>
-</ul></li>
-<li><a href="#三-消息队列问题">三、消息队列问题</a>
-<ul>
-<li><a href="#3-1-可靠性">3.1 可靠性</a></li>
-<li><a href="#3-2-消息重复">3.2 消息重复</a></li>
-<li><a href="#3-3-消息顺序">3.3 消息顺序</a></li>
-<li><a href="#3-4-性能">3.4 性能</a></li>
-<li><a href="#3-5-定时消息">3.5 定时消息</a></li>
-<li><a href="#3-6-异常处理">3.6 异常处理</a></li>
-<li><a href="#3-7-消息堆积">3.7 消息堆积</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二消息队列的协议">二、消息队列的协议</a>
+      <ul>
+        <li><a href="#21-jms协议">2.1 JMS协议</a></li>
+        <li><a href="#22-amqp-协议">2.2 AMQP 协议</a></li>
+      </ul>
+    </li>
+    <li><a href="#三消息队列问题">三、消息队列问题</a>
+      <ul>
+        <li><a href="#31-可靠性">3.1 可靠性</a></li>
+        <li><a href="#32-消息重复">3.2 消息重复</a></li>
+        <li><a href="#33-消息顺序">3.3 消息顺序</a></li>
+        <li><a href="#34-性能">3.4 性能</a></li>
+        <li><a href="#35-定时消息">3.5 定时消息</a></li>
+        <li><a href="#36-异常处理">3.6 异常处理</a></li>
+        <li><a href="#37-消息堆积">3.7 消息堆积</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="RPC五-可靠性设计 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2019/01/19/rpc5-reliability/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -43,7 +43,7 @@
     <title>RPC五-可靠性设计 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链" />
+    <meta name="description" content="RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/01/19/rpc5-reliability/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": RPC五-可靠性设计,
-    "name": RPC五-可靠性设计,
-    "wordCount": 1151,
+    "headline": "RPC五-可靠性设计",
+    "name": "RPC五-可靠性设计",
+    "wordCount":  1139 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2019/01/19/rpc5-reliability/,
-    "datePublished": 2019-01-19T11:40Z,
-    "dateModified": 2019-01-19T11:40Z,
+    "url": "http://thoreauz.com/2019/01/19/rpc5-reliability/",
+    "datePublished": "2019-01-19T11:40Z",
+    "dateModified": "2019-01-19T11:40Z",
     
-    "keywords": 分布式系统, rpc,
-    "description": ,
+    "keywords": "分布式系统, rpc",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2019/01/19/rpc5-reliability/
+        "@id": "http://thoreauz.com/2019/01/19/rpc5-reliability/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,132 +247,99 @@
     </header>
 
     <section class="post-content">
-      
-
-<p><img src="http://thoreauz.com/images/2019-03-03-11-38-55.jpg" alt="" /></p>
-
-<p><strong>RPC系列</strong><br />
-1. <a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型</a><br />
-2. <a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息</a><br />
-3. <a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码</a><br />
-4. <a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链</a><br />
-5. <a href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计</a><br />
-6. <a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理</a><br />
-7. <a href="http://thoreauz.com/2019/01/12/service-registry-discovery/">服务发现-注册中心设计</a></p>
-
+      <p><img src="http://thoreauz.com/images/2019-03-03-11-38-55.jpg" alt=""></p>
+<p><strong>RPC系列</strong></p>
+<ol>
+<li><a href="http://thoreauz.com/2019/01/19/rpc1-netty-reactor/">RPC一-线程模型</a></li>
+<li><a href="http://thoreauz.com/2019/01/19/rpc2-netty-handler/">RPC二-NettyHandler处理消息</a></li>
+<li><a href="http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/">RPC三-rpc协议和编解码</a></li>
+<li><a href="http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/">RPC四-netty异步双向责任链</a></li>
+<li><a href="http://thoreauz.com/2019/01/19/rpc5-reliability/">RPC五-可靠性设计</a></li>
+<li><a href="http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/">RPC六-动态代理</a></li>
+<li><a href="http://thoreauz.com/2019/01/12/service-registry-discovery/">服务发现-注册中心设计</a></li>
+</ol>
 <h2 id="概述">概述</h2>
-
 <p>本文指的rpc网络通信可靠性设计，涉及超时，重试，心跳等几方面。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="超时处理">超时处理</h2>
-
 <p>如果服务端处理时间过长或者其他网络原因，客户端需要主队失败，否则一直阻塞，导致客户端线程一直被占用，影响客户端处理能力。</p>
-
 <p>netty实现客户端连接超时很简单：</p>
-
-<pre><code class="language-java">b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000);
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>b<span style="color:#f92672">.</span><span style="color:#a6e22e">option</span><span style="color:#f92672">(</span>ChannelOption<span style="color:#f92672">.</span><span style="color:#a6e22e">CONNECT_TIMEOUT_MILLIS</span><span style="color:#f92672">,</span> 3000<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
 <p>这个值绑定到Channel，可以为不同Channel设置不同的超时时间。</p>
 </blockquote>
-
 <p>如果客户端连接超时，netty提供了ReadTimeoutHandler超时处理器，如果超时，会抛出ReadTimeoutException，可以扩展这个handler实现超时处理逻辑。</p>
-
 <p>对于客户端读超时(read timeout)，自己实现也比较简单。</p>
-
-<pre><code class="language-java">// 客户端异步发送请求
-cxt. channel.writeAndFlush(requestFuture);
-// 所有请求用一个hash时间轮定时器
-StaticHashedWheelTime.get().newTimeout(new TimerTask() {
-        @Override
-        public void run(Timeout timeout) throws Exception {
-            channel.eventLoop().submit(() -&gt; {
-                // 请求Future队列中移出，不再关心结果
-                REQUEST_MAP.remove(requestFuture.getRequestId);
-                // 构造错误返回
-                Response errResult = exceptionResponse(ErrorStatusEnum.READ_TIMEOUT);
-                // promis，通知Future完成
-                listenableFuture.set(errResult);
-            });
-        }
-    }, 3, TimeUnit.SECONDS);
-</code></pre>
-
-<ol>
-<li>异步发送请求后，马上注册一个定时任务到时间轮定时器<br /></li>
-<li>超时后：定时器执行，根据RequestId清理请求Future缓存，设置Future完成<br /></li>
-<li>客户端Future自动获取异常消息<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 客户端异步发送请求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cxt<span style="color:#f92672">.</span> channel<span style="color:#f92672">.</span><span style="color:#a6e22e">writeAndFlush</span><span style="color:#f92672">(</span>requestFuture<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 所有请求用一个hash时间轮定时器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>StaticHashedWheelTime<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">().</span><span style="color:#a6e22e">newTimeout</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TimerTask<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Timeout timeout<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            channel<span style="color:#f92672">.</span><span style="color:#a6e22e">eventLoop</span><span style="color:#f92672">().</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 请求Future队列中移出，不再关心结果
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                REQUEST_MAP<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>requestFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequestId</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 构造错误返回
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                Response errResult <span style="color:#f92672">=</span> exceptionResponse<span style="color:#f92672">(</span>ErrorStatusEnum<span style="color:#f92672">.</span><span style="color:#a6e22e">READ_TIMEOUT</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// promis，通知Future完成
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                listenableFuture<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>errResult<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">},</span> 3<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><ol>
+<li>异步发送请求后，马上注册一个定时任务到时间轮定时器</li>
+<li>超时后：定时器执行，根据RequestId清理请求Future缓存，设置Future完成</li>
+<li>客户端Future自动获取异常消息</li>
 </ol>
-
 <p>这里用到了时间轮定时器HashedWheelTimer，由netty提供，可以处理大量定时任务。原理可以参考<a href="https://www.confluent.io/blog/apache-kafka-purgatory-hierarchical-timing-wheels/">apache-kafka-purgatory-hierarchical-timing-wheels</a>。</p>
-
 <p>这个定时器使用场景很多，包括后续客户端发送心跳，服务端的tcp连接验活等都能用它实现。</p>
-
 <h2 id="心跳">心跳</h2>
-
 <p>心跳的请求放回(ping-pong)可以和普通请求区别开来，在协议通过专门标识识别。netty实现较简单，注册一个IdleStateHandler到pipline中，他会在Channel空闲时按时触发IdleStateEvent：</p>
-
-<pre><code class="language-java">ch.pipeline().addLast(&quot;idle&quot;, new IdleStateHandler(0, 0, 30, TimeUnit.SECONDS));
-</code></pre>
-
-<p>让后客户端注册一个HeartBeatClientHandler处理IdleStateEvent：</p>
-
-<pre><code class="language-java">@Override
-public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
-    // 如果有IdleStateEvent，则发送心跳请求
-    if (evt instanceof IdleStateEvent) {
-        currentTime++;
-        RpcContext rpcContext = new RpcContext();
-        rpcContext.setType(RequestType.HEARTBEAT_REQUEST.getType());
-        ctx.channel().writeAndFlush(rpcContext)
-           // 发送失败关闭连接
-           .addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
-        log.info(&quot;发送心跳：&quot; + new Date());
-    }
-}
-</code></pre>
-
-<p>服务端只需要判断是心跳请求，直接放回即可。另外，服务端对一直没检测到心跳的连接，需要清理掉，原理和客户端类型，通过IdleStateEvent完成。</p>
-
-<pre><code class="language-java"> @Override
-public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-    if (evt instanceof IdleStateEvent) {
-        IdleStateEvent event = (IdleStateEvent)evt;
-        if (event.state() == IdleState.READER_IDLE) {
-            loss_connect_time++;
-            log.info(&quot;5 秒没有接收到客户端的信息了&quot;);
-            if (loss_connect_time &gt; 2) {
-                log.info(&quot;关闭这个不活跃的channel&quot;);
-                ctx.channel().close();
-            }
-        }
-    } else {
-        super.userEventTriggered(ctx, evt);
-    }
-}
-</code></pre>
-
-<hr />
-
-<p><a href="https://segmentfault.com/a/1190000006931568">https://segmentfault.com/a/1190000006931568</a><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ch<span style="color:#f92672">.</span><span style="color:#a6e22e">pipeline</span><span style="color:#f92672">().</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;idle&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> IdleStateHandler<span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 30<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">));</span>
+</span></span></code></pre></div><p>让后客户端注册一个HeartBeatClientHandler处理IdleStateEvent：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">userEventTriggered</span><span style="color:#f92672">(</span>ChannelHandlerContext ctx<span style="color:#f92672">,</span> Object evt<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 如果有IdleStateEvent，则发送心跳请求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>evt <span style="color:#66d9ef">instanceof</span> IdleStateEvent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        currentTime<span style="color:#f92672">++;</span>
+</span></span><span style="display:flex;"><span>        RpcContext rpcContext <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RpcContext<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        rpcContext<span style="color:#f92672">.</span><span style="color:#a6e22e">setType</span><span style="color:#f92672">(</span>RequestType<span style="color:#f92672">.</span><span style="color:#a6e22e">HEARTBEAT_REQUEST</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">().</span><span style="color:#a6e22e">writeAndFlush</span><span style="color:#f92672">(</span>rpcContext<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">// 发送失败关闭连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#f92672">.</span><span style="color:#a6e22e">addListener</span><span style="color:#f92672">(</span>ChannelFutureListener<span style="color:#f92672">.</span><span style="color:#a6e22e">CLOSE_ON_FAILURE</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;发送心跳：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>服务端只需要判断是心跳请求，直接放回即可。另外，服务端对一直没检测到心跳的连接，需要清理掉，原理和客户端类型，通过IdleStateEvent完成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">userEventTriggered</span><span style="color:#f92672">(</span>ChannelHandlerContext ctx<span style="color:#f92672">,</span> Object evt<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>evt <span style="color:#66d9ef">instanceof</span> IdleStateEvent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        IdleStateEvent event <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>IdleStateEvent<span style="color:#f92672">)</span>evt<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>event<span style="color:#f92672">.</span><span style="color:#a6e22e">state</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> IdleState<span style="color:#f92672">.</span><span style="color:#a6e22e">READER_IDLE</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            loss_connect_time<span style="color:#f92672">++;</span>
+</span></span><span style="display:flex;"><span>            log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5 秒没有接收到客户端的信息了&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>loss_connect_time <span style="color:#f92672">&gt;</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;关闭这个不活跃的channel&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">().</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">userEventTriggered</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">,</span> evt<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><hr>
+<p><a href="https://segmentfault.com/a/1190000006931568">https://segmentfault.com/a/1190000006931568</a>
 <a href="http://www.infoq.com/cn/articles/netty-reliability">http://www.infoq.com/cn/articles/netty-reliability</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#超时处理">超时处理</a></li>
-<li><a href="#心跳">心跳</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#超时处理">超时处理</a></li>
+    <li><a href="#心跳">心跳</a></li>
+  </ul>
 </nav>
     </section>
 

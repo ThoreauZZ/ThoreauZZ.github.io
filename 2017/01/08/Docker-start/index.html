@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Docker入门 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/01/08/Docker-start/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>Docker入门 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存" />
+    <meta name="description" content="#Docker入门 一、安装 概述： 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 Registry：用来保存镜像" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/01/08/Docker-start/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Docker入门,
-    "name": Docker入门,
-    "wordCount": 2228,
+    "headline": "Docker入门",
+    "name": "Docker入门",
+    "wordCount":  2223 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/01/08/Docker-start/,
-    "datePublished": 2017-01-08T12:39Z,
-    "dateModified": 2017-01-08T12:39Z,
+    "url": "http://thoreauz.com/2017/01/08/Docker-start/",
+    "datePublished": "2017-01-08T12:39Z",
+    "dateModified": "2017-01-08T12:39Z",
     
-    "keywords": docker,
-    "description": ,
+    "keywords": "docker",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/01/08/Docker-start/
+        "@id": "http://thoreauz.com/2017/01/08/Docker-start/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,96 +243,65 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>#Docker入门</p>
-
-<h2 id="一-安装">一、安装</h2>
-
-<p>概述：<br />
-* 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。<br />
-* Registry：用来保存镜像。<br />
-* 容器：docker的启动和执行阶段。</p>
-
-<h3 id="1-1-安装">1.1 安装</h3>
-
+      <p>#Docker入门</p>
+<h2 id="一安装">一、安装</h2>
+<p>概述：</p>
+<ul>
+<li>镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。</li>
+<li>Registry：用来保存镜像。</li>
+<li>容器：docker的启动和执行阶段。</li>
+</ul>
+<h3 id="11-安装">1.1 安装</h3>
 <p>卸载docker</p>
-
-<pre><code class="language-bash">yum list installed | grep docker
-yum remove 上条命令列出的docekr
-</code></pre>
-
-<p>默认配置下，在 CentOS 使用 Docker 可能会碰到下面的这些警告信息：<br />
-&gt;WARNING: bridge-nf-call-iptables is disabled<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum list installed | grep docker
+</span></span><span style="display:flex;"><span>yum remove 上条命令列出的docekr
+</span></span></code></pre></div><p>默认配置下，在 CentOS 使用 Docker 可能会碰到下面的这些警告信息：</p>
+<blockquote>
+<p>WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled</p>
-
+</blockquote>
 <p>添加内核配置参数以启用这些功能。</p>
-
-<pre><code class="language-bash">tee -a /etc/sysctl.conf &lt;&lt;-EOF
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-</code></pre>
-
-<p>添加yum源：</p>
-
-<pre><code class="language-bash">tee /etc/yum.repos.d/docker.repo &lt;&lt;-'EOF'
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
-</code></pre>
-
-<p>yum 安装</p>
-
-<pre><code class="language-bash">sudo yum update
-sudo yum install docker-engine
-
-</code></pre>
-
-<h3 id="1-2-启停docker">1.2 启停docker</h3>
-
-<pre><code class="language-bash">systemctl start docker
-docker info
-</code></pre>
-
-<h3 id="1-3-非root启动">1.3 非root启动</h3>
-
-<pre><code>sudo groupadd docker
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tee -a /etc/sysctl.conf <span style="color:#e6db74">&lt;&lt;-EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>添加yum源：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tee /etc/yum.repos.d/docker.repo <span style="color:#e6db74">&lt;&lt;-&#39;EOF&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[dockerrepo]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">name=Docker Repository
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">enabled=1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gpgcheck=1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gpgkey=https://yum.dockerproject.org/gpg
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>yum 安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo yum update
+</span></span><span style="display:flex;"><span>sudo yum install docker-engine
+</span></span></code></pre></div><h3 id="12-启停docker">1.2 启停docker</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start docker
+</span></span><span style="display:flex;"><span>docker info
+</span></span></code></pre></div><h3 id="13-非root启动">1.3 非root启动</h3>
+<pre tabindex="0"><code>sudo groupadd docker
 sudo gpasswd -a ${USER} docker #将当前用户加入docker组
 sudo systemctl restart docker #重新启动docker服务
 #当前用户退出系统重新登陆
 docker ps #运行docker命令,检查是否正常
-</code></pre>
-
-<h2 id="二-镜像">二、镜像</h2>
-
-<pre><code>docker images # 列出本地镜像
+</code></pre><h2 id="二镜像">二、镜像</h2>
+<pre tabindex="0"><code>docker images # 列出本地镜像
 docker pull ubuntu:12.04    #拉取
 docker search ubuntu        #查找镜像
 docker rmi 2dc68ff797db     #删除镜像
 docker rmi `docker images -a -q` #删除所有镜像
 docker rmi $(docker images -q -f dangling=true) #删除虚拟镜像
-docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
+docker rmi $(docker images --filter &#34;dangling=true&#34; -q --no-trunc)
 docker system prune -f # 系统清理
-</code></pre>
-
-<p>构建镜像：</p>
-
-<h3 id="2-1-登录hub">2.1 登录hub</h3>
-
-<pre><code>docker login    #登录hub
+</code></pre><p>构建镜像：</p>
+<h3 id="21-登录hub">2.1 登录hub</h3>
+<pre tabindex="0"><code>docker login    #登录hub
 docker logout   #注销hub，删除认证信息
-</code></pre>
-
-<h3 id="2-2-commit命令创建镜像">2.2 commit命令创建镜像</h3>
-
+</code></pre><h3 id="22-commit命令创建镜像">2.2 commit命令创建镜像</h3>
 <p>在一个镜像中安装nginx，把它作为web服务，保存这个状态，提交到hub。</p>
-
-<pre><code>#运行base
+<pre tabindex="0"><code>#运行base
 docker run -i -t ubuntu /bin/bash  
 
 #安装
@@ -347,307 +317,216 @@ docker images erdaoya/apach2
 
 # 运行刚才提交的镜像
 docker run -t -i erdaoya/apach2 /bin/bash
-</code></pre>
-
-<h3 id="2-3-dockerfile创建镜像">2.3 Dockerfile创建镜像</h3>
-
-<pre><code>mkdir static_web
+</code></pre><h3 id="23-dockerfile创建镜像">2.3 Dockerfile创建镜像</h3>
+<pre tabindex="0"><code>mkdir static_web
 vim Dockerfile
-docker build -t=&quot;erdaoya/static_web:v1&quot;
+docker build -t=&#34;erdaoya/static_web:v1&#34;
 
 #Dockerfile放在git仓库的情况
-docker build -t=&quot;erdaoya/static_web:v1&quot; git@github.com.xx/docker_static_web
-</code></pre>
-
-<p><code>-t</code>:指定‘镜像名：标签’，标签不写默认latest</p>
-
+docker build -t=&#34;erdaoya/static_web:v1&#34; git@github.com.xx/docker_static_web
+</code></pre><p><code>-t</code>:指定‘镜像名：标签’，标签不写默认latest</p>
 <p>Dockerfile</p>
-
-<pre><code># Veriosn:0.0.1
+<pre tabindex="0"><code># Veriosn:0.0.1
 FROM ubuntu:14.04
 RUN apt-get update &amp;&amp; apt-get install -y nginx
-RUN echo 'Hi,I am in your container'\&gt;/usr/share/nginx/html/index.html
+RUN echo &#39;Hi,I am in your container&#39;\&gt;/usr/share/nginx/html/index.html
 EXPOSE 80
-</code></pre>
-
-<h3 id="2-4-dockerfile">2.4.Dockerfile</h3>
-
-<h4 id="2-4-1-dockerfile构建">2.4.1 Dockerfile构建</h4>
-
+</code></pre><h3 id="24dockerfile">2.4.Dockerfile</h3>
+<h4 id="241-dockerfile构建">2.4.1 Dockerfile构建</h4>
 <p>格式</p>
-
 <p><code>docker build [选项] 路径</code></p>
-
 <p>docker根据dockerfile构建镜像时，会根据修改，使用所修改步骤之前的镜像。如果一定要忽略缓存,可使用&ndash;no-cache</p>
-
-<pre><code>docker build --no-cache -t=&quot;erdaoya/static_web:v1&quot; .
-</code></pre>
-
-<p>使用history命令看镜像执行详细：</p>
-
-<pre><code>docker history 3ffdf8907657
-</code></pre>
-
-<h4 id="2-4-2-从新镜像启动容器">2.4.2 从新镜像启动容器</h4>
-
-<pre><code>#启动容器
-docker run -d -p 80 ---name static_web erdaoya/static_web \/usr/sbin/nginx -g &quot;daemon off;&quot;
+<pre tabindex="0"><code>docker build --no-cache -t=&#34;erdaoya/static_web:v1&#34; .
+</code></pre><p>使用history命令看镜像执行详细：</p>
+<pre tabindex="0"><code>docker history 3ffdf8907657
+</code></pre><h4 id="242-从新镜像启动容器">2.4.2 从新镜像启动容器</h4>
+<pre tabindex="0"><code>#启动容器
+docker run -d -p 80 ---name static_web erdaoya/static_web \/usr/sbin/nginx -g &#34;daemon off;&#34;
 docker ps -l    
 docker port 3ffdf8907657 80 #端口映射情况
 curl curl localhost:32772
-</code></pre>
-
-<h4 id="2-4-3-dockerfile指令">2.4.3 Dockerfile指令</h4>
-
+</code></pre><h4 id="243-dockerfile指令">2.4.3 Dockerfile指令</h4>
 <ul>
-<li><code>FROM &lt;image&gt;:&lt;tag&gt;</code>: 获取镜像<br /></li>
-<li><code>MAINTAINER &lt;name&gt;</code>:  作者信息<br /></li>
-<li><code>RUN  &lt;command&gt;</code>:运行命令，每一个run一层。<br /></li>
-<li><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</code>: adds metadata to an image<br /></li>
-<li><code>EXPOSE &lt;port&gt; [&lt;port&gt;...]</code>:暴露的端口号<br /></li>
-<li><code>ENV &lt;key&gt;=&lt;value&gt; ...</code>： 设置环境变量。<br /></li>
-<li><code>ADD &lt;src&gt;... &lt;dest&gt;</code>： 添加文件到docker文件系统，src可以是URL，可以是一个tar（自动解压）。<br /></li>
-<li><code>COPY &lt;src&gt;... &lt;dest&gt;</code>： 复制，和ADD相似。当使用本地目录为源目录时，推荐使用 COPY。<br /></li>
-<li><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>：配置容器启动后执行的命令。只能有一个，当指定多个时，只有最后一个起效。<br /></li>
-<li><code>VOLUME</code>：容器访问宿主机上的目录<br /></li>
-<li><code>USER</code>: 设置容器ID<br /></li>
-<li><code>WORKDIR</code>: 设置CMD指明的命令的运行目录<br /></li>
-<li>CMD<br /></li>
-<li><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> :(exec form, this is the preferred form)<br /></li>
-<li><code>CMD [&quot;param1&quot;,&quot;param2&quot;]</code> :(as default parameters to ENTRYPOINT)<br /></li>
-<li><code>CMD command param1 param2</code> :(shell form)<br />
-<br /></li>
+<li><code>FROM &lt;image&gt;:&lt;tag&gt;</code>: 获取镜像</li>
+<li><code>MAINTAINER &lt;name&gt;</code>:  作者信息</li>
+<li><code>RUN  &lt;command&gt;</code>:运行命令，每一个run一层。</li>
+<li><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</code>: adds metadata to an image</li>
+<li><code>EXPOSE &lt;port&gt; [&lt;port&gt;...]</code>:暴露的端口号</li>
+<li><code>ENV &lt;key&gt;=&lt;value&gt; ...</code>： 设置环境变量。</li>
+<li><code>ADD &lt;src&gt;... &lt;dest&gt;</code>： 添加文件到docker文件系统，src可以是URL，可以是一个tar（自动解压）。</li>
+<li><code>COPY &lt;src&gt;... &lt;dest&gt;</code>： 复制，和ADD相似。当使用本地目录为源目录时，推荐使用 COPY。</li>
+<li><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>：配置容器启动后执行的命令。只能有一个，当指定多个时，只有最后一个起效。</li>
+<li><code>VOLUME</code>：容器访问宿主机上的目录</li>
+<li><code>USER</code>: 设置容器ID</li>
+<li><code>WORKDIR</code>: 设置CMD指明的命令的运行目录</li>
+<li>CMD</li>
 </ul>
-
+<ol>
+<li><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> :(exec form, this is the preferred form)</li>
+<li><code>CMD [&quot;param1&quot;,&quot;param2&quot;] </code> :(as default parameters to ENTRYPOINT)</li>
+<li><code>CMD command param1 param2</code> :(shell form)</li>
+</ol>
 <p><strong>dockerfile模版</strong></p>
-
-<pre><code>FROM fedora:20
-MAINTAINER James Turnbull 'xx@xx.com'
+<pre tabindex="0"><code>FROM fedora:20
+MAINTAINER James Turnbull &#39;xx@xx.com&#39;
 ENV REFRESHE_AT 2016-07-01
 RUN yum -q makechche
-</code></pre>
-
-<h2 id="三-容器">三、容器</h2>
-
-<h3 id="3-1-运行">3.1 运行</h3>
-
-<pre><code>docker run -i -t ubuntu /bin/bash #运行容器
+</code></pre><h2 id="三容器">三、容器</h2>
+<h3 id="31-运行">3.1 运行</h3>
+<pre tabindex="0"><code>docker run -i -t ubuntu /bin/bash #运行容器
 docker run --name new_ubuntu -i -t --rm ubuntu /bin/bash #启动容器并命名(--name)
 docker run -p 80:80 -v /data:/data -d $(ID)
-</code></pre>
-
-<p><code>--rm</code>: #容器结束删除<br />
-<code>-d</code> :后台启动<br />
-<code>-i</code>: 保证容器标准输入STDIN开启<br />
-<code>-t</code>：告诉docker分配一个伪终端<br />
-<code>-p</code> :端口映射<br />
+</code></pre><p><code>--rm</code>: #容器结束删除
+<code>-d</code> :后台启动
+<code>-i</code>: 保证容器标准输入STDIN开启
+<code>-t</code>：告诉docker分配一个伪终端
+<code>-p</code> :端口映射
 <code>-v</code> :数据卷映射</p>
-
-<h3 id="3-2-查看状态">3.2 查看状态</h3>
-
-<pre><code>docker ps -a    #查看容器列表，包括正在运行和停止的；
+<h3 id="32-查看状态">3.2 查看状态</h3>
+<pre tabindex="0"><code>docker ps -a    #查看容器列表，包括正在运行和停止的；
 docker ps       #查看正在运行的容器
 ps -aux         #查看容器进程，在容器中运行
-</code></pre>
-
-<p><strong>inspect</strong></p>
-
-<pre><code># 显示更底层的容器或image信息
+</code></pre><p><strong>inspect</strong></p>
+<pre tabindex="0"><code># 显示更底层的容器或image信息
 docker inspect ad2c4ba35c15
 
 #显示实例ip:
-docker inspect --format='{{.NetworkSettings.IPAddress}}' $INSTANCE_ID
+docker inspect --format=&#39;{{.NetworkSettings.IPAddress}}&#39; $INSTANCE_ID
 
 # 列出所有绑定的端口
-docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -&gt; {{(index $conf 0).HostPort}} {{end}}' $INSTANCE_ID
+docker inspect --format=&#39;{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -&gt; {{(index $conf 0).HostPort}} {{end}}&#39; $INSTANCE_ID
 
  # 获取配置信息
-docker inspect --format='{{json .config}}' $INSTANCE_ID
-</code></pre>
-
-<h3 id="3-3-启动停止删除">3.3 启动停止删除</h3>
-
-<pre><code>docker start new_ubuntu
+docker inspect --format=&#39;{{json .config}}&#39; $INSTANCE_ID
+</code></pre><h3 id="33-启动停止删除">3.3 启动停止删除</h3>
+<pre tabindex="0"><code>docker start new_ubuntu
 docker stop 69425bcf953e
 docker rm new_ubuntu
-</code></pre>
-
-<h3 id="3-4-进入容器">3.4 进入容器</h3>
-
+</code></pre><h3 id="34-进入容器">3.4 进入容器</h3>
 <p>有4中方式：attach. ssh nsenter exec</p>
-
-<pre><code>docker attach new_ubuntu(name，ID)
+<pre tabindex="0"><code>docker attach new_ubuntu(name，ID)
 
 docker exec -it 775c7c9ee1e1 /bin/bash  
-</code></pre>
-
-<h3 id="3-5-查看日志">3.5 查看日志</h3>
-
-<pre><code>docker run --name daemon_dave -d ubuntu /bin/bash -c &quot;while true;do echo hello world;sleep 1;done&quot; #创建守护容器
+</code></pre><h3 id="35-查看日志">3.5 查看日志</h3>
+<pre tabindex="0"><code>docker run --name daemon_dave -d ubuntu /bin/bash -c &#34;while true;do echo hello world;sleep 1;done&#34; #创建守护容器
 docker logs daemon_dave #查看日志
 docker logs -f daemon_dave  #动态查看日志
 docker logs -ft daemon_dave
 docker logs --tail 10 daemon_dave
-</code></pre>
-
-<h2 id="四-仓库">四、仓库</h2>
-
+</code></pre><h2 id="四仓库">四、仓库</h2>
 <p>1.本地启动官方提供的仓库：</p>
-
-<pre><code>docker run -p 5000:5000 registry:2 -v /opt/data/registry:/opt/data/registry
-</code></pre>
-
-<p>使用方如果出现以下错误:<br />
-&gt;ERROR: Get <a href="https://10.69.42.85:5000/v1/_ping:">https://10.69.42.85:5000/v1/_ping:</a> http: server gave HTTP response to HTTPS client</p>
-
+<pre tabindex="0"><code>docker run -p 5000:5000 registry:2 -v /opt/data/registry:/opt/data/registry
+</code></pre><p>使用方如果出现以下错误:</p>
+<blockquote>
+<p>ERROR: Get https://10.69.42.85:5000/v1/_ping: http: server gave HTTP response to HTTPS client</p>
+</blockquote>
 <p>修改配置：在OPTIONS选项后面添加 &ndash;insecure-registry=10.69.42.85:5000</p>
-
-<pre><code class="language-bash">vim /etc/sysconfig/docker
-</code></pre>
-
-<pre><code class="language-bash">OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry=10.69.42.85:5000'
-</code></pre>
-
-<p>需要设置客户端如下：</p>
-
-<pre><code class="language-bash">docker -d ----insecure-registry 10.69.42.85:5000
-</code></pre>
-
-<p>2.使用仓库给镜像打tag<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/sysconfig/docker
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>OPTIONS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry=10.69.42.85:5000&#39;</span>
+</span></span></code></pre></div><p>需要设置客户端如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker -d ----insecure-registry 10.69.42.85:5000
+</span></span></code></pre></div><p>2.使用仓库给镜像打tag
 格式 : <code>docker tag IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</code></p>
-
-<pre><code>docker tag 89a97ea996d0 host:port/username/image_name:v1
-</code></pre>
-
-<p>3.push</p>
-
-<pre><code>docker push  host:port/username/image_name:v1
-</code></pre>
-
-<h2 id="五-docker-compose">五、docker-compose</h2>
-
-<h3 id="5-1-模板文件">5.1 模板文件</h3>
-
+<pre tabindex="0"><code>docker tag 89a97ea996d0 host:port/username/image_name:v1
+</code></pre><p>3.push</p>
+<pre tabindex="0"><code>docker push  host:port/username/image_name:v1
+</code></pre><h2 id="五docker-compose">五、docker-compose</h2>
+<h3 id="51-模板文件">5.1 模板文件</h3>
 <ul>
-<li><code>image</code>: 镜像名<br /></li>
-<li><code>build</code>：dockerfile路径<br /></li>
-<li><code>ports</code>: 端口号映射<br /></li>
-<li><code>volumes</code>: 数据卷映射<br /></li>
-<li><code>links</code>: 容器互联<br /></li>
-<li><code>command</code>: 覆盖容器启动后默认执行的命令<br /></li>
-<li><code>external_links</code>: 链接到 docker-compose.yml 外部的容器<br /></li>
-<li><code>expose</code>: 暴露端口给连接的容器。<br /></li>
-<li><code>olumes_from</code>: 从另一个服务或容器挂载它的所有卷<br /></li>
-<li><code>environment</code> : 设置环境变量<br /></li>
-<li><code>env_file</code>: 从文件中获取环境变量，可以为单独的文件路径或列表,内容如： <code>RACK_ENV=development</code><br /></li>
-<li><code>extends</code> ：基于已有的服务进行扩展，继承<br /></li>
-<li><code>net</code> : 设置网络模式：bridge, host, none, container<br /></li>
-<li><code>pid</code> : 跟主机系统共享进程命名空间<br /></li>
-<li><code>dns</code> : 配置 DNS 服务器。可以是一个值，也可以是一个列表<br /></li>
-<li><code>cap_add</code>: 添加容器的 Linux 能力<br /></li>
-<li><code>cap_drop</code>: 放弃容器的 Linux 能力<br /></li>
-
-<li><p><code>dns_search</code>: 配置 DNS 搜索域。可以是一个值，也可以是一个列表。</p>
-
-<h3 id="5-2-指令">5.2 指令</h3></li>
-
-<li><p><code>build</code>: 重新构建服务。<code>--force-rm</code>删除过程中的临时容器，<code>--pull</code>始终通过pull获取最新版本</p></li>
-
-<li><p><code>kill</code>: 强制停止服务容器</p></li>
-
-<li><p><code>logs</code>: 查看服务容器的输出</p></li>
-
-<li><p><code>port</code>: 打印某个容器端口所映射的公共端口</p></li>
-
-<li><p><code>ps</code>: 列出项目中目前的所有容器</p></li>
-
-<li><p><code>pull</code>: 拉取服务依赖的镜像</p></li>
-
-<li><p><code>rm</code>: 删除所有（停止状态的）服务容器</p></li>
-
-<li><p><code>run</code>: 在指定服务上执行一个命令</p></li>
-
-<li><p><code>scale</code>: 设置指定服务运行的容器个数。</p></li>
-
-<li><p><code>strat</code>: 启动已经存在的服务容</p></li>
-
-<li><p><code>stop</code>: 停止已经处于运行状态的容器</p></li>
-
-<li><p><code>up</code>: 它将尝试自动完成包括构建镜像，（重新）创建服务，启动</p></li>
-
-<li><p><code>down</code>: 停止容器，删除容器、数据、镜像</p>
-
-<h3 id="5-3-安装">5.3 安装</h3>
-
-<p>```bash<br />
-curl -L &laquo;<a href="https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname">https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname</a> -s)-$(uname -m)&raquo; -o /usr/local/bin/docker-compose</p></li>
+<li><code>image</code>: 镜像名</li>
+<li><code>build</code>：dockerfile路径</li>
+<li><code>ports</code>: 端口号映射</li>
+<li><code>volumes</code>: 数据卷映射</li>
+<li><code>links</code>: 容器互联</li>
+<li><code>command</code>: 覆盖容器启动后默认执行的命令</li>
+<li><code>external_links</code>: 链接到 docker-compose.yml 外部的容器</li>
+<li><code>expose</code>: 暴露端口给连接的容器。</li>
+<li><code>olumes_from</code>: 从另一个服务或容器挂载它的所有卷</li>
+<li><code>environment</code> : 设置环境变量</li>
+<li><code>env_file</code>: 从文件中获取环境变量，可以为单独的文件路径或列表,内容如： <code>RACK_ENV=development</code></li>
+<li><code>extends</code> ：基于已有的服务进行扩展，继承</li>
+<li><code>net</code> : 设置网络模式：bridge, host, none, container</li>
+<li><code>pid</code> : 跟主机系统共享进程命名空间</li>
+<li><code>dns</code> : 配置 DNS 服务器。可以是一个值，也可以是一个列表</li>
+<li><code>cap_add</code>: 添加容器的 Linux 能力</li>
+<li><code>cap_drop</code>: 放弃容器的 Linux 能力</li>
+<li><code>dns_search</code>: 配置 DNS 搜索域。可以是一个值，也可以是一个列表。</li>
 </ul>
-
-<p>chmod +x /usr/local/bin/docker-compose</p>
-
-<p>docker-compose &ndash;version<br />
-```</p>
-
-<h2 id="六-网络配置">六、网络配置</h2>
-
-<h3 id="6-1-基础配置">6.1 基础配置</h3>
-
-<p><code>docker run -p 5000:5000 ...</code>: 绑定本地所有地址的端口映射<br />
-<code>docker run -p 127.0.0.1:5000:5000</code>：只对127.0.0.1映射<br />
-<code>docker run -p 127.0.0.1::5000</code>: 绑定 localhost 的任意端口到容器的 5000 端口<br />
+<h3 id="52-指令">5.2 指令</h3>
+<ul>
+<li><code>build</code>: 重新构建服务。<code>--force-rm</code>删除过程中的临时容器，<code>--pull</code>始终通过pull获取最新版本</li>
+<li><code>kill</code>: 强制停止服务容器</li>
+<li><code>logs</code>: 查看服务容器的输出</li>
+<li><code>port</code>: 打印某个容器端口所映射的公共端口</li>
+<li><code>ps</code>: 列出项目中目前的所有容器</li>
+<li><code>pull</code>: 拉取服务依赖的镜像</li>
+<li><code>rm</code>: 删除所有（停止状态的）服务容器</li>
+<li><code>run</code>: 在指定服务上执行一个命令</li>
+<li><code>scale</code>: 设置指定服务运行的容器个数。</li>
+<li><code>strat</code>: 启动已经存在的服务容</li>
+<li><code>stop</code>: 停止已经处于运行状态的容器</li>
+<li><code>up</code>: 它将尝试自动完成包括构建镜像，（重新）创建服务，启动</li>
+<li><code>down</code>: 停止容器，删除容器、数据、镜像</li>
+</ul>
+<h3 id="53-安装">5.3 安装</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -L <span style="color:#e6db74">&#34;https://github.com/docker/compose/releases/download/1.10.0/docker-compose-</span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> -o /usr/local/bin/docker-compose
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/docker-compose
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docker-compose --version
+</span></span></code></pre></div><h2 id="六网络配置">六、网络配置</h2>
+<h3 id="61-基础配置">6.1 基础配置</h3>
+<p><code>docker run -p 5000:5000 ...</code>: 绑定本地所有地址的端口映射
+<code>docker run -p 127.0.0.1:5000:5000</code>：只对127.0.0.1映射
+<code>docker run -p 127.0.0.1::5000</code>: 绑定 localhost 的任意端口到容器的 5000 端口
 <code>docker port 容器 端口</code>: 查看端口配置</p>
-
-<h3 id="6-1-高级配置">6.1 高级配置</h3>
-
+<h3 id="61-高级配置">6.1 高级配置</h3>
 <p>//TODO 待续</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#一-安装">一、安装</a>
-<ul>
-<li><a href="#1-1-安装">1.1 安装</a></li>
-<li><a href="#1-2-启停docker">1.2 启停docker</a></li>
-<li><a href="#1-3-非root启动">1.3 非root启动</a></li>
-</ul></li>
-<li><a href="#二-镜像">二、镜像</a>
-<ul>
-<li><a href="#2-1-登录hub">2.1 登录hub</a></li>
-<li><a href="#2-2-commit命令创建镜像">2.2 commit命令创建镜像</a></li>
-<li><a href="#2-3-dockerfile创建镜像">2.3 Dockerfile创建镜像</a></li>
-<li><a href="#2-4-dockerfile">2.4.Dockerfile</a>
-<ul>
-<li><a href="#2-4-1-dockerfile构建">2.4.1 Dockerfile构建</a></li>
-<li><a href="#2-4-2-从新镜像启动容器">2.4.2 从新镜像启动容器</a></li>
-<li><a href="#2-4-3-dockerfile指令">2.4.3 Dockerfile指令</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#三-容器">三、容器</a>
-<ul>
-<li><a href="#3-1-运行">3.1 运行</a></li>
-<li><a href="#3-2-查看状态">3.2 查看状态</a></li>
-<li><a href="#3-3-启动停止删除">3.3 启动停止删除</a></li>
-<li><a href="#3-4-进入容器">3.4 进入容器</a></li>
-<li><a href="#3-5-查看日志">3.5 查看日志</a></li>
-</ul></li>
-<li><a href="#四-仓库">四、仓库</a></li>
-<li><a href="#五-docker-compose">五、docker-compose</a>
-<ul>
-<li><a href="#5-1-模板文件">5.1 模板文件</a></li>
-<li><a href="#5-2-指令">5.2 指令</a></li>
-<li><a href="#5-3-安装">5.3 安装</a></li>
-</ul></li>
-<li><a href="#六-网络配置">六、网络配置</a>
-<ul>
-<li><a href="#6-1-基础配置">6.1 基础配置</a></li>
-<li><a href="#6-1-高级配置">6.1 高级配置</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一安装">一、安装</a>
+      <ul>
+        <li><a href="#11-安装">1.1 安装</a></li>
+        <li><a href="#12-启停docker">1.2 启停docker</a></li>
+        <li><a href="#13-非root启动">1.3 非root启动</a></li>
+      </ul>
+    </li>
+    <li><a href="#二镜像">二、镜像</a>
+      <ul>
+        <li><a href="#21-登录hub">2.1 登录hub</a></li>
+        <li><a href="#22-commit命令创建镜像">2.2 commit命令创建镜像</a></li>
+        <li><a href="#23-dockerfile创建镜像">2.3 Dockerfile创建镜像</a></li>
+        <li><a href="#24dockerfile">2.4.Dockerfile</a></li>
+      </ul>
+    </li>
+    <li><a href="#三容器">三、容器</a>
+      <ul>
+        <li><a href="#31-运行">3.1 运行</a></li>
+        <li><a href="#32-查看状态">3.2 查看状态</a></li>
+        <li><a href="#33-启动停止删除">3.3 启动停止删除</a></li>
+        <li><a href="#34-进入容器">3.4 进入容器</a></li>
+        <li><a href="#35-查看日志">3.5 查看日志</a></li>
+      </ul>
+    </li>
+    <li><a href="#四仓库">四、仓库</a></li>
+    <li><a href="#五docker-compose">五、docker-compose</a>
+      <ul>
+        <li><a href="#51-模板文件">5.1 模板文件</a></li>
+        <li><a href="#52-指令">5.2 指令</a></li>
+        <li><a href="#53-安装">5.3 安装</a></li>
+      </ul>
+    </li>
+    <li><a href="#六网络配置">六、网络配置</a>
+      <ul>
+        <li><a href="#61-基础配置">6.1 基础配置</a></li>
+        <li><a href="#61-高级配置">6.1 高级配置</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="理解iptables &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/11/09/iptables/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/11/09/iptables/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": 理解iptables,
-    "name": 理解iptables,
-    "wordCount": 1171,
+    "headline": "理解iptables",
+    "name": "理解iptables",
+    "wordCount":  1162 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/11/09/iptables/,
-    "datePublished": 2017-11-09T22:33Z,
-    "dateModified": 2017-11-09T22:33Z,
+    "url": "http://thoreauz.com/2017/11/09/iptables/",
+    "datePublished": "2017-11-09T22:33Z",
+    "dateModified": "2017-11-09T22:33Z",
     
-    "keywords": 命令, linux网络,
-    "description": ,
+    "keywords": "命令, linux网络",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/11/09/iptables/
+        "@id": "http://thoreauz.com/2017/11/09/iptables/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,76 +247,57 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="iptables-初解">iptables 初解</h2>
-
-<p><img src="http://thoreauz.com/images/2017-11-07-22-58-37.jpg" alt="" /></p>
-
-<p>防火墙只是一个规则机器与外部有交互时的一个过滤规则，依赖netfilter注册各种hooks实现。iptables以表(table)-&gt;链(chain)-&gt;规则(rule)的逻辑来对流量的逻辑控制。有4个表：raw，mangle，filter，nat<br />
-* Filter：此表对应3个链，INPUT、FORWARD、OUTPUT。从字面意思也能理解，入站、出站、路由。<br />
-* NAT：全名Network Address Traslation，即网络地址转换。也对应3个链PREROUTING，OUTPUT，POSTROUTING。其中PREROUTING在路由前修改目的地址(实现DNAT)，OUTPUT主要为本机发出的包实现DNAT，相应的最后的作用修改源地址,实现SNAT。<br />
-* Mangle： 修改数据包。<br />
-* Raw：连接跟踪设置。</p>
-
-<!-- more -->
-
+      <h2 id="iptables-初解">iptables 初解</h2>
+<p><img src="http://thoreauz.com/images/2017-11-07-22-58-37.jpg" alt=""></p>
+<p>防火墙只是一个规则机器与外部有交互时的一个过滤规则，依赖netfilter注册各种hooks实现。iptables以表(table)-&gt;链(chain)-&gt;规则(rule)的逻辑来对流量的逻辑控制。有4个表：raw，mangle，filter，nat</p>
+<ul>
+<li>Filter：此表对应3个链，INPUT、FORWARD、OUTPUT。从字面意思也能理解，入站、出站、路由。</li>
+<li>NAT：全名Network Address Traslation，即网络地址转换。也对应3个链PREROUTING，OUTPUT，POSTROUTING。其中PREROUTING在路由前修改目的地址(实现DNAT)，OUTPUT主要为本机发出的包实现DNAT，相应的最后的作用修改源地址,实现SNAT。</li>
+<li>Mangle： 修改数据包。</li>
+<li>Raw：连接跟踪设置。</li>
+</ul>
+<!-- raw HTML omitted -->
 <h2 id="iptables实验及常用命令">iptables实验及常用命令</h2>
-
-<pre><code class="language-bash"># 规则保存和加载
-iptables-save
-iptables-restore
-
-# 查看iptables的默认规则，没有特别指明，一般默认操作filter
-iptables -L
-
-#清空服务器上所有的规则
-iptables -F
-
-# 列出规则
-iptables -S
-iptables -L INPUT
-iptables -nvL
-</code></pre>
-
-<p><strong>示例</strong><br />
-<strong>环境</strong><br />
-* 虚拟机Centos node1 ip: 192.168.99.110<br />
-* 虚拟机Centos node2 ip: 192.168.99.111</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 规则保存和加载</span>
+</span></span><span style="display:flex;"><span>iptables-save
+</span></span><span style="display:flex;"><span>iptables-restore
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看iptables的默认规则，没有特别指明，一般默认操作filter</span>
+</span></span><span style="display:flex;"><span>iptables -L
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#清空服务器上所有的规则</span>
+</span></span><span style="display:flex;"><span>iptables -F
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列出规则</span>
+</span></span><span style="display:flex;"><span>iptables -S
+</span></span><span style="display:flex;"><span>iptables -L INPUT
+</span></span><span style="display:flex;"><span>iptables -nvL
+</span></span></code></pre></div><p><strong>示例</strong>
+<strong>环境</strong></p>
+<ul>
+<li>虚拟机Centos node1 ip: 192.168.99.110</li>
+<li>虚拟机Centos node2 ip: 192.168.99.111</li>
+</ul>
 <p>现在，两台机器都能相互ping通。在node1上运行命令启动8000端口：</p>
-
-<pre><code class="language-bash">python -m SimpleHTTPServer #python2
-python -m http.server # python3
-</code></pre>
-
-<p>在node2上访问：<code>curl 192.168.99.110:8000</code>，正常返回没问题，下面尝试关闭node1上的8080入站。在node1上执行：</p>
-
-<pre><code class="language-bash">iptables -t filter -I INPUT -p tcp --dport 8000 -j REJECT
-</code></pre>
-
-<p>再到node2上访问：</p>
-
-<pre><code>[root@node2 ~]# curl http://192.168.99.110:8000
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python -m SimpleHTTPServer <span style="color:#75715e">#python2</span>
+</span></span><span style="display:flex;"><span>python -m http.server <span style="color:#75715e"># python3</span>
+</span></span></code></pre></div><p>在node2上访问：<code>curl 192.168.99.110:8000</code>，正常返回没问题，下面尝试关闭node1上的8080入站。在node1上执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t filter -I INPUT -p tcp --dport <span style="color:#ae81ff">8000</span> -j REJECT
+</span></span></code></pre></div><p>再到node2上访问：</p>
+<pre tabindex="0"><code>[root@node2 ~]# curl http://192.168.99.110:8000
 curl: (7) Failed connect to 192.168.99.110:8000; Connection refused
-</code></pre>
-
-<p>结果正如预期，如果想放开8000，可以有如下：<br />
-<img src="http://thoreauz.com/images/2017-11-07-23-50-51.jpg" alt="" /></p>
-
+</code></pre><p>结果正如预期，如果想放开8000，可以有如下：
+<img src="http://thoreauz.com/images/2017-11-07-23-50-51.jpg" alt=""></p>
 <p>也可以执行<code>iptables -F</code>清理所有filter表。这儿需要说明的是，firewalld只是封装iptables的一个服务，底层还是iptables。如果启动firewalled,会有一些默认的规则，前面的8000端口是访问不通的，可以单独对8000放行。</p>
-
-<pre><code class="language-bash">iptables -t filter -I INPUT -p tcp --dport 8000 -j ACCEPT
-</code></pre>
-
-<p>命令简单解释上面这条指令：<br />
-* <code>-t filter</code>:  -t 指定table， 不写默认filter。<br />
-* <code>-I INPUT</code>:  -I (INSERT) 指定链。-D表示删除,<br />
-* <code>-p tcp --dport 8000</code>: 协议、端口<br />
-* <code>-j ACCEPT</code>: 动作(ACCEPT,DROP,REJECT,RETURN)</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t filter -I INPUT -p tcp --dport <span style="color:#ae81ff">8000</span> -j ACCEPT
+</span></span></code></pre></div><p>命令简单解释上面这条指令：</p>
+<ul>
+<li><code>-t filter</code>:  -t 指定table， 不写默认filter。</li>
+<li><code>-I INPUT</code>:  -I (INSERT) 指定链。-D表示删除,</li>
+<li><code>-p tcp --dport 8000 </code>: 协议、端口</li>
+<li><code>-j ACCEPT</code>: 动作(ACCEPT,DROP,REJECT,RETURN)</li>
+</ul>
 <p>对链的操作主要有下表选项:</p>
-
 <table>
 <thead>
 <tr>
@@ -323,98 +305,79 @@ curl: (7) Failed connect to 192.168.99.110:8000; Connection refused
 <th>意义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>-s</td>
 <td>匹配源地址</td>
 </tr>
-
 <tr>
 <td>-d</td>
 <td>匹配目的地址</td>
 </tr>
-
 <tr>
 <td>-p</td>
 <td>协议匹配</td>
 </tr>
-
 <tr>
 <td>-i</td>
 <td>入接口匹配</td>
 </tr>
-
 <tr>
 <td>-o</td>
 <td>出接口匹配</td>
 </tr>
-
 <tr>
 <td>&ndash;sport，&ndash;dport</td>
 <td>源和目的端口匹配</td>
 </tr>
-
 <tr>
 <td>-j</td>
 <td>跳转,也就是包的方向</td>
 </tr>
-
 <tr>
 <td>!</td>
 <td>取反</td>
 </tr>
 </tbody>
 </table>
-
-<p>语法: <code>iptables [-t table] 操作 chain RULE</code>。<br />
-<img src="http://thoreauz.com/images/2017-11-08-00-18-27.jpg" alt="" /><br />
+<p>语法: <code>iptables [-t table] 操作 chain RULE</code>。
+<img src="http://thoreauz.com/images/2017-11-08-00-18-27.jpg" alt="">
 图片来源: <a href="http://fishcried.com/2016-02-19/iptables/">玩转Linux防火墙命令iptables</a></p>
-
 <h2 id="实验2代理">实验2代理</h2>
-
 <p>还是上面两台机器，这次在node2上启动8000端口<code>python -m SimpleHTTPServer</code>，在node1上执行下列命令：</p>
-
-<pre><code class="language-bash">iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to 192.168.99.111:8000
-# 回路
-iptables -t nat -I POSTROUTING -p tcp --dport 8000 -j MASQUERADE
-</code></pre>
-
-<p>从第三台机器访问node1</p>
-
-<pre><code class="language-bash">✔ curl 192.168.99.110:8080
-&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;&lt;html&gt;
-&lt;title&gt;Directory listing for /&lt;/title&gt;
-&lt;body&gt;
-&lt;h2&gt;Directory listing for /&lt;/h2&gt;
-&lt;hr&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;.bash_logout&quot;&gt;.bash_logout&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;.bash_profile&quot;&gt;.bash_profile&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;.bashrc&quot;&gt;.bashrc&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;.cshrc&quot;&gt;.cshrc&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;.pki/&quot;&gt;.pki/&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;.tcshrc&quot;&gt;.tcshrc&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;anaconda-ks.cfg&quot;&gt;anaconda-ks.cfg&lt;/a&gt;
-&lt;li&gt;&lt;a href=&quot;post_install.log&quot;&gt;post_install.log&lt;/a&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t nat -I PREROUTING -p tcp --dport <span style="color:#ae81ff">8080</span> -j DNAT --to 192.168.99.111:8000
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 回路</span>
+</span></span><span style="display:flex;"><span>iptables -t nat -I POSTROUTING -p tcp --dport <span style="color:#ae81ff">8000</span> -j MASQUERADE
+</span></span></code></pre></div><p>从第三台机器访问node1</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>✔ curl 192.168.99.110:8080
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE html PUBLIC <span style="color:#e6db74">&#34;-//W3C//DTD HTML 3.2 Final//EN&#34;</span>&gt;&lt;html&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;Directory listing <span style="color:#66d9ef">for</span> /&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h2&gt;Directory listing <span style="color:#66d9ef">for</span> /&lt;/h2&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;ul&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.bash_logout&#34;</span>&gt;.bash_logout&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.bash_profile&#34;</span>&gt;.bash_profile&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.bashrc&#34;</span>&gt;.bashrc&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.cshrc&#34;</span>&gt;.cshrc&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.pki/&#34;</span>&gt;.pki/&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.tcshrc&#34;</span>&gt;.tcshrc&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;anaconda-ks.cfg&#34;</span>&gt;anaconda-ks.cfg&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;li&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post_install.log&#34;</span>&gt;post_install.log&lt;/a&gt;
+</span></span><span style="display:flex;"><span>&lt;/ul&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;/body&gt;
+</span></span><span style="display:flex;"><span>&lt;/html&gt;
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#iptables-初解">iptables 初解</a></li>
-<li><a href="#iptables实验及常用命令">iptables实验及常用命令</a></li>
-<li><a href="#实验2代理">实验2代理</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#iptables-初解">iptables 初解</a></li>
+    <li><a href="#iptables实验及常用命令">iptables实验及常用命令</a></li>
+    <li><a href="#实验2代理">实验2代理</a></li>
+  </ul>
 </nav>
     </section>
 

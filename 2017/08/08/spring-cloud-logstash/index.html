@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Logstash搜集spring-cloud日志 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/08/spring-cloud-logstash/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/08/spring-cloud-logstash/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": Logstash搜集spring-cloud日志,
-    "name": Logstash搜集spring-cloud日志,
-    "wordCount": 227,
+    "headline": "Logstash搜集spring-cloud日志",
+    "name": "Logstash搜集spring-cloud日志",
+    "wordCount":  227 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/08/spring-cloud-logstash/,
-    "datePublished": 2017-08-08T14:23Z,
-    "dateModified": 2017-08-08T14:23Z,
+    "url": "http://thoreauz.com/2017/08/08/spring-cloud-logstash/",
+    "datePublished": "2017-08-08T14:23Z",
+    "dateModified": "2017-08-08T14:23Z",
     
-    "keywords": docker, kubernetes, 日志,
-    "description": ,
+    "keywords": "docker, kubernetes, 日志",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/08/spring-cloud-logstash/
+        "@id": "http://thoreauz.com/2017/08/08/spring-cloud-logstash/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,83 +251,68 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>如果使用sleuth，通过logback按照一定的格式打印日志，即可通过logstash过滤并搜集到es里面存储，继而通过Kibana展示。在k8s集群中，可以把logstash设置为<code>DaemonSet</code>在运行，进而能搜集每一个宿主机上的日志。</p>
-
-<!-- more -->
-
+      <p>如果使用sleuth，通过logback按照一定的格式打印日志，即可通过logstash过滤并搜集到es里面存储，继而通过Kibana展示。在k8s集群中，可以把logstash设置为<code>DaemonSet</code>在运行，进而能搜集每一个宿主机上的日志。</p>
+<!-- raw HTML omitted -->
 <h2 id="dockerfile">Dockerfile</h2>
-
-<pre><code class="language-Dockerfile">From logstash
-COPY log.conf /log.conf
-
-CMD [&quot;-f&quot;, &quot;/log.conf&quot;]
-</code></pre>
-
-<h2 id="logstash-conf">Logstash conf</h2>
-
-<pre><code class="language-conf">input {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">From</span><span style="color:#e6db74"> logstash</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> log.conf /log.conf<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;/log.conf&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h2 id="logstash-conf">Logstash conf</h2>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">input {
     file {
-                type =&gt; &quot;spring-cloud&quot;
-                path =&gt; &quot;/logs/*/*.log&quot;
+                type =&gt; &#34;spring-cloud&#34;
+                path =&gt; &#34;/logs/*/*.log&#34;
                 codec =&gt; multiline {
-                        pattern =&gt; &quot;^\d{4}-\d{2}-\d{2}&quot;
+                        pattern =&gt; &#34;^\d{4}-\d{2}-\d{2}&#34;
                         negate =&gt; true
-                        what =&gt; &quot;previous&quot;
+                        what =&gt; &#34;previous&#34;
                 }
 
         }
 }
 filter {
      grok {
-            match =&gt; { &quot;message&quot; =&gt; &quot;%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest
-}&quot; }
+            match =&gt; { &#34;message&#34; =&gt; &#34;%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:severity}\s+\[%{DATA:service},%{DATA:trace},%{DATA:span},%{DATA:exportable}\]\s+%{DATA:pid}---\s+\[%{DATA:thread}\]\s+%{DATA:class}\s+:\s+%{GREEDYDATA:rest
+}&#34; }
           }
        }
 
 output {
-        elasticsearch { hosts =&gt; [&quot;192.168.99.100:9200&quot;] }
+        elasticsearch { hosts =&gt; [&#34;192.168.99.100:9200&#34;] }
 }
-</code></pre>
-
-<h2 id="k8s-daemonset">k8s DaemonSet</h2>
-
-<pre><code class="language-yaml">apiVersion: extensions/v1beta1
-kind: DaemonSet
-metadata:
-  name: logstash
-spec:
-  template: # create pods using pod definition in this template
-    metadata:
-      labels:
-        app: logstash
-    spec:
-      containers:
-      - name: logstash
-        volumeMounts:
-        - mountPath: /logs
-          name: logs
-        image: thoreaurepo.io:5000/logstash:v1
-        imagePullPolicy: Always
-      volumes:
-      - name: logs
-        hostPath:
-          path: /logs
-</code></pre>
-
+</code></pre><h2 id="k8s-daemonset">k8s DaemonSet</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DaemonSet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">logstash</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>: <span style="color:#75715e"># create pods using pod definition in this template</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">logstash</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">logstash</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/logs</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">logs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">thoreaurepo.io:5000/logstash:v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">Always</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">logs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hostPath</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/logs</span>
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#dockerfile">Dockerfile</a></li>
-<li><a href="#logstash-conf">Logstash conf</a></li>
-<li><a href="#k8s-daemonset">k8s DaemonSet</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#dockerfile">Dockerfile</a></li>
+    <li><a href="#logstash-conf">Logstash conf</a></li>
+    <li><a href="#k8s-daemonset">k8s DaemonSet</a></li>
+  </ul>
 </nav>
     </section>
 

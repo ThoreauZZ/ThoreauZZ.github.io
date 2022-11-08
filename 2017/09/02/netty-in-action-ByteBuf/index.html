@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Netty实战-ByteBuf &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Netty实战-ByteBuf,
-    "name": Netty实战-ByteBuf,
-    "wordCount": 1136,
+    "headline": "Netty实战-ByteBuf",
+    "name": "Netty实战-ByteBuf",
+    "wordCount":  1125 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/,
-    "datePublished": 2017-09-02T16:39Z,
-    "dateModified": 2017-09-02T16:39Z,
+    "url": "http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/",
+    "datePublished": "2017-09-02T16:39Z",
+    "dateModified": "2017-09-02T16:39Z",
     
-    "keywords": netty,
-    "description": ,
+    "keywords": "netty",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/
+        "@id": "http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,108 +243,81 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>Java NIO中的Buffer用于和NIO通道进行交互，数据可以从通道读入缓冲区，也可以从缓冲区写入到通道中。所以说，Buffer其实就是一块可以读写数据的内存，我们将其包装为一个Java对象来提供一系列读写操作。Netty并没有直接使用Java NIO的Buffer实现，而是自己实现了一套Buffer框架来满足自己的业务或者性能需求。</p>
-
-<p>ByteBuf的优点:<br />
-* 可以自定义的缓冲区类型扩展<br />
-* 通过内置的复合缓冲区类型实现了透明的零拷贝<br />
-* 容量可以按需增长(类似于 JDK 的 StringBuilder)<br />
-* 在读和写这两种模式之间切换不需要调用 ByteBuffer 的 flip()方法<br />
-* 读和写使用了不同的索引<br />
-* 支持方法的链式调用<br />
-* 支持引用计数<br />
-* 支持池化</p>
-
-<!-- more -->
-
+      <p>Java NIO中的Buffer用于和NIO通道进行交互，数据可以从通道读入缓冲区，也可以从缓冲区写入到通道中。所以说，Buffer其实就是一块可以读写数据的内存，我们将其包装为一个Java对象来提供一系列读写操作。Netty并没有直接使用Java NIO的Buffer实现，而是自己实现了一套Buffer框架来满足自己的业务或者性能需求。</p>
+<p>ByteBuf的优点:</p>
+<ul>
+<li>可以自定义的缓冲区类型扩展</li>
+<li>通过内置的复合缓冲区类型实现了透明的零拷贝</li>
+<li>容量可以按需增长(类似于 JDK 的 StringBuilder)</li>
+<li>在读和写这两种模式之间切换不需要调用 ByteBuffer 的 flip()方法</li>
+<li>读和写使用了不同的索引</li>
+<li>支持方法的链式调用</li>
+<li>支持引用计数</li>
+<li>支持池化</li>
+</ul>
+<!-- raw HTML omitted -->
 <h2 id="bytebuf如何工作">ByteBuf如何工作</h2>
-
 <p>ByteBuf称作Netty的数据容器，如下，一个ByteBuf被两个pointers分成三个区域。</p>
-
-<pre><code>      +-------------------+------------------+------------------+
+<pre tabindex="0"><code>      +-------------------+------------------+------------------+
       | discardable bytes |  readable bytes  |  writable bytes  |
       |                   |     (CONTENT)    |                  |
       +-------------------+------------------+------------------+
       |                   |                  |                  |
       0      &lt;=      readerIndex   &lt;=   writerIndex    &lt;=    capacity
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>3个区域：废弃区,可读区和可写区</p>
 </blockquote>
-
 <ul>
-<li>在初始化状态下,readerIndex和writerIndex都为0，整个空间中只存在可写区。此时只能写，不能读，进行读操作会抛出异常。<br /></li>
-<li>写字节后，writeIndex增加，readIndex不变。<br /></li>
-<li>读字节时，writeIndex不变，readIndex增加。<br /></li>
-<li>如果discardable区域被回收，两个pointer都向左平移。<br /></li>
-<li>如果调用clear(),两个pointer都回到0位置。<br /></li>
-<li>readerIndex &gt; writerIndex, 将会抛异常IndexOutOfBoundsException。<br /></li>
-<li>writerIndex 超过最大容量也会触发异常<br />
-<br /></li>
+<li>在初始化状态下,readerIndex和writerIndex都为0，整个空间中只存在可写区。此时只能写，不能读，进行读操作会抛出异常。</li>
+<li>写字节后，writeIndex增加，readIndex不变。</li>
+<li>读字节时，writeIndex不变，readIndex增加。</li>
+<li>如果discardable区域被回收，两个pointer都向左平移。</li>
+<li>如果调用clear(),两个pointer都回到0位置。</li>
+<li>readerIndex &gt; writerIndex, 将会抛异常IndexOutOfBoundsException。</li>
+<li>writerIndex 超过最大容量也会触发异常</li>
 </ul>
-
 <p>当然，实际上除了数据负载外，还需要存储各种属性值，如http响应的状态码和cookie等。Netty提供了ByteBufHolder，其中content()返回了所持有的ByteBuf。</p>
-
 <h2 id="字节级操作">字节级操作</h2>
-
-<p>名称以 read 或者 write 开头的 ByteBuf 方法,将会推进其对应的索引,而名称以set或者get开头的操作则不会。这个很关键，用错了可能导致一直读取同一份数据。<br />
+<p>名称以 read 或者 write 开头的 ByteBuf 方法,将会推进其对应的索引,而名称以set或者get开头的操作则不会。这个很关键，用错了可能导致一直读取同一份数据。
 <strong>读</strong></p>
-
-<pre><code class="language-java">ByteBuf buffer = ...;
-for (int i = 0; i &lt; buffer.capacity(); i++) {
-    byte b = buffer.getByte(i);// 不会改变index
-    System.out.println((char)b);
-}
-ByteBuf buffer = ...;
-while (buffer.isReadable()) {
-    System.out.println(buffer.readByte());
-}
-</code></pre>
-
-<p>写</p>
-
-<pre><code class="language-java">while (buffer.maxWritableBytes() &gt;= 4) {
-    buffer.writeInt(random.nextInt());
-}
-</code></pre>
-
-<p>查找</p>
-
-<pre><code class="language-java">ByteBuf buffer = ...;
-int index = buffer.forEachByte(ByteProcessor.FIND_CR);
-</code></pre>
-
-<p>还可以派生出一个新的ByteBuf实例，或者完全复制出一个新副本。切片是共享的，copy不共享，完全独立的副本。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ByteBuf buffer <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">capacity</span><span style="color:#f92672">();</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">byte</span> b <span style="color:#f92672">=</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">getByte</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span><span style="color:#75715e">// 不会改变index
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span><span style="color:#66d9ef">char</span><span style="color:#f92672">)</span>b<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>ByteBuf buffer <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">isReadable</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">readByte</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>写</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">maxWritableBytes</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;=</span> 4<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">writeInt</span><span style="color:#f92672">(</span>random<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>查找</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ByteBuf buffer <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">forEachByte</span><span style="color:#f92672">(</span>ByteProcessor<span style="color:#f92672">.</span><span style="color:#a6e22e">FIND_CR</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>还可以派生出一个新的ByteBuf实例，或者完全复制出一个新副本。切片是共享的，copy不共享，完全独立的副本。</p>
 <h2 id="bytebuf的特殊机制">ByteBuf的特殊机制</h2>
-
 <p>buffer池：减少分配释放的压力，</p>
-
-<p><strong>零拷贝</strong>：<br />
+<p><strong>零拷贝</strong>：<br>
 是指计算机操作的过程中，CPU不需要为数据在内存之间的拷贝消耗资源。如计算机在网络上发送文件时，不需要将文件内容拷贝到用户空间（User Space）而直接在内核空间（Kernel Space）中传输到网络的方式。Netty通过ByteBuf.slice以及Unpooled.wrappedBuffer等方法拆分、合并Buffer无需拷贝数据。</p>
-
-<hr />
-
-<p>参考文档：<br />
-* <a href="http://www.52im.net/thread-99-1-1.html">http://www.52im.net/thread-99-1-1.html</a><br />
-* <a href="http://yihongwei.com/2014/01/netty-4-x-bytebuf/">http://yihongwei.com/2014/01/netty-4-x-bytebuf/</a><br />
-* 《netty实战》</p>
+<hr>
+<p>参考文档：</p>
+<ul>
+<li><a href="http://www.52im.net/thread-99-1-1.html">http://www.52im.net/thread-99-1-1.html</a></li>
+<li><a href="http://yihongwei.com/2014/01/netty-4-x-bytebuf/">http://yihongwei.com/2014/01/netty-4-x-bytebuf/</a></li>
+<li>《netty实战》</li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#bytebuf如何工作">ByteBuf如何工作</a></li>
-<li><a href="#字节级操作">字节级操作</a></li>
-<li><a href="#bytebuf的特殊机制">ByteBuf的特殊机制</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#bytebuf如何工作">ByteBuf如何工作</a></li>
+    <li><a href="#字节级操作">字节级操作</a></li>
+    <li><a href="#bytebuf的特殊机制">ByteBuf的特殊机制</a></li>
+  </ul>
 </nav>
     </section>
 

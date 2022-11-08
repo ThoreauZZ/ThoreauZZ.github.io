@@ -21,7 +21,7 @@
   	<meta property="og:title" content="如何写好Git Commit &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/17/git-commit/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>如何写好Git Commit &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="什么是好的git commit，有以下几点： * message清楚反应本次提交内容 * 方便回退到某个版本 * 反应产品演进过程 主要针对团队开发，对于开" />
+    <meta name="description" content="什么是好的git commit，有以下几点： message清楚反应本次提交内容 方便回退到某个版本 反应产品演进过程 主要针对团队开发，对于开源和非" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/17/git-commit/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 如何写好Git Commit,
-    "name": 如何写好Git Commit,
-    "wordCount": 1312,
+    "headline": "如何写好Git Commit",
+    "name": "如何写好Git Commit",
+    "wordCount":  1295 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/17/git-commit/,
-    "datePublished": 2017-08-17T16:10Z,
-    "dateModified": 2017-08-17T16:10Z,
+    "url": "http://thoreauz.com/2017/08/17/git-commit/",
+    "datePublished": "2017-08-17T16:10Z",
+    "dateModified": "2017-08-17T16:10Z",
     
-    "keywords": git,
-    "description": ,
+    "keywords": "git",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/17/git-commit/
+        "@id": "http://thoreauz.com/2017/08/17/git-commit/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,22 +243,17 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>什么是好的git commit，有以下几点：<br />
-* message清楚反应本次提交内容<br />
-* 方便回退到某个版本<br />
-* 反应产品演进过程</p>
-
+      <p>什么是好的git commit，有以下几点：</p>
+<ul>
+<li>message清楚反应本次提交内容</li>
+<li>方便回退到某个版本</li>
+<li>反应产品演进过程</li>
+</ul>
 <p>主要针对团队开发，对于开源和非开源项目要求可能不一样。个人认为，开源项目的master提交尽量反应产品演进，所以，分支合并时，可以把分支的多个commit合并为一条。但团队非开源项目，我觉得没必要这么做，多点“小步提交“的message没什么关系。</p>
-
 <p>当然，对个人的提交来说，可以按照自己的习惯，从msg格式和提交上把commit写好。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="message格式">message格式</h2>
-
-<pre><code>feat: 添加阅读数量
+<pre tabindex="0"><code>feat: 添加阅读数量
 
 给文章添加阅读数量功能
 - 添加xx1
@@ -265,135 +261,96 @@
 
 Issue #1, #2
 Close #1
-</code></pre>
-
-<p>说明：<br />
+</code></pre><p>说明：
 <strong>第一行:</strong> ：header</p>
-
-<pre><code>keyword: 简要说说明
-</code></pre>
-
-<p>keyword:<br />
-* feat: 新增feature<br />
-* fix：bugfix<br />
-* docs：文档修改<br />
-* style: 改变编码风格<br />
-*  refactor:重构<br />
-* perf：改善<br />
-* test：添加测试<br />
-* revert: 回退到前一版本</p>
-
-<p><strong>第二行</strong>：body，详细说明<br />
+<pre tabindex="0"><code>keyword: 简要说说明
+</code></pre><p>keyword:</p>
+<ul>
+<li>feat: 新增feature</li>
+<li>fix：bugfix</li>
+<li>docs：文档修改</li>
+<li>style: 改变编码风格</li>
+<li>refactor:重构</li>
+<li>perf：改善</li>
+<li>test：添加测试</li>
+<li>revert: 回退到前一版本</li>
+</ul>
+<p><strong>第二行</strong>：body，详细说明
 <strong>第三行</strong>：footer，指向或者关闭issues</p>
-
 <p>所以，在提交是尽量避免如下命令</p>
-
-<pre><code>git commit -am &quot;xxx&quot;
-</code></pre>
-
-<p>下文还是这样使用，只是为了方便演示。</p>
-
+<pre tabindex="0"><code>git commit -am &#34;xxx&#34;
+</code></pre><p>下文还是这样使用，只是为了方便演示。</p>
 <h2 id="修改提交">修改提交</h2>
-
 <p>本来开发都会尽快小步提交，如果提交的message写得不好，直接通过<code>--amend</code>选项修改：</p>
-
-<pre><code>git commit --amend
-</code></pre>
-
-<p>如果是新的修改提交，也可以用相同的命令，把这次提交合并到上次的commit中。</p>
-
+<pre tabindex="0"><code>git commit --amend
+</code></pre><p>如果是新的修改提交，也可以用相同的命令，把这次提交合并到上次的commit中。</p>
 <p>可以使用rebase作各种变基嫁接操作，下面看一个示例</p>
-
-<pre><code>$ ls
+<pre tabindex="0"><code>$ ls
 README.md file1.txt
 
 $ git lg
 * 6ffc8d0 - (HEAD -&gt; master) add file1 (3 minutes ago) &lt;thoreau&gt;
 * d12e8cf - refactor(package): 提炼方法 (21 minutes ago) &lt;thoreau&gt;
-</code></pre>
-
-<p>下面添加file2并简单(方便演示)提交：</p>
-
-<pre><code class="language-bash">$ touch file2.txt
-$ ga 
-$ gcm &quot;add file2&quot;
-$ git lg
-* bc004ef - (HEAD -&gt; master) add file2 (8 seconds ago) &lt;thoreau&gt;
-* 6ffc8d0 - add file1 (5 minutes ago) &lt;thoreau&gt;
-* d12e8cf - refactor(package): 提炼方法 (23 minutes ago) &lt;thoreau&gt;
-</code></pre>
-
-<p>现在，我们想把第二个提交删除，把最后一个提交的msg修改为&raquo;new file2&raquo;：</p>
-
-<pre><code>git rebase -i d12e8cf
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2017-08-17-15-32-18.jpg" alt="" /><br />
-修改如下：<br />
-<img src="http://thoreauz.com/images/2017-08-17-15-33-21.jpg" alt="" /><br />
-紧接着编辑最后一个提交的msg。执行git log<br />
-<img src="http://thoreauz.com/images/2017-08-17-15-34-54.jpg" alt="" /><br />
+</code></pre><p>下面添加file2并简单(方便演示)提交：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ touch file2.txt
+</span></span><span style="display:flex;"><span>$ ga 
+</span></span><span style="display:flex;"><span>$ gcm <span style="color:#e6db74">&#34;add file2&#34;</span>
+</span></span><span style="display:flex;"><span>$ git lg
+</span></span><span style="display:flex;"><span>* bc004ef - <span style="color:#f92672">(</span>HEAD -&gt; master<span style="color:#f92672">)</span> add file2 <span style="color:#f92672">(</span><span style="color:#ae81ff">8</span> seconds ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* 6ffc8d0 - add file1 <span style="color:#f92672">(</span><span style="color:#ae81ff">5</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* d12e8cf - refactor<span style="color:#f92672">(</span>package<span style="color:#f92672">)</span>: 提炼方法 <span style="color:#f92672">(</span><span style="color:#ae81ff">23</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span></code></pre></div><p>现在，我们想把第二个提交删除，把最后一个提交的msg修改为&quot;new file2&quot;：</p>
+<pre tabindex="0"><code>git rebase -i d12e8cf
+</code></pre><p><img src="http://thoreauz.com/images/2017-08-17-15-32-18.jpg" alt="">
+修改如下：
+<img src="http://thoreauz.com/images/2017-08-17-15-33-21.jpg" alt="">
+紧接着编辑最后一个提交的msg。执行git log
+<img src="http://thoreauz.com/images/2017-08-17-15-34-54.jpg" alt="">
 做到了我们想要的结果，删一个改一个，再看文件，发现file1.txt不存在了。</p>
-
 <p>使用<code>rebase</code>的好处是想怎么改就怎么改，但最后是针对自己阶段性提交的修改，否则造成commit history对不上，分支合并出现问题。除非是修改历史敏感信息，这个命令需要谨慎使用。</p>
-
-<p>从技术上，还是有补救办法，如果不想删除第二个提交，想回退rebase，怎么办？<br />
-<code>git reflog</code><br />
-<img src="http://thoreauz.com/images/2017-08-17-15-40-59.jpg" alt="" /></p>
-
-<pre><code>git reset --hard bc004ef #撤销
-</code></pre>
-
-<h3 id="分支合并时的commit">分支合并时的commit</h3>
-
+<p>从技术上，还是有补救办法，如果不想删除第二个提交，想回退rebase，怎么办？
+<code>git reflog</code>
+<img src="http://thoreauz.com/images/2017-08-17-15-40-59.jpg" alt=""></p>
+<pre tabindex="0"><code>git reset --hard bc004ef #撤销
+</code></pre><h3 id="分支合并时的commit">分支合并时的commit</h3>
 <p>在上述三个commit的master上建一个分支：b1，并修改file2，新建file_b1</p>
-
-<pre><code class="language-bash">* 9bd82c9 - (HEAD -&gt; b1) add file_b1 (82 seconds ago) &lt;thoreau&gt;
-* 5cab28f - edit file2 (2 minutes ago) &lt;thoreau&gt;
-* bc004ef - (master) add file2 (21 minutes ago) &lt;thoreau&gt;
-* 6ffc8d0 - add file1 (26 minutes ago) &lt;thoreau&gt;
-* d12e8cf - refactor(package): 提炼方法 (44 minutes ago) &lt;thoreau&gt;
-</code></pre>
-
-<p>现在把分支合并到主干，但我希望把分支的commit都合并成一个，可以使用<code>--squash</code></p>
-
-<pre><code>git checkout master
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>* 9bd82c9 - <span style="color:#f92672">(</span>HEAD -&gt; b1<span style="color:#f92672">)</span> add file_b1 <span style="color:#f92672">(</span><span style="color:#ae81ff">82</span> seconds ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* 5cab28f - edit file2 <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* bc004ef - <span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> add file2 <span style="color:#f92672">(</span><span style="color:#ae81ff">21</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* 6ffc8d0 - add file1 <span style="color:#f92672">(</span><span style="color:#ae81ff">26</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span><span style="display:flex;"><span>* d12e8cf - refactor<span style="color:#f92672">(</span>package<span style="color:#f92672">)</span>: 提炼方法 <span style="color:#f92672">(</span><span style="color:#ae81ff">44</span> minutes ago<span style="color:#f92672">)</span> &lt;thoreau&gt;
+</span></span></code></pre></div><p>现在把分支合并到主干，但我希望把分支的commit都合并成一个，可以使用<code>--squash</code></p>
+<pre tabindex="0"><code>git checkout master
 git merge --squash b1
-git commit -m &quot;feat: new file_b1 and Bugfix&quot;
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2017-08-17-15-55-24.jpg" alt="" /></p>
-
+git commit -m &#34;feat: new file_b1 and Bugfix&#34;
+</code></pre><p><img src="http://thoreauz.com/images/2017-08-17-15-55-24.jpg" alt=""></p>
 <h3 id="远程分支合并">远程分支合并</h3>
-
-<p>如果你在本地新增提交的时候，远程分支已经有新提交，此时由于commit history不一样，是不允许提交的，需要先把分支合并过来，形成一个新的提交，如下图。<br />
-<img src="http://thoreauz.com/images/2017-08-16-11-08-02.jpg" alt="" /><br />
-可以看到，分支br上的提交6e989ff合并到master时，生成一个新提交ea74b46。我们可以使用嫁接的方式（也叫分支衍合），把6e989ff直接嫁接到master提交1becaca后，还是使用<code>rebase</code>,不会产生新的提交，如下，是git官方说明。<br />
-<img src="http://thoreauz.com/images/2017-08-17-16-07-04.jpg" alt="" /></p>
-
-<hr />
-
-<p>参考列表：<br />
-* <a href="https://github.com/torvalds/linux/pull/17#issuecomment-5654674">https://github.com/torvalds/linux/pull/17#issuecomment-5654674</a><br />
-* <a href="http://yanhaijing.com/git/2016/02/17/my-commit-message/">http://yanhaijing.com/git/2016/02/17/my-commit-message/</a><br />
-* <a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</a><br />
-* <a href="https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88">https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88</a></p>
+<p>如果你在本地新增提交的时候，远程分支已经有新提交，此时由于commit history不一样，是不允许提交的，需要先把分支合并过来，形成一个新的提交，如下图。
+<img src="http://thoreauz.com/images/2017-08-16-11-08-02.jpg" alt="">
+可以看到，分支br上的提交6e989ff合并到master时，生成一个新提交ea74b46。我们可以使用嫁接的方式（也叫分支衍合），把6e989ff直接嫁接到master提交1becaca后，还是使用<code>rebase</code>,不会产生新的提交，如下，是git官方说明。
+<img src="http://thoreauz.com/images/2017-08-17-16-07-04.jpg" alt=""></p>
+<hr>
+<p>参考列表：</p>
+<ul>
+<li><a href="https://github.com/torvalds/linux/pull/17#issuecomment-5654674">https://github.com/torvalds/linux/pull/17#issuecomment-5654674</a></li>
+<li><a href="http://yanhaijing.com/git/2016/02/17/my-commit-message/">http://yanhaijing.com/git/2016/02/17/my-commit-message/</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</a></li>
+<li><a href="https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88">https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#message格式">message格式</a></li>
-<li><a href="#修改提交">修改提交</a>
-<ul>
-<li><a href="#分支合并时的commit">分支合并时的commit</a></li>
-<li><a href="#远程分支合并">远程分支合并</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#message格式">message格式</a></li>
+    <li><a href="#修改提交">修改提交</a>
+      <ul>
+        <li><a href="#分支合并时的commit">分支合并时的commit</a></li>
+        <li><a href="#远程分支合并">远程分支合并</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

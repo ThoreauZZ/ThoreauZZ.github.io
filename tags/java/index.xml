@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>java on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sun, 03 Mar 2019 15:19:29 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 03 Mar 2019 15:19:29 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>java垃圾回收</title>
       <link>http://thoreauz.com/2019/03/03/java-garbage-collection/</link>
@@ -54,7 +50,7 @@
       <pubDate>Thu, 25 Jan 2018 14:24:25 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/01/25/HashMap-theory/</guid>
-      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;quot;k:&amp;quot;+k+&amp;quot; v:&amp;quot;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
+      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;#34;k:&amp;#34;+k+&amp;#34; v:&amp;#34;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
     </item>
     
     <item>
@@ -63,7 +59,7 @@
       <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
-      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;quot;Do something ...&amp;quot;); new Thread(new</description>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;#34;Do something ...&amp;#34;); new Thread(new</description>
     </item>
     
     <item>

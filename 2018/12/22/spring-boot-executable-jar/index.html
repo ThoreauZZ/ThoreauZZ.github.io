@@ -21,7 +21,7 @@
   	<meta property="og:title" content="spring-boot 可执行jar启动原理 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": spring-boot 可执行jar启动原理,
-    "name": spring-boot 可执行jar启动原理,
-    "wordCount": 2146,
+    "headline": "spring-boot 可执行jar启动原理",
+    "name": "spring-boot 可执行jar启动原理",
+    "wordCount":  2138 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/12/22/spring-boot-executable-jar/,
-    "datePublished": 2018-12-22T14:57Z,
-    "dateModified": 2018-12-22T14:57Z,
+    "url": "http://thoreauz.com/2018/12/22/spring-boot-executable-jar/",
+    "datePublished": "2018-12-22T14:57Z",
+    "dateModified": "2018-12-22T14:57Z",
     
-    "keywords": spring, spring-boot,
-    "description": ,
+    "keywords": "spring, spring-boot",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/12/22/spring-boot-executable-jar/
+        "@id": "http://thoreauz.com/2018/12/22/spring-boot-executable-jar/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,258 +247,197 @@
     </header>
 
     <section class="post-content">
-      
-
-<p><img src="http://thoreauz.com/images/2018-12-22-14-03-10.jpg" alt="" /><br />
+      <p><img src="http://thoreauz.com/images/2018-12-22-14-03-10.jpg" alt="">
 用spring-boot很长时间了，解放了对一堆tomcat的配置，一个可执行jar包，比以前弄一堆xml方便了很多，大大简化微服务开发，也为java容器化提供了更方便的方式。</p>
-
 <p>一直没好好看怎么启动的。本文一步步来看，基于<a href="https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/">spring-boot 2.1.1.RELEASE</a></p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="简单示例">简单示例</h2>
-
 <p>按照官doc新建一个简单的web应用：</p>
-
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-	&lt;groupId&gt;com.example&lt;/groupId&gt;
-	&lt;artifactId&gt;simple-demo&lt;/artifactId&gt;
-	&lt;version&gt;1.0.0-SNAPSHOT.jar &lt;/version&gt;
-
-	&lt;!-- Inherit defaults from Spring Boot --&gt;
-	&lt;parent&gt;
-		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-		&lt;version&gt;2.1.1.RELEASE&lt;/version&gt;
-	&lt;/parent&gt;
-
-	&lt;!-- Add typical dependencies for a web application --&gt;
-	&lt;dependencies&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-		&lt;/dependency&gt;
-	&lt;/dependencies&gt;
-
-	&lt;!-- Package as an executable jar --&gt;
-	&lt;build&gt;
-		&lt;plugins&gt;
-			&lt;plugin&gt;
-				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-			&lt;/plugin&gt;
-		&lt;/plugins&gt;
-	&lt;/build&gt;
-&lt;/project&gt;
-</code></pre>
-
-<pre><code class="language-java">@SpringBootApplication
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-</code></pre>
-
-<p>mvn 打包：</p>
-
-<pre><code class="language-bash">mvn clean package
-</code></pre>
-
-<p>在target目录生产两个包：</p>
-
-<pre><code class="language-bash"># 可执行fat jar
-simple-demo-1.0.0-SNAPSHOT.jar 
-# 本项目的jar包
-simple-demo-1.0.0-SNAPSHOT.jar.original
-</code></pre>
-
-<p>启动:</p>
-
-<pre><code>java -jar simple-demo-1.0.0-SNAPSHOT.jar 
-</code></pre>
-
-<p>就这么简单。下面解压simple-demo-1.0.0-SNAPSHOT.jar  ，看它的目录结构：</p>
-
-<pre><code class="language-bash">jar tvf simple-demo-1.0.0-SNAPSHOT.jar 
-# 解压后的3个目录
-# tree -L 2
-├── BOOT-INF # 项目class和依赖的jar包
-│   ├── classes
-│   └── lib
-├── META-INF # jarMANIFEST和maven信息
-│   ├── MANIFEST.MF
-│   └── maven
-└── org # spring-boot启动相关的class
-    └── springframework
-</code></pre>
-
-<p>一个jar能通过<code>java -jar</code>执行需要jar指定了main方法，文档见</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;modelVersion&gt;</span>4.0.0<span style="color:#f92672">&lt;/modelVersion&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;artifactId&gt;</span>simple-demo<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;version&gt;</span>1.0.0-SNAPSHOT.jar <span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Inherit defaults from Spring Boot --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;version&gt;</span>2.1.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Add typical dependencies for a web application --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Package as an executable jar --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/build&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>mvn 打包：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mvn clean package
+</span></span></code></pre></div><p>在target目录生产两个包：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 可执行fat jar</span>
+</span></span><span style="display:flex;"><span>simple-demo-1.0.0-SNAPSHOT.jar 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 本项目的jar包</span>
+</span></span><span style="display:flex;"><span>simple-demo-1.0.0-SNAPSHOT.jar.original
+</span></span></code></pre></div><p>启动:</p>
+<pre tabindex="0"><code>java -jar simple-demo-1.0.0-SNAPSHOT.jar 
+</code></pre><p>就这么简单。下面解压simple-demo-1.0.0-SNAPSHOT.jar  ，看它的目录结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jar tvf simple-demo-1.0.0-SNAPSHOT.jar 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解压后的3个目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tree -L 2</span>
+</span></span><span style="display:flex;"><span>├── BOOT-INF <span style="color:#75715e"># 项目class和依赖的jar包</span>
+</span></span><span style="display:flex;"><span>│   ├── classes
+</span></span><span style="display:flex;"><span>│   └── lib
+</span></span><span style="display:flex;"><span>├── META-INF <span style="color:#75715e"># jarMANIFEST和maven信息</span>
+</span></span><span style="display:flex;"><span>│   ├── MANIFEST.MF
+</span></span><span style="display:flex;"><span>│   └── maven
+</span></span><span style="display:flex;"><span>└── org <span style="color:#75715e"># spring-boot启动相关的class</span>
+</span></span><span style="display:flex;"><span>    └── springframework
+</span></span></code></pre></div><p>一个jar能通过<code>java -jar </code>执行需要jar指定了main方法，文档见</p>
 <ul>
-<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/defman.html">Understanding the Default Manifest</a><br /></li>
-<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html">Setting an Application&rsquo;s Entry Point</a><br />
-<br />
-<br /></li>
+<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/defman.html">Understanding the Default Manifest</a></li>
+<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html">Setting an Application&rsquo;s Entry Point</a></li>
 </ul>
-
 <p>总结一句话，需要在<code>META-INF/MANIFEST.MF</code>中指定<code>Main-Class</code>。下面我们看看解压后的文件是否有相关配置：</p>
-
-<pre><code class="language-bash">➜  META-INF (master) ✗ cat MANIFEST.MF
-Manifest-Version: 1.0
-Implementation-Title: simple-demo
-Implementation-Version: 1.0-SNAPSHOT
-Built-By: zhaozhou
-Implementation-Vendor-Id: com.thoreauz.bootlearn
-Spring-Boot-Version: 2.0.1.RELEASE
-Main-Class: org.springframework.boot.loader.JarLauncher
-Start-Class: com.thoreauz.bootlearn.Application
-Spring-Boot-Classes: BOOT-INF/classes/
-Spring-Boot-Lib: BOOT-INF/lib/
-Created-By: Apache Maven 3.3.9
-Build-Jdk: 1.8.0_91
-Implementation-URL: http://maven.apache.org
-</code></pre>
-
-<p>没错，Main-Class就是<code>org.springframework.boot.loader.JarLauncher</code>。所以最先启动的是它。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  META-INF <span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat MANIFEST.MF
+</span></span><span style="display:flex;"><span>Manifest-Version: 1.0
+</span></span><span style="display:flex;"><span>Implementation-Title: simple-demo
+</span></span><span style="display:flex;"><span>Implementation-Version: 1.0-SNAPSHOT
+</span></span><span style="display:flex;"><span>Built-By: zhaozhou
+</span></span><span style="display:flex;"><span>Implementation-Vendor-Id: com.thoreauz.bootlearn
+</span></span><span style="display:flex;"><span>Spring-Boot-Version: 2.0.1.RELEASE
+</span></span><span style="display:flex;"><span>Main-Class: org.springframework.boot.loader.JarLauncher
+</span></span><span style="display:flex;"><span>Start-Class: com.thoreauz.bootlearn.Application
+</span></span><span style="display:flex;"><span>Spring-Boot-Classes: BOOT-INF/classes/
+</span></span><span style="display:flex;"><span>Spring-Boot-Lib: BOOT-INF/lib/
+</span></span><span style="display:flex;"><span>Created-By: Apache Maven 3.3.9
+</span></span><span style="display:flex;"><span>Build-Jdk: 1.8.0_91
+</span></span><span style="display:flex;"><span>Implementation-URL: http://maven.apache.org
+</span></span></code></pre></div><p>没错，Main-Class就是<code>org.springframework.boot.loader.JarLauncher</code>。所以最先启动的是它。</p>
 <h2 id="archives">Archives</h2>
-
 <p>先撇开JarLauncher两分钟，认识下Archive，看代码：</p>
-
-<pre><code class="language-java">// 可以被Launcher 启动的一个抽象
-public interface Archive extends Iterable&lt;Archive.Entry&gt; {
-    // 用于定位Archive
-	URL getUrl() throws MalformedURLException;
-   // 返回Archive的manifest
-	Manifest getManifest() throws IOException;
-	// 返回Archive所包装的Archive
-	List&lt;Archive&gt; getNestedArchives(EntryFilter filter) throws IOException;
-}
-</code></pre>
-
-<p>Archive，即归档，spring-boot把可以被启动器(Launcher)加载的抽象成一个Archive，目前有两个实现：<br />
-* JarFileArchive：即一个jarFile(jar包或者jar目录)<br />
-* ExplodedArchive：可以理解一个目录</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 可以被Launcher 启动的一个抽象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Archive</span> <span style="color:#66d9ef">extends</span> Iterable<span style="color:#f92672">&lt;</span>Archive<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 用于定位Archive
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	URL <span style="color:#a6e22e">getUrl</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> MalformedURLException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 返回Archive的manifest
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Manifest <span style="color:#a6e22e">getManifest</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 返回Archive所包装的Archive
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	List<span style="color:#f92672">&lt;</span>Archive<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getNestedArchives</span><span style="color:#f92672">(</span>EntryFilter filter<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Archive，即归档，spring-boot把可以被启动器(Launcher)加载的抽象成一个Archive，目前有两个实现：</p>
+<ul>
+<li>JarFileArchive：即一个jarFile(jar包或者jar目录)</li>
+<li>ExplodedArchive：可以理解一个目录</li>
+</ul>
 <p>再来看JarLauncher类，他是用来启动JarFileArchive类型的启动器，指定了从BOOT-INF/classes和BOOT-INF/lib/路径下加载。</p>
-
-<pre><code class="language-java">public class JarLauncher extends ExecutableArchiveLauncher {
-	static final String BOOT_INF_CLASSES = &quot;BOOT-INF/classes/&quot;;
-	static final String BOOT_INF_LIB = &quot;BOOT-INF/lib/&quot;;
-	public JarLauncher() {
-	}
-	protected JarLauncher(Archive archive) {
-		super(archive);
-	}
-	protected boolean isNestedArchive(Archive.Entry entry) {
-		if (entry.isDirectory()) {
-			return entry.getName().equals(BOOT_INF_CLASSES);
-		}
-		return entry.getName().startsWith(BOOT_INF_LIB);
-	}
-	public static void main(String[] args) throws Exception {
-		new JarLauncher().launch(args);
-	}
-}
-</code></pre>
-
-<h2 id="jarlauncher初始化">JarLauncher初始化</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JarLauncher</span> <span style="color:#66d9ef">extends</span> ExecutableArchiveLauncher <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String BOOT_INF_CLASSES <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BOOT-INF/classes/&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String BOOT_INF_LIB <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BOOT-INF/lib/&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">JarLauncher</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">JarLauncher</span><span style="color:#f92672">(</span>Archive archive<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>archive<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isNestedArchive</span><span style="color:#f92672">(</span>Archive<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span> entry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>entry<span style="color:#f92672">.</span><span style="color:#a6e22e">isDirectory</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>BOOT_INF_CLASSES<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">startsWith</span><span style="color:#f92672">(</span>BOOT_INF_LIB<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">new</span> JarLauncher<span style="color:#f92672">().</span><span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="jarlauncher初始化">JarLauncher初始化</h2>
 <p>main方法中<code>new JarLauncher()</code>初始化JarLauncher，主要做的一件事就是把它属性archive实例化。这个archive正是之前提到的fatjar。获取方式如下：</p>
-
-<pre><code class="language-java">protected final Archive createArchive() throws Exception {
-    ProtectionDomain protectionDomain = this.getClass().getProtectionDomain();
-    CodeSource codeSource = protectionDomain.getCodeSource();
-    URI location = codeSource == null ? null : codeSource.getLocation().toURI();
-    String path = location == null ? null : location.getSchemeSpecificPart();
-    // 省略了一些判断的代码
-    File root = new File(path);
-    return (Archive)(root.isDirectory() ? new ExplodedArchive(root) : new JarFileArchive(root));
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> Archive <span style="color:#a6e22e">createArchive</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ProtectionDomain protectionDomain <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProtectionDomain</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    CodeSource codeSource <span style="color:#f92672">=</span> protectionDomain<span style="color:#f92672">.</span><span style="color:#a6e22e">getCodeSource</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    URI location <span style="color:#f92672">=</span> codeSource <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">:</span> codeSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocation</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toURI</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    String path <span style="color:#f92672">=</span> location <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">:</span> location<span style="color:#f92672">.</span><span style="color:#a6e22e">getSchemeSpecificPart</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 省略了一些判断的代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    File root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>path<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>Archive<span style="color:#f92672">)(</span>root<span style="color:#f92672">.</span><span style="color:#a6e22e">isDirectory</span><span style="color:#f92672">()</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> ExplodedArchive<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> JarFileArchive<span style="color:#f92672">(</span>root<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>JarLauncher的archive就是JarFileArchive类型。</p>
 </blockquote>
-
 <h2 id="查找fat-jar中的类">查找fat-jar中的类</h2>
-
 <p>上面提到JarLauncher的main方法调用了父类<code>Launcher</code>的<code>launch(String[] args)</code>方法，方法如下：</p>
-
-<pre><code class="language-java">JarFile.registerUrlProtocolHandler();
-ClassLoader classLoader = this.createClassLoader(this.getClassPathArchives());
-this.launch(args, this.getMainClass(), classLoader);
-</code></pre>
-
-<p>它怎么判断从fat jar的哪个目录开始查找？通过上文中isNestedArchive()方法判断查找入口，查找类目录和jar，创建Archives。其实就是JarLauncher的archive(JarFileArchive)实现的<code>getNestedArchives()</code>方法的工作。返回的一个JarFileArchive的list，实际数据保存在JarFileArchive.JarFile，他的URL协议如下：</p>
-
-<pre><code class="language-bash"># NESTED_DIRECTORY类型
-jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
-# NESTED_JAR类型
-jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-web-2.0.1.RELEASE.jar!/
-</code></pre>
-
-<h2 id="launchedurlclassloader">LaunchedURLClassLoader</h2>
-
-<p>查找并创建的archives，最后转化为urls(List<URL>)。spring boot 通过LaunchedURLClassLoader，根据urls加载类，它继承jdk提供的URLClassLoader。URLClassLoader可以通过以下方式加载类：<br />
-* 从文件目录加载<br />
-* 从jar包中加载<br />
-* 从网络加载<br />
-LaunchedURLClassLoader作了扩展，能根据JarFileArchive的urls，从fatjar中加载类。最后通过他反射调用项目的main方法：</p>
-
-<pre><code class="language-java">//classLoader就是LaunchedURLClassLoader
-protected void launch(String[] args, String mainClass, ClassLoader classLoader) throws Exception {
-    Thread.currentThread().setContextClassLoader(classLoader);
-    this.createMainMethodRunner(mainClass, args, classLoader).run();
-}
-public void run() throws Exception {
-    Class&lt;?&gt; mainClass = Thread.currentThread().getContextClassLoader().loadClass(this.mainClassName);
-    Method mainMethod = mainClass.getDeclaredMethod(&quot;main&quot;, String[].class);
-    mainMethod.invoke((Object)null, this.args);
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>JarFile<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUrlProtocolHandler</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>ClassLoader classLoader <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createClassLoader</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassPathArchives</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>args<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getMainClass</span><span style="color:#f92672">(),</span> classLoader<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>它怎么判断从fat jar的哪个目录开始查找？通过上文中isNestedArchive()方法判断查找入口，查找类目录和jar，创建Archives。其实就是JarLauncher的archive(JarFileArchive)实现的<code>getNestedArchives()</code>方法的工作。返回的一个JarFileArchive的list，实际数据保存在JarFileArchive.JarFile，他的URL协议如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># NESTED_DIRECTORY类型</span>
+</span></span><span style="display:flex;"><span>jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NESTED_JAR类型</span>
+</span></span><span style="display:flex;"><span>jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-web-2.0.1.RELEASE.jar!/
+</span></span></code></pre></div><h2 id="launchedurlclassloader">LaunchedURLClassLoader</h2>
+<p>查找并创建的archives，最后转化为urls(List<!-- raw HTML omitted -->)。spring boot 通过LaunchedURLClassLoader，根据urls加载类，它继承jdk提供的URLClassLoader。URLClassLoader可以通过以下方式加载类：</p>
+<ul>
+<li>从文件目录加载</li>
+<li>从jar包中加载</li>
+<li>从网络加载
+LaunchedURLClassLoader作了扩展，能根据JarFileArchive的urls，从fatjar中加载类。最后通过他反射调用项目的main方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//classLoader就是LaunchedURLClassLoader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">,</span> String mainClass<span style="color:#f92672">,</span> ClassLoader classLoader<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setContextClassLoader</span><span style="color:#f92672">(</span>classLoader<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createMainMethodRunner</span><span style="color:#f92672">(</span>mainClass<span style="color:#f92672">,</span> args<span style="color:#f92672">,</span> classLoader<span style="color:#f92672">).</span><span style="color:#a6e22e">run</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Class<span style="color:#f92672">&lt;?&gt;</span> mainClass <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getContextClassLoader</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadClass</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mainClassName</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    Method mainMethod <span style="color:#f92672">=</span> mainClass<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    mainMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">((</span>Object<span style="color:#f92672">)</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">args</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>main方法类来自MANIFEST.MF的Start-Class。</p>
 </blockquote>
-
 <h2 id="总结">总结</h2>
-
 <p>至此，spring boot为什么能通过fat jar执行的基本原理就介绍完了，总结起来有几个关键点：</p>
-
 <ol>
-<li>maven插件按照一定规则组织jar包<br /></li>
-<li>把可以被spring boot加载的jar或者目录抽象为Archive。<br /></li>
-<li>LaunchedURLClassLoader提供了从Archive加载class的能力。<br />
-<br /></li>
+<li>maven插件按照一定规则组织jar包</li>
+<li>把可以被spring boot加载的jar或者目录抽象为Archive。</li>
+<li>LaunchedURLClassLoader提供了从Archive加载class的能力。</li>
 </ol>
-
 <p>当然，这是通过jar包运行的情况，如果在idea运行main方法，入口毫无疑问就是应用的main。 项目class在<code>target/classes/</code>目录，依赖jar包都被idea一股脑扔到classpath下了。</p>
-
-<hr />
-
-<p>参考:<br />
+<hr>
+<p>参考:
 [1]. <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/executable-jar.html">Appendix E. The Executable Jar Format</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#简单示例">简单示例</a></li>
-<li><a href="#archives">Archives</a></li>
-<li><a href="#jarlauncher初始化">JarLauncher初始化</a></li>
-<li><a href="#查找fat-jar中的类">查找fat-jar中的类</a></li>
-<li><a href="#launchedurlclassloader">LaunchedURLClassLoader</a></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#简单示例">简单示例</a></li>
+    <li><a href="#archives">Archives</a></li>
+    <li><a href="#jarlauncher初始化">JarLauncher初始化</a></li>
+    <li><a href="#查找fat-jar中的类">查找fat-jar中的类</a></li>
+    <li><a href="#launchedurlclassloader">LaunchedURLClassLoader</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 

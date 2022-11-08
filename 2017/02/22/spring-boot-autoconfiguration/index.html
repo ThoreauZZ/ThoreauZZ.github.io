@@ -21,7 +21,7 @@
   	<meta property="og:title" content="spring boot自动配置和自定义配置 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": spring boot自动配置和自定义配置,
-    "name": spring boot自动配置和自定义配置,
-    "wordCount": 1851,
+    "headline": "spring boot自动配置和自定义配置",
+    "name": "spring boot自动配置和自定义配置",
+    "wordCount":  1844 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/,
-    "datePublished": 2017-02-22T20:42Z,
-    "dateModified": 2017-02-22T20:42Z,
+    "url": "http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/",
+    "datePublished": "2017-02-22T20:42Z",
+    "dateModified": "2017-02-22T20:42Z",
     
-    "keywords": spring, spring-boot,
-    "description": ,
+    "keywords": "spring, spring-boot",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/
+        "@id": "http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,72 +247,57 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="spring-boot自动配置和自定义配置">spring boot自动配置和自定义配置</h1>
-
+      <h1 id="spring-boot自动配置和自定义配置">spring boot自动配置和自定义配置</h1>
 <p>本文介绍spring boot的自动配置原理，redis自动配置示例，如何配置多数据源。</p>
-
-<!-- more -->
-
-<h2 id="一-spring-boot-自动配置分析">一、Spring Boot 自动配置分析</h2>
-
+<!-- raw HTML omitted -->
+<h2 id="一spring-boot-自动配置分析">一、Spring Boot 自动配置分析</h2>
 <p>spring Boot很大的改变就是<code>xml</code>配置改成配置类。并且为很多常用的中间件引入了自动配置，用户只需要依赖对应jar包并在properties种配置即可使用。</p>
-
-<p>我们为spring boot项目添加一个启动类，使用<code>@SpringBootApplication</code>注解，即可右键启动项目。先看看这个注解的源码：</p>
-
-<pre><code class="language-java">@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(excludeFilters = @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class))
-public @interface SpringBootApplication {
-    
-        ...
-}
-</code></pre>
-
-<p>继续找到<code>@EnableAutoConfiguration</code>源码：</p>
-
-<pre><code class="language-java">@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@AutoConfigurationPackage
-@Import(EnableAutoConfigurationImportSelector.class)
-public @interface EnableAutoConfiguration {
-
-	String ENABLED_OVERRIDE_PROPERTY = &quot;spring.boot.enableautoconfiguration&quot;;
-
-	Class&lt;?&gt;[] exclude() default {};
-
-	String[] excludeName() default {};
-}
-</code></pre>
-
-<p>对于这段代码，有几个需要关注的地方：<br />
-1. <code>@Import</code>:功能等效于xml配置文件中的<import/>，xml中import引入的xml文件也将被解析，@import主要用来引入@Configuration注解的类。注意，如果要引入的就是xml配置问题，请使用@ImportResource。<br />
-2. <code>@AutoConfigurationPackage</code>:存储自动配置类的包通过@Import(EnableAutoConfigurationImportSelector.class)查看EnableAutoConfigurationImportSelector类的部分源码：</p>
-
-<pre><code class="language-java">/**
-*返回自动配置类的名字
-*/
-protected List&lt;String&gt; getCandidateConfigurations(AnnotationMetadata metadata,
-		AnnotationAttributes attributes) {
-	List&lt;String&gt; configurations = SpringFactoriesLoader.loadFactoryNames(
-			getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader());
-	Assert.notEmpty(configurations,
-			&quot;No auto configuration classes found in META-INF/spring.factories. If you &quot;
-					+ &quot;are using a custom packaging, make sure that file is correct.&quot;);
-	return configurations;
-}
-</code></pre>
-
-<p>自动配置类位于 <code>META-INF/spring.factories</code>文件中，内容如下（只列出部分）：</p>
-
-<pre><code># Initializers
+<p>我们为spring boot项目添加一个启动类，使用<code>@SpringBootApplication </code>注解，即可右键启动项目。先看看这个注解的源码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Documented</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Inherited</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootConfiguration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableAutoConfiguration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ComponentScan</span><span style="color:#f92672">(</span>excludeFilters <span style="color:#f92672">=</span> <span style="color:#a6e22e">@Filter</span><span style="color:#f92672">(</span>type <span style="color:#f92672">=</span> FilterType<span style="color:#f92672">.</span><span style="color:#a6e22e">CUSTOM</span><span style="color:#f92672">,</span> classes <span style="color:#f92672">=</span> TypeExcludeFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> SpringBootApplication <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>继续找到<code>@EnableAutoConfiguration</code>源码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Documented</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Inherited</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AutoConfigurationPackage</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Import</span><span style="color:#f92672">(</span>EnableAutoConfigurationImportSelector<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> EnableAutoConfiguration <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	String ENABLED_OVERRIDE_PROPERTY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.boot.enableautoconfiguration&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	Class<span style="color:#f92672">&lt;?&gt;[]</span> exclude<span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#f92672">{};</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	String<span style="color:#f92672">[]</span> <span style="color:#a6e22e">excludeName</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#f92672">{};</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>对于这段代码，有几个需要关注的地方：</p>
+<ol>
+<li><code>@Import</code>:功能等效于xml配置文件中的<!-- raw HTML omitted -->，xml中import引入的xml文件也将被解析，@import主要用来引入@Configuration注解的类。注意，如果要引入的就是xml配置问题，请使用@ImportResource。</li>
+<li><code>@AutoConfigurationPackage</code>:存储自动配置类的包通过@Import(EnableAutoConfigurationImportSelector.class)查看EnableAutoConfigurationImportSelector类的部分源码：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*返回自动配置类的名字
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getCandidateConfigurations</span><span style="color:#f92672">(</span>AnnotationMetadata metadata<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>		AnnotationAttributes attributes<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> configurations <span style="color:#f92672">=</span> SpringFactoriesLoader<span style="color:#f92672">.</span><span style="color:#a6e22e">loadFactoryNames</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>			getSpringFactoriesLoaderFactoryClass<span style="color:#f92672">(),</span> getBeanClassLoader<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>	Assert<span style="color:#f92672">.</span><span style="color:#a6e22e">notEmpty</span><span style="color:#f92672">(</span>configurations<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;No auto configuration classes found in META-INF/spring.factories. If you &#34;</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;are using a custom packaging, make sure that file is correct.&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> configurations<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>自动配置类位于 <code>META-INF/spring.factories</code>文件中，内容如下（只列出部分）：</p>
+<pre tabindex="0"><code># Initializers
 org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration,\
 org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration,\
 org.springframework.boot.autoconfigure.data.solr.SolrRepositoriesAutoConfiguration,\
@@ -342,263 +328,230 @@ org.springframework.boot.autoconfigure.jms.artemis.ArtemisAutoConfiguration,\
 org.springframework.boot.autoconfigure.jms.hornetq.HornetQAutoConfiguration,\
 org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration,\
 org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
-</code></pre>
-
-<p>以redis 为例子,在文件搜redis，发现配置类为：<code>org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration</code>,根据它找到源码：</p>
-
-<pre><code class="language-java">@Configuration
-@ConditionalOnClass({ JedisConnection.class, RedisOperations.class, Jedis.class })
-@EnableConfigurationProperties(RedisProperties.class)
-public class RedisAutoConfiguration {
-    
-        .....
-}
-</code></pre>
-
-<p>解读：<br />
-1. @Configuration：表示声明一个或者多个方法，生成spring容器的bean。<br />
-2. @ConditionalOnClass ：注解参数对应的类(JedisConnection,RedisOperations,Jedis)必须存在，否则不解析该注解修饰的配置类。也就是说，不引入redis客户端相关包，自动配置不会生效。<br />
-3. @EnableConfigurationProperties:让RedisAutoConfiguration以RedisProperties所定义的配置标准读取配置。</p>
-
+</code></pre><p>以redis 为例子,在文件搜redis，发现配置类为：<code>org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration</code>,根据它找到源码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnClass</span><span style="color:#f92672">({</span> JedisConnection<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> RedisOperations<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> Jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span> <span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableConfigurationProperties</span><span style="color:#f92672">(</span>RedisProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisAutoConfiguration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.....</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>解读：</p>
+<ol>
+<li>@Configuration：表示声明一个或者多个方法，生成spring容器的bean。</li>
+<li>@ConditionalOnClass ：注解参数对应的类(JedisConnection,RedisOperations,Jedis)必须存在，否则不解析该注解修饰的配置类。也就是说，不引入redis客户端相关包，自动配置不会生效。</li>
+<li>@EnableConfigurationProperties:让RedisAutoConfiguration以RedisProperties所定义的配置标准读取配置。</li>
+</ol>
 <p>先看下<code>RedisProperties</code>部分代码：</p>
-
-<pre><code class="language-java">@ConfigurationProperties(prefix = &quot;spring.redis&quot;)
-public class RedisProperties {
-    //application.properties中 spring.redis.port 的值会赋给port属性。
-	private int database = 0;
-	private String host = &quot;localhost&quot;;
-	private String password;
-	private int port = 6379;
-
-	@Configuration
-	protected static class RedisConfiguration {
-
-		@Bean
-		@ConditionalOnMissingBean(name = &quot;redisTemplate&quot;)
-		public RedisTemplate&lt;Object, Object&gt; redisTemplate(
-				RedisConnectionFactory redisConnectionFactory)
-						throws UnknownHostException {
-			RedisTemplate&lt;Object, Object&gt; template = new RedisTemplate&lt;Object, Object&gt;();
-			template.setConnectionFactory(redisConnectionFactory);
-			return template;
-		}
-
-		@Bean
-		@ConditionalOnMissingBean(StringRedisTemplate.class)
-		public StringRedisTemplate stringRedisTemplate(
-				RedisConnectionFactory redisConnectionFactory)
-						throws UnknownHostException {
-			StringRedisTemplate template = new StringRedisTemplate();
-			template.setConnectionFactory(redisConnectionFactory);
-			return template;
-		}
-}
-</code></pre>
-
-<p>解读：<br />
-1. 获取前缀为<code>spring.redis</code>的配置，如果没有配置，host 默认localhost，端口默认6379。<br />
-2. <code>@ConditionalOnMissingBean(StringRedisTemplate.class)</code>: 如果StringRedisTemplate这个bean不存在配置才生效，意思就是说如果我们自己配置了StringRedisTemplate，自动配置就不会生效。</p>
-
-<h2 id="二-spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</h2>
-
-<h3 id="2-1-maven-添加依赖">2.1 maven 添加依赖</h3>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<h3 id="2-2-添加配置">2.2 添加配置</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.redis&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisProperties</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//application.properties中 spring.redis.port 的值会赋给port属性。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> database <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String password<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> port <span style="color:#f92672">=</span> 6379<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisConfiguration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">@ConditionalOnMissingBean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redisTemplate&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> RedisTemplate<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">redisTemplate</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>				RedisConnectionFactory redisConnectionFactory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">throws</span> UnknownHostException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			RedisTemplate<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> template <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RedisTemplate<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;();</span>
+</span></span><span style="display:flex;"><span>			template<span style="color:#f92672">.</span><span style="color:#a6e22e">setConnectionFactory</span><span style="color:#f92672">(</span>redisConnectionFactory<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> template<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">@ConditionalOnMissingBean</span><span style="color:#f92672">(</span>StringRedisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> StringRedisTemplate <span style="color:#a6e22e">stringRedisTemplate</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>				RedisConnectionFactory redisConnectionFactory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">throws</span> UnknownHostException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			StringRedisTemplate template <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringRedisTemplate<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>			template<span style="color:#f92672">.</span><span style="color:#a6e22e">setConnectionFactory</span><span style="color:#f92672">(</span>redisConnectionFactory<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> template<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>解读：</p>
+<ol>
+<li>获取前缀为<code>spring.redis</code>的配置，如果没有配置，host 默认localhost，端口默认6379。</li>
+<li><code>@ConditionalOnMissingBean(StringRedisTemplate.class)</code>: 如果StringRedisTemplate这个bean不存在配置才生效，意思就是说如果我们自己配置了StringRedisTemplate，自动配置就不会生效。</li>
+</ol>
+<h2 id="二spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</h2>
+<h3 id="21-maven-添加依赖">2.1 maven 添加依赖</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-data-redis<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="22-添加配置">2.2 添加配置</h3>
 <p>这儿使用redis伪集群，在<code>properties</code>中添加如下配置：</p>
-
-<pre><code class="language-properties">spring.redis.cluster.nodes=192.168.99.100:7001,192.168.99.100:7002,192.168.99.100:7003,192.168.99.100:7004,192.168.99.100:7005,192.168.99.100:7006
-spring.redis.pool.max-active=8
-spring.redis.pool.max-idle=8
-spring.redis.pool.max-wait=-1
-spring.redis.pool.min-idle=0
-spring.redis.timeout=0
-</code></pre>
-
-<h3 id="2-3-使用">2.3 使用</h3>
-
-<pre><code class="language-java">@SpringBootApplication
-public class UserApplication implements CommandLineRunner {
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
-    public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        ValueOperations&lt;String, String&gt; opsForValue = redisTemplate.opsForValue();
-        String key = &quot;name&quot;;
-        opsForValue.set(key, &quot;erdaoya&quot;);
-        System.out.println(&quot;redis key &quot; + key + &quot;, value=&quot; + opsForValue.get(key));
-    }
-}
-</code></pre>
-
-<p>说明：<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.cluster.nodes</span><span style="color:#f92672">=</span><span style="color:#e6db74">192.168.99.100:7001,192.168.99.100:7002,192.168.99.100:7003,192.168.99.100:7004,192.168.99.100:7005,192.168.99.100:7006</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.pool.max-active</span><span style="color:#f92672">=</span><span style="color:#e6db74">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.pool.max-idle</span><span style="color:#f92672">=</span><span style="color:#e6db74">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.pool.max-wait</span><span style="color:#f92672">=</span><span style="color:#e6db74">-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.pool.min-idle</span><span style="color:#f92672">=</span><span style="color:#e6db74">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.redis.timeout</span><span style="color:#f92672">=</span><span style="color:#e6db74">0</span>
+</span></span></code></pre></div><h3 id="23-使用">2.3 使用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserApplication</span> <span style="color:#66d9ef">implements</span> CommandLineRunner <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> StringRedisTemplate redisTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>UserApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        ValueOperations<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> opsForValue <span style="color:#f92672">=</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        String key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        opsForValue<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;erdaoya&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redis key &#34;</span> <span style="color:#f92672">+</span> key <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, value=&#34;</span> <span style="color:#f92672">+</span> opsForValue<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>说明：
 <code>StringRedisTemplate</code>就相当于<code>RedisTemplate&lt;String,String&gt;</code>,如果只是简单的key-value 字符串操作，推荐用前者。后者提供更丰富的功能，如对java对象序列化存储。</p>
-
-<h2 id="三-spring-boot-jdbc-mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</h2>
-
-<h3 id="3-1-添加依赖">3.1 添加依赖</h3>
-
-<pre><code class="language-xml">  &lt;!--mysql--&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-    &lt;artifactId&gt;druid&lt;/artifactId&gt;
-    &lt;version&gt;${druid.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;mysql&lt;/groupId&gt;
-    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
-    &lt;version&gt;${mybatis-spring-boot-starter.version}&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<h3 id="3-2-编写配置类">3.2 编写配置类</h3>
-
-<pre><code class="language-java">@Configuration
-public class DataSourceConfig {
-
-    @Primary
-    @Bean(name = &quot;primaryDataSource&quot;)
-    @Qualifier(&quot;primaryDataSource&quot;)
-    @ConfigurationProperties(prefix = &quot;spring.datasource.user.primary&quot;)
-    public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean(name = &quot;secondaryDataSource&quot;)
-    @Qualifier(&quot;secondaryDataSource&quot;)
-    @ConfigurationProperties(prefix = &quot;spring.datasource.user.secondary&quot;)
-    public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean(name = &quot;primarySqlSessionFactory&quot;)
-    @Primary
-    public SqlSessionFactory sqlSessionFactory(@Qualifier(&quot;primaryDataSource&quot;) DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
-         bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(&quot;classpath:mybatis/mybatis-config.xml&quot;));
-        return bean.getObject();
-    }
-
-    @Bean(name = &quot;primaryTransactionManager&quot;)
-    @Primary
-    public DataSourceTransactionManager transactionManager(@Qualifier(&quot;primaryDataSource&quot;) DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    @Bean(name = &quot;primarySqlSessionTemplate&quot;)
-    @Primary
-    public SqlSessionTemplate sqlSessionTemplate(
-            @Qualifier(&quot;primarySqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory) throws Exception {
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }
-
-    @Bean(name = &quot;secondarySqlSessionFactory&quot;)
-    public SqlSessionFactory secondarySqlSessionFactory(@Qualifier(&quot;secondaryDataSource&quot;) DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
-         bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(&quot;classpath:mybatis/mybatis-config.xml&quot;));
-        return bean.getObject();
-    }
-
-    @Bean(name = &quot;secondaryTransactionManager&quot;)
-    public DataSourceTransactionManager secondaryTransactionManager(@Qualifier(&quot;secondaryDataSource&quot;) DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    @Bean(name = &quot;secondarySqlSessionTemplate&quot;)
-    public SqlSessionTemplate secondarySqlSessionTemplate(
-            @Qualifier(&quot;secondarySqlSessionFactory&quot;) SqlSessionFactory sqlSessionFactory) throws Exception {
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }
-}
-</code></pre>
-
-<p>可以看出，其实配置类跟xml相差无几。</p>
-
-<h3 id="3-3-添加配置">3.3 添加配置</h3>
-
-<pre><code class="language-properties">spring.datasource.user.primary.url=jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8
-spring.datasource.user.primary.username=root
-spring.datasource.user.primary.password=1234
-spring.datasource.user.primary.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.user.primary.type=com.alibaba.druid.pool.DruidDataSource
-
-spring.datasource.user.secondary.url=jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8
-spring.datasource.user.secondary.username=root
-spring.datasource.user.secondary.password=1234
-spring.datasource.user.secondary.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.user.secondary.type=com.alibaba.druid.pool.DruidDataSource
-</code></pre>
-
-<h3 id="3-4-使用">3.4 使用</h3>
-
-<pre><code class="language-java">@Repository
-public class UserDao {
-
-    @Autowired
-    @Qualifier(&quot;primarySqlSessionTemplate&quot;)
-    private SqlSessionTemplate primarySqlSessionTemplate;
-
-    @Autowired
-    @Qualifier(&quot;secondarySqlSessionTemplate&quot;)
-    private SqlSessionTemplate secondarySqlSessionTemplate;
-
-    public User selectUserFromDB1ById(Long id) {
-        return primarySqlSessionTemplate.selectOne(&quot;selectUserById&quot;, id);
-    }
-
-    public User selectUserFromDB2ById(Long id) {
-        return secondarySqlSessionTemplate.selectOne(&quot;selectUserById&quot;, id);
-    }
-}
-</code></pre>
-
-<p>访问<code>/health</code>监控端口，可以看到2个配置都<code>UP</code>。<br />
-<img src="http://thoreauz.com/images/2017-02-22-18-24-28.jpg" alt="" /></p>
+<h2 id="三spring-boot--jdbc--mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</h2>
+<h3 id="31-添加依赖">3.1 添加依赖</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>  <span style="color:#75715e">&lt;!--mysql--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-jdbc<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>druid<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>${druid.version}<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>mysql<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>mysql-connector-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.mybatis.spring.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>mybatis-spring-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>${mybatis-spring-boot-starter.version}<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="32-编写配置类">3.2 编写配置类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DataSourceConfig</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Primary</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;primaryDataSource&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;primaryDataSource&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.datasource.user.primary&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> DataSource <span style="color:#a6e22e">primaryDataSource</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> DataSourceBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">().</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;secondaryDataSource&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;secondaryDataSource&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.datasource.user.secondary&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> DataSource <span style="color:#a6e22e">secondaryDataSource</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> DataSourceBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">().</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;primarySqlSessionFactory&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Primary</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SqlSessionFactory <span style="color:#a6e22e">sqlSessionFactory</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;primaryDataSource&#34;</span><span style="color:#f92672">)</span> DataSource dataSource<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SqlSessionFactoryBean bean <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBean<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        bean<span style="color:#f92672">.</span><span style="color:#a6e22e">setDataSource</span><span style="color:#f92672">(</span>dataSource<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>         bean<span style="color:#f92672">.</span><span style="color:#a6e22e">setConfigLocation</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PathMatchingResourcePatternResolver<span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classpath:mybatis/mybatis-config.xml&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> bean<span style="color:#f92672">.</span><span style="color:#a6e22e">getObject</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;primaryTransactionManager&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Primary</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> DataSourceTransactionManager <span style="color:#a6e22e">transactionManager</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;primaryDataSource&#34;</span><span style="color:#f92672">)</span> DataSource dataSource<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DataSourceTransactionManager<span style="color:#f92672">(</span>dataSource<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;primarySqlSessionTemplate&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Primary</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SqlSessionTemplate <span style="color:#a6e22e">sqlSessionTemplate</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;primarySqlSessionFactory&#34;</span><span style="color:#f92672">)</span> SqlSessionFactory sqlSessionFactory<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> SqlSessionTemplate<span style="color:#f92672">(</span>sqlSessionFactory<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;secondarySqlSessionFactory&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SqlSessionFactory <span style="color:#a6e22e">secondarySqlSessionFactory</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;secondaryDataSource&#34;</span><span style="color:#f92672">)</span> DataSource dataSource<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SqlSessionFactoryBean bean <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SqlSessionFactoryBean<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        bean<span style="color:#f92672">.</span><span style="color:#a6e22e">setDataSource</span><span style="color:#f92672">(</span>dataSource<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>         bean<span style="color:#f92672">.</span><span style="color:#a6e22e">setConfigLocation</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PathMatchingResourcePatternResolver<span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classpath:mybatis/mybatis-config.xml&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> bean<span style="color:#f92672">.</span><span style="color:#a6e22e">getObject</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;secondaryTransactionManager&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> DataSourceTransactionManager <span style="color:#a6e22e">secondaryTransactionManager</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;secondaryDataSource&#34;</span><span style="color:#f92672">)</span> DataSource dataSource<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DataSourceTransactionManager<span style="color:#f92672">(</span>dataSource<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;secondarySqlSessionTemplate&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SqlSessionTemplate <span style="color:#a6e22e">secondarySqlSessionTemplate</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;secondarySqlSessionFactory&#34;</span><span style="color:#f92672">)</span> SqlSessionFactory sqlSessionFactory<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> SqlSessionTemplate<span style="color:#f92672">(</span>sqlSessionFactory<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>可以看出，其实配置类跟xml相差无几。</p>
+<h3 id="33-添加配置">3.3 添加配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.primary.url</span><span style="color:#f92672">=</span><span style="color:#e6db74">jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.primary.username</span><span style="color:#f92672">=</span><span style="color:#e6db74">root</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.primary.password</span><span style="color:#f92672">=</span><span style="color:#e6db74">1234</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.primary.driver-class-name</span><span style="color:#f92672">=</span><span style="color:#e6db74">com.mysql.jdbc.Driver</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.primary.type</span><span style="color:#f92672">=</span><span style="color:#e6db74">com.alibaba.druid.pool.DruidDataSource</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.secondary.url</span><span style="color:#f92672">=</span><span style="color:#e6db74">jdbc:mysql://192.168.99.100:3306/boot?useUnicode=true&amp;characterEncoding=UTF-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.secondary.username</span><span style="color:#f92672">=</span><span style="color:#e6db74">root</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.secondary.password</span><span style="color:#f92672">=</span><span style="color:#e6db74">1234</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.secondary.driver-class-name</span><span style="color:#f92672">=</span><span style="color:#e6db74">com.mysql.jdbc.Driver</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.datasource.user.secondary.type</span><span style="color:#f92672">=</span><span style="color:#e6db74">com.alibaba.druid.pool.DruidDataSource</span>
+</span></span></code></pre></div><h3 id="34-使用">3.4 使用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Repository</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserDao</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;primarySqlSessionTemplate&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SqlSessionTemplate primarySqlSessionTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;secondarySqlSessionTemplate&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SqlSessionTemplate secondarySqlSessionTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">selectUserFromDB1ById</span><span style="color:#f92672">(</span>Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> primarySqlSessionTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">selectOne</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;selectUserById&#34;</span><span style="color:#f92672">,</span> id<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">selectUserFromDB2ById</span><span style="color:#f92672">(</span>Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> secondarySqlSessionTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">selectOne</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;selectUserById&#34;</span><span style="color:#f92672">,</span> id<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>访问<code>/health</code>监控端口，可以看到2个配置都<code>UP</code>。
+<img src="http://thoreauz.com/images/2017-02-22-18-24-28.jpg" alt=""></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#spring-boot自动配置和自定义配置">spring boot自动配置和自定义配置</a>
-<ul>
-<li><a href="#一-spring-boot-自动配置分析">一、Spring Boot 自动配置分析</a></li>
-<li><a href="#二-spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</a>
-<ul>
-<li><a href="#2-1-maven-添加依赖">2.1 maven 添加依赖</a></li>
-<li><a href="#2-2-添加配置">2.2 添加配置</a></li>
-<li><a href="#2-3-使用">2.3 使用</a></li>
-</ul></li>
-<li><a href="#三-spring-boot-jdbc-mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</a>
-<ul>
-<li><a href="#3-1-添加依赖">3.1 添加依赖</a></li>
-<li><a href="#3-2-编写配置类">3.2 编写配置类</a></li>
-<li><a href="#3-3-添加配置">3.3 添加配置</a></li>
-<li><a href="#3-4-使用">3.4 使用</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一spring-boot-自动配置分析">一、Spring Boot 自动配置分析</a></li>
+    <li><a href="#二spring-boot-redis-自动配置使用示例">二、spring boot redis 自动配置使用示例</a>
+      <ul>
+        <li><a href="#21-maven-添加依赖">2.1 maven 添加依赖</a></li>
+        <li><a href="#22-添加配置">2.2 添加配置</a></li>
+        <li><a href="#23-使用">2.3 使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#三spring-boot--jdbc--mybatis-多数据源自定义配置">三、Spring Boot + Jdbc + Mybatis 多数据源自定义配置</a>
+      <ul>
+        <li><a href="#31-添加依赖">3.1 添加依赖</a></li>
+        <li><a href="#32-编写配置类">3.2 编写配置类</a></li>
+        <li><a href="#33-添加配置">3.3 添加配置</a></li>
+        <li><a href="#34-使用">3.4 使用</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

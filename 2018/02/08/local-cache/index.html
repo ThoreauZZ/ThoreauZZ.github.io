@@ -21,7 +21,7 @@
   	<meta property="og:title" content="聊聊本地缓存 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/02/08/local-cache/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/02/08/local-cache/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": 聊聊本地缓存,
-    "name": 聊聊本地缓存,
-    "wordCount": 2003,
+    "headline": "聊聊本地缓存",
+    "name": "聊聊本地缓存",
+    "wordCount":  2000 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/02/08/local-cache/,
-    "datePublished": 2018-02-08T22:30Z,
-    "dateModified": 2018-02-08T22:30Z,
+    "url": "http://thoreauz.com/2018/02/08/local-cache/",
+    "datePublished": "2018-02-08T22:30Z",
+    "dateModified": "2018-02-08T22:30Z",
     
-    "keywords": algorithm, cache,
-    "description": ,
+    "keywords": "algorithm, cache",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/02/08/local-cache/
+        "@id": "http://thoreauz.com/2018/02/08/local-cache/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,191 +247,161 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
+      <h2 id="概述">概述</h2>
 <p>本文介绍一些常见的缓存设计算法和思路。比如缓存淘汰的算法：LRU，SLRU，LFU，W-TinyLFU。实现入guava cache和caffeine。</p>
-
 <h2 id="lru">LRU</h2>
-
 <p>LRU的全称是Least Recently Used，最近最少使用。如果缓存满了，把最近没有被使用到的数据移出。它的思想是：如果数据最近被访问过，将来被访问的概率也更高。</p>
-
-<p>最简单的方式就是使用<code>LinkedHashMap</code>，几行代码就能实现。<br />
-<!-- more --></p>
-
-<pre><code class="language-java">public class LruCacheLinkedHashMapLazy&lt;K, V&gt; implements LruCache&lt;K,V&gt; {
-    private LinkedHashMap&lt;K, V&gt; map;
-    private final int CAPACITY;
-
-    public LruCacheLinkedHashMapLazy(int capacity) {
-        CAPACITY = capacity;
-        map = new LinkedHashMap&lt;K, V&gt;(capacity, 0.75f, true) {
-            protected boolean removeEldestEntry(Map.Entry eldest) {
-                return size() &gt; CAPACITY;
-            }
-        };
-    }
-    @Override
-    public V get(K key) {
-        return map.getOrDefault(key, null);
-    }
-    @Override
-    public void put(K key, V value) {
-        map.put(key, value);
-    }
-}
-</code></pre>
-
-<p><code>LinkedHashMap</code>通过hash表和双向链表维护数据，如果初始化时<code>accessOrder=true</code>，新加入或者访问的数据都会放到链表头部，这样，一直没被访问的node就会被顶到尾部，如果超出缓存大小，把链表尾部的数据删除即可。</p>
-
+<p>最简单的方式就是使用<code>LinkedHashMap</code>，几行代码就能实现。</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LruCacheLinkedHashMapLazy</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> LruCache<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LinkedHashMap<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> CAPACITY<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">LruCacheLinkedHashMapLazy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        CAPACITY <span style="color:#f92672">=</span> capacity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedHashMap<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;(</span>capacity<span style="color:#f92672">,</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">75f</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">removeEldestEntry</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span> eldest<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> size<span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> CAPACITY<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> V <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>K key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">getOrDefault</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>K key<span style="color:#f92672">,</span> V value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>LinkedHashMap</code>通过hash表和双向链表维护数据，如果初始化时<code>accessOrder=true</code>，新加入或者访问的数据都会放到链表头部，这样，一直没被访问的node就会被顶到尾部，如果超出缓存大小，把链表尾部的数据删除即可。</p>
 <p>也可以通过<code>HashMap</code>和<code>Doubley-Linked</code>实现，这样更清晰看出怎么通过双向链表实现：</p>
-
-<pre><code class="language-java">public class LRUCacheHashMapAndDoublyLinked&lt;K, V&gt; implements LruCache&lt;K, V&gt; {
-    private class Node {
-        K key;
-        V value;
-        Node prev, next;
-
-        Node(K k, V v) {
-            this.key = k;
-            this.value = v;
-        }
-    }
-
-    private int capacity, count;
-    private Map&lt;K, Node&gt; map;
-    private Node head, tail;
-
-    public LRUCacheHashMapAndDoublyLinked(int capacity) {
-        this.capacity = capacity;
-        this.count = 0;
-        map = new HashMap&lt;&gt;();
-        head = new Node(null, null);
-        tail = new Node(null, null);
-        head.next = tail;
-        tail.prev = head;
-    }
-
-    private void update(Node node) {
-        remove(node);
-        add(node);
-    }
-
-    private void add(Node node) {
-        Node after = head.next;
-        head.next = node;
-        node.prev = head;
-        node.next = after;
-        after.prev = node;
-    }
-
-    private void remove(Node node) {
-        Node before = node.prev, after = node.next;
-        before.next = after;
-        after.prev = before;
-    }
-
-    @Override
-    public V get(K k) {
-        Node n = map.get(k);
-        if (null == n) {
-            return null;
-        }
-        update(n);
-        return n.value;
-    }
-
-    @Override
-    public void put(K key, V value) {
-        Node n = map.get(key);
-        if (null == n) {
-            n = new Node(key, value);
-            map.put(key, n);
-            add(n);
-            ++count;
-        } else {
-            n.value = value;
-            update(n);
-        }
-        if (count &gt; capacity) {
-            Node toDel = tail.prev;
-            remove(toDel);
-            map.remove(toDel.key);
-            --count;
-        }
-    }
-}
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2018-02-05-23-03-52.jpg" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LRUCacheHashMapAndDoublyLinked</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> LruCache<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        K key<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        V value<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        Node prev<span style="color:#f92672">,</span> next<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">(</span>K k<span style="color:#f92672">,</span> V v<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> k<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> v<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">,</span> count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> Node<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Node head<span style="color:#f92672">,</span> tail<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">LRUCacheHashMapAndDoublyLinked</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">capacity</span> <span style="color:#f92672">=</span> capacity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        head<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> tail<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        tail<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span> <span style="color:#f92672">=</span> head<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update</span><span style="color:#f92672">(</span>Node node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        remove<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        add<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>Node node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Node after <span style="color:#f92672">=</span> head<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        head<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> node<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span> <span style="color:#f92672">=</span> head<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> after<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        after<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span> <span style="color:#f92672">=</span> node<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>Node node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Node before <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span><span style="color:#f92672">,</span> after <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        before<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> after<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        after<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span> <span style="color:#f92672">=</span> before<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> V <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>K k<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Node n <span style="color:#f92672">=</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>k<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">==</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        update<span style="color:#f92672">(</span>n<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> n<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>K key<span style="color:#f92672">,</span> V value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Node n <span style="color:#f92672">=</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">==</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> n<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            add<span style="color:#f92672">(</span>n<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">++</span>count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            n<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            update<span style="color:#f92672">(</span>n<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>count <span style="color:#f92672">&gt;</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Node toDel <span style="color:#f92672">=</span> tail<span style="color:#f92672">.</span><span style="color:#a6e22e">prev</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            remove<span style="color:#f92672">(</span>toDel<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            map<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>toDel<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">--</span>count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2018-02-05-23-03-52.jpg" alt=""></p>
 <p>但是，上面两个示例都不是并发安全的，需要加锁，加锁后怎么提升性能呢，后面详细说明。</p>
-
 <h2 id="lfu">LFU</h2>
-
 <p>LFU(Least Frequently Used)即最近最不常用，它的核心思想是只缓存那些经常使用的。这个算法必须要维护数据的访问频次，按照频次排序，淘汰频次最低的数据。</p>
-
-<p><img src="http://thoreauz.com/images/2018-02-07-16-46-33.jpg" alt="" /><br />
-比如上图，至少有4个数据结构才能实现了LFU。<br />
-LFU缺点:<br />
-1. 数据年龄问题。比如某网站首页数据展示，当天访问量大，但是之后可能再也不会被访问到了。所以，访问频率并不是绝对完美的判断标准。对于过时数据，需要降低他的访问频次，即“动态衰老最经常使用&raquo;。<br />
-2. 内存开销： 就是已经从cache中移除，也要保存访问频次的记录。我们可以设置一个最大值，但是这个最大值应该是多少，也不好评估。</p>
-
+<p><img src="http://thoreauz.com/images/2018-02-07-16-46-33.jpg" alt="">
+比如上图，至少有4个数据结构才能实现了LFU。
+LFU缺点:</p>
+<ol>
+<li>数据年龄问题。比如某网站首页数据展示，当天访问量大，但是之后可能再也不会被访问到了。所以，访问频率并不是绝对完美的判断标准。对于过时数据，需要降低他的访问频次，即“动态衰老最经常使用&quot;。</li>
+<li>内存开销： 就是已经从cache中移除，也要保存访问频次的记录。我们可以设置一个最大值，但是这个最大值应该是多少，也不好评估。</li>
+</ol>
 <h2 id="guava-cache-实现slru">Guava cache 实现SLRU</h2>
-
-<p>对上面的示例，要并发安全，只能加锁。为了改善加锁后开销，可以像<code>ConcurrentHashMap</code>一样，把table分到一个个segment下，每个segment对应一个锁，来分散全局锁带来的性能损失，GuavaCache就是这样的实现，如下图。<br />
-<img src="http://thoreauz.com/images/2018-02-05-23-15-07.jpg" alt="" /><br />
+<p>对上面的示例，要并发安全，只能加锁。为了改善加锁后开销，可以像<code>ConcurrentHashMap</code>一样，把table分到一个个segment下，每个segment对应一个锁，来分散全局锁带来的性能损失，GuavaCache就是这样的实现，如下图。
+<img src="http://thoreauz.com/images/2018-02-05-23-15-07.jpg" alt="">
 guava cache还维护两个队列，<code>accesQueue</code>和<code>writeQueue</code>，用来实现segement的局部LRU和过期时间。另外还有一个<code>recencyQueue</code>，它用来提高accessQueue更新锁消耗。如果每次访问都加锁更新accessQueue，影响性能，guava把访问的数据更新到recencyQueue，recencyQueue通过ConcurrentLinkedQueue实现，并发安全。等写入数据时，再加锁从recencyQueue更新到accesQueue。</p>
-
 <p>另外，对于过期数据的清理，guava并不是另起一个线程，而是每次有访问的时候才清理。</p>
-
 <h2 id="w-tinylfu">W-TinyLFU</h2>
-
 <p>不管是LFU还是LRU，都是希望在缓存填满后，淘汰掉那些在短期内可能不会使用的数据，从而提升缓存的命中率。LRU和LFU都有他的局限性。因为LFU的问题，LRU是一个比较流行的算法，它什么问题？</p>
-
 <p>它不是抗扫描的。比如cache的大小是N，缓存N+1个item(第一个会被淘汰)，如果顺序发起N个请求。将导致没有一个命中缓存。</p>
-
-<p>W-TinyLFU 是一个综合LRU和LFU优点的实现方式：<br />
-<img src="http://thoreauz.com/images/2018-02-07-23-05-38.jpg" alt="" /><br />
+<p>W-TinyLFU 是一个综合LRU和LFU优点的实现方式：
+<img src="http://thoreauz.com/images/2018-02-07-23-05-38.jpg" alt="">
 其中TinyLFU维护了近期访问记录的频率信息，作为一个过滤器，当新记录来时，只有满足TinyLFU要求的记录才可以被插入缓存。其中实现算法采用<code>ount-Min Sketch</code>算法。以LRU作为淘汰方式，TinyLFU作为许入过滤器。</p>
-
-<p>CountMin Sketch 通过矩阵和多个hash函数实现：<br />
-<img src="http://thoreauz.com/images/2018-02-07-23-17-45.jpg" alt="" /><br />
+<p>CountMin Sketch 通过矩阵和多个hash函数实现：
+<img src="http://thoreauz.com/images/2018-02-07-23-17-45.jpg" alt="">
 一个key，通过不同的hash定位到数组index，值加1，最后取min(8,6,7,6)=6作为此key的访问次数记录。因为hash冲突的原因，值不一定准确，但对于LFU的实现，这个误差可以忽略。下面我们看它是怎么解决LFU缺点的。</p>
-
 <p>因为使用矩阵，跟数据量大小没关系，很好地解决了LFU的内存开销问题。对于数据年龄，可以添加一个计数上线，一旦到达上线，所有记录的Sketch数据都除2，从而实现衰减效果，对于短暂热点数据，如果之后一直没有访问，<code>count/2</code>不断衰减，直至淘汰。</p>
-
-<p>下图是另一种表达方式： sketch 作为过滤器（filter）。当新来的数据比要驱逐的数据高频时，这个数据才会被缓存接纳。<br />
-<img src="http://thoreauz.com/images/2018-02-07-23-30-53.jpg" alt="" /><br />
-基于java8的库<a href="https://github.com/ben-manes/caffeine">caffeine</a>就是这样的实现。缓存命中表现：<br />
-<img src="http://thoreauz.com/images/2018-02-07-23-37-58.jpg" alt="" /><br />
-<img src="http://thoreauz.com/images/2018-02-07-23-38-54.jpg" alt="" /></p>
-
-<hr />
-
-<p>参考文档:<br />
-[1]. <a href="http://chriswu.me/blog/a-lru-cache-in-10-lines-of-java">A LRU Cache in 10 Lines of Java</a><br />
-[2]. <a href="https://arxiv.org/pdf/1512.00727.pdf">TinyLFU: A Highly Efficient Cache Admission Policy</a><br />
-[3]. <a href="http://dimacs.rutgers.edu/~graham/pubs/papers/cmsoft.pdf">Approximating Data with the Count-Min Data Structure</a><br />
-[4]. <a href="https://9vx.org/post/on-window-tinylfu/">On Window TinyLFU</a><br />
-[5]. <a href="http://highscalability.com/blog/2016/1/25/design-of-a-modern-cache.html">Design Of A Modern Cache</a><br />
+<p>下图是另一种表达方式： sketch 作为过滤器（filter）。当新来的数据比要驱逐的数据高频时，这个数据才会被缓存接纳。
+<img src="http://thoreauz.com/images/2018-02-07-23-30-53.jpg" alt="">
+基于java8的库<a href="https://github.com/ben-manes/caffeine">caffeine</a>就是这样的实现。缓存命中表现：
+<img src="http://thoreauz.com/images/2018-02-07-23-37-58.jpg" alt="">
+<img src="http://thoreauz.com/images/2018-02-07-23-38-54.jpg" alt=""></p>
+<hr>
+<p>参考文档:
+[1]. <a href="http://chriswu.me/blog/a-lru-cache-in-10-lines-of-java">A LRU Cache in 10 Lines of Java</a>
+[2]. <a href="https://arxiv.org/pdf/1512.00727.pdf">TinyLFU: A Highly Efficient Cache Admission Policy</a>
+[3]. <a href="http://dimacs.rutgers.edu/~graham/pubs/papers/cmsoft.pdf">Approximating Data with the Count-Min Data Structure</a>
+[4]. <a href="https://9vx.org/post/on-window-tinylfu/">On Window TinyLFU</a>
+[5]. <a href="http://highscalability.com/blog/2016/1/25/design-of-a-modern-cache.html">Design Of A Modern Cache</a>
 [6]. <a href="https://github.com/dgryski/go-tinylfu">go-tinylfu</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#lru">LRU</a></li>
-<li><a href="#lfu">LFU</a></li>
-<li><a href="#guava-cache-实现slru">Guava cache 实现SLRU</a></li>
-<li><a href="#w-tinylfu">W-TinyLFU</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#lru">LRU</a></li>
+    <li><a href="#lfu">LFU</a></li>
+    <li><a href="#guava-cache-实现slru">Guava cache 实现SLRU</a></li>
+    <li><a href="#w-tinylfu">W-TinyLFU</a></li>
+  </ul>
 </nav>
     </section>
 

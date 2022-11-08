@@ -21,7 +21,7 @@
   	<meta property="og:title" content="高性能Mysql-索引 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/12/02/high-performance-mysql-key/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/12/02/high-performance-mysql-key/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 高性能Mysql-索引,
-    "name": 高性能Mysql-索引,
-    "wordCount": 1465,
+    "headline": "高性能Mysql-索引",
+    "name": "高性能Mysql-索引",
+    "wordCount":  1458 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/12/02/high-performance-mysql-key/,
-    "datePublished": 2017-12-02T19:14Z,
-    "dateModified": 2017-12-02T19:14Z,
+    "url": "http://thoreauz.com/2017/12/02/high-performance-mysql-key/",
+    "datePublished": "2017-12-02T19:14Z",
+    "dateModified": "2017-12-02T19:14Z",
     
-    "keywords": mysql,
-    "description": ,
+    "keywords": "mysql",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/12/02/high-performance-mysql-key/
+        "@id": "http://thoreauz.com/2017/12/02/high-performance-mysql-key/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,50 +243,34 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
+      <h2 id="概述">概述</h2>
 <p>索引在大数量量时对性能尤为重要，创建合适的索引和使用成了其中关键，本文介绍如何创建高性能的索引。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="索引基础">索引基础</h2>
-
 <h3 id="类型">类型</h3>
-
 <p>mysql中，有不同的索引类型，不同的存储引擎对索引的支持也不同，在不同的场景各有优缺点。</p>
-
 <h4 id="b-tree索引">B-Tree索引</h4>
-
-<p>B-Tree索引意味着所有的值都是按顺序存储的，每一个叶子节点到根的距离相同。不同的存储引擎实现不一样，InnoDB使用B+Tree。具体数据结构和算法不做细说，希望后面又机会好好研究。B-tree索引适用于全建值，键值范围或者键前缀查找。除了可以用于查询，还可以按排序查找（ORDER BY)。但这种索引类型也有限制：<br />
-* 组合索引只匹配最左前缀<br />
-* 不能跳过索引中的列<br />
-* 如果查询中有某个列的范围查询，右边所有列无法使用索引。</p>
-
+<p>B-Tree索引意味着所有的值都是按顺序存储的，每一个叶子节点到根的距离相同。不同的存储引擎实现不一样，InnoDB使用B+Tree。具体数据结构和算法不做细说，希望后面又机会好好研究。B-tree索引适用于全建值，键值范围或者键前缀查找。除了可以用于查询，还可以按排序查找（ORDER BY)。但这种索引类型也有限制：</p>
+<ul>
+<li>组合索引只匹配最左前缀</li>
+<li>不能跳过索引中的列</li>
+<li>如果查询中有某个列的范围查询，右边所有列无法使用索引。</li>
+</ul>
 <h4 id="哈希索引">哈希索引</h4>
-
-<p>基于哈希表实现，只支持精确匹配索引所有列的查询才有效。其原理就是对索引列进行hash计算，使用hash值寻找对应的记录指针，最后比对指针对应的数据。如下：<br />
+<p>基于哈希表实现，只支持精确匹配索引所有列的查询才有效。其原理就是对索引列进行hash计算，使用hash值寻找对应的记录指针，最后比对指针对应的数据。如下：
 表：</p>
-
-<pre><code class="language-sql">+-------+---------+
-| fname | lname   |
-+-------+---------+
-| henry | thoreau |
-| steve | thoreau |
-| bob   | thoreau |
-+-------+---------+
-</code></pre>
-
-<p>对fname插件hash索引，加上hash值对应如下：</p>
-
-<pre><code>f('henry`) = 3434
-f('steve') = 4323
-f('bob')   = 2311
-</code></pre>
-
-<p>二索引结构如下：</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+---------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> fname <span style="color:#f92672">|</span> lname   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+---------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> henry <span style="color:#f92672">|</span> thoreau <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> steve <span style="color:#f92672">|</span> thoreau <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> bob   <span style="color:#f92672">|</span> thoreau <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+---------+
+</span></span></span></code></pre></div><p>对fname插件hash索引，加上hash值对应如下：</p>
+<pre tabindex="0"><code>f(&#39;henry`) = 3434
+f(&#39;steve&#39;) = 4323
+f(&#39;bob&#39;)   = 2311
+</code></pre><p>二索引结构如下：</p>
 <table>
 <thead>
 <tr>
@@ -293,111 +278,89 @@ f('bob')   = 2311
 <th>value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>2311</td>
 <td>指向第3行指针</td>
 </tr>
-
 <tr>
 <td>3434</td>
 <td>指向第1行指针</td>
 </tr>
-
 <tr>
 <td>4323</td>
 <td>指向第2行指针</td>
 </tr>
 </tbody>
 </table>
-
-<p>从它的存储方式和结构，也能快速判断其特性，存储紧凑，查找速度快。但也有其限制：<br />
-* 索引数据不是按照索引值顺序存储，无法排序<br />
-* 不支持部分索引列匹配<br />
-* 只支持等值比较(=,in ,&lt;=&gt;)，不支持范围查找，如where price &gt; 100<br />
-* 如果列选择性不高，hash冲突，对链表处理代价大<br />
-可以看到，hash索引限制比较多，但是我们可以对特殊场景，在innoDB的B-tree上添加自定义的哈希索引，从而利用它的优势（如：为很长的列添加索引）。方法是新增一个hash字段，可以通过设置触发器，使用crc32（）对其进行插件和更新的hash计算。如果数据量大，我们也可以自实现一些hash函数。</p>
-
-<pre><code>+----------------------------------+
-| md5('http://www.mysql.com')      |
+<p>从它的存储方式和结构，也能快速判断其特性，存储紧凑，查找速度快。但也有其限制：</p>
+<ul>
+<li>索引数据不是按照索引值顺序存储，无法排序</li>
+<li>不支持部分索引列匹配</li>
+<li>只支持等值比较(=,in ,&lt;=&gt;)，不支持范围查找，如where price &gt; 100</li>
+<li>如果列选择性不高，hash冲突，对链表处理代价大
+可以看到，hash索引限制比较多，但是我们可以对特殊场景，在innoDB的B-tree上添加自定义的哈希索引，从而利用它的优势（如：为很长的列添加索引）。方法是新增一个hash字段，可以通过设置触发器，使用crc32（）对其进行插件和更新的hash计算。如果数据量大，我们也可以自实现一些hash函数。</li>
+</ul>
+<pre tabindex="0"><code>+----------------------------------+
+| md5(&#39;http://www.mysql.com&#39;)      |
 +----------------------------------+
 | 634a39601ce4bd4a5d32fd526d4c630d |
 +----------------------------------+
 +---------------------------------------------------+
-| CONV(RIGHT(md5('http://www.mysql.com'),16),16,10) |
+| CONV(RIGHT(md5(&#39;http://www.mysql.com&#39;),16),16,10) |
 +---------------------------------------------------+
 | 6715708524825699085                               |
 +---------------------------------------------------+
-</code></pre>
-
-<p>就算对hash函数处理，还是可能出现冲突，索引查询时，需要在where语句中添加查询列的值。</p>
-
+</code></pre><p>就算对hash函数处理，还是可能出现冲突，索引查询时，需要在where语句中添加查询列的值。</p>
 <p>还有其他索引类型如空间数据索引，全文索引。</p>
-
 <h3 id="优点">优点</h3>
-
 <ol>
-<li>减少服务器扫描数据量<br /></li>
-<li>避免排序和创建临时表<br /></li>
-<li>将随机IO变成有序IO。<br />
-<br /></li>
+<li>减少服务器扫描数据量</li>
+<li>避免排序和创建临时表</li>
+<li>将随机IO变成有序IO。</li>
 </ol>
-
 <h2 id="索引策略">索引策略</h2>
-
 <ul>
-<li>索引列不能是表达式的一部分，也不能是函数的参数。<br /></li>
-<li>索引很长很大的字符串时，会让索引变得大且慢，可以通过截取前n个字符的方式进行索引，即前缀索引。创建索引：<code>ALTER TABLE  t ADD KEY (rowName(n))</code>,其中，n成了关键，既要提高选择性，又不能太长。创建时，通过下列计算前缀选择性：<br />
-<code>
-SELECT
-COUNT(DISTINCT LEFT(last_name, 3)) / COUNT(*) AS nam3,
-COUNT(DISTINCT LEFT(last_name, 4)) / COUNT(*) AS nam4,
-COUNT(DISTINCT LEFT(last_name, 5)) / COUNT(*) AS nam5,
-COUNT(DISTINCT LEFT(last_name, 6)) / COUNT(*) AS nam6,
-COUNT(DISTINCT LEFT(last_name, 7)) / COUNT(*) AS nam7
-FROM employees;
-</code><br /></li>
-<li>where多条件查询时，使用组合索引比多个单列索引，是更好的选择。<br /></li>
-<li>对多列索引，一般把选择性最高的列放在前<br /></li>
-<li>顺序重要，需要注意，不能把平均选择性作为唯一指标，特殊情况有可能摧毁整个系统。<br /></li>
-<li>inoDB使用主键作为作为聚族索引，如果没有，会子选唯一非空索引代替，如果还没有，会自建隐式主键，所以，使用InnoDb时，一定要有主键。<br /></li>
-<li>插入数据时按照主键顺序插件性能最好，所以，主键最好有序递增。避免随机的主键插入，比如UUID。<br /></li>
-<li>B-tree的二级索引的叶子节点包含索引列数据，如果查询直接通过获取所有不需要回表，效率会很高。也即覆盖查询。<br /></li>
-<li>索引列最好能既满足排序，又满足查询。<br /></li>
-<li>创建索引时，注意冗余和重复索引。对于未使用的索引，考虑删除。<br />
-<br /></li>
+<li>索引列不能是表达式的一部分，也不能是函数的参数。</li>
+<li>索引很长很大的字符串时，会让索引变得大且慢，可以通过截取前n个字符的方式进行索引，即前缀索引。创建索引：<code>ALTER TABLE  t ADD KEY (rowName(n))</code>,其中，n成了关键，既要提高选择性，又不能太长。创建时，通过下列计算前缀选择性：</li>
 </ul>
-
+<pre tabindex="0"><code>SELECT
+  COUNT(DISTINCT LEFT(last_name, 3)) / COUNT(*) AS nam3,
+  COUNT(DISTINCT LEFT(last_name, 4)) / COUNT(*) AS nam4,
+  COUNT(DISTINCT LEFT(last_name, 5)) / COUNT(*) AS nam5,
+  COUNT(DISTINCT LEFT(last_name, 6)) / COUNT(*) AS nam6,
+  COUNT(DISTINCT LEFT(last_name, 7)) / COUNT(*) AS nam7
+FROM employees;
+</code></pre><ul>
+<li>where多条件查询时，使用组合索引比多个单列索引，是更好的选择。</li>
+<li>对多列索引，一般把选择性最高的列放在前</li>
+<li>顺序重要，需要注意，不能把平均选择性作为唯一指标，特殊情况有可能摧毁整个系统。</li>
+<li>inoDB使用主键作为作为聚族索引，如果没有，会子选唯一非空索引代替，如果还没有，会自建隐式主键，所以，使用InnoDb时，一定要有主键。</li>
+<li>插入数据时按照主键顺序插件性能最好，所以，主键最好有序递增。避免随机的主键插入，比如UUID。</li>
+<li>B-tree的二级索引的叶子节点包含索引列数据，如果查询直接通过获取所有不需要回表，效率会很高。也即覆盖查询。</li>
+<li>索引列最好能既满足排序，又满足查询。</li>
+<li>创建索引时，注意冗余和重复索引。对于未使用的索引，考虑删除。</li>
+</ul>
 <h2 id="总结">总结</h2>
-
 <p>总的来说，编写查询语句尽可能选择合适的索引避免单行查找，尽可能使用数据原生顺序避免额外排序操作，尽可能使用索引覆盖查询。</p>
-
-<hr />
-
+<hr>
 <p>1.《高性能Mysql》</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#索引基础">索引基础</a>
-<ul>
-<li><a href="#类型">类型</a>
-<ul>
-<li><a href="#b-tree索引">B-Tree索引</a></li>
-<li><a href="#哈希索引">哈希索引</a></li>
-</ul></li>
-<li><a href="#优点">优点</a></li>
-</ul></li>
-<li><a href="#索引策略">索引策略</a></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#索引基础">索引基础</a>
+      <ul>
+        <li><a href="#类型">类型</a></li>
+        <li><a href="#优点">优点</a></li>
+      </ul>
+    </li>
+    <li><a href="#索引策略">索引策略</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 
@@ -493,9 +456,9 @@ FROM employees;
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/09/go-web-example/">
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/09/Go-Error-handling/">
           <section class="post">
-              <h2>go 开发web应用</h2>
+              <h2>GO— 异常错误处理</h2>
               
           </section>
       </a>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>命令 on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Thu, 09 Nov 2017 22:33:58 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/%E5%91%BD%E4%BB%A4/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 09 Nov 2017 22:33:58 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/%E5%91%BD%E4%BB%A4/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>理解iptables</title>
       <link>http://thoreauz.com/2017/11/09/iptables/</link>

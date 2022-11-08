@@ -21,7 +21,7 @@
   	<meta property="og:title" content="设计模式五：适配器 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 设计模式五：适配器,
-    "name": 设计模式五：适配器,
-    "wordCount": 1086,
+    "headline": "设计模式五：适配器",
+    "name": "设计模式五：适配器",
+    "wordCount":  1074 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/,
-    "datePublished": 2017-03-01T12:25Z,
-    "dateModified": 2017-03-01T12:25Z,
+    "url": "http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/",
+    "datePublished": "2017-03-01T12:25Z",
+    "dateModified": "2017-03-01T12:25Z",
     
-    "keywords": 设计模式,
-    "description": ,
+    "keywords": "设计模式",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/
+        "@id": "http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,153 +243,120 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="设计模式五-适配器">设计模式五：适配器</h1>
-
+      <h1 id="设计模式五适配器">设计模式五：适配器</h1>
 <p>适配器模式：将一个类的接口，转换为客户期望的另一个接口。适配器让原本接口不兼容的类合作无间。是一种结构型设计模式。</p>
-
 <p>先来看一个示例：我有一个手机充电器，但接口是Micro-USB,但我的手机需要使用Type-C。在不换充电器的情况下，我可通过一个装接头，把Micro-USB转成Type-C。</p>
-
 <h2 id="java-代码">java 代码</h2>
-
-<p>代码：<br />
+<p>代码：
 micro-usb接口：</p>
-
-<pre><code class="language-java">public interface IMicroUSB {
-    void powerWithMicroUSB();
-}
-</code></pre>
-
-<p>micro-usb实现：</p>
-
-<pre><code class="language-java">public class MicroUSBImpl implements IMicroUSB {
-    @Override
-    public void powerWithMicroUSB() {
-        System.out.println(&quot;使用Micro-USB给手机充电&quot;);
-    }
-}
-</code></pre>
-
-<p>type-c接口：</p>
-
-<pre><code class="language-java">public interface ITypeC {
-    void powerWithTypeC();
-}
-</code></pre>
-
-<p>type-c实现：</p>
-
-<pre><code class="language-java">public class TypeCImpl implements ITypeC {
-    @Override
-    public void powerWithTypeC() {
-        System.out.println(&quot;使用type-c给手机充电&quot;);
-    }
-}
-</code></pre>
-
-<p>微usb充电器：</p>
-
-<pre><code class="language-java">public class Charger {
-    private IMicroUSB microUSB;
-
-    public Charger(IMicroUSB microUSB) {
-        this.microUSB = microUSB;
-    }
-
-    public void setMicroUSB(IMicroUSB microUSB) {
-        this.microUSB = microUSB;
-    }
-    public void chage(){
-        microUSB.powerWithMicroUSB();
-    }
-}
-</code></pre>
-
-<p>测试：</p>
-
-<pre><code class="language-java">public class Test {
-    public static void main(String[] args) {
-        IMicroUSB microUSB = new MicroUSBImpl();
-        Charger charger = new Charger(microUSB);
-        charger.chage();
-    }
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IMicroUSB</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">powerWithMicroUSB</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>micro-usb实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MicroUSBImpl</span> <span style="color:#66d9ef">implements</span> IMicroUSB <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">powerWithMicroUSB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;使用Micro-USB给手机充电&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>type-c接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ITypeC</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">powerWithTypeC</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>type-c实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TypeCImpl</span> <span style="color:#66d9ef">implements</span> ITypeC <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">powerWithTypeC</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;使用type-c给手机充电&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>微usb充电器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Charger</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> IMicroUSB microUSB<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Charger</span><span style="color:#f92672">(</span>IMicroUSB microUSB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">microUSB</span> <span style="color:#f92672">=</span> microUSB<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMicroUSB</span><span style="color:#f92672">(</span>IMicroUSB microUSB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">microUSB</span> <span style="color:#f92672">=</span> microUSB<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">chage</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        microUSB<span style="color:#f92672">.</span><span style="color:#a6e22e">powerWithMicroUSB</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>测试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        IMicroUSB microUSB <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MicroUSBImpl<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        Charger charger <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Charger<span style="color:#f92672">(</span>microUSB<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        charger<span style="color:#f92672">.</span><span style="color:#a6e22e">chage</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>使用Micro-USB给手机充电</p>
 </blockquote>
-
 <p>从运行结果看到，不是我们想要的结果。我们需要一个转接头(适配器)：</p>
-
-<pre><code class="language-java">public class ChargePortAdapter implements IMicroUSB{
-
-    private ITypeC typeC;
-
-    public ChargePortAdapter(ITypeC typeC) {
-        this.typeC = typeC;
-    }
-
-    @Override
-    public void powerWithMicroUSB() {
-        typeC.powerWithTypeC();
-    }
-}
-</code></pre>
-
-<p>再测试</p>
-
-<pre><code class="language-java">public class Test {
-    public static void main(String[] args) {
-        ITypeC typeC = new TypeCImpl();
-        ChargePortAdapter chargePortAdapter = new ChargePortAdapter(typeC);
-        Charger charger = new Charger();
-        charger.setMicroUSB(chargePortAdapter);
-        charger.chage();
-    }
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChargePortAdapter</span> <span style="color:#66d9ef">implements</span> IMicroUSB<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> ITypeC typeC<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ChargePortAdapter</span><span style="color:#f92672">(</span>ITypeC typeC<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">typeC</span> <span style="color:#f92672">=</span> typeC<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">powerWithMicroUSB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        typeC<span style="color:#f92672">.</span><span style="color:#a6e22e">powerWithTypeC</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>再测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        ITypeC typeC <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TypeCImpl<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        ChargePortAdapter chargePortAdapter <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ChargePortAdapter<span style="color:#f92672">(</span>typeC<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        Charger charger <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Charger<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        charger<span style="color:#f92672">.</span><span style="color:#a6e22e">setMicroUSB</span><span style="color:#f92672">(</span>chargePortAdapter<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        charger<span style="color:#f92672">.</span><span style="color:#a6e22e">chage</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>使用type c给手机充电</p>
 </blockquote>
-
 <p>得到了我们想要的结果。</p>
-
 <h2 id="类图和角色">类图和角色</h2>
-
-<p>上列类图：<br />
-<img src="http://thoreauz.com/images/2017-04-04-12-06-05.jpg" alt="" /><br />
-* Target: 目标抽象类(IMicroUSB)，定义客户所需接口，可以是一个抽象类或接口，也可以是具体类<br />
-* Adapter： 适配类(ChargeProtAdapter)。作为一个转换器，对Adaptee和Target进行适配，适配器类是适配器模式的核心。两个关键点：实现target；持有被适配接口的引用。<br />
-* Adaptee：适配者类（ITypeC），适配者即被适配的角色，它定义了一个已经存在的接口，这个接口需要适配。</p>
-
+<p>上列类图：
+<img src="http://thoreauz.com/images/2017-04-04-12-06-05.jpg" alt=""></p>
+<ul>
+<li>Target: 目标抽象类(IMicroUSB)，定义客户所需接口，可以是一个抽象类或接口，也可以是具体类</li>
+<li>Adapter： 适配类(ChargeProtAdapter)。作为一个转换器，对Adaptee和Target进行适配，适配器类是适配器模式的核心。两个关键点：实现target；持有被适配接口的引用。</li>
+<li>Adaptee：适配者类（ITypeC），适配者即被适配的角色，它定义了一个已经存在的接口，这个接口需要适配。</li>
+</ul>
 <p>适配器有对象适配器和类适配器。</p>
-
 <h2 id="优缺点">优缺点</h2>
-
-<p>优点：<br />
-1. 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无须修改原有代码。<br />
-2. 一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。</p>
-
-<p>缺点：<br />
-1. 类适配器：Java不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为抽象类，不能为具体类，其使用有一定的局限性，不能将一个适配者类和它的子类都适配到目标接口。<br />
-2. 对象适配器：类适配器模式相比，要想置换适配者类的方法就不容易。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。<br />
-&gt; 引用<a href="http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html">Graphic Design Patterns</a></p>
+<p>优点：</p>
+<ol>
+<li>将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无须修改原有代码。</li>
+<li>一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>类适配器：Java不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为抽象类，不能为具体类，其使用有一定的局限性，不能将一个适配者类和它的子类都适配到目标接口。</li>
+<li>对象适配器：类适配器模式相比，要想置换适配者类的方法就不容易。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。</li>
+</ol>
+<blockquote>
+<p>引用<a href="http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html">Graphic Design Patterns</a></p>
+</blockquote>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#设计模式五-适配器">设计模式五：适配器</a>
-<ul>
-<li><a href="#java-代码">java 代码</a></li>
-<li><a href="#类图和角色">类图和角色</a></li>
-<li><a href="#优缺点">优缺点</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#java-代码">java 代码</a></li>
+    <li><a href="#类图和角色">类图和角色</a></li>
+    <li><a href="#优缺点">优缺点</a></li>
+  </ul>
 </nav>
     </section>
 

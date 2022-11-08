@@ -21,7 +21,7 @@
   	<meta property="og:title" content="VIM使用技巧 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/03/07/vim/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>VIM使用技巧 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%" />
+    <meta name="description" content="VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw 删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/03/07/vim/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": VIM使用技巧,
-    "name": VIM使用技巧,
-    "wordCount": 617,
+    "headline": "VIM使用技巧",
+    "name": "VIM使用技巧",
+    "wordCount":  648 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/03/07/vim/,
-    "datePublished": 2017-03-07T23:47Z,
-    "dateModified": 2017-03-07T23:47Z,
+    "url": "http://thoreauz.com/2017/03/07/vim/",
+    "datePublished": "2017-03-07T23:47Z",
+    "dateModified": "2017-03-07T23:47Z",
     
-    "keywords": vim,
-    "description": ,
+    "keywords": "vim",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/03/07/vim/
+        "@id": "http://thoreauz.com/2017/03/07/vim/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,51 +243,35 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="vim使用技巧">VIM使用技巧</h1>
-
-<h2 id="一-替换">一、替换</h2>
-
+      <h1 id="vim使用技巧">VIM使用技巧</h1>
+<h2 id="一替换">一、替换</h2>
 <ol>
-<li>快速选择性替换：使用 <code>#</code>查找，<code>cw</code>删除单词，输入要替换的单词，<code>.</code>重复操作<br /></li>
-<li>替换一个字符：<code>ra</code>当前字符替换为<code>a</code><br /></li>
-<li>全局替换：<code>:%s/old/new/g</code>或者<code>:%s#old#new#g</code><br /></li>
-<li>空格替换：: <code>10,20 s/^/    /g</code> 在第10行到第20行每行前面加四个空格，用于缩进。<br />
-<br /></li>
+<li>快速选择性替换：使用 <code>#</code>查找，<code>cw </code>删除单词，输入要替换的单词，<code>.</code>重复操作</li>
+<li>替换一个字符：<code>ra</code>当前字符替换为<code>a</code></li>
+<li>全局替换：<code>:%s/old/new/g</code>或者<code>:%s#old#new#g</code></li>
+<li>空格替换：: <code>10,20 s/^/    /g</code> 在第10行到第20行每行前面加四个空格，用于缩进。</li>
 </ol>
-
 <h2 id="二-移动">二、 移动</h2>
-
 <h3 id="慢移动">慢移动</h3>
-
 <ol>
-<li>上下左右：<code>kjhl</code><br /></li>
-<li>向前/后移动一个单词:<code>w</code>,这个很常用，一般可以替代<code>l</code>。对应的是<code>b</code><br /></li>
-<li>行头行尾部：<code>0</code>和<code>$</code><br /></li>
-<li>查找字符移动：<code>fg</code>移动到伺候第一个出现<code>g</code>的地方。<code>F</code>反向<br /></li>
-<li>行尾插入：<code>A</code>，对应<code>I</code><br />
-<br /></li>
+<li>上下左右：<code>kjhl</code></li>
+<li>向前/后移动一个单词:<code>w</code>,这个很常用，一般可以替代<code>l</code>。对应的是<code>b</code></li>
+<li>行头行尾部：<code>0</code>和<code>$</code></li>
+<li>查找字符移动：<code>fg</code>移动到伺候第一个出现<code>g</code>的地方。<code>F</code>反向</li>
+<li>行尾插入：<code>A</code>，对应<code>I</code></li>
 </ol>
-
 <h3 id="快移动">快移动</h3>
-
 <ol>
-<li>文件首尾：<code>gg</code>,<code>G</code><br /></li>
-<li>指定行：<code>: 行号</code><br /></li>
-<li>滚动一屏：<code>ctrl + f</code>和<code>ctrl + b</code><br /></li>
-<li>滚动半屏：<code>ctrl + u</code>和<code>ctrl + d</code><br />
-<br /></li>
+<li>文件首尾：<code>gg</code>,<code>G</code></li>
+<li>指定行：<code>: 行号</code></li>
+<li>滚动一屏：<code>ctrl + f</code>和<code>ctrl + b</code></li>
+<li>滚动半屏：<code>ctrl + u</code>和<code>ctrl + d</code></li>
 </ol>
-
-<h2 id="三-粘贴复制">三、粘贴复制</h2>
-
+<h2 id="三粘贴复制">三、粘贴复制</h2>
 <ol>
-<li>全选复制：ggVG  + y<br /></li>
-<li>set clipboard=unnamedplus：将Vim默认剪贴板设为系统剪贴板<br />
-<br /></li>
+<li>全选复制：ggVG  + y</li>
+<li>set clipboard=unnamedplus：将Vim默认剪贴板设为系统剪贴板</li>
 </ol>
-
 <table>
 <thead>
 <tr>
@@ -294,105 +279,93 @@
 <th>作用</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>yy/Y</td>
 <td>复制游标所在行整行</td>
 </tr>
-
 <tr>
 <td>2yy/y2y</td>
 <td>复制两行</td>
 </tr>
-
 <tr>
 <td>y^</td>
 <td>复制至行首，或y0。不含游标所在处字元</td>
 </tr>
-
 <tr>
 <td>y$</td>
 <td>复制至行尾。含游标所在字符</td>
 </tr>
-
 <tr>
 <td>yw</td>
 <td>复制一个word</td>
 </tr>
-
 <tr>
 <td>y2w</td>
 <td>复制两个字（单词）</td>
 </tr>
-
 <tr>
 <td>yG</td>
 <td>复制至档尾</td>
 </tr>
-
 <tr>
 <td>y1G</td>
 <td>复制至档首</td>
 </tr>
-
 <tr>
 <td>p/P</td>
 <td>贴至游标后（下/上）</td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="四-删除">四、删除</h2>
-
+<h2 id="四删除">四、删除</h2>
 <p>vim的建都可以组合使用，<code>d</code>是删除，那<code>d$</code>/<code>D</code>就是删除到行尾，<code>dG</code>删除自后所有字符，<code>dfa</code>删除到本行的<code>a</code>字符。</p>
-
-<h2 id="五-选中">五、选中</h2>
-
+<h2 id="五选中">五、选中</h2>
 <ul>
-<li><code>viw</code>: 选择当前光标所在位置。<br /></li>
-<li><code>V</code>: 选择当前行<br /></li>
-<li><code>ctrl + v</code>: 进入块编辑，可以一定上下左右选择。<br />
-<br /></li>
+<li><code>viw</code>: 选择当前光标所在位置。</li>
+<li><code>V</code>: 选择当前行</li>
+<li><code>ctrl + v</code>: 进入块编辑，可以一定上下左右选择。</li>
 </ul>
-
 <h2 id="六-列编辑">六、 列编辑</h2>
-
-<pre><code class="language-bash">xxx
-yyy
-xxx
-</code></pre>
-
-<p>在第一列都添加<code>#</code>：操作步骤<br />
-1. <code>ctrl +v</code> : 块模式，选择x<br />
-2. <code>j</code>: 向下移动选中x、y、x<br />
-3. <code>I</code>： 大写i，然后插入#<br />
-4. <code>esc</code>: 退出，3个#自动填充</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xxx
+</span></span><span style="display:flex;"><span>yyy
+</span></span><span style="display:flex;"><span>xxx
+</span></span></code></pre></div><p>在第一列都添加<code>#</code>：操作步骤</p>
+<ol>
+<li><code>ctrl +v</code> : 块模式，选择x</li>
+<li><code>j</code>: 向下移动选中x、y、x</li>
+<li><code>I</code>： 大写i，然后插入#</li>
+<li><code>esc</code>: 退出，3个#自动填充</li>
+</ol>
 <p>或者进去v-block模式后</p>
-
-<pre><code>:'&lt;,'&gt;nomal I #
+<pre tabindex="0"><code>:&#39;&lt;,&#39;&gt;nomal I #
+</code></pre><h2 id="7其他">7️、其他</h2>
+<p>设置格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># set json format</span>
+</span></span><span style="display:flex;"><span>:set ft<span style="color:#f92672">=</span>json
+</span></span></code></pre></div><pre tabindex="0"><code>xml格式化
+:%!xmllint --format %
+格式化json
+:%!python -m json.tool
 </code></pre>
-
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#vim使用技巧">VIM使用技巧</a>
-<ul>
-<li><a href="#一-替换">一、替换</a></li>
-<li><a href="#二-移动">二、 移动</a>
-<ul>
-<li><a href="#慢移动">慢移动</a></li>
-<li><a href="#快移动">快移动</a></li>
-</ul></li>
-<li><a href="#三-粘贴复制">三、粘贴复制</a></li>
-<li><a href="#四-删除">四、删除</a></li>
-<li><a href="#五-选中">五、选中</a></li>
-<li><a href="#六-列编辑">六、 列编辑</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一替换">一、替换</a></li>
+    <li><a href="#二-移动">二、 移动</a>
+      <ul>
+        <li><a href="#慢移动">慢移动</a></li>
+        <li><a href="#快移动">快移动</a></li>
+      </ul>
+    </li>
+    <li><a href="#三粘贴复制">三、粘贴复制</a></li>
+    <li><a href="#四删除">四、删除</a></li>
+    <li><a href="#五选中">五、选中</a></li>
+    <li><a href="#六-列编辑">六、 列编辑</a></li>
+    <li><a href="#7其他">7️、其他</a></li>
+  </ul>
 </nav>
     </section>
 

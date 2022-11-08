@@ -21,7 +21,7 @@
   	<meta property="og:title" content="高性能Mysql-schema与数据类型优化 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 高性能Mysql-schema与数据类型优化,
-    "name": 高性能Mysql-schema与数据类型优化,
-    "wordCount": 2134,
+    "headline": "高性能Mysql-schema与数据类型优化",
+    "name": "高性能Mysql-schema与数据类型优化",
+    "wordCount":  2127 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/11/25/high-performance-mysql-schma/,
-    "datePublished": 2017-11-25T19:19Z,
-    "dateModified": 2017-11-25T19:19Z,
+    "url": "http://thoreauz.com/2017/11/25/high-performance-mysql-schma/",
+    "datePublished": "2017-11-25T19:19Z",
+    "dateModified": "2017-11-25T19:19Z",
     
-    "keywords": mysql,
-    "description": ,
+    "keywords": "mysql",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/11/25/high-performance-mysql-schma/
+        "@id": "http://thoreauz.com/2017/11/25/high-performance-mysql-schma/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,174 +243,130 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="选择优化的数据类型">选择优化的数据类型</h2>
-
+      <h2 id="选择优化的数据类型">选择优化的数据类型</h2>
 <p>遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添加索引。当然，使用不同的存储引擎可能会不一样。</p>
-
 <h3 id="整数">整数</h3>
-
 <p>对于整数类型，有TINYINT，SMALINT，MEDIUMINT，INT，BIGINT，存储空间从8-64位。如果确定不会有负数，可以使用UNSIGNED属。比如TINYINT UNSIGNED可以存储0~255大小。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <p>示例</p>
-
-<pre><code class="language-sql">&gt; show create table t;
-+-------+----------------------------------------------------------------+
-| Table | Create Table                                                   |
-+-------+----------------------------------------------------------------+
-| t     | CREATE TABLE `t` (                                             |
-|       |   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,               |
-|       |   `flag` tinyint(1) unsigned NOT NULL DEFAULT '0',             |
-|       |   PRIMARY KEY (`id`)                                           |
-|       | ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 |
-+-------+----------------------------------------------------------------+
-</code></pre>
-
-<p>id 为unsingned int类型，长度11，flag字段unsigned 的tinyint，长度为1。 int 存储访问：-2^(32-1) ~ 2^(32-1) -1。如果unsigned，访问0~2^(32) -1。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> t;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#66d9ef">Table</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Create</span> <span style="color:#66d9ef">Table</span>                                                   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> t     <span style="color:#f92672">|</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>t<span style="color:#f92672">`</span> (                                             <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) unsigned <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,               <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>flag<span style="color:#f92672">`</span> tinyint(<span style="color:#ae81ff">1</span>) unsigned <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;0&#39;</span>,             <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)                                           <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span> ) ENGINE<span style="color:#f92672">=</span>InnoDB  <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8 <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span></code></pre></div><p>id 为unsingned int类型，长度11，flag字段unsigned 的tinyint，长度为1。 int 存储访问：-2^(32-1) ~ 2^(32-1) -1。如果unsigned，访问0~2^(32) -1。</p>
 <p>下面试试：</p>
-
-<pre><code class="language-sql">&gt; insert into t(id,flag) values(4294967295, 255)
-Query OK, 1 row affected
-&gt; insert into t(id,flag) values(4294967296, 255)
-(1264, u&quot;Out of range value for column 'id' at row 1&quot;)
-</code></pre>
-
-<p>结论：<br />
-1. 可存储访问由类型和属性，跟INT(11)的11没有关系。<br />
-2. 尽量选择需要存储空间小的类型。<br />
-3. 有无符号使用的存储空间相同，性能相同，范围不同。<br />
-4. 对于1，2，3等简单标识的字段，选择<code>tinyint(1) unsigned</code>较为合适</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t(id,flag) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">4294967295</span>, <span style="color:#ae81ff">255</span>)
+</span></span><span style="display:flex;"><span>Query OK, <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> affected
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t(id,flag) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">4294967296</span>, <span style="color:#ae81ff">255</span>)
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1264</span>, u<span style="color:#e6db74">&#34;Out of range value for column &#39;id&#39; at row 1&#34;</span>)
+</span></span></code></pre></div><p>结论：</p>
+<ol>
+<li>可存储访问由类型和属性，跟INT(11)的11没有关系。</li>
+<li>尽量选择需要存储空间小的类型。</li>
+<li>有无符号使用的存储空间相同，性能相同，范围不同。</li>
+<li>对于1，2，3等简单标识的字段，选择<code>tinyint(1) unsigned</code>较为合适</li>
+</ol>
 <h3 id="实数类型">实数类型</h3>
-
 <p>对于msyql存储小数时一定要小心，虽然内部用double计算，但存储需要高精度数据时，最好选用DECIMAl。使用FLOAT和DOUBLE存储并不能保证精确。声明语法是DECIMAL(M,D)，M是数字最大位数，范围1-65；D是小数点右侧数字个数（标度scale），范围0-30，但不得超过M。</p>
-
 <p>对于存储钱等数据时，最好的方式是都乘一个基数(如1000)后转为BIGINT存储。如：</p>
-
-<pre><code class="language-sql">  `bonus` bigint(19) NOT NULL DEFAULT '0' COMMENT '奖励 x 10_000',
-</code></pre>
-
-<h3 id="字符串类型">字符串类型</h3>
-
-<p>常用的两种类型<code>VARCHAR</code>和<code>CHAR</code>，分别为变长和定长类型。<br />
-<strong>VARCHAR：</strong><br />
-1. 优点: 节省存储空间，对性能有帮助。<br />
-2. 缺点：变长列更新时，如果空间不够，需要重新分配。MyISAM会拆成不同片段，InnoDB需要分裂页。<br />
-3. 适用： 列更新少，最大长度比平均长度大很多。</p>
-
-<p><strong>CHAR：</strong><br />
-1. 优点： 定长不易产生碎片<br />
-2. 缺点：对长度不定列，浪费空间<br />
-3. 适合：定长，如MD5值，Y/N等定长字符串的列。</p>
-
-<p><strong>TEXT</strong><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#f92672">`</span>bonus<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">19</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;奖励 x 10_000&#39;</span>,
+</span></span></code></pre></div><h3 id="字符串类型">字符串类型</h3>
+<p>常用的两种类型<code>VARCHAR</code>和<code>CHAR</code>，分别为变长和定长类型。
+<strong>VARCHAR：</strong></p>
+<ol>
+<li>优点: 节省存储空间，对性能有帮助。</li>
+<li>缺点：变长列更新时，如果空间不够，需要重新分配。MyISAM会拆成不同片段，InnoDB需要分裂页。</li>
+<li>适用： 列更新少，最大长度比平均长度大很多。</li>
+</ol>
+<p><strong>CHAR：</strong></p>
+<ol>
+<li>优点： 定长不易产生碎片</li>
+<li>缺点：对长度不定列，浪费空间</li>
+<li>适合：定长，如MD5值，Y/N等定长字符串的列。</li>
+</ol>
+<p><strong>TEXT</strong>
 对于需要存储大文本，在无法避免的情况下可以选用这种类型。TEXT采用字符存储，BLOB采用二进制方式存储。在对其进行排序是，并不会全部比对，而是对前<code>max_sort_length</code>字节。或者使用 ORDER BY SUSTRING(column,length)来排序。</p>
-
 <p>对其进行查询时，开销大。在使用时，最好通过SUSTRING(column,length)将列值转换为字符串，从而使用内存临时表。另一个常用的方式是独立出来一张表，用主键来对应，避免影响其它字段索引效率。</p>
-
 <h3 id="使用枚举类型代替字符串类型">使用枚举类型代替字符串类型</h3>
-
 <p>mysql 枚举（ENUM)类型会吧一些不重复的字符串存储为一个预定义的集合，形成映射关系，存储时只需要存整数即可。</p>
-
-<pre><code class="language-sql">&gt; create table enum_test(
-	e ENUM('fish','apple','dog') NOT NULL
-);
-&gt; insert into enum_test(e) values('apple'),('dog'),('fish');
-&gt; select e+0 from `enum_test`
-+-----+
-| e+0 |
-+-----+
-| 1.0 |
-| 2.0 |
-| 3.0 |
-+-----+
-3 rows in set
-</code></pre>
-
-<p>排序时，也是按照整数来排序的。减少空间使用，提升性能是我们使用枚举代替字符串的好处，但是它的缺点很明显，如果需要改变表结构，使用枚举不是个好注意，除非只是在后面追加新的枚举值。还有需要注意的是，如果出现char、varchar和枚举列进行关联时，可能会更慢。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> enum_test(
+</span></span><span style="display:flex;"><span>	e ENUM(<span style="color:#e6db74">&#39;fish&#39;</span>,<span style="color:#e6db74">&#39;apple&#39;</span>,<span style="color:#e6db74">&#39;dog&#39;</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> enum_test(e) <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#39;apple&#39;</span>),(<span style="color:#e6db74">&#39;dog&#39;</span>),(<span style="color:#e6db74">&#39;fish&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> e<span style="color:#f92672">+</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">from</span> <span style="color:#f92672">`</span>enum_test<span style="color:#f92672">`</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> e<span style="color:#f92672">+</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">3</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">3</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span></code></pre></div><p>排序时，也是按照整数来排序的。减少空间使用，提升性能是我们使用枚举代替字符串的好处，但是它的缺点很明显，如果需要改变表结构，使用枚举不是个好注意，除非只是在后面追加新的枚举值。还有需要注意的是，如果出现char、varchar和枚举列进行关联时，可能会更慢。</p>
 <h3 id="日期和时间">日期和时间</h3>
-
 <p>Mysql提供了两种相似的时间类型：DATETIME和TIMESTAMP，如果在不同场景下选用两种，是主要研究的工作。</p>
-
-<p><strong>DATETIME</strong><br />
+<p><strong>DATETIME</strong>
 保存大范围的值，从 1001 年到 9999 年，精度为秒。把日期和时间封装到格式为 YYYYMMDDHHMMSS 的整数中，与时区无关。使用 8 个字节的存储空间。</p>
-
-<p><strong>TIMESTAMP</strong><br />
+<p><strong>TIMESTAMP</strong>
 保存从 1970 年 1 月 1 日午夜以来的秒数，和 UNIX 时间戳相同。TIMESTAMP 只使用 4 个字节的存储空间，范围是从 1970 年到 2038 年。默认情况下，如果插入时没有指定第一个 TIMESTAMP 列的值，MySQL 则设置这个列的值为当前时间。TIMESTAMP 列默认为 NOT NULL。</p>
-
 <p>通常，尽量使用TIMESTAMP，他的效率更高，在国际化环境下更是必须。但使用时间戳是需要注意，建表后一定要使用<code>show create table t_name</code>查看建表语句(所有schema都应该检查)，默认处理可能会映入一些期望之外的默认设置。还有就是，如果使用客户端查看显示，和时区相关，不要搞混淆。</p>
-
 <h2 id="缓存表和汇总表">缓存表和汇总表</h2>
-
 <p>缓存表，比如有些情况下，在运营统计等需求，可以简单获取，但一般查询较慢，定时器也难维护。汇总表一般也是运营统计等需求，数据不冗余，如计数器等。</p>
-
 <p>在使用缓存表和汇总表时，必须决定是实时维护还是定期重建。能重建更好，数据可以都维护到历史表中。在维护过程中，可以通过<code>影子表</code>方式实现。</p>
-
-<pre><code class="language-sql">&gt;create table t_new like t;
-&gt; rename table t to t_old,t_new to t;
-</code></pre>
-
-<p><strong>计数器</strong><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> t_new <span style="color:#66d9ef">like</span> t;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">rename</span> <span style="color:#66d9ef">table</span> t <span style="color:#66d9ef">to</span> t_old,t_new <span style="color:#66d9ef">to</span> t;
+</span></span></code></pre></div><p><strong>计数器</strong>
 需要计数器的地方很多，最简单就是建一张只有一行的字段，每次更新。如：</p>
-
-<pre><code class="language-sql">create table hit_counter(
-	cnt int unsigned not null
-)engine= InnoDB;
-update hit_counter set cnt=cnt+1;
-</code></pre>
-
-<p>但引入互斥锁，并发性能低。改善性能的下一步是类似java 中hashmap的做发，分成多个slot，随机更新一行，最后汇总。</p>
-
-<pre><code class="language-sql">&gt;create table hit_counter(
-	slot tinyint unsigned not null primary key,
-	cnt int unsigned not null
-)engine= InnoDB;
-
-&gt; select * from hit_counter
-+------+-----+
-| slot | cnt |
-+------+-----+
-| 1    | 0   |
-| 2    | 0   |
-| 3    | 0   |
-+------+-----+
-
-&gt; update hit_counter set cnt=cnt+1 where slot = ${1-3随机数}
-</code></pre>
-
-<p>如果按一定的周期统计，还可以添加字段如day，通过高级用法实现：</p>
-
-<pre><code>ON DUPLICATE KEY UPDATE cnt=cnt +1；
-</code></pre>
-
-<hr />
-
-<p>参考：<br />
-1. 本文来自《高性能mysql》学习记录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> hit_counter(
+</span></span><span style="display:flex;"><span>	cnt int unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>)engine<span style="color:#f92672">=</span> InnoDB;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">update</span> hit_counter <span style="color:#66d9ef">set</span> cnt<span style="color:#f92672">=</span>cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p>但引入互斥锁，并发性能低。改善性能的下一步是类似java 中hashmap的做发，分成多个slot，随机更新一行，最后汇总。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> hit_counter(
+</span></span><span style="display:flex;"><span>	slot tinyint unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>,
+</span></span><span style="display:flex;"><span>	cnt int unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>)engine<span style="color:#f92672">=</span> InnoDB;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> hit_counter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> slot <span style="color:#f92672">|</span> cnt <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">3</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">update</span> hit_counter <span style="color:#66d9ef">set</span> cnt<span style="color:#f92672">=</span>cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">where</span> slot <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">${</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">随机数}</span>
+</span></span></code></pre></div><p>如果按一定的周期统计，还可以添加字段如day，通过高级用法实现：</p>
+<pre tabindex="0"><code>ON DUPLICATE KEY UPDATE cnt=cnt +1；
+</code></pre><hr>
+<p>参考：</p>
+<ol>
+<li>本文来自《高性能mysql》学习记录</li>
+</ol>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#选择优化的数据类型">选择优化的数据类型</a>
-<ul>
-<li><a href="#整数">整数</a></li>
-<li><a href="#实数类型">实数类型</a></li>
-<li><a href="#字符串类型">字符串类型</a></li>
-<li><a href="#使用枚举类型代替字符串类型">使用枚举类型代替字符串类型</a></li>
-<li><a href="#日期和时间">日期和时间</a></li>
-</ul></li>
-<li><a href="#缓存表和汇总表">缓存表和汇总表</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#选择优化的数据类型">选择优化的数据类型</a>
+      <ul>
+        <li><a href="#整数">整数</a></li>
+        <li><a href="#实数类型">实数类型</a></li>
+        <li><a href="#字符串类型">字符串类型</a></li>
+        <li><a href="#使用枚举类型代替字符串类型">使用枚举类型代替字符串类型</a></li>
+        <li><a href="#日期和时间">日期和时间</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓存表和汇总表">缓存表和汇总表</a></li>
+  </ul>
 </nav>
     </section>
 

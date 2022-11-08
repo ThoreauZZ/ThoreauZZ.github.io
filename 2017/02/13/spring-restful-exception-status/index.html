@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Spring Cloud  异常处理和状态码 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/13/spring-restful-exception-status/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -86,7 +86,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/13/spring-restful-exception-status/" />
 
@@ -99,21 +100,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -125,23 +126,23 @@
             
         ]
     },
-    "headline": Spring Cloud  异常处理和状态码,
-    "name": Spring Cloud  异常处理和状态码,
-    "wordCount": 706,
+    "headline": "Spring Cloud  异常处理和状态码",
+    "name": "Spring Cloud  异常处理和状态码",
+    "wordCount":  699 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/13/spring-restful-exception-status/,
-    "datePublished": 2017-02-13T20:12Z,
-    "dateModified": 2017-02-13T20:12Z,
+    "url": "http://thoreauz.com/2017/02/13/spring-restful-exception-status/",
+    "datePublished": "2017-02-13T20:12Z",
+    "dateModified": "2017-02-13T20:12Z",
     
-    "keywords": spring, 微服务, spring cloud, spring-boot,
-    "description": ,
+    "keywords": "spring, 微服务, spring cloud, spring-boot",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/13/spring-restful-exception-status/
+        "@id": "http://thoreauz.com/2017/02/13/spring-restful-exception-status/"
     }
 }
     </script>
@@ -201,7 +202,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -254,256 +255,215 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="异常处理和状态码">异常处理和状态码</h1>
-
-<h2 id="一-自定义异常类">一、自定义异常类</h2>
-
+      <h1 id="异常处理和状态码">异常处理和状态码</h1>
+<h2 id="一自定义异常类">一、自定义异常类</h2>
 <p><code>OrderNotFoundException.java</code></p>
-
-<pre><code class="language-java">@ResponseStatus(HttpStatus.NOT_FOUND)
-public class OrderNotFoundException extends RuntimeException {
-    public OrderNotFoundException(String message) {
-        super(message);
-    }
-}
-</code></pre>
-
-<pre><code class="language-java">@RequestMapping(value = &quot;/trade/order&quot;, method = RequestMethod.GET)
-public Order doGet(@RequestParam Long id) {
-  if (id == 1L) {
-      Order order = new Order();
-      order.setId(1L);
-      order.setCustomerId(1L);
-      order.setPrice(12.32);
-      order.setSellerId(2L);
-      return order;
-  } else {
-      throw new OrderNotFoundException(&quot;订单不存在&quot;);
-  }
-}
-</code></pre>
-
-<p>curl <a href="http://localhost:8080/trade/order?id=1">http://localhost:8080/trade/order?id=1</a></p>
-
-<pre><code class="language-json">{
-  &quot;id&quot;: 1,
-  &quot;price&quot;: 12.32,
-  &quot;customerId&quot;: 1,
-  &quot;itemId&quot;: null,
-  &quot;sellerId&quot;: 2
-}
-</code></pre>
-
-<p>curl <a href="http://localhost:8080/trade/order?id=2">http://localhost:8080/trade/order?id=2</a></p>
-
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: 1485078385014,
-  &quot;status&quot;: 404,
-  &quot;error&quot;: &quot;Not Found&quot;,
-  &quot;exception&quot;: &quot;com.erdaoya.springcloud.trade.entity.OrderNotFoundException&quot;,
-  &quot;message&quot;: &quot;订单不存在&quot;,
-  &quot;path&quot;: &quot;/trade/order&quot;
-}
-</code></pre>
-
-<p>问题：<br />
-&gt; 直接返回给客户端，暴露了异常信息，其实只需要message</p>
-
-<pre><code class="language-json">[
-  {
-    &quot;id&quot;: 1,
-    &quot;price&quot;: 12.32,
-    &quot;customerId&quot;: 1,
-    &quot;itemId&quot;: null,
-    &quot;sellerId&quot;: 2
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;price&quot;: 12.32,
-    &quot;customerId&quot;: 1,
-    &quot;itemId&quot;: null,
-    &quot;sellerId&quot;: 2
-  }
-]
-</code></pre>
-
-<h2 id="二-在网关包一个层级">二、在网关包一个层级</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ResponseStatus</span><span style="color:#f92672">(</span>HttpStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">NOT_FOUND</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderNotFoundException</span> <span style="color:#66d9ef">extends</span> RuntimeException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">OrderNotFoundException</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>message<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/trade/order&#34;</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> RequestMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Order <span style="color:#a6e22e">doGet</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestParam</span> Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>id <span style="color:#f92672">==</span> 1L<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      Order order <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Order<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      order<span style="color:#f92672">.</span><span style="color:#a6e22e">setId</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      order<span style="color:#f92672">.</span><span style="color:#a6e22e">setCustomerId</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      order<span style="color:#f92672">.</span><span style="color:#a6e22e">setPrice</span><span style="color:#f92672">(</span>12<span style="color:#f92672">.</span><span style="color:#a6e22e">32</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      order<span style="color:#f92672">.</span><span style="color:#a6e22e">setSellerId</span><span style="color:#f92672">(</span>2L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> order<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> OrderNotFoundException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;订单不存在&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>curl <a href="http://localhost:8080/trade/order?id=1">http://localhost:8080/trade/order?id=1</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">12.32</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;customerId&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;itemId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sellerId&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>curl <a href="http://localhost:8080/trade/order?id=2">http://localhost:8080/trade/order?id=2</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#ae81ff">1485078385014</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#ae81ff">404</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;error&#34;</span>: <span style="color:#e6db74">&#34;Not Found&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;exception&#34;</span>: <span style="color:#e6db74">&#34;com.erdaoya.springcloud.trade.entity.OrderNotFoundException&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;订单不存在&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;/trade/order&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>问题：</p>
+<blockquote>
+<p>直接返回给客户端，暴露了异常信息，其实只需要message</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">12.32</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;customerId&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;itemId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sellerId&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">12.32</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;customerId&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;itemId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sellerId&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h2 id="二在网关包一个层级">二、在网关包一个层级</h2>
 <p>这个输入直接返回给前端没问题，但如果想做自己定制，可以统一在Zuul的filter中进行</p>
-
-<pre><code class="language-java">@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseModel&lt;T&gt; {
-    // 返回消息
-    private String message = &quot;&quot;;
-    // 返回对象
-    private T data;
-    // debug模式，需要在配置开关，开发测试模式可以开启
-    private T error;
-    private String debug;
-    public ResponseModel() {
-    }
-    public ResponseModel(T data) {
-            this.data = data;
-    }
-    public ResponseModel(String message) {
-        if (null != message) {
-            this.message = message;
-        }
-    }
-    public void setMessage(String message) {
-        if (null != message) {
-            this.message = message;
-        }
-    }
-    public void setData(T data) {
-        if (null != data) {
-            this.data = data;
-        }
-    }
-    public void setError(T error){
-        if (null != error){
-            this.error =  error;
-        }
-    }
-}
-</code></pre>
-
-<pre><code class="language-java">@Slf4j
-public class ResponseFilter extends ZuulFilter {
-    @Override
-    public String filterType() {
-        return &quot;post&quot;;
-    }
-    @Override
-    public int filterOrder() {
-        return 0;
-    }
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-    @Override
-    public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        try (InputStream responseDataStream = ctx.getResponseDataStream()) {
-            final String responseData = CharStreams.toString(new InputStreamReader(responseDataStream, &quot;UTF-8&quot;));
-            int responseStatusCode = ctx.getResponseStatusCode();
-
-            ResponseModel&lt;Object&gt; response = new ResponseModel&lt;&gt;();
-            ObjectMapper mapper = new ObjectMapper();
-
-            JsonNode jsonNode = mapper.readTree(responseData);
-
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-            if (responseStatusCode &gt;= 400 &amp;&amp; responseStatusCode &lt; 500) {
-                JsonNode message = jsonNode.get(&quot;message&quot;);
-                if (message == null) {
-                    response.setMessage(&quot;&quot;);
-                } else {
-                    response.setMessage(message.textValue());
-                }
-                response.setData(new Object());
-            } else {
-                response.setData(jsonNode);
-            }
-            ctx.setResponseBody(mapper.writeValueAsString(response));
-
-        } catch (IOException e) {
-            log.warn(&quot;Error reading body&quot;, e);
-        }
-        return null;
-    }
-}
-</code></pre>
-
-<p>通过zuul代理后的结果： curl <a href="http://localhost:8081/trade/order?id=1">http://localhost:8081/trade/order?id=1</a></p>
-
-<pre><code class="language-json">{
-  &quot;message&quot;: &quot;&quot;,
-  &quot;data&quot;: {
-    &quot;id&quot;: 1,
-    &quot;price&quot;: 12.32,
-    &quot;customerId&quot;: 1,
-    &quot;itemId&quot;: null,
-    &quot;sellerId&quot;: 2
-  }
-}
-</code></pre>
-
-<p>curl <a href="http://localhost:8081/trade/order?id=2">http://localhost:8081/trade/order?id=2</a></p>
-
-<pre><code class="language-json">{
-    &quot;message&quot;: &quot;订单不存在&quot;,
-    &quot;data&quot;: {}
-}
-</code></pre>
-
-<p>缺点：最外层协议和里层协议不一样，不好测试;</p>
-
-<h2 id="三-使用responseentity">三、使用ResponseEntity</h2>
-
-<pre><code class="language-java">@RequestMapping(method = RequestMethod.GET)
-public ResponseEntity&lt;Order&gt; doGet(@RequestParam Long id) {
-    if (id == 1L) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-    } else if (id == 2) {
-        String str = null;
-        str.length();
-        return null;
-    } else {
-        Order order = new Order();
-        order.setId(123L);
-        order.setCustomerId(1L);
-        order.setPrice(12.32);
-        order.setSellerId(2L);
-        return ResponseEntity.ok(order);
-    }
-}
-</code></pre>
-
-<p>curl <a href="http://localhost:8080/trade/order?id=1">http://localhost:8080/trade/order?id=1</a><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@JsonInclude</span><span style="color:#f92672">(</span>JsonInclude<span style="color:#f92672">.</span><span style="color:#a6e22e">Include</span><span style="color:#f92672">.</span><span style="color:#a6e22e">NON_NULL</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ResponseModel</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 返回消息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 返回对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> T data<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// debug模式，需要在配置开关，开发测试模式可以开启
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> T error<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String debug<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ResponseModel</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ResponseModel</span><span style="color:#f92672">(</span>T data<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> data<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ResponseModel</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setMessage</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setData</span><span style="color:#f92672">(</span>T data<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> data<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> data<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setError</span><span style="color:#f92672">(</span>T error<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> error<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">error</span> <span style="color:#f92672">=</span>  error<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ResponseFilter</span> <span style="color:#66d9ef">extends</span> ZuulFilter <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">filterType</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;post&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">filterOrder</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">shouldFilter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        RequestContext ctx <span style="color:#f92672">=</span> RequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurrentContext</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>InputStream responseDataStream <span style="color:#f92672">=</span> ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponseDataStream</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">final</span> String responseData <span style="color:#f92672">=</span> CharStreams<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>responseDataStream<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> responseStatusCode <span style="color:#f92672">=</span> ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponseStatusCode</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            ResponseModel<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ResponseModel<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>            ObjectMapper mapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectMapper<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            JsonNode jsonNode <span style="color:#f92672">=</span> mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">readTree</span><span style="color:#f92672">(</span>responseData<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">setSerializationInclusion</span><span style="color:#f92672">(</span>JsonInclude<span style="color:#f92672">.</span><span style="color:#a6e22e">Include</span><span style="color:#f92672">.</span><span style="color:#a6e22e">NON_NULL</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>SerializationFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">FAIL_ON_EMPTY_BEANS</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>responseStatusCode <span style="color:#f92672">&gt;=</span> 400 <span style="color:#f92672">&amp;&amp;</span> responseStatusCode <span style="color:#f92672">&lt;</span> 500<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                JsonNode message <span style="color:#f92672">=</span> jsonNode<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>message <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    response<span style="color:#f92672">.</span><span style="color:#a6e22e">setMessage</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    response<span style="color:#f92672">.</span><span style="color:#a6e22e">setMessage</span><span style="color:#f92672">(</span>message<span style="color:#f92672">.</span><span style="color:#a6e22e">textValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                response<span style="color:#f92672">.</span><span style="color:#a6e22e">setData</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Object<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                response<span style="color:#f92672">.</span><span style="color:#a6e22e">setData</span><span style="color:#f92672">(</span>jsonNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">setResponseBody</span><span style="color:#f92672">(</span>mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">writeValueAsString</span><span style="color:#f92672">(</span>response<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            log<span style="color:#f92672">.</span><span style="color:#a6e22e">warn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error reading body&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>通过zuul代理后的结果： curl <a href="http://localhost:8081/trade/order?id=1">http://localhost:8081/trade/order?id=1</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">12.32</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;customerId&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;itemId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sellerId&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>curl <a href="http://localhost:8081/trade/order?id=2">http://localhost:8081/trade/order?id=2</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;订单不存在&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;data&#34;</span>: {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>缺点：最外层协议和里层协议不一样，不好测试;</p>
+<h2 id="三使用responseentity">三、使用ResponseEntity</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>method <span style="color:#f92672">=</span> RequestMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>Order<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">doGet</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestParam</span> Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>id <span style="color:#f92672">==</span> 1L<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity<span style="color:#f92672">.</span><span style="color:#a6e22e">status</span><span style="color:#f92672">(</span>HttpStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">UNPROCESSABLE_ENTITY</span><span style="color:#f92672">).</span><span style="color:#a6e22e">body</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>id <span style="color:#f92672">==</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        String str <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Order order <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Order<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        order<span style="color:#f92672">.</span><span style="color:#a6e22e">setId</span><span style="color:#f92672">(</span>123L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        order<span style="color:#f92672">.</span><span style="color:#a6e22e">setCustomerId</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        order<span style="color:#f92672">.</span><span style="color:#a6e22e">setPrice</span><span style="color:#f92672">(</span>12<span style="color:#f92672">.</span><span style="color:#a6e22e">32</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        order<span style="color:#f92672">.</span><span style="color:#a6e22e">setSellerId</span><span style="color:#f92672">(</span>2L<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity<span style="color:#f92672">.</span><span style="color:#a6e22e">ok</span><span style="color:#f92672">(</span>order<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>curl http://localhost:8080/trade/order?id=1
 返回体空，状态码<code>422</code></p>
-
-<p>curl <a href="http://localhost:8080/trade/order?id=2">http://localhost:8080/trade/order?id=2</a></p>
-
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: 1485162083015,
-  &quot;status&quot;: 500,
-  &quot;error&quot;: &quot;Internal Server Error&quot;,
-  &quot;exception&quot;: &quot;java.lang.NullPointerException&quot;,
-  &quot;message&quot;: &quot;No message available&quot;,
-  &quot;path&quot;: &quot;/trade/order2&quot;
-}
-</code></pre>
-
-<p>curl <a href="http://localhost:8080/trade/order?id=3">http://localhost:8080/trade/order?id=3</a></p>
-
-<pre><code class="language-json">{
-  &quot;id&quot;: 123,
-  &quot;price&quot;: 12.32,
-  &quot;customerId&quot;: 1,
-  &quot;itemId&quot;: null,
-  &quot;sellerId&quot;: 2
-}
-</code></pre>
-
+<p>curl http://localhost:8080/trade/order?id=2</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#ae81ff">1485162083015</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;error&#34;</span>: <span style="color:#e6db74">&#34;Internal Server Error&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;exception&#34;</span>: <span style="color:#e6db74">&#34;java.lang.NullPointerException&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;No message available&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;/trade/order2&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>curl http://localhost:8080/trade/order?id=3</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">123</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">12.32</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;customerId&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;itemId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sellerId&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#异常处理和状态码">异常处理和状态码</a>
-<ul>
-<li><a href="#一-自定义异常类">一、自定义异常类</a></li>
-<li><a href="#二-在网关包一个层级">二、在网关包一个层级</a></li>
-<li><a href="#三-使用responseentity">三、使用ResponseEntity</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一自定义异常类">一、自定义异常类</a></li>
+    <li><a href="#二在网关包一个层级">二、在网关包一个层级</a></li>
+    <li><a href="#三使用responseentity">三、使用ResponseEntity</a></li>
+  </ul>
 </nav>
     </section>
 

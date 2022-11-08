@@ -21,7 +21,7 @@
   	<meta property="og:title" content="用Postman测试API &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/11/13/use-postman-to-test-api/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/11/13/use-postman-to-test-api/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 用Postman测试API,
-    "name": 用Postman测试API,
-    "wordCount": 1951,
+    "headline": "用Postman测试API",
+    "name": "用Postman测试API",
+    "wordCount":  1944 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/11/13/use-postman-to-test-api/,
-    "datePublished": 2017-11-13T16:18Z,
-    "dateModified": 2017-11-13T16:18Z,
+    "url": "http://thoreauz.com/2017/11/13/use-postman-to-test-api/",
+    "datePublished": "2017-11-13T16:18Z",
+    "dateModified": "2017-11-13T16:18Z",
     
-    "keywords": test,
-    "description": ,
+    "keywords": "test",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/11/13/use-postman-to-test-api/
+        "@id": "http://thoreauz.com/2017/11/13/use-postman-to-test-api/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,203 +243,169 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
-<p>API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试，<code>curl</code>命令是不错的选择，但并不是每个人都会用，且它只是个命令。Postman是一个比较好的用来调试和测试的工具，它的好处如下：<br />
-1. UI界面，直观，开发测试都能快速上手。<br />
-2. 对返回值测试，甚至通过js写复杂的验证。<br />
-3. 可以设定变量，批量、流程化测试。<br />
-4. 可以导出json，用命令或者Jenkins等工具执行。<br />
-5. 可以生成API文档，可以Mock接口。</p>
-
+      <h2 id="概述">概述</h2>
+<p>API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试，<code>curl</code>命令是不错的选择，但并不是每个人都会用，且它只是个命令。Postman是一个比较好的用来调试和测试的工具，它的好处如下：</p>
+<ol>
+<li>UI界面，直观，开发测试都能快速上手。</li>
+<li>对返回值测试，甚至通过js写复杂的验证。</li>
+<li>可以设定变量，批量、流程化测试。</li>
+<li>可以导出json，用命令或者Jenkins等工具执行。</li>
+<li>可以生成API文档，可以Mock接口。</li>
+</ol>
 <p>这样带来的好处是，开发编写测试的同时，直接能生成doc和mock。而测试人员完成接口测试后，直接可以作为集成测试脚本或者监控脚本使用。</p>
-
-<p>本文不细讲如何发<code>GET</code>,<code>POST</code>等请求，因为特别简单，安装postman后，自然就明白。<br />
-<!-- more --></p>
-
+<p>本文不细讲如何发<code>GET</code>,<code>POST</code>等请求，因为特别简单，安装postman后，自然就明白。</p>
+<!-- raw HTML omitted -->
 <h2 id="示例">示例</h2>
-
-<p>用github的api作为例子：<code>https://api.github.com/users/ThoreauZZ</code><br />
-<img src="http://thoreauz.com/images/2017-11-13-11-57-13.jpg" alt="" /><br />
-根据上图5个标注，分别解释各个部分功能：<br />
-1. 环境：比如开发环境，测试环境。环境中可以设置多个key-value，也就是设置的环境变量。<br />
-2. 集合：可以把一个模块或者一个功能的所有接口保存为一个集合，集合可以导出为json文件。<br />
-3. 请求地址：请求<strong><code>api-host</code></strong>是在环境变量中取值。所以，我们可以在不同环境中，针对<strong>api-host</strong>设置不同的值。这样随时切换环境，而不需要修改url地址。<strong><code>userName</code></strong> 也是一个环境变量，不过是动态添加的变量，在<strong><code>pre-requst</code></strong>中设置的环境变量。<br />
-4. Pre-Request script：在请求前做一些事情，比如设置环境变量，供请求的参数、header、body等。<br />
-5. 返回体：示例中的json API，也是我们后面测试的重点。</p>
-
+<p>用github的api作为例子：<code>https://api.github.com/users/ThoreauZZ</code>
+<img src="http://thoreauz.com/images/2017-11-13-11-57-13.jpg" alt="">
+根据上图5个标注，分别解释各个部分功能：</p>
+<ol>
+<li>环境：比如开发环境，测试环境。环境中可以设置多个key-value，也就是设置的环境变量。</li>
+<li>集合：可以把一个模块或者一个功能的所有接口保存为一个集合，集合可以导出为json文件。</li>
+<li>请求地址：请求**<code>api-host</code><strong>是在环境变量中取值。所以，我们可以在不同环境中，针对</strong>api-host<strong>设置不同的值。这样随时切换环境，而不需要修改url地址。</strong><code>userName</code>** 也是一个环境变量，不过是动态添加的变量，在**<code>pre-requst</code>**中设置的环境变量。</li>
+<li>Pre-Request script：在请求前做一些事情，比如设置环境变量，供请求的参数、header、body等。</li>
+<li>返回体：示例中的json API，也是我们后面测试的重点。</li>
+</ol>
 <h2 id="测试">测试</h2>
-
-<p>在示例图URL填写下方，有Pre-Request Script和Tests，分别用来在请求前后做相应处理和测试，针对示例的返回API，我们测试如下；<br />
-<img src="http://thoreauz.com/images/2017-11-13-12-33-14.jpg" alt="" /><br />
+<p>在示例图URL填写下方，有Pre-Request Script和Tests，分别用来在请求前后做相应处理和测试，针对示例的返回API，我们测试如下；
+<img src="http://thoreauz.com/images/2017-11-13-12-33-14.jpg" alt="">
 代码如下：</p>
-
-<pre><code class="language-js">//get responseBody
-var data = JSON.parse(responseBody);
-
-// log
-console.log(data)
-
-// tests
-tests[&quot;Status code is 200&quot;] = responseCode.code === 200;
-tests[&quot;test login&quot;] = data.login === postman.getEnvironmentVariable(&quot;userName&quot;); // user 
-tests[&quot;test id is number&quot;] = !isNaN(data.id)
-tests[&quot;test repo num&quot;] = data.public_repos === 29
-tests[&quot;test followers more than 2&quot;] = data.followers &gt; 2
-
-tests[&quot;Content-Type&quot;] = postman.getResponseHeader(&quot;Content-Type&quot;) == &quot;application/json; charset=utf-8&quot;; 
-
-// set environments
-postman.setEnvironmentVariable(&quot;userId&quot;, data.id);
-</code></pre>
-
-<p>上面的测试脚本，格式<code>test['test description'] = value === expectValue</code>，从上列可以看到，可以判断状态码，返回头信息，可以编写JavaScript脚本测试返回体，可以解析json，可以设置环境变量，可以在调试时console.log打印日志等功能。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">//get responseBody
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">responseBody</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// log
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// tests
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;Status code is 200&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">responseCode</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;test login&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">login</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">postman</span>.<span style="color:#a6e22e">getEnvironmentVariable</span>(<span style="color:#e6db74">&#34;userName&#34;</span>); <span style="color:#75715e">// user 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;test id is number&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>isNaN(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;test repo num&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">public_repos</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">29</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;test followers more than 2&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">followers</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;Content-Type&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">postman</span>.<span style="color:#a6e22e">getResponseHeader</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;application/json; charset=utf-8&#34;</span>; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// set environments
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">postman</span>.<span style="color:#a6e22e">setEnvironmentVariable</span>(<span style="color:#e6db74">&#34;userId&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span>);
+</span></span></code></pre></div><p>上面的测试脚本，格式<code>test['test description'] = value === expectValue</code>，从上列可以看到，可以判断状态码，返回头信息，可以编写JavaScript脚本测试返回体，可以解析json，可以设置环境变量，可以在调试时console.log打印日志等功能。</p>
 <p>postman好用在于，除了提供内置的几个函数外，其他脚本完全通过js语法随意发挥。比如我要每次请求的orderId都不一样，可以在Pre-Request script 中这样写（当然也可以写for循环和if分支等）</p>
-
-<pre><code class="language-js">postman.setEnvironmentVariable(&quot;orderId&quot;, &quot;orderId&quot;+ Date.parse(new Date()));
-</code></pre>
-
-<p>对于常用的json API测试，我们可以通过<code>json schema</code>进行校验，还是以github的api为例，通过tv4.validate库进行校验。</p>
-
-<pre><code class="language-js">// json schema
-var schema ={
-  &quot;definitions&quot;: {},
-  &quot;$schema&quot;: &quot;http://json-schema.org/draft-06/schema#&quot;,
-  &quot;$id&quot;: &quot;http://api.github.com/users.json&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;properties&quot;: {
-    &quot;login&quot;: {
-      &quot;$id&quot;: &quot;/properties/login&quot;,
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;title&quot;: &quot;The Login Schema.&quot;,
-      &quot;description&quot;: &quot;userName&quot;,
-      &quot;default&quot;: &quot;&quot;,
-      &quot;examples&quot;: [
-        &quot;ThoreauZZ&quot;
-      ]
-    },
-    &quot;id&quot;: {
-      &quot;$id&quot;: &quot;/properties/id&quot;,
-      &quot;type&quot;: &quot;integer&quot;,
-      &quot;title&quot;: &quot;The Id Schema.&quot;,
-      &quot;default&quot;: 0,
-      &quot;examples&quot;: [
-        10337273
-      ]
-    },
-    &quot;public_repos&quot;: {
-      &quot;$id&quot;: &quot;/properties/public_repos&quot;,
-      &quot;type&quot;: &quot;integer&quot;,
-      &quot;title&quot;: &quot;public_repos&quot;,
-      &quot;default&quot;: 5,
-      &quot;examples&quot;: [
-        8
-      ],
-      &quot;minimum&quot;: 0,
-      &quot;maximum&quot;:10000
-    },
-    &quot;site_admin&quot;: {
-      &quot;$id&quot;: &quot;/properties/site_admin&quot;,
-      &quot;type&quot;: &quot;boolean&quot;,
-      &quot;title&quot;: &quot;site_admin&quot;,
-      &quot;default&quot;: false,
-      &quot;examples&quot;: [
-        true
-      ]
-    }
-  },
-  &quot;required&quot;: [
-    &quot;login&quot;,&quot;id&quot;
-  ]
-}
-// get response data
-var data = JSON.parse(responseBody);
-// validate
-tests[&quot;Valid json&quot;] = tv4.validate(data, schema);
-</code></pre>
-
-<p>还可以直接在脚本里发起ajax请求：</p>
-
-<pre><code class="language-js">// Example with a full fledged SDK Request
-const echoGetRequest = {
-  url: 'https://www.googleapis.com/customsearch/v1?key=someKey&amp;q=lectures',
-  method: 'GET',
-  header: 'headername:value',
-  body: {
-    mode: 'raw',
-    raw: JSON.stringify({ key: 'this is json' })
-  }
-};
-pm.sendRequest(echoGetRequest, function (err, res) {
-  console.log(err ? err : res.json());
-});
-</code></pre>
-
-<p>综上所述，可以在postman的提供的沙箱里面执行js脚本，支持的库如下：<br />
-* Lodash: JS 工具库<br />
-* cheerio: 实现jQueryAPI<br />
-* tv4 JSON schema validator: jsonSchema校验<br />
-* CryptoJS: 标准加密算法库 AES, DES, EvpKDF, HMAC-MD5, HMAC-SHA1/3/256/512, MD5, PBKDF2, Rabbit, SHA1/3/224/256/512, TripleDES<br />
-* xml2Json(xmlString): xml和json处理</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">postman</span>.<span style="color:#a6e22e">setEnvironmentVariable</span>(<span style="color:#e6db74">&#34;orderId&#34;</span>, <span style="color:#e6db74">&#34;orderId&#34;</span><span style="color:#f92672">+</span> Date.<span style="color:#a6e22e">parse</span>(<span style="color:#66d9ef">new</span> Date()));
+</span></span></code></pre></div><p>对于常用的json API测试，我们可以通过<code>json schema</code>进行校验，还是以github的api为例，通过tv4.validate库进行校验。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// json schema
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">schema</span> <span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;definitions&#34;</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;$schema&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;http://json-schema.org/draft-06/schema#&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;$id&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;http://api.github.com/users.json&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;object&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;login&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;$id&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/properties/login&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;string&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;title&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;The Login Schema.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;userName&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;examples&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;ThoreauZZ&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;$id&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/properties/id&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;integer&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;title&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;The Id Schema.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;examples&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">10337273</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;public_repos&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;$id&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/properties/public_repos&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;integer&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;title&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;public_repos&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;examples&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;minimum&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;maximum&#34;</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10000</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;site_admin&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;$id&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/properties/site_admin&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;boolean&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;title&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;site_admin&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;examples&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;required&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;login&#34;</span>,<span style="color:#e6db74">&#34;id&#34;</span>
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// get response data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">responseBody</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// validate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">tests</span>[<span style="color:#e6db74">&#34;Valid json&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">tv4</span>.<span style="color:#a6e22e">validate</span>(<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">schema</span>);
+</span></span></code></pre></div><p>还可以直接在脚本里发起ajax请求：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Example with a full fledged SDK Request
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">echoGetRequest</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://www.googleapis.com/customsearch/v1?key=someKey&amp;q=lectures&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GET&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;headername:value&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;raw&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({ <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;this is json&#39;</span> })
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pm</span>.<span style="color:#a6e22e">sendRequest</span>(<span style="color:#a6e22e">echoGetRequest</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">res</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">err</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>());
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>综上所述，可以在postman的提供的沙箱里面执行js脚本，支持的库如下：</p>
+<ul>
+<li>Lodash: JS 工具库</li>
+<li>cheerio: 实现jQueryAPI</li>
+<li>tv4 JSON schema validator: jsonSchema校验</li>
+<li>CryptoJS: 标准加密算法库 AES, DES, EvpKDF, HMAC-MD5, HMAC-SHA1/3/256/512, MD5, PBKDF2, Rabbit, SHA1/3/224/256/512, TripleDES</li>
+<li>xml2Json(xmlString): xml和json处理</li>
+</ul>
 <h2 id="运行集合">运行集合</h2>
-
-<p>一般来说，一个请求可能需要带上登录后的token或者cookie，也可能提交的请求用到上一个请求返回的数据。我们可以把这些请求放入一个集合，通过get/set环境变量的方式把他们串联起来。<br />
-<img src="http://thoreauz.com/images/2017-11-13-14-12-23.jpg" alt="" /><br />
+<p>一般来说，一个请求可能需要带上登录后的token或者cookie，也可能提交的请求用到上一个请求返回的数据。我们可以把这些请求放入一个集合，通过get/set环境变量的方式把他们串联起来。
+<img src="http://thoreauz.com/images/2017-11-13-14-12-23.jpg" alt="">
 集合的所有API测试可以导出为json文件。下面详细解释：</p>
-
 <h2 id="自动化脚本">自动化脚本</h2>
-
-<p><strong>导出json文件</strong><br />
-导出集合realTestRunner为<code>realTestRunner.postman_collection.json</code>  ;<br />
+<p><strong>导出json文件</strong>
+导出集合realTestRunner为<code>realTestRunner.postman_collection.json</code>  ;
 导出环境变量为<code>local.postman_environment.json</code> ;</p>
-
 <p><strong>安装newman</strong></p>
-
-<pre><code class="language-bash">#  需要先安装nodejs(自带npm)
-npm install -g newman
-</code></pre>
-
-<p><strong>执行脚本</strong></p>
-
-<pre><code class="language-bash">newman run realTestRunner.postman_collection.json -e local.postman_environment.json
-</code></pre>
-
-<p>测试报告如下，59个接口测试，有6个接口请求失败。<br />
-<img src="http://thoreauz.com/images/2017-11-13-11-45-00.jpg" alt="" /><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#  需要先安装nodejs(自带npm)</span>
+</span></span><span style="display:flex;"><span>npm install -g newman
+</span></span></code></pre></div><p><strong>执行脚本</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>newman run realTestRunner.postman_collection.json -e local.postman_environment.json
+</span></span></code></pre></div><p>测试报告如下，59个接口测试，有6个接口请求失败。
+<img src="http://thoreauz.com/images/2017-11-13-11-45-00.jpg" alt="">
 就通过<code>newman</code>这个命令，集成测试时，可以把json文件放在项目的doc目录下，通过Jenkins、docker等自动拉取json文件完成自动化集成测试。</p>
-
 <h2 id="导出为其他语言">导出为其他语言</h2>
-
-<p>有时候需要在服务器上执行某个复杂的HTTP请求，可以先用postman编写，然后点击<code>code</code>如下图：<br />
-<img src="http://thoreauz.com/images/2017-11-13-16-12-13.jpg" alt="" /><br />
-然后选择语言或者工具：如curl、python<br />
-<img src="http://thoreauz.com/images/2017-11-13-22-39-58.jpg" alt="" /><br />
-<img src="http://thoreauz.com/images/2017-11-13-22-40-29.jpg" alt="" /></p>
-
+<p>有时候需要在服务器上执行某个复杂的HTTP请求，可以先用postman编写，然后点击<code>code</code>如下图：
+<img src="http://thoreauz.com/images/2017-11-13-16-12-13.jpg" alt="">
+然后选择语言或者工具：如curl、python
+<img src="http://thoreauz.com/images/2017-11-13-22-39-58.jpg" alt="">
+<img src="http://thoreauz.com/images/2017-11-13-22-40-29.jpg" alt=""></p>
 <h2 id="总结">总结</h2>
-
 <p>postman是一个比较好的调试测试restful api的工具，Mock和doc功能请阅读<a href="https://www.getpostman.com/docs/postman/api_documentation/intro_to_api_documentation">官网</a>。也提供了收费的团队版本。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#示例">示例</a></li>
-<li><a href="#测试">测试</a></li>
-<li><a href="#运行集合">运行集合</a></li>
-<li><a href="#自动化脚本">自动化脚本</a></li>
-<li><a href="#导出为其他语言">导出为其他语言</a></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#测试">测试</a></li>
+    <li><a href="#运行集合">运行集合</a></li>
+    <li><a href="#自动化脚本">自动化脚本</a></li>
+    <li><a href="#导出为其他语言">导出为其他语言</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 

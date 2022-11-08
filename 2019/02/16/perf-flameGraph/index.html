@@ -21,7 +21,7 @@
   	<meta property="og:title" content="perf和火焰图 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2019/02/16/perf-flameGraph/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/02/16/perf-flameGraph/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": perf和火焰图,
-    "name": perf和火焰图,
-    "wordCount": 653,
+    "headline": "perf和火焰图",
+    "name": "perf和火焰图",
+    "wordCount":  651 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2019/02/16/perf-flameGraph/,
-    "datePublished": 2019-02-16T12:46Z,
-    "dateModified": 2019-02-16T12:46Z,
+    "url": "http://thoreauz.com/2019/02/16/perf-flameGraph/",
+    "datePublished": "2019-02-16T12:46Z",
+    "dateModified": "2019-02-16T12:46Z",
     
-    "keywords": 性能, java,
-    "description": ,
+    "keywords": "性能, java",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2019/02/16/perf-flameGraph/
+        "@id": "http://thoreauz.com/2019/02/16/perf-flameGraph/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,99 +247,73 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="安装">安装</h2>
-
+      <h2 id="安装">安装</h2>
 <p><a href="https://github.com/brendangregg/perf-tools">perf</a>是linux下的一个性能分析工具，本文主要用来分析java热点代码。安装perf和perf-map-agent，perf-map-agent用来生成java方法和perf的映射。</p>
-
-<pre><code class="language-bash"># centos7 install perf
-yum install perf
-# install perf-map-agent
-git clone https://github.com/jvm-profiling-tools/perf-map-agent.git
-cd perf-map-agent
-# cmake&gt;=2.8.6
-yum groupinstall &quot;Development Tools&quot;
-yum install make
-cmake .
-make
-</code></pre>
-
-<!-- more --> 
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># centos7 install perf</span>
+</span></span><span style="display:flex;"><span>yum install perf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># install perf-map-agent</span>
+</span></span><span style="display:flex;"><span>git clone https://github.com/jvm-profiling-tools/perf-map-agent.git
+</span></span><span style="display:flex;"><span>cd perf-map-agent
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cmake&gt;=2.8.6</span>
+</span></span><span style="display:flex;"><span>yum groupinstall <span style="color:#e6db74">&#34;Development Tools&#34;</span>
+</span></span><span style="display:flex;"><span>yum install make
+</span></span><span style="display:flex;"><span>cmake .
+</span></span><span style="display:flex;"><span>make
+</span></span></code></pre></div><!-- raw HTML omitted -->
 <h2 id="分析java应用">分析java应用</h2>
-
 <p>查看java进程：</p>
-
-<pre><code class="language-bash">[root@node1 perf-map-agent]# jps -l
-28369 simple-consumer-1.0-SNAPSHOT.jar
-28951 sun.tools.jps.Jps
-28348 simple-provider-1.0-SNAPSHOT.jar
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@node1 perf-map-agent<span style="color:#f92672">]</span><span style="color:#75715e"># jps -l</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">28369</span> simple-consumer-1.0-SNAPSHOT.jar
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">28951</span> sun.tools.jps.Jps
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">28348</span> simple-provider-1.0-SNAPSHOT.jar
+</span></span></code></pre></div><blockquote>
 <p>一个prc示例，consumer通过spring boot提供了rest接口，500并发测试。</p>
 </blockquote>
-
-<p><img src="http://thoreauz.com/images/2019-01-27-18-24-03.jpg" alt="" /><br />
-&gt; 可以看到消费者28369cpu占用较高。</p>
-
-<pre><code class="language-bash"># 每秒99次 -g表示记录调用栈，sleep 30则是持续30秒。
-perf record -F 99 -p 28369 -ag -- sleep 30
-</code></pre>
-
-<p>perf record 查看如下图<br />
-<img src="http://thoreauz.com/images/2019-01-27-18-28-19.jpg" alt="" /><br />
-一堆看不懂的内核调用：</p>
-
-<pre><code class="language-bash"># 在之前安装的perf-map-agent路径下执行命令生成map文件
-# 文件位置: /tmp/perf-28369.map
-./bin/create-java-perf-map.sh 28369
-</code></pre>
-
+<p><img src="http://thoreauz.com/images/2019-01-27-18-24-03.jpg" alt=""></p>
 <blockquote>
-<p>应用启动添加jvm参数<code>-XX:+PreserveFramePointer</code>，这个参数支持 perf-map-agent将 perf 监控到的数据翻译成JVM 堆栈信息( Java 8 update 60 build 19)</p>
+<p>可以看到消费者28369cpu占用较高。</p>
 </blockquote>
-
-<p>此时再看perf record<br />
-<img src="http://thoreauz.com/images/2019-01-28-21-43-17.jpg" alt="" /><br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 每秒99次 -g表示记录调用栈，sleep 30则是持续30秒。</span>
+</span></span><span style="display:flex;"><span>perf record -F <span style="color:#ae81ff">99</span> -p <span style="color:#ae81ff">28369</span> -ag -- sleep <span style="color:#ae81ff">30</span>
+</span></span></code></pre></div><p>perf record 查看如下图
+<img src="http://thoreauz.com/images/2019-01-27-18-28-19.jpg" alt="">
+一堆看不懂的内核调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 在之前安装的perf-map-agent路径下执行命令生成map文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 文件位置: /tmp/perf-28369.map</span>
+</span></span><span style="display:flex;"><span>./bin/create-java-perf-map.sh <span style="color:#ae81ff">28369</span>
+</span></span></code></pre></div><blockquote>
+<p>应用启动添加jvm参数<code>-XX:+PreserveFramePointer </code>，这个参数支持 perf-map-agent将 perf 监控到的数据翻译成JVM 堆栈信息( Java 8 update 60 build 19)</p>
+</blockquote>
+<p>此时再看perf record
+<img src="http://thoreauz.com/images/2019-01-28-21-43-17.jpg" alt="">
 可以看看到java栈信息，还是不够直观，使用FlameGraph生成火焰图：</p>
-
 <h2 id="火焰图">火焰图</h2>
-
-<pre><code class="language-bash">git clone https://github.com/brendangregg/FlameGraph.git
-perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; flameGraph.svg
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2019-01-28-21-51-42.jpg" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/brendangregg/FlameGraph.git
+</span></span><span style="display:flex;"><span>perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; flameGraph.svg
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2019-01-28-21-51-42.jpg" alt=""></p>
 <ul>
-<li>y 轴表示调用栈，每一层都是一个函数。调用栈越深，火焰就越高<br /></li>
-<li>x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，就表示它被抽到的次数多，即执行的时间长。<br /></li>
-<li>不用看颜色深浅，看顶层的哪个函数占据的宽度最大，就表示该函数可能存在性能问题。<br />
-&gt; 示例是在一个虚拟机跑的，网卡是性能瓶颈，从top命令sy的cup占用也可以看出来问题。可以通过 cat /proc/interrupts继续分析。<br />
-<br /></li>
+<li>y 轴表示调用栈，每一层都是一个函数。调用栈越深，火焰就越高</li>
+<li>x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，就表示它被抽到的次数多，即执行的时间长。</li>
+<li>不用看颜色深浅，看顶层的哪个函数占据的宽度最大，就表示该函数可能存在性能问题。</li>
 </ul>
-
-<hr />
-
-<p>参考：<br />
-[1]. <a href="http://www.brendangregg.com/perf.html">http://www.brendangregg.com/perf.html</a><br />
-[2].<a href="http://www.ruanyifeng.com/blog/2017/09/flame-graph.html">http://www.ruanyifeng.com/blog/2017/09/flame-graph.html</a><br />
+<blockquote>
+<p>示例是在一个虚拟机跑的，网卡是性能瓶颈，从top命令sy的cup占用也可以看出来问题。可以通过 cat /proc/interrupts继续分析。</p>
+</blockquote>
+<hr>
+<p>参考：
+[1]. <a href="http://www.brendangregg.com/perf.html">http://www.brendangregg.com/perf.html</a>
+[2].http://www.ruanyifeng.com/blog/2017/09/flame-graph.html
 [3]. <a href="http://www.brendangregg.com/flamegraphs.html">http://www.brendangregg.com/flamegraphs.html</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#安装">安装</a></li>
-<li><a href="#分析java应用">分析java应用</a></li>
-<li><a href="#火焰图">火焰图</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#分析java应用">分析java应用</a></li>
+    <li><a href="#火焰图">火焰图</a></li>
+  </ul>
 </nav>
     </section>
 

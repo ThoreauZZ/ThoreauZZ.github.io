@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Gradle的双刃 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Gradle的双刃,
-    "name": Gradle的双刃,
-    "wordCount": 1497,
+    "headline": "Gradle的双刃",
+    "name": "Gradle的双刃",
+    "wordCount":  1489 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/,
-    "datePublished": 2017-08-10T16:49Z,
-    "dateModified": 2017-08-10T16:49Z,
+    "url": "http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/",
+    "datePublished": "2017-08-10T16:49Z",
+    "dateModified": "2017-08-10T16:49Z",
     
-    "keywords": gradle,
-    "description": ,
+    "keywords": "gradle",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/
+        "@id": "http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,35 +243,20 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>作为java开发者，maven解决了我很多头痛的问题，现在也几乎成了java项目中依赖管理和构建的标准工具，很多开源的库都会发布到maven中央仓库。以为的经验来说，maven完全够用了，在大型多模块微服务系统中使用一样没问题。这主要得益于maven优秀的约定，生命周期，和强大而众多的插件。唯一比较烦maven的一点就是配置多，我曾经在一个parent pom中有一千多行配置，另外一点就是maven的传递依赖也是把双刃剑，容易出现最总编译出来的包中所依赖的jar包版本错误。</p>
-
+      <p>作为java开发者，maven解决了我很多头痛的问题，现在也几乎成了java项目中依赖管理和构建的标准工具，很多开源的库都会发布到maven中央仓库。以为的经验来说，maven完全够用了，在大型多模块微服务系统中使用一样没问题。这主要得益于maven优秀的约定，生命周期，和强大而众多的插件。唯一比较烦maven的一点就是配置多，我曾经在一个parent pom中有一千多行配置，另外一点就是maven的传递依赖也是把双刃剑，容易出现最总编译出来的包中所依赖的jar包版本错误。</p>
 <p>其实如果能接受上面maven的问题，那也暂时没有使用gradle的必要。那gradle是什么呢，凭什么替代maven，凭什么迁移过去？gradle在安卓开发中使用广泛，我并不清楚安卓，所以仅从java角度看gradle。简单来说，gradle是基于groovy，所以配置文件可以按照groovy的语法自由编写，就因此，它相对maven来说，配置简单，使用灵活。简单在于不再像maven的xml那么繁杂，灵活在于可以自由定义各种运行任务，而不像maven定死了生命周期的每一个阶段，插件也只能绑定到对应阶段执行。</p>
-
 <p>其实gradle就是一个脚本，这个脚本可以开发出各种各样的task，再依赖一些插件，即可完成包依赖和项目构建。而gradle能获得很多用户的另一个原因是，它可以完全使用maven的包和仓库，你不用担心去哪儿下载的问题也不用担心公司maven私服的迁移。并且，它的项目结构也可以跟maven完全一样，唯一的不同就是<code>pom.xml</code>变成了<code>build.gradle</code>。</p>
-
 <p>gradle的好处已经说了：简洁、灵活。简洁很好，但灵活并不一定是好事儿，如果hold不住，可能在项目开发前被配置搞得精疲力尽，或者中途瞎改，搞乱了。这方面仁者见仁智者见智，个人感觉是出问题没有maven好定位，毕竟maven定死了那些规则和配置，跑不偏。只是对于大部分开发者来说，能自由地组合，不死板，想干什么就干什么是一件比较不错的事儿。</p>
-
 <p>下面简单介绍使用gradle。</p>
-
-<p><img src="https://plugins.gradle.org/shared-assets/shared/images/gradle-logo-horizontal.svg" alt="" /></p>
-
-<!-- more -->
-
+<p><img src="https://plugins.gradle.org/shared-assets/shared/images/gradle-logo-horizontal.svg" alt=""></p>
+<!-- raw HTML omitted -->
 <h2 id="安装">安装</h2>
-
-<pre><code>wget https://downloads.gradle.org/distributions/gradle-4.0.1-bin.zip
+<pre tabindex="0"><code>wget https://downloads.gradle.org/distributions/gradle-4.0.1-bin.zip
 unzip gradle-4.0.1-bin.zip
-</code></pre>
-
-<p>根据安装目录添加环境变量到文件如/etc/profile或者mac <code>~/.bash_profile</code></p>
-
-<pre><code>export GRADLE_HOME=/usr/local/gradle-4.0.1
+</code></pre><p>根据安装目录添加环境变量到文件如/etc/profile或者mac <code>~/.bash_profile</code></p>
+<pre tabindex="0"><code>export GRADLE_HOME=/usr/local/gradle-4.0.1
 export PATH=$PATH:$GRADLE_HOME/bin
-</code></pre>
-
-<pre><code>gradle -v
+</code></pre><pre tabindex="0"><code>gradle -v
 ------------------------------------------------------------
 Gradle 4.0.1
 ------------------------------------------------------------
@@ -282,144 +268,125 @@ Groovy:       2.4.11
 Ant:          Apache Ant(TM) version 1.9.6 compiled on June 29 2015
 JVM:          1.8.0_91 (Oracle Corporation 25.91-b14)
 OS:           Mac OS X 10.11.6 x86_64
-</code></pre>
-
-<p>安装成功</p>
-
+</code></pre><p>安装成功</p>
 <h2 id="spring-boot项目">Spring boot项目</h2>
-
-<pre><code class="language-groovy">plugins {
-    id 'org.springframework.boot' version '1.5.2.RELEASE'
-    id 'java'
-    id 'maven'
-}
-
-repositories {
-    jcenter()
-    mavenLocal()
-    mavenCentral()
-    maven {
-        url &quot;http://maven.aliyun.com/nexus/content/groups/public/&quot;
-    }
-}
-
-dependencies {
-    compile(&quot;org.springframework.boot:spring-boot-starter-web&quot;)
-    testCompile(&quot;org.springframework.boot:spring-boot-starter-test&quot;)
-    testCompile &quot;com.github.tomakehurst:wiremock:2.6.0&quot;
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    integTestCompile 'org.codehaus.groovy:groovy-all:2.4.3'
-    integTestCompile 'org.spockframework:spock-core:0.7-groovy-2.0', {
-        exclude module: 'groovy-all'
-    }
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: &quot;http://localhost:8088/nexus/content/repositories/snapshots/&quot;) {
-                authentication(userName: &quot;admin&quot;, password: &quot;admin123&quot;)
-                pom.groupId = &quot;com.thoreau&quot;
-                pom.artifactId = &quot;spring-boot&quot;
-            }
-        }
-    }
-}
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-        }
-    }
-}
-</code></pre>
-
-<p>介绍：<br />
-* plugins: 配置插件，比如这儿用到的spring boot插件，提供了<code>bootRun</code>task。<br />
-* repositories：配置包的仓库，示例中配置了maven本地和中央仓库，还有阿里的私服。<br />
-* dependencies：配置依赖<br />
-* uploadArchives：配置maven上传(dploy)<br />
-* sourceSets：如上，项目结构设置</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>plugins <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    id <span style="color:#e6db74">&#39;org.springframework.boot&#39;</span> version <span style="color:#e6db74">&#39;1.5.2.RELEASE&#39;</span>
+</span></span><span style="display:flex;"><span>    id <span style="color:#e6db74">&#39;java&#39;</span>
+</span></span><span style="display:flex;"><span>    id <span style="color:#e6db74">&#39;maven&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    jcenter<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    mavenLocal<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    mavenCentral<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    maven <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        url <span style="color:#e6db74">&#34;http://maven.aliyun.com/nexus/content/groups/public/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-web&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    testCompile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-test&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    testCompile <span style="color:#e6db74">&#34;com.github.tomakehurst:wiremock:2.6.0&#34;</span>
+</span></span><span style="display:flex;"><span>    compile <span style="color:#e6db74">&#39;com.squareup.okhttp3:okhttp:3.8.1&#39;</span>
+</span></span><span style="display:flex;"><span>    integTestCompile <span style="color:#e6db74">&#39;org.codehaus.groovy:groovy-all:2.4.3&#39;</span>
+</span></span><span style="display:flex;"><span>    integTestCompile <span style="color:#e6db74">&#39;org.spockframework:spock-core:0.7-groovy-2.0&#39;</span><span style="color:#f92672">,</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        exclude module: <span style="color:#e6db74">&#39;groovy-all&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>uploadArchives <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        mavenDeployer <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            repository<span style="color:#f92672">(</span>url: <span style="color:#e6db74">&#34;http://localhost:8088/nexus/content/repositories/snapshots/&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                authentication<span style="color:#f92672">(</span>userName: <span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">,</span> password: <span style="color:#e6db74">&#34;admin123&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                pom<span style="color:#f92672">.</span><span style="color:#a6e22e">groupId</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.thoreau&#34;</span>
+</span></span><span style="display:flex;"><span>                pom<span style="color:#f92672">.</span><span style="color:#a6e22e">artifactId</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring-boot&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>sourceSets <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    main <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        java <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/main/java&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        resources <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/main/resources&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>介绍：</p>
+<ul>
+<li>plugins: 配置插件，比如这儿用到的spring boot插件，提供了<code>bootRun</code>task。</li>
+<li>repositories：配置包的仓库，示例中配置了maven本地和中央仓库，还有阿里的私服。</li>
+<li>dependencies：配置依赖</li>
+<li>uploadArchives：配置maven上传(dploy)</li>
+<li>sourceSets：如上，项目结构设置</li>
+</ul>
 <p>这相当于把maven项目迁移过来。</p>
-
 <h2 id="task">Task</h2>
-
-<pre><code class="language-groovy">ext {
-    springVersion = &quot;3.1.0.RELEASE&quot;
-    emailNotification = &quot;build@master.org&quot;
-}
-task compile {
-    doLast {
-        println 'compiling source'
-    }
-}
-
-task compileTest(dependsOn: compile) {
-    doLast {
-        println 'compiling unit tests'
-    }
-}
-
-task test(dependsOn: [compile, compileTest]) {
-    doLast {
-        println 'running unit tests'
-    }
-}
-
-task dist(dependsOn: [compile, test]) {
-    doLast {
-        println 'building the distribution'
-    }
-}
-task printProperties {
-    doLast {
-        println springVersion
-        println emailNotification
-    }
-}
-</code></pre>
-
-<p>执行<code>gradle dist -q</code></p>
-
-<pre><code>compiling source
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>ext <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    springVersion <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;3.1.0.RELEASE&#34;</span>
+</span></span><span style="display:flex;"><span>    emailNotification <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;build@master.org&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>task compile <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    doLast <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#39;compiling source&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>task <span style="color:#a6e22e">compileTest</span><span style="color:#f92672">(</span>dependsOn: compile<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    doLast <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#39;compiling unit tests&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>task <span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>dependsOn: <span style="color:#f92672">[</span>compile<span style="color:#f92672">,</span> compileTest<span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    doLast <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#39;running unit tests&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>task <span style="color:#a6e22e">dist</span><span style="color:#f92672">(</span>dependsOn: <span style="color:#f92672">[</span>compile<span style="color:#f92672">,</span> test<span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    doLast <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#39;building the distribution&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>task printProperties <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    doLast <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println springVersion
+</span></span><span style="display:flex;"><span>        println emailNotification
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>执行<code>gradle dist -q</code></p>
+<pre tabindex="0"><code>compiling source
 compiling unit tests
 running unit tests
 building the distribution
-</code></pre>
-
-<p>执行<code>gradle printProperties -q</code></p>
-
-<pre><code>3.1.0.RELEASE
+</code></pre><p>执行<code>gradle printProperties -q</code></p>
+<pre tabindex="0"><code>3.1.0.RELEASE
 build@master.org
-</code></pre>
-
-<p>这只是简单的示例，Gradle里面的所有东西都基于两个概念：project和task。roject通常指一个项目，而task指构建过程中的任务。在task中可以任意使用变量或者分支循环，还能使用第三方包(需要在buildScript依赖)。</p>
-
+</code></pre><p>这只是简单的示例，Gradle里面的所有东西都基于两个概念：project和task。roject通常指一个项目，而task指构建过程中的任务。在task中可以任意使用变量或者分支循环，还能使用第三方包(需要在buildScript依赖)。</p>
 <p>从示例中也能体会到，确实简洁灵活，给人的整体感觉是比maven‘现代’很多。对个人来说，我很乐意转到gradle。</p>
-
-<hr />
-
-<p>参考：<br />
-* <a href="https://spring.io/guides/gs/gradle/">https://spring.io/guides/gs/gradle/</a><br />
-* <a href="https://docs.gradle.org/current/userguide/userguide.html">https://docs.gradle.org/current/userguide/userguide.html</a><br />
-* <a href="https://tech.meituan.com/gradle-practice.html">https://tech.meituan.com/gradle-practice.html</a></p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://spring.io/guides/gs/gradle/">https://spring.io/guides/gs/gradle/</a></li>
+<li><a href="https://docs.gradle.org/current/userguide/userguide.html">https://docs.gradle.org/current/userguide/userguide.html</a></li>
+<li><a href="https://tech.meituan.com/gradle-practice.html">https://tech.meituan.com/gradle-practice.html</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#安装">安装</a></li>
-<li><a href="#spring-boot项目">Spring boot项目</a></li>
-<li><a href="#task">Task</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#spring-boot项目">Spring boot项目</a></li>
+    <li><a href="#task">Task</a></li>
+  </ul>
 </nav>
     </section>
 

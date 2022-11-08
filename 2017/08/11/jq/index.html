@@ -21,7 +21,7 @@
   	<meta property="og:title" content="jq使用 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/11/jq/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/11/jq/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": jq使用,
-    "name": jq使用,
-    "wordCount": 562,
+    "headline": "jq使用",
+    "name": "jq使用",
+    "wordCount":  560 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/11/jq/,
-    "datePublished": 2017-08-11T23:30Z,
-    "dateModified": 2017-08-11T23:30Z,
+    "url": "http://thoreauz.com/2017/08/11/jq/",
+    "datePublished": "2017-08-11T23:30Z",
+    "dateModified": "2017-08-11T23:30Z",
     
-    "keywords": 命令, json,
-    "description": ,
+    "keywords": "命令, json",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/11/jq/
+        "@id": "http://thoreauz.com/2017/08/11/jq/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,151 +247,103 @@
     </header>
 
     <section class="post-content">
-      
-
-<p><img src="https://stedolan.github.io/jq/jq.png" alt="" /><br />
+      <p><img src="https://stedolan.github.io/jq/jq.png" alt="">
 jq是一个命令行处理json的工具。</p>
-
 <p>现在大部分交互的数据格式都是以json的形式，不管是写一些监控脚本或者平时使用，都是一个比较方便的工具，本文总结下一些基本用法，包括格式化数据，过滤，排序等常用功能。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="安装使用">安装使用</h2>
-
-<pre><code> yum install -y epel-release
+<pre tabindex="0"><code> yum install -y epel-release
  yum install -y jq
-</code></pre>
-
-<h2 id="格式化输出">格式化输出</h2>
-
+</code></pre><h2 id="格式化输出">格式化输出</h2>
 <p>默认pretty输出，如果需要压缩，使用<code>-c</code>选项。</p>
-
-<pre><code>$ cat jqtest.json
-{&quot;username&quot;:&quot;henry&quot;,&quot;age&quot;:25,&quot;email&quot;:&quot;xxx@gmail.com&quot;,&quot;blog&quot;:&quot;http://thoreauz.com&quot;,&quot;hobby&quot;:[&quot;music&quot;,&quot;writing&quot;,&quot;photography&quot;],&quot;education&quot;:{&quot;school&quot;:&quot;MIT&quot;,&quot;degree&quot;:&quot;Master&quot;}}
-</code></pre>
-
-<p><code>cat jqtest.json |jq .</code></p>
-
-<pre><code class="language-json">{
-  &quot;username&quot;: &quot;henry&quot;,
-  &quot;age&quot;: 25,
-  &quot;email&quot;: &quot;xxx@gmail.com&quot;,
-  &quot;blog&quot;: &quot;http://thoreauz.com&quot;,
-  &quot;hobby&quot;: [
-    &quot;music&quot;,
-    &quot;writing&quot;,
-    &quot;photography&quot;
-  ],
-  &quot;education&quot;: {
-    &quot;school&quot;: &quot;MIT&quot;,
-    &quot;degree&quot;: &quot;Master&quot;
-  }
-}
-</code></pre>
-
-<h2 id="过滤">过滤</h2>
-
-<p>使用<code>.foo</code>,选择对象的foo字段，<code>.foo?</code>和前者一样，但出错时不输出出错信息。<br />
+<pre tabindex="0"><code>$ cat jqtest.json
+{&#34;username&#34;:&#34;henry&#34;,&#34;age&#34;:25,&#34;email&#34;:&#34;xxx@gmail.com&#34;,&#34;blog&#34;:&#34;http://thoreauz.com&#34;,&#34;hobby&#34;:[&#34;music&#34;,&#34;writing&#34;,&#34;photography&#34;],&#34;education&#34;:{&#34;school&#34;:&#34;MIT&#34;,&#34;degree&#34;:&#34;Master&#34;}}
+</code></pre><p><code> cat jqtest.json |jq .</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;henry&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">25</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;email&#34;</span>: <span style="color:#e6db74">&#34;xxx@gmail.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;blog&#34;</span>: <span style="color:#e6db74">&#34;http://thoreauz.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;hobby&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;music&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;writing&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;photography&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;education&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;school&#34;</span>: <span style="color:#e6db74">&#34;MIT&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;degree&#34;</span>: <span style="color:#e6db74">&#34;Master&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="过滤">过滤</h2>
+<p>使用<code>.foo</code>,选择对象的foo字段，<code>.foo?</code>和前者一样，但出错时不输出出错信息。
 cat jqtest.json |jq .email</p>
-
-<pre><code>&quot;xxx@gmail.com&quot;
-</code></pre>
-
-<p>数组<br />
+<pre tabindex="0"><code>&#34;xxx@gmail.com&#34;
+</code></pre><p>数组
 cat jqtest.json |jq .hobby[1]</p>
-
-<pre><code class="language-bash">$ cat jqtest.json |jq .hobby[1]
-&quot;writing&quot;
-</code></pre>
-
-<p>数据分片</p>
-
-<pre><code class="language-bash">$ cat jqtest.json |jq .hobby[:2]
-[
-  &quot;music&quot;,
-  &quot;writing&quot;
-]
-</code></pre>
-
-<p>数组遍历</p>
-
-<pre><code class="language-bash">$ echo &quot;{\&quot;a\&quot;: 1, \&quot;b\&quot;: 2}&quot;|jq '.[]'
-1
-2
-</code></pre>
-
-<pre><code class="language-bash">echo '[{&quot;name&quot;:&quot;JSON&quot;, &quot;good&quot;:true}, {&quot;name&quot;:&quot;XML&quot;, &quot;good&quot;:false}]' | jq '.[] | .name'
-&quot;JSON&quot;
-&quot;XML&quot;
-</code></pre>
-
-<p>前面的示例严格说是获取特定字段，如果想做更细致的过滤可以使用select函数。</p>
-
-<pre><code class="language-bash">$ cat jqtest.json | jq -r '.education | select(.school == &quot;MIT&quot;)'
-{
-  &quot;school&quot;: &quot;MIT&quot;,
-  &quot;degree&quot;: &quot;Master&quot;
-}
-</code></pre>
-
-<p>除了字符串比较，还可以做数字大小比较等</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat jqtest.json |jq .hobby<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;writing&#34;</span>
+</span></span></code></pre></div><p>数据分片</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat jqtest.json |jq .hobby<span style="color:#f92672">[</span>:2<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;music&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;writing&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>数组遍历</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;{\&#34;a\&#34;: 1, \&#34;b\&#34;: 2}&#34;</span>|jq <span style="color:#e6db74">&#39;.[]&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;[{&#34;name&#34;:&#34;JSON&#34;, &#34;good&#34;:true}, {&#34;name&#34;:&#34;XML&#34;, &#34;good&#34;:false}]&#39;</span> | jq <span style="color:#e6db74">&#39;.[] | .name&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;JSON&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;XML&#34;</span>
+</span></span></code></pre></div><p>前面的示例严格说是获取特定字段，如果想做更细致的过滤可以使用select函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat jqtest.json | jq -r <span style="color:#e6db74">&#39;.education | select(.school == &#34;MIT&#34;)&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;school&#34;</span>: <span style="color:#e6db74">&#34;MIT&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;degree&#34;</span>: <span style="color:#e6db74">&#34;Master&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>除了字符串比较，还可以做数字大小比较等</p>
 <h2 id="构造新对象">构造新对象</h2>
-
 <p>重新组合自己想要的json：</p>
-
-<pre><code class="language-bash">$ cat jqtest.json | jq '.|{&quot;name&quot;: .username, &quot;like&quot;: .hobby[1]}'
-{
-  &quot;name&quot;: &quot;henry&quot;,
-  &quot;like&quot;: &quot;writing&quot;
-}
-</code></pre>
-
-<h2 id="高级用法">高级用法</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat jqtest.json | jq <span style="color:#e6db74">&#39;.|{&#34;name&#34;: .username, &#34;like&#34;: .hobby[1]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;henry&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;like&#34;</span>: <span style="color:#e6db74">&#34;writing&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="高级用法">高级用法</h2>
 <h3 id="map函数">map函数</h3>
-
-<pre><code class="language-bash">$ echo &quot;[1,2,3,4]&quot;| jq  'map(select(.&gt;2))' -c
-[3,4]
-
-$ echo &quot;[1,2,3,4]&quot;| jq  'map(. + 1)' -c
-[2,3,4,5]
-</code></pre>
-
-<h3 id="reduce函数">Reduce函数</h3>
-
-<pre><code class="language-bash">$ echo '[0,1,2,3,4,5,6,7,8,9]' | jq 'reduce .[] as $n ([]; if ($n%2==0) then . else . + [$n] end)' -c
-[1,3,5,7,9]
-</code></pre>
-
-<p>从示例中看到了很多用法，reduce遍历，定义变量$n，可以使用if-elif-else-end，添加数据+[]。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;[1,2,3,4]&#34;</span>| jq  <span style="color:#e6db74">&#39;map(select(.&gt;2))&#39;</span> -c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>3,4<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;[1,2,3,4]&#34;</span>| jq  <span style="color:#e6db74">&#39;map(. + 1)&#39;</span> -c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>2,3,4,5<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h3 id="reduce函数">Reduce函数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#39;[0,1,2,3,4,5,6,7,8,9]&#39;</span> | jq <span style="color:#e6db74">&#39;reduce .[] as $n ([]; if ($n%2==0) then . else . + [$n] end)&#39;</span> -c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>1,3,5,7,9<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>从示例中看到了很多用法，reduce遍历，定义变量$n，可以使用if-elif-else-end，添加数据+[]。</p>
 <p>总之，他就像awk一样是个小型的编程语言，可以自定义函数，具有I/O和Stream，几乎能实现自己想要的任何json处理。</p>
-
-<hr />
-
-<p>参考文档：<br />
-* <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a><br />
-* <a href="https://jqplay.org/">https://jqplay.org/</a></p>
+<hr>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></li>
+<li><a href="https://jqplay.org/">https://jqplay.org/</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#安装使用">安装使用</a></li>
-<li><a href="#格式化输出">格式化输出</a></li>
-<li><a href="#过滤">过滤</a></li>
-<li><a href="#构造新对象">构造新对象</a></li>
-<li><a href="#高级用法">高级用法</a>
-<ul>
-<li><a href="#map函数">map函数</a></li>
-<li><a href="#reduce函数">Reduce函数</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#安装使用">安装使用</a></li>
+    <li><a href="#格式化输出">格式化输出</a></li>
+    <li><a href="#过滤">过滤</a></li>
+    <li><a href="#构造新对象">构造新对象</a></li>
+    <li><a href="#高级用法">高级用法</a>
+      <ul>
+        <li><a href="#map函数">map函数</a></li>
+        <li><a href="#reduce函数">Reduce函数</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

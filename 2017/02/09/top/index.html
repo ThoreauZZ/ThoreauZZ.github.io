@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Top命令详解 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/09/top/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/09/top/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Top命令详解,
-    "name": Top命令详解,
-    "wordCount": 746,
+    "headline": "Top命令详解",
+    "name": "Top命令详解",
+    "wordCount":  739 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/09/top/,
-    "datePublished": 2017-02-09T00:18Z,
-    "dateModified": 2017-02-09T00:18Z,
+    "url": "http://thoreauz.com/2017/02/09/top/",
+    "datePublished": "2017-02-09T00:18Z",
+    "dateModified": "2017-02-09T00:18Z",
     
-    "keywords": 命令,
-    "description": ,
+    "keywords": "命令",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/09/top/
+        "@id": "http://thoreauz.com/2017/02/09/top/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,76 +243,57 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="top命令详解">Top命令详解</h1>
-
-<p><img src="http://thoreauz.com/images/2017-05-15-16-22-31.jpg" alt="" /></p>
-
+      <h1 id="top命令详解">Top命令详解</h1>
+<p><img src="http://thoreauz.com/images/2017-05-15-16-22-31.jpg" alt=""></p>
 <h2 id="第一行">第一行</h2>
-
 <ol>
-<li>系统时间，已经运行的时间<br /></li>
-<li>当前登录用户<br /></li>
-<li>负载：1分钟、5分钟、15分钟内的负载。<br />
-<br /></li>
+<li>系统时间，已经运行的时间</li>
+<li>当前登录用户</li>
+<li>负载：1分钟、5分钟、15分钟内的负载。</li>
 </ol>
-
 <p>其他都好理解,负载(系统的平均负荷)是什么？</p>
-
 <p>负载是等待CPU的平均进程数，系统负荷最好不要超过1.0。如果多核，最好不用超过n.0。cpu数量可以在top命名后按1查看，也可以是：<code>cat /proc/cpuinfo</code>。但是，不见得负载高就是cpu高，可能是等待IO或者等待网络。</p>
-
 <h2 id="第二行">第二行</h2>
-
 <p>任务(进程)：总进程数，处理运行状态进程，休眠状态，停止状态，僵尸状态</p>
-
 <h2 id="第三行">第三行</h2>
-
-<p><strong>%CPU状态</strong>：<br />
-1. 0.5 us — 用户空间占用CPU的百分比<br />
-2. 0.4 sy — 内核空间占用CPU的百分比<br />
-3. 0.0 ni — 改变过优先级的进程占用CPU的百分比<br />
-4. 99.1 id — 空闲CPU百分比<br />
-5. 0.0 wa — IO等待占用CPU的百分比<br />
-6. 0.0 hi — 硬中断（Hardware IRQ）占用CPU的百分比<br />
-7. 0.0 si — 软中断（Software Interrupts）占用CPU的百分比</p>
-
-<h2 id="第四行">第四行</h2>
-
-<p><strong>内存</strong>：<br />
-30717828 total — 物理内存总量<br />
-7775876k used — 使用中的内存总量<br />
-1899196  free — 空闲内存总量<br />
-0 buffers — 缓存的内存量</p>
-
-<h2 id="第五行">第五行</h2>
-
-<p><strong>swap交换分区</strong><br />
-10239996 total — 交换区总量<br />
-6613048 used — 使用的交换区总量<br />
-3626948 free — 空闲交换区总量<br />
-1945764 cached — 缓冲的交换区总量</p>
-
-<h2 id="第六行之后">第六行之后</h2>
-
+<p><strong>%CPU状态</strong>：</p>
 <ol>
-<li>PID — 进程id<br /></li>
-<li>USER — 进程所有者<br /></li>
-<li>PR — 进程优先级<br /></li>
-<li>NI — nice值。负值表示高优先级，正值表示低优先级<br /></li>
-<li>VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES<br /></li>
-<li>RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA<br /></li>
-<li>SHR — 共享内存大小，单位kb<br /></li>
-<li>S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程<br /></li>
-<li>%CPU — 上次更新到现在的CPU时间占用百分比<br /></li>
-<li>%MEM — 进程使用的物理内存百分比<br /></li>
-<li>TIME+ — 进程使用的CPU时间总计，单位1/100秒<br /></li>
-<li>COMMAND — 进程名称（命令名/命令行）<br />
-<br /></li>
+<li>0.5 us — 用户空间占用CPU的百分比</li>
+<li>0.4 sy — 内核空间占用CPU的百分比</li>
+<li>0.0 ni — 改变过优先级的进程占用CPU的百分比</li>
+<li>99.1 id — 空闲CPU百分比</li>
+<li>0.0 wa — IO等待占用CPU的百分比</li>
+<li>0.0 hi — 硬中断（Hardware IRQ）占用CPU的百分比</li>
+<li>0.0 si — 软中断（Software Interrupts）占用CPU的百分比</li>
 </ol>
-
-<hr />
-
+<h2 id="第四行">第四行</h2>
+<p><strong>内存</strong>：
+30717828 total — 物理内存总量
+7775876k used — 使用中的内存总量
+1899196  free — 空闲内存总量
+0 buffers — 缓存的内存量</p>
+<h2 id="第五行">第五行</h2>
+<p><strong>swap交换分区</strong>
+10239996 total — 交换区总量
+6613048 used — 使用的交换区总量
+3626948 free — 空闲交换区总量
+1945764 cached — 缓冲的交换区总量</p>
+<h2 id="第六行之后">第六行之后</h2>
+<ol>
+<li>PID — 进程id</li>
+<li>USER — 进程所有者</li>
+<li>PR — 进程优先级</li>
+<li>NI — nice值。负值表示高优先级，正值表示低优先级</li>
+<li>VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</li>
+<li>RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA</li>
+<li>SHR — 共享内存大小，单位kb</li>
+<li>S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程</li>
+<li>%CPU — 上次更新到现在的CPU时间占用百分比</li>
+<li>%MEM — 进程使用的物理内存百分比</li>
+<li>TIME+ — 进程使用的CPU时间总计，单位1/100秒</li>
+<li>COMMAND — 进程名称（命令名/命令行）</li>
+</ol>
+<hr>
 <blockquote>
 <p>引用: <a href="http://www.cnblogs.com/peida/archive/2012/12/24/2831353.html">每天一个linux命令（44）：top命令</a></p>
 </blockquote>
@@ -320,17 +302,14 @@
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#top命令详解">Top命令详解</a>
-<ul>
-<li><a href="#第一行">第一行</a></li>
-<li><a href="#第二行">第二行</a></li>
-<li><a href="#第三行">第三行</a></li>
-<li><a href="#第四行">第四行</a></li>
-<li><a href="#第五行">第五行</a></li>
-<li><a href="#第六行之后">第六行之后</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#第一行">第一行</a></li>
+    <li><a href="#第二行">第二行</a></li>
+    <li><a href="#第三行">第三行</a></li>
+    <li><a href="#第四行">第四行</a></li>
+    <li><a href="#第五行">第五行</a></li>
+    <li><a href="#第六行之后">第六行之后</a></li>
+  </ul>
 </nav>
     </section>
 

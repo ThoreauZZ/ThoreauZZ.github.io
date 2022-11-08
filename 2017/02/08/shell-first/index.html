@@ -21,7 +21,7 @@
   	<meta property="og:title" content="shell编程一 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/08/shell-first/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -43,7 +43,7 @@
     <title>shell编程一 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &#39;我的第一个&amp;quot;shell&amp;quot;脚本&#39; 第一行指定shell，注释也用# 第二行执行两" />
+    <meta name="description" content="shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &amp;#39;我的第一个&amp;#34;shell&amp;#34;脚本&amp;#39; 第一行指定shell，注释也用#" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/08/shell-first/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": shell编程一,
-    "name": shell编程一,
-    "wordCount": 1085,
+    "headline": "shell编程一",
+    "name": "shell编程一",
+    "wordCount":  1085 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/08/shell-first/,
-    "datePublished": 2017-02-08T00:18Z,
-    "dateModified": 2017-02-08T00:18Z,
+    "url": "http://thoreauz.com/2017/02/08/shell-first/",
+    "datePublished": "2017-02-08T00:18Z",
+    "dateModified": "2017-02-08T00:18Z",
     
-    "keywords": linux, shell,
-    "description": ,
+    "keywords": "linux, shell",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/08/shell-first/
+        "@id": "http://thoreauz.com/2017/02/08/shell-first/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,219 +247,173 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="shell编程一">shell编程一</h1>
-
-<h2 id="一-起步">一、起步</h2>
-
+      <h1 id="shell编程一">shell编程一</h1>
+<h2 id="一起步">一、起步</h2>
 <h3 id="新建脚本">新建脚本</h3>
-
 <p>vim test.sh</p>
-
-<pre><code class="language-bash">#!/bin/bash
-date; who
-echo '我的第一个&quot;shell&quot;脚本'
-</code></pre>
-
-<ul>
-<li>第一行指定shell，注释也用<code>#</code><br /></li>
-<li>第二行执行两个指令，用<code>;</code>分开,也开一用<code>&amp;&amp;</code><br /></li>
-<li>第三行使用echo指定输出，如果输出内容有引号，使用单引号如此联合使用，echo默认回车，如果不想回车，添加<code>-n</code> 选项<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>date; who
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;我的第一个&#34;shell&#34;脚本&#39;</span>
+</span></span></code></pre></div><ul>
+<li>第一行指定shell，注释也用<code>#</code></li>
+<li>第二行执行两个指令，用<code>;</code>分开,也开一用<code>&amp;&amp;</code></li>
+<li>第三行使用echo指定输出，如果输出内容有引号，使用单引号如此联合使用，echo默认回车，如果不想回车，添加<code>-n</code> 选项</li>
 </ul>
-
 <h3 id="执行">执行</h3>
-
 <p>方式一：</p>
-
-<pre><code class="language-bash">chmod +x test.sh
-./test.sh
-</code></pre>
-
-<p>方式二：</p>
-
-<pre><code class="language-bash">sh test.sh
-sh -x test.sh  #输出执行
-</code></pre>
-
-<h2 id="二-变量">二、变量</h2>
-
-<p>shell脚本中可以使用系统变量和自定义变量。<br />
-1. 声明变量：区分大小写，<code>变量名=值</code>之间没有空格<br />
-2. 使用变量：<code>$变量</code>,在变量和其他字符紧临时，使用<code>${}</code>把变量包起来<br />
-3. 获取命令结果给变量，可以使用``,$()<br />
-示例：</p>
-
-<pre><code class="language-bash">#!/bin/bash
-echo $JAVA_HOME
-Var=123
-var=456
-echo ${var}--$Var
-echo `pwd`
-echo $(pwd)
-</code></pre>
-
-<p>结果<br />
-&gt;/usr/local/java/jdk1.8.0_91<br />
-456&ndash;123<br />
-&gt; /root<br />
-&gt; /root</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x test.sh
+</span></span><span style="display:flex;"><span>./test.sh
+</span></span></code></pre></div><p>方式二：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sh test.sh
+</span></span><span style="display:flex;"><span>sh -x test.sh  <span style="color:#75715e">#输出执行</span>
+</span></span></code></pre></div><h2 id="二变量">二、变量</h2>
+<p>shell脚本中可以使用系统变量和自定义变量。</p>
+<ol>
+<li>声明变量：区分大小写，<code>变量名=值</code>之间没有空格</li>
+<li>使用变量：<code>$变量</code>,在变量和其他字符紧临时，使用<code>${}</code>把变量包起来</li>
+<li>获取命令结果给变量，可以使用``,$()
+示例：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>echo $JAVA_HOME
+</span></span><span style="display:flex;"><span>Var<span style="color:#f92672">=</span><span style="color:#ae81ff">123</span>
+</span></span><span style="display:flex;"><span>var<span style="color:#f92672">=</span><span style="color:#ae81ff">456</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">${</span>var<span style="color:#e6db74">}</span>--$Var
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">`</span>pwd<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>结果</p>
+<blockquote>
+<p>/usr/local/java/jdk1.8.0_91
+456&ndash;123
+/root
+/root</p>
+</blockquote>
 <h3 id="只读变量">只读变量：</h3>
-
-<pre><code class="language-bash">myUrl=&quot;http://www.w3cschool.cc&quot;
-readonly myUrl
-myUrl=&quot;http://www.runoob.com&quot;
-</code></pre>
-
-<h3 id="删除变量">删除变量</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>myUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.w3cschool.cc&#34;</span>
+</span></span><span style="display:flex;"><span>readonly myUrl
+</span></span><span style="display:flex;"><span>myUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.runoob.com&#34;</span>
+</span></span></code></pre></div><h3 id="删除变量">删除变量</h3>
 <p>unset variable_name</p>
-
-<h2 id="二-输入输出重定向">二、输入输出重定向</h2>
-
+<h2 id="二输入输出重定向">二、输入输出重定向</h2>
 <h3 id="输出">输出</h3>
-
-<pre><code class="language-bash">&gt; 输入重定向
-&gt;&gt; 追加方式
-</code></pre>
-
-<pre><code class="language-bash">[root@zz01 home]# date &gt;&gt;/home/t.sh 
-[root@zz01 home]# cat t.sh 
-2016年 01月 04日 星期一 05:29:12 CST
-2016年 01月 04日 星期一 05:29:40 CST
-</code></pre>
-
-<p>&amp;&gt;&gt;文件名把错误命令信息也写入文件<br />
-&amp;&gt;/dev/null把所有信息放入垃圾箱<br />
-ls &gt;&gt;abc 2&gt;cde 正确放入abc，错误放入cde文件</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; 输入重定向
+</span></span><span style="display:flex;"><span>&gt;&gt; 追加方式
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@zz01 home<span style="color:#f92672">]</span><span style="color:#75715e"># date &gt;&gt;/home/t.sh </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@zz01 home<span style="color:#f92672">]</span><span style="color:#75715e"># cat t.sh </span>
+</span></span><span style="display:flex;"><span>2016年 01月 04日 星期一 05:29:12 CST
+</span></span><span style="display:flex;"><span>2016年 01月 04日 星期一 05:29:40 CST
+</span></span></code></pre></div><p>&amp;&raquo;文件名把错误命令信息也写入文件
+&amp;&gt;/dev/null把所有信息放入垃圾箱
+ls &raquo;abc 2&gt;cde 正确放入abc，错误放入cde文件</p>
 <h3 id="输入">输入</h3>
-
 <p><code>&lt;</code>:把文件内容给命令</p>
-
-<h2 id="三-数学运算">三、数学运算</h2>
-
-<pre><code class="language-bash">#!/bin/bash
-a=`expr 1 + 1`
-echo $a #2
-
-# 注意下列的空格
-expr 15 / 5 	# 3
-expr 10 / 6 	# 1
-expr 10 % 6 	# 4
-expr 10 \* 5	# 50
-expr 10 - 5		# 5
-expr 10 \&gt; 9 	# 1
-expr 10 \&lt; 9 	# 0
-
-echo &quot;-----分割--------&quot;
-echo $[1 + 5]	# 6
-echo $[2 * 5] 	# 10
-</code></pre>
-
-<p>以上<code>expr</code>和<code>$[]</code>只支持整数，如果计算小数，需要用<code>bc</code><br />
+<h2 id="三数学运算">三、数学运算</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>a<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>expr <span style="color:#ae81ff">1</span> + 1<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>echo $a <span style="color:#75715e">#2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意下列的空格</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">15</span> / <span style="color:#ae81ff">5</span> 	<span style="color:#75715e"># 3</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> / <span style="color:#ae81ff">6</span> 	<span style="color:#75715e"># 1</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> % <span style="color:#ae81ff">6</span> 	<span style="color:#75715e"># 4</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">\*</span> 5	<span style="color:#75715e"># 50</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> - 5		<span style="color:#75715e"># 5</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">\&gt;</span> <span style="color:#ae81ff">9</span> 	<span style="color:#75715e"># 1</span>
+</span></span><span style="display:flex;"><span>expr <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">\&lt;</span> <span style="color:#ae81ff">9</span> 	<span style="color:#75715e"># 0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;-----分割--------&#34;</span>
+</span></span><span style="display:flex;"><span>echo $<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span> + 5<span style="color:#f92672">]</span>	<span style="color:#75715e"># 6</span>
+</span></span><span style="display:flex;"><span>echo $<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> * 5<span style="color:#f92672">]</span> 	<span style="color:#75715e"># 10</span>
+</span></span></code></pre></div><p>以上<code>expr</code>和<code>$[]</code>只支持整数，如果计算小数，需要用<code>bc</code>
 <code>yum install bc</code></p>
-
-<pre><code class="language-bash">#!/bin/bash
-# scale 表示保留小数位数
-echo $(echo &quot;scale=4; 10 / 3&quot; | bc) # 3.3333
-echo `echo &quot;scale=1;10.0 / 5&quot; | bc` # 2.0
-
-echo &quot;-----下面给几个计算统一添加小数位--------&quot;
-var1=10.46
-var2=43.67
-var3=33.2
-var4=71
-var5=$(bc &lt;&lt; EOF
-scale = 4
-a1 = ( $var1 * $var2)
-b1 = ($var3 * $var4)
-a1 + b1
-EOF
-)
-echo $var5 # 2813.9882
-</code></pre>
-
-<h2 id="四-退出脚本">四、退出脚本</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e"># scale 表示保留小数位数</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;scale=4; 10 / 3&#34;</span> | bc<span style="color:#66d9ef">)</span> <span style="color:#75715e"># 3.3333</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">`</span>echo <span style="color:#e6db74">&#34;scale=1;10.0 / 5&#34;</span> | bc<span style="color:#e6db74">`</span> <span style="color:#75715e"># 2.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;-----下面给几个计算统一添加小数位--------&#34;</span>
+</span></span><span style="display:flex;"><span>var1<span style="color:#f92672">=</span>10.46
+</span></span><span style="display:flex;"><span>var2<span style="color:#f92672">=</span>43.67
+</span></span><span style="display:flex;"><span>var3<span style="color:#f92672">=</span>33.2
+</span></span><span style="display:flex;"><span>var4<span style="color:#f92672">=</span><span style="color:#ae81ff">71</span>
+</span></span><span style="display:flex;"><span>var5<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>bc <span style="color:#e6db74">&lt;&lt; EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">scale = 4
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">a1 = ( $var1 * $var2)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">b1 = ($var3 * $var4)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">a1 + b1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>echo $var5 <span style="color:#75715e"># 2813.9882</span>
+</span></span></code></pre></div><h2 id="四退出脚本">四、退出脚本</h2>
 <p>脚本或者命令执行结果可以使用<code>$?</code>查看，正常退出时为<code>0</code>,错误退出时为<code>0--255</code>之间的错误码。</p>
-
-<pre><code class="language-bash">#!/bin/bash
-pwd
-echo ll执行状态码:$?
-pwdd
-echo sdf执行状态码:$?
-exit 1
-echo 这条命令不被输出
-</code></pre>
-
-<p>执行结果：<br />
-&gt;/root<br />
-ll执行状态码:0<br />
-./test.sh:行5: pwdd: 未找到命令<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>pwd
+</span></span><span style="display:flex;"><span>echo ll执行状态码:$?
+</span></span><span style="display:flex;"><span>pwdd
+</span></span><span style="display:flex;"><span>echo sdf执行状态码:$?
+</span></span><span style="display:flex;"><span>exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>echo 这条命令不被输出
+</span></span></code></pre></div><p>执行结果：</p>
+<blockquote>
+<p>/root
+ll执行状态码:0
+./test.sh:行5: pwdd: 未找到命令
 sdf执行状态码:127</p>
-
-<p>再执行 <code>echo $?</code>输出 1<br />
+</blockquote>
+<p>再执行 <code>echo $?</code>输出 1
 exit 可以没有参数，为0，可以为1到255数字，可以为数字变量</p>
-
 <p>默认情况下，执行到错误语句还会继续执行下面的脚本，如果想出现错误就停止，可以使用<code>set -e</code></p>
-
-<h2 id="五-实例">五、实例</h2>
-
+<h2 id="五实例">五、实例</h2>
 <p>删除某个目录下需要删除的文件</p>
-
-<pre><code class="language-bash">#!/bin/bash
-set -e
-BASE_DIR=$1
-if [ &quot;$1&quot; == &quot;&quot; ] || [ &quot;$1&quot; == &quot; &quot; ]
-then
-        echo &quot;请输入目录作为参数&quot;
-        exit 1
-fi
-
-files=`find &quot;${BASE_DIR}&quot; -regex '.*/\(service\|app\|session\|quartz\|env_.*\）\.properties'`
-
-if [ &quot;X${files}&quot; == &quot;X&quot; ]
-then
-        echo &quot;没有相关文件&quot;
-        exit 0
-fi
-for file in ${files}
-do
-        rm -f ${file}
-        echo &quot;remove ${file}&quot;
-done
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>set -e
+</span></span><span style="display:flex;"><span>BASE_DIR<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;请输入目录作为参数&#34;</span>
+</span></span><span style="display:flex;"><span>        exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>files<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>find <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASE_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -regex <span style="color:#e6db74">&#39;.*/\(service\|app\|session\|quartz\|env_.*\）\.properties&#39;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;X</span><span style="color:#e6db74">${</span>files<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;X&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;没有相关文件&#34;</span>
+</span></span><span style="display:flex;"><span>        exit <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> file in <span style="color:#e6db74">${</span>files<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        rm -f <span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;remove </span><span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#shell编程一">shell编程一</a>
-<ul>
-<li><a href="#一-起步">一、起步</a>
-<ul>
-<li><a href="#新建脚本">新建脚本</a></li>
-<li><a href="#执行">执行</a></li>
-</ul></li>
-<li><a href="#二-变量">二、变量</a>
-<ul>
-<li><a href="#只读变量">只读变量：</a></li>
-<li><a href="#删除变量">删除变量</a></li>
-</ul></li>
-<li><a href="#二-输入输出重定向">二、输入输出重定向</a>
-<ul>
-<li><a href="#输出">输出</a></li>
-<li><a href="#输入">输入</a></li>
-</ul></li>
-<li><a href="#三-数学运算">三、数学运算</a></li>
-<li><a href="#四-退出脚本">四、退出脚本</a></li>
-<li><a href="#五-实例">五、实例</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一起步">一、起步</a>
+      <ul>
+        <li><a href="#新建脚本">新建脚本</a></li>
+        <li><a href="#执行">执行</a></li>
+      </ul>
+    </li>
+    <li><a href="#二变量">二、变量</a>
+      <ul>
+        <li><a href="#只读变量">只读变量：</a></li>
+        <li><a href="#删除变量">删除变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#二输入输出重定向">二、输入输出重定向</a>
+      <ul>
+        <li><a href="#输出">输出</a></li>
+        <li><a href="#输入">输入</a></li>
+      </ul>
+    </li>
+    <li><a href="#三数学运算">三、数学运算</a></li>
+    <li><a href="#四退出脚本">四、退出脚本</a></li>
+    <li><a href="#五实例">五、实例</a></li>
+  </ul>
 </nav>
     </section>
 

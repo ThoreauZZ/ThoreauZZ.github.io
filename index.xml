@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sun, 19 May 2019 13:59:10 +0800</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 19 May 2019 13:59:10 +0800</lastBuildDate><atom:link href="http://thoreauz.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java测试驱动看这篇就够了</title>
       <link>http://thoreauz.com/2019/05/19/java-tdd/</link>
@@ -45,7 +41,7 @@
       <pubDate>Tue, 12 Mar 2019 23:54:31 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/03/12/InnoDB/</guid>
-      <description>概述 作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15； &amp;gt; 架构图 查看和使用I</description>
+      <description>概述 作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15； 架构图 查看和使用In</description>
     </item>
     
     <item>
@@ -81,7 +77,7 @@
       <pubDate>Sat, 19 Jan 2019 11:44:53 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -90,7 +86,7 @@
       <pubDate>Sat, 19 Jan 2019 11:40:47 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc5-reliability/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -99,7 +95,7 @@
       <pubDate>Sat, 19 Jan 2019 11:40:16 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc4-netty-chain-of-responsibility-pattern/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -108,7 +104,7 @@
       <pubDate>Sat, 19 Jan 2019 11:37:46 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -117,7 +113,7 @@
       <pubDate>Sat, 19 Jan 2019 11:37:42 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -126,7 +122,7 @@
       <pubDate>Sat, 19 Jan 2019 11:37:38 +0000</pubDate>
       
       <guid>http://thoreauz.com/2019/01/19/rpc1-netty-reactor/</guid>
-      <description>RPC系列 1. RPC一-线程模型 2. RPC二-NettyHandler处理消息 3. RPC三-rpc协议和编解码 4. RPC四-netty异步双向责任链</description>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
     </item>
     
     <item>
@@ -216,7 +212,7 @@
       <pubDate>Fri, 08 Jun 2018 21:25:23 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/06/08/rxjava-2/</guid>
-      <description>概述 本文简述rxjava2的实现原理。搞清原理，使用起来才得心应手。 基本原理 先看一个最简单的示例： // 被观察者 Observable&amp;lt;Object&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;Object&amp;gt;() { @Override public void subscribe(ObservableEmitter&amp;lt;Object&amp;gt; emitter) throws Exception { System.out.println(&amp;quot;emit a</description>
+      <description>概述 本文简述rxjava2的实现原理。搞清原理，使用起来才得心应手。 基本原理 先看一个最简单的示例： // 被观察者 Observable&amp;lt;Object&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;Object&amp;gt;() { @Override public void subscribe(ObservableEmitter&amp;lt;Object&amp;gt; emitter) throws Exception { System.out.println(&amp;#34;emit a</description>
     </item>
     
     <item>
@@ -243,7 +239,7 @@
       <pubDate>Thu, 15 Mar 2018 00:41:09 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/03/15/GO-defer/</guid>
-      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;quot;The finishing touches .&amp;quot;) 为什么叫延长函数，有</description>
+      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;#34;The finishing touches .&amp;#34;) 为什么叫延长函数，有</description>
     </item>
     
     <item>
@@ -279,7 +275,7 @@
       <pubDate>Thu, 25 Jan 2018 14:24:25 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/01/25/HashMap-theory/</guid>
-      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;quot;k:&amp;quot;+k+&amp;quot; v:&amp;quot;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
+      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;#34;k:&amp;#34;+k+&amp;#34; v:&amp;#34;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
     </item>
     
     <item>
@@ -301,21 +297,21 @@
     </item>
     
     <item>
-      <title>GO— 异常错误处理</title>
-      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
-      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
-      
-      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
-      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
-    </item>
-    
-    <item>
       <title>go 开发web应用</title>
       <link>http://thoreauz.com/2018/01/09/go-web-example/</link>
       <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/01/09/go-web-example/</guid>
       <description>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出a</description>
+    </item>
+    
+    <item>
+      <title>GO— 异常错误处理</title>
+      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
+      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
     </item>
     
     <item>
@@ -342,7 +338,7 @@
       <pubDate>Sat, 25 Nov 2017 14:53:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/</guid>
-      <description>性能优化的两个原则： 1. 我们通过任务和时间而不是资源来衡量性能。 2. 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。</description>
+      <description>性能优化的两个原则： 我们通过任务和时间而不是资源来衡量性能。 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。如果</description>
     </item>
     
     <item>
@@ -360,7 +356,7 @@
       <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/11/11/go-learn-8-json/</guid>
-      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;quot;login&amp;quot;:</description>
+      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;#34;login&amp;#34;:</description>
     </item>
     
     <item>
@@ -441,7 +437,7 @@
       <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
-      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;quot;Do something ...&amp;quot;); new Thread(new</description>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;#34;Do something ...&amp;#34;); new Thread(new</description>
     </item>
     
     <item>
@@ -450,7 +446,7 @@
       <pubDate>Thu, 17 Aug 2017 16:10:19 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/08/17/git-commit/</guid>
-      <description>什么是好的git commit，有以下几点： * message清楚反应本次提交内容 * 方便回退到某个版本 * 反应产品演进过程 主要针对团队开发，对于开</description>
+      <description>什么是好的git commit，有以下几点： message清楚反应本次提交内容 方便回退到某个版本 反应产品演进过程 主要针对团队开发，对于开源和非</description>
     </item>
     
     <item>
@@ -594,7 +590,7 @@
       <pubDate>Thu, 27 Jul 2017 00:15:11 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/07/27/go-learn-2-struct/</guid>
-      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 1. 基础类型: byte、int、bool、float等 2. 复合类型:</description>
+      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 基础类型: byte、int、bool、float等 复合类型: 如数</description>
     </item>
     
     <item>
@@ -612,7 +608,7 @@
       <pubDate>Thu, 20 Jul 2017 11:11:03 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/07/20/java-test-WireMock/</guid>
-      <description>概述 在开发中，我们需要mock Http API，主要有两种使用场景： 1. 前后端分离开发，API first，可以提供虚拟接口，方便前端开发。 2. 集成测试依</description>
+      <description>概述 在开发中，我们需要mock Http API，主要有两种使用场景： 前后端分离开发，API first，可以提供虚拟接口，方便前端开发。 集成测试依赖其</description>
     </item>
     
     <item>
@@ -630,7 +626,7 @@
       <pubDate>Fri, 05 May 2017 22:16:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/05/05/Jenkins-1/</guid>
-      <description>一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 1. 构建打包：</description>
+      <description>一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 构建打包： 从</description>
     </item>
     
     <item>
@@ -639,7 +635,7 @@
       <pubDate>Mon, 24 Apr 2017 17:33:45 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</guid>
-      <description>假设现在有这样一个接口： GET /emojes { &amp;quot;emojies&amp;quot;: [{ &amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;呵呵&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://xxx.png&amp;quot; }, { &amp;quot;id&amp;quot;: &amp;quot;2&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;嘿嘿&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://ooo.png&amp;quot; }] } 里面的数据希望存储</description>
+      <description>假设现在有这样一个接口： GET /emojes { &amp;#34;emojies&amp;#34;: [{ &amp;#34;id&amp;#34;: &amp;#34;1&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;呵呵&amp;#34;, &amp;#34;uri&amp;#34;: &amp;#34;http://xxx.png&amp;#34; }, { &amp;#34;id&amp;#34;: &amp;#34;2&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;嘿嘿&amp;#34;, &amp;#34;uri&amp;#34;: &amp;#34;http://ooo.png&amp;#34; }] } 里面的数据希望存储在配置中</description>
     </item>
     
     <item>
@@ -684,7 +680,7 @@
       <pubDate>Tue, 21 Mar 2017 23:31:53 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/</guid>
-      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &#39;touch /app.jar&#39; ENV JAVA_OPTS=&amp;quot;&amp;quot; ENTRYPOINT [ &amp;quot;sh&amp;quot;, &amp;quot;-c&amp;quot;, &amp;quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;quot; ] 解释：</description>
+      <description>Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &amp;#39;touch /app.jar&amp;#39; ENV JAVA_OPTS=&amp;#34;&amp;#34; ENTRYPOINT [ &amp;#34;sh&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&amp;#34; ] 解释：</description>
     </item>
     
     <item>
@@ -693,7 +689,7 @@
       <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
-      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： 参建副本集和 Pods 检查部署状态 更新</description>
     </item>
     
     <item>
@@ -729,7 +725,7 @@
       <pubDate>Tue, 07 Mar 2017 23:47:13 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/07/vim/</guid>
-      <description>VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%</description>
+      <description>VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw 删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%</description>
     </item>
     
     <item>
@@ -846,7 +842,7 @@
       <pubDate>Mon, 13 Feb 2017 20:12:00 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</guid>
-      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;quot;/trade/order&amp;quot;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
+      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;#34;/trade/order&amp;#34;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
     </item>
     
     <item>
@@ -936,7 +932,7 @@
       <pubDate>Wed, 08 Feb 2017 22:07:09 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/08/shell-function/</guid>
-      <description>shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;quot;function run -&amp;quot; } echo &amp;quot;begin function---&amp;quot; demoFun echo &amp;quot;end funtion----&amp;quot; begin function— function run - end funtion—- 带有return语句的函数 求和函</description>
+      <description>shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;#34;function run -&amp;#34; } echo &amp;#34;begin function---&amp;#34; demoFun echo &amp;#34;end funtion----&amp;#34; begin function— function run - end funtion—- 带有return语句的函数 求和函</description>
     </item>
     
     <item>
@@ -945,7 +941,7 @@
       <pubDate>Wed, 08 Feb 2017 21:30:55 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/08/shell-string-array/</guid>
-      <description>shell编程四-字符串数组 字符串 单引号： * 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； * 单引号字串中不能出现单引号（对单</description>
+      <description>shell编程四-字符串数组 字符串 单引号： 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； 单引号字串中不能出现单引号（对单引号</description>
     </item>
     
     <item>
@@ -954,7 +950,7 @@
       <pubDate>Wed, 08 Feb 2017 13:16:26 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/08/shell-forloop/</guid>
-      <description>shell编程三-循环语句 for循环 for var in list do commands done C语言风格的for循环: #!/bin/bash for (( i=1; i &amp;lt;= 10; i ++ )) do echo value is $i done #!/bin/bash for (( a=1, b=10; a &amp;lt;= 10; a++,b-- )) do echo &amp;quot;$a - $b&amp;quot; done w</description>
+      <description>shell编程三-循环语句 for循环 for var in list do commands done C语言风格的for循环: #!/bin/bash for (( i=1; i &amp;lt;= 10; i ++ )) do echo value is $i done #!/bin/bash for (( a=1, b=10; a &amp;lt;= 10; a++,b-- )) do echo &amp;#34;$a - $b&amp;#34; done w</description>
     </item>
     
     <item>
@@ -972,7 +968,7 @@
       <pubDate>Wed, 08 Feb 2017 00:18:27 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/08/shell-first/</guid>
-      <description>shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &#39;我的第一个&amp;quot;shell&amp;quot;脚本&#39; 第一行指定shell，注释也用# 第二行执行两</description>
+      <description>shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &amp;#39;我的第一个&amp;#34;shell&amp;#34;脚本&amp;#39; 第一行指定shell，注释也用#</description>
     </item>
     
     <item>
@@ -981,7 +977,7 @@
       <pubDate>Tue, 07 Feb 2017 21:22:05 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/07/git-config-command/</guid>
-      <description>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;quot;thoreau&amp;quot; git config --global user.email &amp;quot;zz.thoreau@Gmail.com&amp;quot; gitconfig [user] name = thoreau email = zz.thoreau@Gmail.com [color] ui = true [alias] st</description>
+      <description>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;#34;thoreau&amp;#34; git config --global user.email &amp;#34;zz.thoreau@Gmail.com&amp;#34; gitconfig [user] name = thoreau email = zz.thoreau@Gmail.com [color] ui = true [alias] st</description>
     </item>
     
     <item>
@@ -1053,7 +1049,7 @@
       <pubDate>Sun, 08 Jan 2017 12:39:04 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/01/08/Docker-start/</guid>
-      <description>#Docker入门 一、安装 概述： * 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 * Registry：用来保存</description>
+      <description>#Docker入门 一、安装 概述： 镜像：docker基于镜像运行容器，镜像是docker生命周期的“构建”部分。 Registry：用来保存镜像</description>
     </item>
     
     <item>

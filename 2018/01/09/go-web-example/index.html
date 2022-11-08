@@ -21,7 +21,7 @@
   	<meta property="og:title" content="go 开发web应用 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/01/09/go-web-example/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/01/09/go-web-example/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": go 开发web应用,
-    "name": go 开发web应用,
-    "wordCount": 1224,
+    "headline": "go 开发web应用",
+    "name": "go 开发web应用",
+    "wordCount":  1217 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/01/09/go-web-example/,
-    "datePublished": 2018-01-09T11:41Z,
-    "dateModified": 2018-01-09T11:41Z,
+    "url": "http://thoreauz.com/2018/01/09/go-web-example/",
+    "datePublished": "2018-01-09T11:41Z",
+    "dateModified": "2018-01-09T11:41Z",
     
-    "keywords": go,
-    "description": ,
+    "keywords": "go",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/01/09/go-web-example/
+        "@id": "http://thoreauz.com/2018/01/09/go-web-example/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,298 +243,240 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出api等数据是web服务。</p>
-
-<!-- more  -->
-
+      <p>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出api等数据是web服务。</p>
+<!-- raw HTML omitted -->
 <h2 id="hello-world">hello world</h2>
-
 <p>创建<code>server.go</code></p>
-
-<pre><code class="language-go">package main
-import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-)
-func main() {
-	http.HandleFunc(&quot;/&quot;, func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, &quot;Hello, you've requested: %s\n&quot;, r.URL.Path)
-	})
-	http.ListenAndServe(&quot;:8080&quot;, nil)
-}
-</code></pre>
-
-<ul>
-<li>http.HandleFunc: 通过注册匿名方法处理所有请求<br /></li>
-<li>listenAndServe: 监听一个端口，启动服务<br />
-```bash<br />
-$ curl <a href="http://127.0.0.1:8080/testpath">http://127.0.0.1:8080/testpath</a> -i<br />
-HTTP/1.1 200 OK<br />
-Date: Thu, 04 Jan 2018 02:28:07 GMT<br />
-Content-Length: 35<br />
-Content-Type: text/plain; charset=utf-8<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintf</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;Hello, you&#39;ve requested: %s\n&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">Path</span>)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>http.HandleFunc: 通过注册匿名方法处理所有请求</li>
+<li>listenAndServe: 监听一个端口，启动服务</li>
 </ul>
-
-<p>Hello, you&rsquo;ve requested: /testpath</p>
-
-<pre><code>这样，使用go自带库，就能实现一个简单的web应用。但是，自带的http库有一点做地不好，就是对路由的处理，比如分段带参数的path等处理不好。`gorilla/mux`很好地补充了这点。
-
-## mux 使用
-安装:
-```bash
-go get -u github.com/gorilla/mux
-</code></pre>
-
-<p>示例：</p>
-
-<pre><code class="language-go">package main
-
-import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;github.com/gorilla/mux&quot;
-)
-
-func main() {
-	r := mux.NewRouter()
-	r.HandleFunc(&quot;/user/{name}/id/{id}&quot;, func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		name := vars[&quot;name&quot;]
-		id := vars[&quot;id&quot;]
-		fmt.Fprintf(w, &quot;user: %s, id: %s\n&quot;, name, id)
-	})
-	http.ListenAndServe(&quot;:8080&quot;, r)
-}
-</code></pre>
-
-<p>提供一个prefix:</p>
-
-<pre><code class="language-go">r := mux.NewRouter()
-s := r.PathPrefix(&quot;/api&quot;).Subrouter()
-s.HandleFunc(&quot;/user&quot;, userHandler)
-s.HandleFunc(&quot;/product&quot;, productHandler)
-http.ListenAndServe(&quot;:8080&quot;, r)
-</code></pre>
-
-<p>指定method</p>
-
-<pre><code class="language-go">r.HandleFunc(&quot;/articles&quot;, handler).Methods(&quot;GET&quot;)
-r.HandleFunc(&quot;/articles/{id}&quot;, handler).Methods(&quot;GET&quot;, &quot;PUT&quot;)
-</code></pre>
-
-<p>关于mux的其他详细，请移步github<a href="https://github.com/gorilla/mux">gorilla/mux</a>。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl http://127.0.0.1:8080/testpath -i
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Date: Thu, <span style="color:#ae81ff">04</span> Jan <span style="color:#ae81ff">2018</span> 02:28:07 GMT
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">35</span>
+</span></span><span style="display:flex;"><span>Content-Type: text/plain; charset<span style="color:#f92672">=</span>utf-8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Hello, you<span style="color:#960050;background-color:#1e0010">&#39;</span>ve requested: /testpath
+</span></span></code></pre></div><p>这样，使用go自带库，就能实现一个简单的web应用。但是，自带的http库有一点做地不好，就是对路由的处理，比如分段带参数的path等处理不好。<code>gorilla/mux</code>很好地补充了这点。</p>
+<h2 id="mux-使用">mux 使用</h2>
+<p>安装:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get -u github.com/gorilla/mux
+</span></span></code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/gorilla/mux&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">NewRouter</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/user/{name}/id/{id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">vars</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">vars</span>[<span style="color:#e6db74">&#34;name&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">id</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">vars</span>[<span style="color:#e6db74">&#34;id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintf</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;user: %s, id: %s\n&#34;</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">id</span>)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>提供一个prefix:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">NewRouter</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">PathPrefix</span>(<span style="color:#e6db74">&#34;/api&#34;</span>).<span style="color:#a6e22e">Subrouter</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/user&#34;</span>, <span style="color:#a6e22e">userHandler</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/product&#34;</span>, <span style="color:#a6e22e">productHandler</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#a6e22e">r</span>)
+</span></span></code></pre></div><p>指定method</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/articles&#34;</span>, <span style="color:#a6e22e">handler</span>).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/articles/{id}&#34;</span>, <span style="color:#a6e22e">handler</span>).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>, <span style="color:#e6db74">&#34;PUT&#34;</span>)
+</span></span></code></pre></div><p>关于mux的其他详细，请移步github<a href="https://github.com/gorilla/mux">gorilla/mux</a>。</p>
 <h2 id="模板template">模板template</h2>
-
-<p>所有模板引擎的语法都差不多，go的模板也类似，下面看示例：<br />
+<p>所有模板引擎的语法都差不多，go的模板也类似，下面看示例：
 文件结构:</p>
-
-<pre><code class="language-bash">$ tree
-├── assets
-│   └── css
-│       └── styles.css
-├── server.go
-└── tmpl
-    └── users.html
-</code></pre>
-
-<p>创建<code>server.go</code></p>
-
-<pre><code class="language-go">package main
-
-import (
-	&quot;net/http&quot;
-	&quot;html/template&quot;
-	&quot;path/filepath&quot;
-)
-
-type User struct {
-	Name string
-	Age  int
-}
-type Users struct {
-	Title string
-	Users []User
-}
-
-func main() {
-	filePrefix, _ := filepath.Abs(&quot;./src/web_application&quot;)
-
-	// 静态文件位置配置
-	fs := http.FileServer(http.Dir(filePrefix + &quot;/assets/&quot;))
-	http.Handle(&quot;/static/&quot;, http.StripPrefix(&quot;/static/&quot;, fs))
-
-	// 1. 模板位置
-	tmpl := template.Must(template.ParseFiles(filePrefix + &quot;/tmpl/users.html&quot;))
-	http.HandleFunc(&quot;/users&quot;, func(w http.ResponseWriter, r *http.Request) {
-		// 2. 数据
-		data := Users{
-			Title: &quot;user group&quot;,
-			Users: []User{
-				{Name: &quot;Henry&quot;, Age: 27,},
-				{Name: &quot;Thoreau&quot;, Age: 29,}}}
-		// 3. 渲染
-		tmpl.Execute(w, data)
-	})
-
-	// 监听8080
-	http.ListenAndServe(&quot;:8080&quot;, nil)
-}
-</code></pre>
-
-<p>创建<code>users.html</code></p>
-
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/static/css/styles.css&quot;&gt;
-    &lt;link&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h3&gt;User list&lt;/h3&gt;
-&lt;table&gt;
-&lt;tr&gt;
-    &lt;th&gt;name&lt;/th&gt;
-    &lt;th&gt;age&lt;/th&gt;
-&lt;/tr&gt;
-{{range .Users}}
-&lt;tr&gt;
-    &lt;td&gt;{{.Name}}&lt;/td&gt;
-    &lt;td&gt;{{.Age}}&lt;/td&gt;
-&lt;/tr&gt;
-{{end}}
-&lt;/table&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p>样式:</p>
-
-<pre><code class="language-css">table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 20%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</code></pre>
-
-<p>组装数据，读取模板，渲染，输出。这样，一个简单的web应用(web application)就完成了。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tree
+</span></span><span style="display:flex;"><span>├── assets
+</span></span><span style="display:flex;"><span>│   └── css
+</span></span><span style="display:flex;"><span>│       └── styles.css
+</span></span><span style="display:flex;"><span>├── server.go
+</span></span><span style="display:flex;"><span>└── tmpl
+</span></span><span style="display:flex;"><span>    └── users.html
+</span></span></code></pre></div><p>创建<code>server.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;html/template&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;path/filepath&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Age</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Users</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Title</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Users</span> []<span style="color:#a6e22e">User</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">filePrefix</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">filepath</span>.<span style="color:#a6e22e">Abs</span>(<span style="color:#e6db74">&#34;./src/web_application&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 静态文件位置配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fs</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">FileServer</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Dir</span>(<span style="color:#a6e22e">filePrefix</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/assets/&#34;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Handle</span>(<span style="color:#e6db74">&#34;/static/&#34;</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StripPrefix</span>(<span style="color:#e6db74">&#34;/static/&#34;</span>, <span style="color:#a6e22e">fs</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 模板位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tmpl</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">template</span>.<span style="color:#a6e22e">Must</span>(<span style="color:#a6e22e">template</span>.<span style="color:#a6e22e">ParseFiles</span>(<span style="color:#a6e22e">filePrefix</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/tmpl/users.html&#34;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 2. 数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Users</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Title</span>: <span style="color:#e6db74">&#34;user group&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Users</span>: []<span style="color:#a6e22e">User</span>{
+</span></span><span style="display:flex;"><span>				{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;Henry&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">27</span>,},
+</span></span><span style="display:flex;"><span>				{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;Thoreau&#34;</span>, <span style="color:#a6e22e">Age</span>: <span style="color:#ae81ff">29</span>,}}}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 3. 渲染
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">tmpl</span>.<span style="color:#a6e22e">Execute</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 监听8080
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建<code>users.html</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/static/css/styles.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">h3</span>&gt;User list&lt;/<span style="color:#f92672">h3</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">table</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">tr</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">th</span>&gt;name&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">th</span>&gt;age&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">tr</span>&gt;
+</span></span><span style="display:flex;"><span>{{range .Users}}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">tr</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">td</span>&gt;{{.Name}}&lt;/<span style="color:#f92672">td</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">td</span>&gt;{{.Age}}&lt;/<span style="color:#f92672">td</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">tr</span>&gt;
+</span></span><span style="display:flex;"><span>{{end}}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">table</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>样式:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">table</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">font-family</span>: arial, <span style="color:#66d9ef">sans-serif</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">border-collapse</span>: <span style="color:#66d9ef">collapse</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">%</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">td</span><span style="color:#f92672">,</span> <span style="color:#f92672">th</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#66d9ef">solid</span> <span style="color:#ae81ff">#dddddd</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">text-align</span>: <span style="color:#66d9ef">left</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">8</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">tr</span>:<span style="color:#a6e22e">nth-child</span><span style="color:#f92672">(</span><span style="color:#f92672">even</span><span style="color:#f92672">)</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background-color</span>: <span style="color:#ae81ff">#dddddd</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>组装数据，读取模板，渲染，输出。这样，一个简单的web应用(web application)就完成了。</p>
 <h2 id="过滤器">过滤器</h2>
-
 <p>添加一个类似java servlet 中filter，打印日志</p>
-
-<pre><code class="language-go">// 在main中注册http.HandleFunc(&quot;/&quot;, Chain(Hello,Logging()))
-func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, &quot;hello world&quot;)
-}
-type Middleware func(http.HandlerFunc) http.HandlerFunc
-func Chain(f http.HandlerFunc, middlewares ...Middleware) http.HandlerFunc {
-	for _, m := range middlewares {
-		f = m(f)
-	}
-	return f
-}
-// handler - logging
-func Logging() Middleware {
-	return func(f http.HandlerFunc) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-			defer func() { log.Println(r.URL.Path, time.Since(start)) }()
-			f(w, r)
-		}
-	}
-}
-func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, &quot;hello world&quot;)
-}
-</code></pre>
-
-<p>如果有多个handler，可以直接写成<code>http.HandleFunc(&quot;/&quot;, Chain(HandleFunc,Handler1(),Handler2()))</code></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// 在main中注册http.HandleFunc(&#34;/&#34;, Chain(Hello,Logging()))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Hello</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;hello world&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Middleware</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>) <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Chain</span>(<span style="color:#a6e22e">f</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>, <span style="color:#a6e22e">middlewares</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Middleware</span>) <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">middlewares</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">f</span> = <span style="color:#a6e22e">m</span>(<span style="color:#a6e22e">f</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// handler - logging
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Logging</span>() <span style="color:#a6e22e">Middleware</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">f</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>) <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">Path</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Since</span>(<span style="color:#a6e22e">start</span>)) }()
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">f</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Hello</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;hello world&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果有多个handler，可以直接写成<code>http.HandleFunc(&quot;/&quot;, Chain(HandleFunc,Handler1(),Handler2()))</code></p>
 <h2 id="session和cookie">session和cookie</h2>
-
 <p>go自动的http库支持cookie存取，但不支持session，需要自己实现。其中cookie使用如下：</p>
-
-<pre><code class="language-go">func (w http.ResponseWriter, r *http.Request) {
-    expires := time.Now().AddDate(1, 0, 0)
-    sessionId := uuid.Must(uuid.NewV4())
-    cookie := http.Cookie{Name: &quot;sessionId&quot;, Value: sessionId.String(), Expires: expires}
-    http.SetCookie(w, &amp;cookie)
-}
-</code></pre>
-
-<p><a href="https://github.com/gorilla/sessions">gorilla/sessions</a>是一个提供cookie、系统会话和基础结构的实现。</p>
-
-<pre><code class="language-go">var store = sessions.NewCookieStore([]byte(&quot;something-very-secret&quot;))
-func MyHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, &quot;session-name&quot;)
-	session.Values[&quot;foo&quot;] = &quot;bar&quot;
-	session.Values[42] = 43
-	// Save it before we write to the response/return from the handler.
-	session.Save(r, w)
-}
-</code></pre>
-
-<p>其中store的实现有很多，比如mysql，redis。<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">expires</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sessionId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">Must</span>(<span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">NewV4</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cookie</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Cookie</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;sessionId&#34;</span>, <span style="color:#a6e22e">Value</span>: <span style="color:#a6e22e">sessionId</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">Expires</span>: <span style="color:#a6e22e">expires</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">SetCookie</span>(<span style="color:#a6e22e">w</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cookie</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><a href="https://github.com/gorilla/sessions">gorilla/sessions</a>是一个提供cookie、系统会话和基础结构的实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">store</span> = <span style="color:#a6e22e">sessions</span>.<span style="color:#a6e22e">NewCookieStore</span>([]byte(<span style="color:#e6db74">&#34;something-very-secret&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">MyHandler</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">session</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">r</span>, <span style="color:#e6db74">&#34;session-name&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Values</span>[<span style="color:#e6db74">&#34;foo&#34;</span>] = <span style="color:#e6db74">&#34;bar&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Values</span>[<span style="color:#ae81ff">42</span>] = <span style="color:#ae81ff">43</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Save it before we write to the response/return from the handler.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Save</span>(<span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">w</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中store的实现有很多，比如mysql，redis。
 mysql示例：</p>
-
-<pre><code class="language-go">  package main
-  import (
-    &quot;fmt&quot;
-    &quot;github.com/srinathgs/mysqlstore&quot;
-    &quot;net/http&quot;
-  )
-  var store *mysqlstore.MySQLStore
-  func sessTest(w http.ResponseWriter, r *http.Request) {
-    session, err := store.Get(r, &quot;foobar&quot;)
-    session.Values[&quot;bar&quot;] = &quot;baz&quot;
-    session.Values[&quot;baz&quot;] = &quot;foo&quot;
-    err = session.Save(r, w)
-    fmt.Printf(&quot;%#v\n&quot;, session)
-    fmt.Println(err)
-  }
-func main() {
-    store, err := mysqlstore.NewMySQLStore(&quot;UN:PASS@tcp(&lt;IP&gt;:&lt;PORT&gt;)/&lt;DB&gt;?parseTime=true&amp;loc=Local&quot;, &lt;tablename&gt;, &quot;/&quot;, 3600, []byte(&quot;&lt;SecretKey&gt;&quot;))
-    if err != nil {
-      panic(err)
-    }
-    defer store.Close()
-	http.HandleFunc(&quot;/&quot;, sessTest)
-	http.ListenAndServe(&quot;:8080&quot;, nil)
-}
-</code></pre>
-
-<p>总结： 从上述示例看出，使用go开发web也是挺容易的，其他比如访问db、部署等也比较容易，暂且不谈。</p>
-
-<hr />
-
-<p>[1]. 《Go web application》<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/srinathgs/mysqlstore&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">store</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mysqlstore</span>.<span style="color:#a6e22e">MySQLStore</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sessTest</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">session</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">r</span>, <span style="color:#e6db74">&#34;foobar&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Values</span>[<span style="color:#e6db74">&#34;bar&#34;</span>] = <span style="color:#e6db74">&#34;baz&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Values</span>[<span style="color:#e6db74">&#34;baz&#34;</span>] = <span style="color:#e6db74">&#34;foo&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">Save</span>(<span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">w</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v\n&#34;</span>, <span style="color:#a6e22e">session</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">store</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mysqlstore</span>.<span style="color:#a6e22e">NewMySQLStore</span>(<span style="color:#e6db74">&#34;UN:PASS@tcp(&lt;IP&gt;:&lt;PORT&gt;)/&lt;DB&gt;?parseTime=true&amp;loc=Local&#34;</span>, &lt;<span style="color:#a6e22e">tablename</span>&gt;, <span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#ae81ff">3600</span>, []byte(<span style="color:#e6db74">&#34;&lt;SecretKey&gt;&#34;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>      panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">sessTest</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>总结： 从上述示例看出，使用go开发web也是挺容易的，其他比如访问db、部署等也比较容易，暂且不谈。</p>
+<hr>
+<p>[1]. 《Go web application》
 [2]. <a href="https://gowebexamples.com">https://gowebexamples.com</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#hello-world">hello world</a></li>
-<li><a href="#模板template">模板template</a></li>
-<li><a href="#过滤器">过滤器</a></li>
-<li><a href="#session和cookie">session和cookie</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#hello-world">hello world</a></li>
+    <li><a href="#mux-使用">mux 使用</a></li>
+    <li><a href="#模板template">模板template</a></li>
+    <li><a href="#过滤器">过滤器</a></li>
+    <li><a href="#session和cookie">session和cookie</a></li>
+  </ul>
 </nav>
     </section>
 
@@ -629,17 +572,17 @@ func main() {
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/09/Go-Error-handling/">
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">
           <section class="post">
-              <h2>GO— 异常错误处理</h2>
+              <h2>二叉搜索树</h2>
               
           </section>
       </a>
   
   
-      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/12/02/high-performance-mysql-key/">
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/09/Go-Error-handling/">
           <section class="post">
-              <h2>高性能Mysql-索引</h2>
+              <h2>GO— 异常错误处理</h2>
           </section>
       </a>
   

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="在mac上安装minikube &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/11/04/mac-install-minikube/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/11/04/mac-install-minikube/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": 在mac上安装minikube,
-    "name": 在mac上安装minikube,
-    "wordCount": 396,
+    "headline": "在mac上安装minikube",
+    "name": "在mac上安装minikube",
+    "wordCount":  396 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/11/04/mac-install-minikube/,
-    "datePublished": 2018-11-04T01:16Z,
-    "dateModified": 2018-11-04T01:16Z,
+    "url": "http://thoreauz.com/2018/11/04/mac-install-minikube/",
+    "datePublished": "2018-11-04T01:16Z",
+    "dateModified": "2018-11-04T01:16Z",
     
-    "keywords": kubernetes, docker,
-    "description": ,
+    "keywords": "kubernetes, docker",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/11/04/mac-install-minikube/
+        "@id": "http://thoreauz.com/2018/11/04/mac-install-minikube/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,100 +247,74 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测试的好工具。</p>
-
+      <p>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测试的好工具。</p>
 <h2 id="安装前准备">安装前准备</h2>
-
 <ul>
-<li>virtualbox<br /></li>
-<li>kubectl<br />
-<br /></li>
+<li>virtualbox</li>
+<li>kubectl</li>
 </ul>
-
 <h2 id="安装">安装</h2>
-
-<pre><code class="language-bash"># 代理、你懂的
-export http_proxy=http://192.168.99.1:1087;
-export https_proxy=http://192.168.99.1:1087;
-brew install kubernetes-cli
-brew cask install minikube
-</code></pre>
-
-<!-- more -->
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 代理、你懂的</span>
+</span></span><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>http://192.168.99.1:1087;
+</span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span>http://192.168.99.1:1087;
+</span></span><span style="display:flex;"><span>brew install kubernetes-cli
+</span></span><span style="display:flex;"><span>brew cask install minikube
+</span></span></code></pre></div><!-- raw HTML omitted -->
 <h2 id="启动">启动</h2>
-
-<pre><code class="language-bash">minikube start  \
-    --memory=4096 --cpus=2 --kubernetes-version=v1.9.4 \
-    --extra-config=controller-manager.cluster-signing-cert-file=&quot;/var/lib/localkube/certs/ca.crt&quot; \
-    --extra-config=controller-manager.cluster-signing-key-file=&quot;/var/lib/localkube/certs/ca.key&quot; \
-    --extra-config=apiserver.admission-control=&quot;NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota&quot; \
-    --vm-driver=virtualbox \
-    --registry-mirror=https://registry.docker-cn.com \
-    --docker-env HTTP_PROXY=http://192.168.99.1:1087 \
-    --docker-env HTTPS_PROXY=http://192.168.99.1:1087 \
-    --docker-env NO_PROXY=localhost,127.0.0.1,.docker.io,.docker-cn.com,.aliyuncs.com
-
-kubectl taint nodes --all node-role.kubernetes.io/master-
-minikube dashboard
-</code></pre>
-
-<pre><code class="language-bash"># 执行docker
-➜ eval $(minikube docker-env)
-➜ minikube ip
-192.168.99.101
-# 另一种在浏览器打开已部署的dashboard方式
-➜ minikube service kubernetes-dashboard -n kube-system
-</code></pre>
-
-<blockquote>
-<p>minikube service可以在流里流气打开service地址，其实就是打开http:// minikube-ip: service-nodePort。所以，service的部署需要使用NodePort模式，可以使用类似命令修改：<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube start  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">4096</span> --cpus<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> --kubernetes-version<span style="color:#f92672">=</span>v1.9.4 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>controller-manager.cluster-signing-cert-file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/localkube/certs/ca.crt&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>controller-manager.cluster-signing-key-file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/localkube/certs/ca.key&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>apiserver.admission-control<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --vm-driver<span style="color:#f92672">=</span>virtualbox <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env HTTP_PROXY<span style="color:#f92672">=</span>http://192.168.99.1:1087 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env HTTPS_PROXY<span style="color:#f92672">=</span>http://192.168.99.1:1087 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env NO_PROXY<span style="color:#f92672">=</span>localhost,127.0.0.1,.docker.io,.docker-cn.com,.aliyuncs.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl taint nodes --all node-role.kubernetes.io/master-
+</span></span><span style="display:flex;"><span>minikube dashboard
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 执行docker</span>
+</span></span><span style="display:flex;"><span>➜ eval <span style="color:#66d9ef">$(</span>minikube docker-env<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>➜ minikube ip
+</span></span><span style="display:flex;"><span>192.168.99.101
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 另一种在浏览器打开已部署的dashboard方式</span>
+</span></span><span style="display:flex;"><span>➜ minikube service kubernetes-dashboard -n kube-system
+</span></span></code></pre></div><blockquote>
+<p>minikube service可以在流里流气打开service地址，其实就是打开http:// minikube-ip: service-nodePort。所以，service的部署需要使用NodePort模式，可以使用类似命令修改：
 <code>kubectl get svc serviceName -n istio-system -o yaml| sed &quot;s/ClusterIP/NodePort/g&quot;|kubectl apply -f -</code></p>
 </blockquote>
-
-<pre><code class="language-bash">➜ kubectl get pod -n kube-system
-NAME                                    READY     STATUS    RESTARTS   AGE
-etcd-minikube                           1/1       Running   0          5h
-kube-addon-manager-minikube             1/1       Running   0          5h
-kube-apiserver-minikube                 1/1       Running   5          5h
-kube-controller-manager-minikube        1/1       Running   0          5h
-kube-dns-6f4fd4bdf-m862l                3/3       Running   0          5h
-kube-proxy-497lx                        1/1       Running   0          5h
-kube-scheduler-minikube                 1/1       Running   0          5h
-kubernetes-dashboard-77d8b98585-c6wrs   1/1       Running   0          5h
-storage-provisioner                     1/1       Running   0          5h
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2018-11-04-01-24-34.jpg" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜ kubectl get pod -n kube-system
+</span></span><span style="display:flex;"><span>NAME                                    READY     STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>etcd-minikube                           1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-addon-manager-minikube             1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-apiserver-minikube                 1/1       Running   <span style="color:#ae81ff">5</span>          5h
+</span></span><span style="display:flex;"><span>kube-controller-manager-minikube        1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-dns-6f4fd4bdf-m862l                3/3       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-proxy-497lx                        1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-scheduler-minikube                 1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kubernetes-dashboard-77d8b98585-c6wrs   1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>storage-provisioner                     1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2018-11-04-01-24-34.jpg" alt=""></p>
 <p>好啦，到这儿就安装成功了</p>
-
 <h2 id="安装istio">安装istio</h2>
-
 <p>随带安装istio。</p>
-
-<pre><code>curl -L https://git.io/getLatestIstio | sh -
+<pre tabindex="0"><code>curl -L https://git.io/getLatestIstio | sh -
 cd istio-0.2.10 
 export ISTIO_HOME=$PWD
 export PATH=$PATH:${ISTIO_HOME}/bin
 kubectl apply -f ${ISTIO_HOME}/install/kubernetes/istio-demo.yaml
 </code></pre>
-
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#安装前准备">安装前准备</a></li>
-<li><a href="#安装">安装</a></li>
-<li><a href="#启动">启动</a></li>
-<li><a href="#安装istio">安装istio</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#安装前准备">安装前准备</a></li>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#启动">启动</a></li>
+    <li><a href="#安装istio">安装istio</a></li>
+  </ul>
 </nav>
     </section>
 

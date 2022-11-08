@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Jenkins发布Docker到k8s &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": Jenkins发布Docker到k8s,
-    "name": Jenkins发布Docker到k8s,
-    "wordCount": 613,
+    "headline": "Jenkins发布Docker到k8s",
+    "name": "Jenkins发布Docker到k8s",
+    "wordCount":  608 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/,
-    "datePublished": 2017-03-17T21:06Z,
-    "dateModified": 2017-03-17T21:06Z,
+    "url": "http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/",
+    "datePublished": "2017-03-17T21:06Z",
+    "dateModified": "2017-03-17T21:06Z",
     
-    "keywords": jenkins, CICD,
-    "description": ,
+    "keywords": "jenkins, CICD",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/
+        "@id": "http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,95 +247,68 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="jenkins发布docker到k8s">Jenkins发布Docker到k8s</h1>
-
+      <h1 id="jenkins发布docker到k8s">Jenkins发布Docker到k8s</h1>
 <p>Docker 镜像push到仓库后，算是完成了构建打包的过程。发布时，可以通过Jenkins远程操作kubernetes集群master实现容器调度。本文介绍如何通过编写groovy脚本自动获取images tag，实现Jenkins参数化构建。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="jenkins配置">Jenkins配置</h2>
-
 <h3 id="安装插件">安装插件</h3>
-
 <ol>
-<li>参数化构建插件：Active Choices Plug-in<br /></li>
-<li>远程ssh插件：SSH plugin或者Publish Over SSH<br />
-<br /></li>
+<li>参数化构建插件：Active Choices Plug-in</li>
+<li>远程ssh插件：SSH plugin或者Publish Over SSH</li>
 </ol>
-
 <h3 id="配置插件">配置插件</h3>
-
 <ol>
-<li>进入系统设置，添加ssh site或者SSH Servers，可以使用用户名密码或者key。<br /></li>
-<li>使用Active Choices Plug-in<br />
-新建job，选择参数化构建，使用Active Choices Parameter，选择groovy script：<br />
-groovy脚本如下：<code>my-registry</code>对应私有参考ip或者域名<br />
-```groovy<br />
-import groovy.json.JsonSlurper<br />
-import hudson.model.*<br />
-/**<br />
-
-<ul>
-<li>Created by erdaoay on 17/3/17.<br />
-*/<br />
-<br /></li>
-</ul></li>
+<li>进入系统设置，添加ssh site或者SSH Servers，可以使用用户名密码或者key。</li>
+<li>使用Active Choices Plug-in
+新建job，选择参数化构建，使用Active Choices Parameter，选择groovy script：
+groovy脚本如下：<code>my-registry</code>对应私有参考ip或者域名</li>
 </ol>
-
-<p>//get jenkins job_name<br />
-def build = Thread.currentThread().toString()<br />
-def regexp= &laquo;.+?/job/([^/]+)/.*&raquo;<br />
-def match = build  =~ regexp<br />
-def job_name = match[0][1]</p>
-
-<p>// call registry v2 api<br />
-def url =  &lsquo;<a href="http://my-registry:5000/v2/overseas/'+">http://my-registry:5000/v2/overseas/'+</a> job_name + &lsquo;/tags/list&rsquo;<br />
-def tags = url.toURL().text<br />
-def jsonSlurper = new JsonSlurper()<br />
-def object = jsonSlurper.parseText(tags)</p>
-
-<p>// return tags<br />
-return object.tags</p>
-
-<pre><code>
-保存后，构建，即可看到参数中列出了镜像版本。
-
-根据使用ssh插件不同，可以在构建时选择`execute shell script no remote host using ssh`或构建后操作选择`send build artifacts over ssh`。然后输入需要执行的脚步或者命令，例如
-
-```shell
-# VERSION：上面参考构建的name
-# update_app.sh  操作k8s或者swarm的脚本
-sh -x /home/centos/update_app.sh  ${JOB_NAME}  ${VERSION}
-</code></pre>
-
-<p>截图：<br />
-groovy脚本<br />
-<img src="http://thoreauz.com/images/2017-03-17-20-59-07.jpg" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">import</span> groovy.json.JsonSlurper
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> hudson.model.*
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Created by erdaoay on 17/3/17.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//get jenkins job_name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> build <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> regexp<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.+?/job/([^/]+)/.*&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> match <span style="color:#f92672">=</span> build  <span style="color:#f92672">=~</span> regexp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> job_name <span style="color:#f92672">=</span> match<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">][</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// call registry v2 api
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> url <span style="color:#f92672">=</span>  <span style="color:#e6db74">&#39;http://my-registry:5000/v2/overseas/&#39;</span><span style="color:#f92672">+</span> job_name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/tags/list&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> tags <span style="color:#f92672">=</span> url<span style="color:#f92672">.</span><span style="color:#a6e22e">toURL</span><span style="color:#f92672">().</span><span style="color:#a6e22e">text</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> jsonSlurper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JsonSlurper<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> object <span style="color:#f92672">=</span> jsonSlurper<span style="color:#f92672">.</span><span style="color:#a6e22e">parseText</span><span style="color:#f92672">(</span>tags<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// return tags
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> object<span style="color:#f92672">.</span><span style="color:#a6e22e">tags</span>
+</span></span></code></pre></div><p>保存后，构建，即可看到参数中列出了镜像版本。</p>
+<p>根据使用ssh插件不同，可以在构建时选择<code>execute shell script no remote host using ssh</code>或构建后操作选择<code>send build artifacts over ssh</code>。然后输入需要执行的脚步或者命令，例如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># VERSION：上面参考构建的name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># update_app.sh  操作k8s或者swarm的脚本</span>
+</span></span><span style="display:flex;"><span>sh -x /home/centos/update_app.sh  <span style="color:#e6db74">${</span>JOB_NAME<span style="color:#e6db74">}</span>  <span style="color:#e6db74">${</span>VERSION<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>截图：
+groovy脚本
+<img src="http://thoreauz.com/images/2017-03-17-20-59-07.jpg" alt=""></p>
 <p>shell脚本</p>
-
-<p><img src="http://thoreauz.com/images/2017-03-17-21-00-23.jpg" alt="" /></p>
-
-<p>效果<br />
-<img src="http://thoreauz.com/images/2017-03-17-21-01-15.jpg" alt="" /><br />
+<p><img src="http://thoreauz.com/images/2017-03-17-21-00-23.jpg" alt=""></p>
+<p>效果
+<img src="http://thoreauz.com/images/2017-03-17-21-01-15.jpg" alt="">
 从图中可以看出，docker镜像有四个版本。其中对maven snapshot的版本，添加了时间戳和git提交id。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#jenkins发布docker到k8s">Jenkins发布Docker到k8s</a>
-<ul>
-<li><a href="#jenkins配置">Jenkins配置</a>
-<ul>
-<li><a href="#安装插件">安装插件</a></li>
-<li><a href="#配置插件">配置插件</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#jenkins配置">Jenkins配置</a>
+      <ul>
+        <li><a href="#安装插件">安装插件</a></li>
+        <li><a href="#配置插件">配置插件</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

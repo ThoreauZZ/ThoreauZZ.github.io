@@ -21,7 +21,7 @@
   	<meta property="og:title" content="shell编程五-函数 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/08/shell-function/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -43,7 +43,7 @@
     <title>shell编程五-函数 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;quot;function run -&amp;quot; } echo &amp;quot;begin function---&amp;quot; demoFun echo &amp;quot;end funtion----&amp;quot; begin fu" />
+    <meta name="description" content="shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;#34;function run -&amp;#34; } echo &amp;#34;begin function---&amp;#34; demoFun echo &amp;#34;end funtion----&amp;#34; begin function" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/08/shell-function/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": shell编程五-函数,
-    "name": shell编程五-函数,
-    "wordCount": 544,
+    "headline": "shell编程五-函数",
+    "name": "shell编程五-函数",
+    "wordCount":  529 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/08/shell-function/,
-    "datePublished": 2017-02-08T22:07Z,
-    "dateModified": 2017-02-08T22:07Z,
+    "url": "http://thoreauz.com/2017/02/08/shell-function/",
+    "datePublished": "2017-02-08T22:07Z",
+    "dateModified": "2017-02-08T22:07Z",
     
-    "keywords": linux, shell,
-    "description": ,
+    "keywords": "linux, shell",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/08/shell-function/
+        "@id": "http://thoreauz.com/2017/02/08/shell-function/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,90 +247,73 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="shell编程五-函数">shell编程五-函数</h1>
-
+      <h1 id="shell编程五-函数">shell编程五-函数</h1>
 <h2 id="第一个实例">第一个实例:</h2>
-
-<pre><code class="language-bash">#!/bin/bash
-demoFun(){
-  echo  &quot;function run -&quot;
-}
-echo &quot;begin function---&quot;
-demoFun
-echo &quot;end funtion----&quot;
-</code></pre>
-
-<blockquote>
-<p>begin function—<br />
-function run -<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>demoFun<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>  echo  <span style="color:#e6db74">&#34;function run -&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;begin function---&#34;</span>
+</span></span><span style="display:flex;"><span>demoFun
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;end funtion----&#34;</span>
+</span></span></code></pre></div><blockquote>
+<p>begin function—
+function run -
 end funtion—-</p>
 </blockquote>
-
 <h2 id="带有return语句的函数">带有return语句的函数</h2>
-
 <p>求和函数</p>
-
-<pre><code class="language-bash">#!/bin/bash
-demoFun(){
-  echo &quot;this function will do a addition&quot;
-  echo &quot;please input a num&quot;  
-  read aNum
-  echo &quot;please input another mum &quot;
-  read bNum
-  echo  $(($aNum+$bNum))
-}
-demoFun
-</code></pre>
-
-<p>3、函数参数</p>
-
-<pre><code class="language-bash">#!/bin/bash
-funWithParam(){
-    echo &quot;第一个参数为 $1 !&quot;
-    echo &quot;第二个参数为 $2 !&quot;
-    echo &quot;第十个参数为 $10 !&quot;
-    echo &quot;第十个参数为 ${10} !&quot;
-    echo &quot;第十一个参数为 ${11} !&quot;
-    echo &quot;参数总数有 $# 个!&quot;
-    echo &quot;作为一个字符串输出所有参数 $* !&quot;
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>demoFun<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;this function will do a addition&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;please input a num&#34;</span>  
+</span></span><span style="display:flex;"><span>  read aNum
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;please input another mum &#34;</span>
+</span></span><span style="display:flex;"><span>  read bNum
+</span></span><span style="display:flex;"><span>  echo  <span style="color:#66d9ef">$((</span>$aNum<span style="color:#f92672">+</span>$bNum<span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>demoFun
+</span></span></code></pre></div><p>3、函数参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>funWithParam<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;第一个参数为 </span>$1<span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;第二个参数为 </span>$2<span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;第十个参数为 </span>$10<span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;第十个参数为 </span><span style="color:#e6db74">${</span>10<span style="color:#e6db74">}</span><span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;第十一个参数为 </span><span style="color:#e6db74">${</span>11<span style="color:#e6db74">}</span><span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;参数总数有 </span>$#<span style="color:#e6db74"> 个!&#34;</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;作为一个字符串输出所有参数 </span>$*<span style="color:#e6db74"> !&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>funWithParam 1 2 3 4 5 6 7 8 9 34 73</p>
 </blockquote>
-
-<p>第一个参数为 1 !<br />
-第二个参数为 2 !<br />
-第十个参数为 10 !<br />
-第十个参数为 34 !<br />
-第十一个参数为 73 !<br />
-参数总数有 11 个!<br />
-作为一个字符串输出所有参数 1 2 3 4 5 6 7 8 9 34 73 !<br />
+<p>第一个参数为 1 !
+第二个参数为 2 !
+第十个参数为 10 !
+第十个参数为 34 !
+第十一个参数为 73 !
+参数总数有 11 个!
+作为一个字符串输出所有参数 1 2 3 4 5 6 7 8 9 34 73 !
 注意，不能获取第十个参数，获取第十个参数需要{10}。当n&gt;=10时，需要使用${n}来获取参数.</p>
-
-<p>另外，还有几个特殊字符用来处理参数：<br />
-* <code>$#</code>：传递到脚本的参数个数<br />
-* <code>$*</code>: 以一个单字符串显示所有向脚本传递的参数<br />
-* <code>$$</code>：脚本运行的当前进程ID号<br />
-* <code>$!</code>  ：后台运行的最后一个进程的ID号<br />
-* <code>$@</code>: 与$*相同，但是使用时加引号，并在引号中返回每个参数。<br />
-* <code>$-</code>  ：显示Shell使用的当前选项，与set命令功能相同。<br />
-* <code>$?</code>  ：显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</p>
+<p>另外，还有几个特殊字符用来处理参数：</p>
+<ul>
+<li><code>$#</code>：传递到脚本的参数个数</li>
+<li><code>$*</code>: 以一个单字符串显示所有向脚本传递的参数</li>
+<li><code>$$</code>：脚本运行的当前进程ID号</li>
+<li><code>$!</code>	：后台运行的最后一个进程的ID号</li>
+<li><code>$@</code>: 与$*相同，但是使用时加引号，并在引号中返回每个参数。</li>
+<li><code>$-</code>	：显示Shell使用的当前选项，与set命令功能相同。</li>
+<li><code>$?</code>	：显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#shell编程五-函数">shell编程五-函数</a>
-<ul>
-<li><a href="#第一个实例">第一个实例:</a></li>
-<li><a href="#带有return语句的函数">带有return语句的函数</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#第一个实例">第一个实例:</a></li>
+    <li><a href="#带有return语句的函数">带有return语句的函数</a></li>
+  </ul>
 </nav>
     </section>
 

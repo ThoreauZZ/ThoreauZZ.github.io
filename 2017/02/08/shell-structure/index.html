@@ -21,7 +21,7 @@
   	<meta property="og:title" content="shell编程二-结构化命令 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/08/shell-structure/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/08/shell-structure/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": shell编程二-结构化命令,
-    "name": shell编程二-结构化命令,
-    "wordCount": 641,
+    "headline": "shell编程二-结构化命令",
+    "name": "shell编程二-结构化命令",
+    "wordCount":  629 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/08/shell-structure/,
-    "datePublished": 2017-02-08T10:17Z,
-    "dateModified": 2017-02-08T10:17Z,
+    "url": "http://thoreauz.com/2017/02/08/shell-structure/",
+    "datePublished": "2017-02-08T10:17Z",
+    "dateModified": "2017-02-08T10:17Z",
     
-    "keywords": linux, shell,
-    "description": ,
+    "keywords": "linux, shell",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/08/shell-structure/
+        "@id": "http://thoreauz.com/2017/02/08/shell-structure/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,262 +247,207 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="shell编程二-结构化命令">shell编程二-结构化命令</h1>
-
-<h2 id="一-if语句">一、if语句</h2>
-
-<pre><code class="language-bash">if command
-then
-    commands
-fi
-</code></pre>
-
-<p>if判断的并不是一个比值的对错，而是一个命令，命令执行成功退出码为0即为<code>true</code>。例如：</p>
-
-<pre><code class="language-bash">#!/bin/bash
-if pwd
-then
-    echo &quot;pwd执行正确&quot;
-fi
-</code></pre>
-
-<p><strong>if-else语句</strong></p>
-
-<pre><code class="language-bash">if command
-then
-    commands
-else
-    commands
-fi
-</code></pre>
-
-<pre><code class="language-bash">if command1
-then
-    commands
-elif command2
-then
-    commands
-fi
-</code></pre>
-
-<h2 id="二-条件判断-test">二、 条件判断 test</h2>
-
-<p>除了命令判断，常用如字符串比较，数字比较等判断，可用<code>test</code>。<br />
+      <h1 id="shell编程二-结构化命令">shell编程二-结构化命令</h1>
+<h2 id="一if语句">一、if语句</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>if判断的并不是一个比值的对错，而是一个命令，命令执行成功退出码为0即为<code>true</code>。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> pwd
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;pwd执行正确&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p><strong>if-else语句</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> command
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> command1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> command2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h2 id="二-条件判断-test">二、 条件判断 test</h2>
+<p>除了命令判断，常用如字符串比较，数字比较等判断，可用<code>test</code>。
 test比较：数字比较，字符串比较，文件比较</p>
-
 <p>写脚本是，不用写test，可以用<code>[]</code>代替，但注意空格：</p>
-
-<pre><code class="language-bash">if [ condition ]
-then
-    commands
-fi
-</code></pre>
-
-<h3 id="数字比较">数字比较：</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="数字比较">数字比较：</h3>
 <table>
 <thead>
 <tr>
 <th>比较</th>
-<th align="center">描述</th>
+<th style="text-align:center">描述</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>n1 -eq n2</td>
-<td align="center">是否相等</td>
+<td style="text-align:center">是否相等</td>
 </tr>
-
 <tr>
 <td>n1 -ge n2</td>
-<td align="center">是否大于或等于</td>
+<td style="text-align:center">是否大于或等于</td>
 </tr>
-
 <tr>
 <td>n1 -gt n2</td>
-<td align="center">是否大于</td>
+<td style="text-align:center">是否大于</td>
 </tr>
-
 <tr>
 <td>n1 -le n2</td>
-<td align="center">是否小于等于</td>
+<td style="text-align:center">是否小于等于</td>
 </tr>
-
 <tr>
 <td>n1 -lt n2</td>
-<td align="center">是否小于</td>
+<td style="text-align:center">是否小于</td>
 </tr>
-
 <tr>
 <td>n1 -ne n2</td>
-<td align="center">是否不等于</td>
+<td style="text-align:center">是否不等于</td>
 </tr>
 </tbody>
 </table>
-
 <h3 id="字符串比较">字符串比较：</h3>
-
 <table>
 <thead>
 <tr>
 <th>比较</th>
-<th align="center">描述</th>
+<th style="text-align:center">描述</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>str1 = str2</td>
-<td align="center">是否相同</td>
+<td style="text-align:center">是否相同</td>
 </tr>
-
 <tr>
 <td>str1 != str2</td>
-<td align="center">是否不同</td>
+<td style="text-align:center">是否不同</td>
 </tr>
-
 <tr>
 <td>str1 &lt; str2</td>
-<td align="center">是否小于</td>
+<td style="text-align:center">是否小于</td>
 </tr>
-
 <tr>
 <td>str1 &gt; str2</td>
-<td align="center">是否大于</td>
+<td style="text-align:center">是否大于</td>
 </tr>
-
 <tr>
 <td>-n $var</td>
-<td align="center">判断变量是否长度非0</td>
+<td style="text-align:center">判断变量是否长度非0</td>
 </tr>
-
 <tr>
 <td>-z $var</td>
-<td align="center">判断变量是否长度为0</td>
+<td style="text-align:center">判断变量是否长度为0</td>
 </tr>
 </tbody>
 </table>
-
 <blockquote>
 <p>注: 大小于需要转义</p>
 </blockquote>
-
 <h3 id="文件比较">文件比较</h3>
-
 <table>
 <thead>
 <tr>
 <th>比较</th>
-<th align="center">描述</th>
+<th style="text-align:center">描述</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>-d file</td>
-<td align="center">是否存在file目录</td>
+<td style="text-align:center">是否存在file目录</td>
 </tr>
-
 <tr>
 <td>-e file</td>
-<td align="center">是否存在file</td>
+<td style="text-align:center">是否存在file</td>
 </tr>
-
 <tr>
 <td>-f file</td>
-<td align="center">是否存在file文件</td>
+<td style="text-align:center">是否存在file文件</td>
 </tr>
-
 <tr>
 <td>-r file</td>
-<td align="center">file存在并可读</td>
+<td style="text-align:center">file存在并可读</td>
 </tr>
-
 <tr>
 <td>-s file</td>
-<td align="center">file存在并非空</td>
+<td style="text-align:center">file存在并非空</td>
 </tr>
-
 <tr>
 <td>-w file</td>
-<td align="center">file存在并可写</td>
+<td style="text-align:center">file存在并可写</td>
 </tr>
-
 <tr>
 <td>-x file</td>
-<td align="center">file存在并可执行</td>
+<td style="text-align:center">file存在并可执行</td>
 </tr>
 </tbody>
 </table>
-
 <h3 id="复合条件测试">复合条件测试</h3>
-
 <blockquote>
-<p>[ condition1 ] &amp;&amp; [ condition2 ]<br />
+<p>[ condition1 ] &amp;&amp; [ condition2 ]
 [ condition1 ] || [ condition2 ]</p>
 </blockquote>
-
 <h3 id="双括号高级比较">双括号高级比较</h3>
-
 <blockquote>
 <p>(( expression ))</p>
-
-<pre><code class="language-bash">#!/bin/bash
-var1=10
-if (( $var1 ** 2 &gt; 90 ))
-then
-        echo &quot;10的平方大于90：判断正确&quot;
-else
-        echo &quot;判断错误&quot;
-fi
-</code></pre>
-
-<h3 id="双括方括号">双括方括号</h3>
-
-<p>[[ expression ]]<br />
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>var1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span> $var1 ** <span style="color:#ae81ff">2</span> &gt; <span style="color:#ae81ff">90</span> <span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;10的平方大于90：判断正确&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;判断错误&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="双括方括号">双括方括号</h3>
+<blockquote>
+<p>[[ expression ]]
 可以使用双方括号做模式匹配</p>
 </blockquote>
-
 <p>如,有java项目包名为app.1.0-NAPSHOT.jar，现在需要判断是不是快照版本，可以如下判断：</p>
-
-<pre><code class="language-bash">if [[ &quot;${PROJECT_NAME}&quot; =~ -servlet$ ]]
-then
-    echo &quot;项目是快照版本&quot;
-fi
-</code></pre>
-
-<h2 id="三-case">三、 case</h2>
-
-<p>语法结构<br />
-&gt;case var in<br />
-&gt; pattern1 | pattern2) commands1;;<br />
-&gt; pattern3) commands2;;<br />
-&gt; *) default commands;;<br />
-&gt; esac</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>PROJECT_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span>~ -servlet$ <span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;项目是快照版本&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h2 id="三-case">三、 case</h2>
+<p>语法结构</p>
+<blockquote>
+<p>case var in
+pattern1 | pattern2) commands1;;
+pattern3) commands2;;
+*) default commands;;
+esac</p>
+</blockquote>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#shell编程二-结构化命令">shell编程二-结构化命令</a>
-<ul>
-<li><a href="#一-if语句">一、if语句</a></li>
-<li><a href="#二-条件判断-test">二、 条件判断 test</a>
-<ul>
-<li><a href="#数字比较">数字比较：</a></li>
-<li><a href="#字符串比较">字符串比较：</a></li>
-<li><a href="#文件比较">文件比较</a></li>
-<li><a href="#复合条件测试">复合条件测试</a></li>
-<li><a href="#双括号高级比较">双括号高级比较</a></li>
-<li><a href="#双括方括号">双括方括号</a></li>
-</ul></li>
-<li><a href="#三-case">三、 case</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一if语句">一、if语句</a></li>
+    <li><a href="#二-条件判断-test">二、 条件判断 test</a>
+      <ul>
+        <li><a href="#数字比较">数字比较：</a></li>
+        <li><a href="#字符串比较">字符串比较：</a></li>
+        <li><a href="#文件比较">文件比较</a></li>
+        <li><a href="#复合条件测试">复合条件测试</a></li>
+        <li><a href="#双括号高级比较">双括号高级比较</a></li>
+        <li><a href="#双括方括号">双括方括号</a></li>
+      </ul>
+    </li>
+    <li><a href="#三-case">三、 case</a></li>
+  </ul>
 </nav>
     </section>
 

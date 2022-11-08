@@ -21,7 +21,7 @@
   	<meta property="og:title" content="spring-boot 入门 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/01/08/spring-boot-introduction/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/01/08/spring-boot-introduction/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": spring-boot 入门,
-    "name": spring-boot 入门,
-    "wordCount": 1938,
+    "headline": "spring-boot 入门",
+    "name": "spring-boot 入门",
+    "wordCount":  1914 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/01/08/spring-boot-introduction/,
-    "datePublished": 2017-01-08T17:39Z,
-    "dateModified": 2017-01-08T17:39Z,
+    "url": "http://thoreauz.com/2017/01/08/spring-boot-introduction/",
+    "datePublished": "2017-01-08T17:39Z",
+    "dateModified": "2017-01-08T17:39Z",
     
-    "keywords": spring, spring-boot,
-    "description": ,
+    "keywords": "spring, spring-boot",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/01/08/spring-boot-introduction/
+        "@id": "http://thoreauz.com/2017/01/08/spring-boot-introduction/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,101 +247,73 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="一-maven构建">一、maven构建</h2>
-
-<h3 id="1-1-继承boot超级parent">1.1 继承boot超级parent</h3>
-
-<pre><code class="language-xml">&lt;parent&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-    &lt;version&gt;1.4.1.RELEASE&lt;/version&gt;
-&lt;/parent&gt;
-</code></pre>
-
-<p>这样，其他依赖不需要写版本号，如果一定要写，配置在properties即可,如：</p>
-
-<pre><code class="language-xml">&lt;properties&gt;
-    &lt;spring-data-releasetrain.version&gt;Fowler-SR2&lt;/spring-data-releasetrain.version&gt;
-&lt;/properties&gt;
-</code></pre>
-
-<p>默认版本号可以在下面配置找到：<br />
+      <h2 id="一maven构建">一、maven构建</h2>
+<h3 id="11-继承boot超级parent">1.1 继承boot超级parent</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>1.4.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span></code></pre></div><p>这样，其他依赖不需要写版本号，如果一定要写，配置在properties即可,如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;spring-data-releasetrain.version&gt;</span>Fowler-SR2<span style="color:#f92672">&lt;/spring-data-releasetrain.version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/properties&gt;</span>
+</span></span></code></pre></div><p>默认版本号可以在下面配置找到：
 <a href="https://github.com/spring-projects/spring-boot/blob/v1.4.1.RELEASE/spring-boot-dependencies/pom.xml">https://github.com/spring-projects/spring-boot/blob/v1.4.1.RELEASE/spring-boot-dependencies/pom.xml</a></p>
-
-<h3 id="1-2-不继承parent">1.2 不继承parent</h3>
-
+<h3 id="12-不继承parent">1.2 不继承parent</h3>
 <p>如果不继承parent，可以使用一下配置完成：</p>
-
-<pre><code class="language-xml">&lt;dependencyManagement&gt;
-     &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;!-- Import dependency management from Spring Boot --&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;
-            &lt;version&gt;1.4.1.RELEASE&lt;/version&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-</code></pre>
-
-<p>但是，不能在properties特殊指定版本，如果需要，可以在生<code>dependencyManagement</code>并列添加对应依赖；</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencyManagement&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!-- Import dependency management from Spring Boot --&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-dependencies<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>1.4.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;type&gt;</span>pom<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;scope&gt;</span>import<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencyManagement&gt;</span>
+</span></span></code></pre></div><p>但是，不能在properties特殊指定版本，如果需要，可以在生<code>dependencyManagement</code>并列添加对应依赖；</p>
 <p>例如:</p>
-
-<pre><code class="language-xml">&lt;dependencyManagement&gt;
-    &lt;dependencies&gt;
-        &lt;!-- Override Spring Data release train provided by Spring Boot --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.data&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-data-releasetrain&lt;/artifactId&gt;
-            &lt;version&gt;Fowler-SR2&lt;/version&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;
-            &lt;version&gt;1.4.1.RELEASE&lt;/version&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-</code></pre>
-
-<h3 id="1-3-指定jdk版本">1.3 指定jdk版本</h3>
-
-<pre><code class="language-xml">&lt;properties&gt;
-    &lt;java.version&gt;1.8&lt;/java.version&gt;
-&lt;/properties&gt;
-</code></pre>
-
-<h3 id="1-4-打包">1.4 打包</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencyManagement&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- Override Spring Data release train provided by Spring Boot --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.data<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-data-releasetrain<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>Fowler-SR2<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;scope&gt;</span>import<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;type&gt;</span>pom<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-dependencies<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>1.4.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;type&gt;</span>pom<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;scope&gt;</span>import<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencyManagement&gt;</span>
+</span></span></code></pre></div><h3 id="13-指定jdk版本">1.3 指定jdk版本</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;java.version&gt;</span>1.8<span style="color:#f92672">&lt;/java.version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/properties&gt;</span>
+</span></span></code></pre></div><h3 id="14-打包">1.4 打包</h3>
 <p>添加以下配置后，会生成一个可执行jar包</p>
-
-<pre><code class="language-xml">&lt;build&gt;
-    &lt;plugins&gt;
-        &lt;plugin&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-        &lt;/plugin&gt;
-    &lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre>
-
-<h3 id="1-5-俩个常用包">1.5 俩个常用包</h3>
-
-<p><code>spring-boot-starter-actuator</code>:管理配置和监控<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/build&gt;</span>
+</span></span></code></pre></div><h3 id="15-俩个常用包">1.5 俩个常用包</h3>
+<p><code>spring-boot-starter-actuator</code>:管理配置和监控
 <code>spring-boot-starter-remote-shell</code>:远程shell</p>
-
-<h2 id="二-代码结构">二、代码结构</h2>
-
-<pre><code>com
+<h2 id="二代码结构">二、代码结构</h2>
+<pre tabindex="0"><code>com
  +- example
      +- myproject
          +- Application.java
@@ -354,399 +327,304 @@
          |
          +- web
              +- CustomerController.java
-</code></pre>
-
-<p><code>Application.java</code>:启动类</p>
-
-<pre><code class="language-java">package com.example.myproject;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-</code></pre>
-
-<p><code>@SpringBootApplication</code>可以代替上面三个注解;<br />
-<code>@ComponentScan</code>:默认只扫描main下面的包，方便起见，最好是自己配@ComponentScan(&laquo;com.henry.exameple&raquo;)<br />
+</code></pre><p><code>Application.java</code>:启动类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.myproject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.SpringApplication<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.autoconfigure.EnableAutoConfiguration<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.context.annotation.ComponentScan<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableAutoConfiguration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ComponentScan</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>@SpringBootApplication </code>可以代替上面三个注解;
+<code>@ComponentScan</code>:默认只扫描main下面的包，方便起见，最好是自己配@ComponentScan(&ldquo;com.henry.exameple&rdquo;)
 <code>@ImportResource</code>:引入xml配置文件</p>
-
-<h2 id="三-启动和部署">三、启动和部署</h2>
-
-<h3 id="3-1-开发启动">3.1 开发启动</h3>
-
+<h2 id="三启动和部署">三、启动和部署</h2>
+<h3 id="31-开发启动">3.1 开发启动</h3>
 <ol>
-<li>运行main方法<br /></li>
-<li>执行jar包：<br />
-<code>java -jar target/myproject-0.0.1-SNAPSHOT.jar</code><br /></li>
-
-<li><p>远程调试:</p>
-
-<pre><code>java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/myproject-0.0.1-SNAPSHOT.jar
-</code></pre>
-
-<h3 id="3-2-热启动">3.2 热启动</h3></li>
+<li>运行main方法</li>
+<li>执行jar包：
+<code>java -jar target/myproject-0.0.1-SNAPSHOT.jar</code></li>
+<li>远程调试:</li>
 </ol>
-
-<h4 id="3-2-1-添加依赖">3.2.1 添加依赖</h4>
-
-<p>添加以下依赖，当代码变动时，它会自动进行重启应用<br />
-&gt; 注:这个插件会导致dubbo调用失败，具体原因未查)</p>
-
-<pre><code class="language-xml">&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
-        &lt;optional&gt;true&lt;/optional&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre>
-
-<p>或者使用springloaded插件来实现,这种情况下，只有debug时自动加载。</p>
-
-<pre><code class="language-xml">&lt;build&gt;
-    &lt;plugins&gt;
-        &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-                &lt;dependencies&gt;
-                	&lt;dependency&gt;
-	                    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-	                    &lt;artifactId&gt;springloaded&lt;/artifactId&gt;
-	                    &lt;version&gt;1.2.1.RELEASE&lt;/version&gt;
-                	&lt;/dependency&gt;
-                &lt;/dependencies&gt;
-            &lt;/plugin&gt;
-    &lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre>
-
-<h4 id="3-2-2-ide-自动加载">3.2.2 IDE 自动加载</h4>
-
+<pre tabindex="0"><code>java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/myproject-0.0.1-SNAPSHOT.jar
+</code></pre><h3 id="32-热启动">3.2 热启动</h3>
+<h4 id="321-添加依赖">3.2.1 添加依赖</h4>
+<p>添加以下依赖，当代码变动时，它会自动进行重启应用</p>
+<blockquote>
+<p>注:这个插件会导致dubbo调用失败，具体原因未查)</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-devtools<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>或者使用springloaded插件来实现,这种情况下，只有debug时自动加载。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>                	<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	                    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>	                    <span style="color:#f92672">&lt;artifactId&gt;</span>springloaded<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	                    <span style="color:#f92672">&lt;version&gt;</span>1.2.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>                	<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/build&gt;</span>
+</span></span></code></pre></div><h4 id="322-ide-自动加载">3.2.2 IDE 自动加载</h4>
 <ul>
-<li>eclipse：保存文件即可<br /></li>
-<li>idea：<code>Build</code> → <code>Make Project</code><br />
-<br /></li>
+<li>eclipse：保存文件即可</li>
+<li>idea：<code>Build</code> → <code>Make Project</code></li>
 </ul>
-
 <p><strong>注</strong>：使用<code>java -jar</code> 启动时，自动认为是生产环境，自动重启/加载将会失效。</p>
-
-<h4 id="3-2-3-配置">3.2.3 配置</h4>
-
+<h4 id="323-配置">3.2.3 配置</h4>
 <ol>
-<li>排除自动加载路径<br />
-<code>
-spring.devtools.restart.exclude=static/**,public/**
-</code><br /></li>
-
-<li><p>如果不希望每次保存文件都启动，可以通过trigger-file</p>
-
-<pre><code>spring.devtools.restart.trigger-file
-</code></pre>
-
-<h4 id="3-2-3-关闭restart">3.2.3 关闭restart</h4>
-
-<p>application.properties</p>
-
-<pre><code>spring.devtools.restart.enabled = false
-</code></pre>
-
-<h4 id="3-2-4-美化配置">3.2.4 美化配置</h4></li>
-
-<li><p>在resources下添加banner.txt,里面的内容将在启动时输出</p></li>
-
-<li><p>实现<code>org.springframework.boot.ExitCodeGenerator</code>可以自定义应用关闭时的返回</p></li>
+<li>排除自动加载路径</li>
 </ol>
-
-<h3 id="3-3-生产环境部署">3.3 生产环境部署</h3>
-
-<h4 id="3-3-1-init-d-启停">3.3.1 <code>init.d</code> 启停</h4>
-
-<p>spring boot可以直接用<code>nohup jar -jar myqpp.jar &gt;/dev/null 2&gt;&amp;1 &amp;</code><br />
-但是不好优雅stop，在有acutor时,可以通过如下方式<br />
+<pre tabindex="0"><code>spring.devtools.restart.exclude=static/**,public/**
+</code></pre><ol start="2">
+<li>如果不希望每次保存文件都启动，可以通过trigger-file</li>
+</ol>
+<pre tabindex="0"><code>spring.devtools.restart.trigger-file
+</code></pre><h4 id="323-关闭restart">3.2.3 关闭restart</h4>
+<p>application.properties</p>
+<pre tabindex="0"><code>spring.devtools.restart.enabled = false
+</code></pre><h4 id="324-美化配置">3.2.4 美化配置</h4>
+<ol>
+<li>在resources下添加banner.txt,里面的内容将在启动时输出</li>
+<li>实现<code>org.springframework.boot.ExitCodeGenerator</code>可以自定义应用关闭时的返回</li>
+</ol>
+<h3 id="33-生产环境部署">3.3 生产环境部署</h3>
+<h4 id="331-initd-启停">3.3.1 <code>init.d</code> 启停</h4>
+<p>spring boot可以直接用<code>nohup jar -jar myqpp.jar &gt;/dev/null 2&gt;&amp;1 &amp;</code>
+但是不好优雅stop，在有acutor时,可以通过如下方式
 1.Maven pom.xml:</p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>2.application.properties:</p>
-
-<pre><code class="language-properties">endpoints.shutdown.sensitive=false
-endpoints.shutdown.enabled=true
-</code></pre>
-
-<p>3.Send a post method to shutdown the app:</p>
-
-<pre><code class="language-shell">curl -X POST localhost:port/shutdown
-</code></pre>
-
-<p>但是不方便，推荐init.d。<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>2.application.properties:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">endpoints.shutdown.sensitive</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">endpoints.shutdown.enabled</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
+</span></span></code></pre></div><p>3.Send a post method to shutdown the app:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -X POST localhost:port/shutdown
+</span></span></code></pre></div><p>但是不方便，推荐init.d。
 启停可以自己写脚本实现，spring boot <code>init.d</code>服务，只要jar包是通过<code>spring-boot-maven-plugin</code>打包。</p>
-
-<pre><code class="language-bash">ln -s /var/myapp/myapp.jar /etc/init.d/myapp
-service myapp start|stop|restart
-</code></pre>
-
-<ul>
-<li>PID文件：/var/run/appname/appname.pid<br /></li>
-<li>启动日志：/var/log/appname.log<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /var/myapp/myapp.jar /etc/init.d/myapp
+</span></span><span style="display:flex;"><span>service myapp start|stop|restart
+</span></span></code></pre></div><ul>
+<li>PID文件：/var/run/appname/appname.pid</li>
+<li>启动日志：/var/log/appname.log</li>
 </ul>
-
-<p><strong>调整JVM启动参数：</strong><br />
-新建一个同名<code>.conf</code>文件。<br />
+<p><strong>调整JVM启动参数：</strong>
+新建一个同名<code>.conf</code>文件。
 <code>myapp.conf</code></p>
-
-<pre><code>JAVA_OPTS=-Xmx1024M
+<pre tabindex="0"><code>JAVA_OPTS=-Xmx1024M
 LOG_FOLDER=/custom/log/folder
-</code></pre>
-
-<p>个性化调整，可以配置</p>
-
-<h2 id="四-spring-boot配置">四、spring-boot配置</h2>
-
-<h3 id="4-1-application-properties">4.1 application.properties</h3>
-
-<p>详细见github<br />
+</code></pre><p>个性化调整，可以配置</p>
+<h2 id="四spring-boot配置">四、spring-boot配置</h2>
+<h3 id="41-applicationproperties">4.1 application.properties</h3>
+<p>详细见github
 <a href="https://github.com/ErDaoYa/spring-learn/blob/master/spring-boot/application.properties">https://github.com/ErDaoYa/spring-learn/blob/master/spring-boot/application.properties</a></p>
-
-<h3 id="4-2-环境相关配置">4.2 环境相关配置</h3>
-
+<h3 id="42-环境相关配置">4.2 环境相关配置</h3>
 <p>可以定义application-dev.properties，在启动时加载，application.properties,没有的配置，继续沿用。</p>
-
-<pre><code>java -jar target/***.jar --spring.profiles.active=dev
-</code></pre>
-
-<p>还可以直接指定配置文件启动</p>
-
-<pre><code>java -jar  ***.jar --spring.config.name=myproject
-</code></pre>
-
-<h2 id="五-个性化">五、个性化</h2>
-
-<h3 id="5-1-处理错误页面">5.1 处理错误页面</h3>
-
-<pre><code class="language-java">public class ContainerConfig {
-    @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer(){
-        return new MyCustomizer();
-    }
-    private static class MyCustomizer implements EmbeddedServletContainerCustomizer {
-        @Override
-        public void customize(ConfigurableEmbeddedServletContainer container) {
-            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, &quot;/500&quot;));
-        }
-    }
-</code></pre>
-
-<pre><code class="language-java">@RestController
-public class ExceptionController {
-    @RequestMapping(&quot;/exception&quot;)
-    public void catchException() {
-        throw new RuntimeException(&quot;error occur&quot;);
-    }
-
-    @RequestMapping(&quot;/500&quot;)
-    public void showServerError() {
-        throw new C403Exception(&quot;资源不可用&quot;,null);
-    }
-}
-</code></pre>
-
-<h3 id="5-2-messageconverters个性化配置">5.2 MessageConverters个性化配置</h3>
-
-<h4 id="4-2-1-自带jackson配置">4.2.1 自带Jackson配置</h4>
-
-<pre><code class="language-java">import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import java.util.List;
-/**
- * &lt;p&gt;jackson个性化配置&lt;/p&gt;
- * @author zhaozhou
- * Created on 2016/10/31.
- */
-@Configuration
-public class Jackson2HttpMessageConverter extends WebMvcConfigurerAdapter {
-    @Override
-    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {
-        converters.add(createFastJsonHttpMessageConverter());
-        super.configureMessageConverters(converters);
-    }
-    private MappingJackson2HttpMessageConverter createFastJsonHttpMessageConverter() {
-        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        jsonConverter.setObjectMapper(objectMapper);
-        return jsonConverter;
-    }
-}
-</code></pre>
-
-<h4 id="4-2-1-扩展fastjson">4.2.1 扩展fastjson</h4>
-
-<pre><code class="language-java">import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import java.util.ArrayList;
-import java.util.List;
-/**
- * &lt;p&gt;fastjson配置类&lt;/p&gt;
- * @since 1.0
- */
-@Configuration
-//@EnableWebMvc
-public class FastJsonHttpMessageConfig extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {
-        converters.add(createFastJsonHttpMessageConverter());
-        super.configureMessageConverters(converters);
-    }
-    private FastJsonHttpMessageConverter4 createFastJsonHttpMessageConverter() {
-
-        //spring mvc 4x 应该使用FastJsonHttpMessageConverter4
-        FastJsonHttpMessageConverter4 fastJsonHttpMessageConverter4= new FastJsonHttpMessageConverter4();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-
-        //特色配置
-        fastJsonConfig.setSerializerFeatures(
-//                SerializerFeature.PrettyFormat,/
-                SerializerFeature.DisableCircularReferenceDetect, //关闭引用支持
-                SerializerFeature.BrowserCompatible,
-                SerializerFeature.SkipTransientField,
-                SerializerFeature.QuoteFieldNames
-        );
-        fastJsonHttpMessageConverter4.setFastJsonConfig(fastJsonConfig);
-
-        //属性过滤器
-     /*   PropertyFilter filter = new PropertyFilter() {
-            public boolean apply(Object source, String name, Object value) {
-                if (null == name) {
-                    return false;
-                }
-                return true;
-            }
-        };*/
-//        fastJsonConfig.setSerializeFilters(filter);
-
-        // 设置MediaTypes
-        List&lt;MediaType&gt; mediaTypes =new ArrayList&lt;MediaType&gt;();
-        mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        fastJsonHttpMessageConverter4.setSupportedMediaTypes(mediaTypes);
-        return fastJsonHttpMessageConverter4;
-    }
-}
-</code></pre>
-
-<h3 id="5-3-静态文件目录和欢迎页设置">5.3 静态文件目录和欢迎页设置</h3>
-
+<pre tabindex="0"><code>java -jar target/***.jar --spring.profiles.active=dev
+</code></pre><p>还可以直接指定配置文件启动</p>
+<pre tabindex="0"><code>java -jar  ***.jar --spring.config.name=myproject
+</code></pre><h2 id="五个性化">五、个性化</h2>
+<h3 id="51-处理错误页面">5.1 处理错误页面</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ContainerConfig</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> EmbeddedServletContainerCustomizer <span style="color:#a6e22e">containerCustomizer</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> MyCustomizer<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCustomizer</span> <span style="color:#66d9ef">implements</span> EmbeddedServletContainerCustomizer <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">customize</span><span style="color:#f92672">(</span>ConfigurableEmbeddedServletContainer container<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            container<span style="color:#f92672">.</span><span style="color:#a6e22e">addErrorPages</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ErrorPage<span style="color:#f92672">(</span>HttpStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">NOT_FOUND</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;/500&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExceptionController</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/exception&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">catchException</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;error occur&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/500&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showServerError</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> C403Exception<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;资源不可用&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="52-messageconverters个性化配置">5.2 MessageConverters个性化配置</h3>
+<h4 id="421-自带jackson配置">4.2.1 自带Jackson配置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.fasterxml.jackson.annotation.JsonInclude<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.fasterxml.jackson.databind.DeserializationFeature<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.fasterxml.jackson.databind.ObjectMapper<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.http.converter.HttpMessageConverter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.http.converter.json.MappingJackson2HttpMessageConverter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;jackson个性化配置&lt;/p&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @author zhaozhou
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Created on 2016/10/31.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Jackson2HttpMessageConverter</span> <span style="color:#66d9ef">extends</span> WebMvcConfigurerAdapter <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configureMessageConverters</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>HttpMessageConverter<span style="color:#f92672">&lt;?&gt;&gt;</span> converters<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        converters<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>createFastJsonHttpMessageConverter<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">configureMessageConverters</span><span style="color:#f92672">(</span>converters<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> MappingJackson2HttpMessageConverter <span style="color:#a6e22e">createFastJsonHttpMessageConverter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        MappingJackson2HttpMessageConverter jsonConverter <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MappingJackson2HttpMessageConverter<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        ObjectMapper objectMapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectMapper<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        objectMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>DeserializationFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">FAIL_ON_UNKNOWN_PROPERTIES</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        objectMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">setSerializationInclusion</span><span style="color:#f92672">(</span>JsonInclude<span style="color:#f92672">.</span><span style="color:#a6e22e">Include</span><span style="color:#f92672">.</span><span style="color:#a6e22e">NON_NULL</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        jsonConverter<span style="color:#f92672">.</span><span style="color:#a6e22e">setObjectMapper</span><span style="color:#f92672">(</span>objectMapper<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> jsonConverter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="421-扩展fastjson">4.2.1 扩展fastjson</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.alibaba.fastjson.serializer.SerializerFeature<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.alibaba.fastjson.support.config.FastJsonConfig<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.http.MediaType<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.http.converter.HttpMessageConverter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.ArrayList<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;fastjson配置类&lt;/p&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @since 1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//@EnableWebMvc
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FastJsonHttpMessageConfig</span> <span style="color:#66d9ef">extends</span> WebMvcConfigurerAdapter <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configureMessageConverters</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>HttpMessageConverter<span style="color:#f92672">&lt;?&gt;&gt;</span> converters<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        converters<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>createFastJsonHttpMessageConverter<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">configureMessageConverters</span><span style="color:#f92672">(</span>converters<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> FastJsonHttpMessageConverter4 <span style="color:#a6e22e">createFastJsonHttpMessageConverter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//spring mvc 4x 应该使用FastJsonHttpMessageConverter4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        FastJsonHttpMessageConverter4 fastJsonHttpMessageConverter4<span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FastJsonHttpMessageConverter4<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        FastJsonConfig fastJsonConfig <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FastJsonConfig<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//特色配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        fastJsonConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">setSerializerFeatures</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//                SerializerFeature.PrettyFormat,/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                SerializerFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">DisableCircularReferenceDetect</span><span style="color:#f92672">,</span> <span style="color:#75715e">//关闭引用支持
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                SerializerFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">BrowserCompatible</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                SerializerFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">SkipTransientField</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                SerializerFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">QuoteFieldNames</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        fastJsonHttpMessageConverter4<span style="color:#f92672">.</span><span style="color:#a6e22e">setFastJsonConfig</span><span style="color:#f92672">(</span>fastJsonConfig<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//属性过滤器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#75715e">/*   PropertyFilter filter = new PropertyFilter() {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            public boolean apply(Object source, String name, Object value) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                if (null == name) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                    return false;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                return true;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        };*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//        fastJsonConfig.setSerializeFilters(filter);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 设置MediaTypes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        List<span style="color:#f92672">&lt;</span>MediaType<span style="color:#f92672">&gt;</span> mediaTypes <span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>MediaType<span style="color:#f92672">&gt;();</span>
+</span></span><span style="display:flex;"><span>        mediaTypes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>MediaType<span style="color:#f92672">.</span><span style="color:#a6e22e">APPLICATION_JSON_UTF8</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        fastJsonHttpMessageConverter4<span style="color:#f92672">.</span><span style="color:#a6e22e">setSupportedMediaTypes</span><span style="color:#f92672">(</span>mediaTypes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> fastJsonHttpMessageConverter4<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="53-静态文件目录和欢迎页设置">5.3 静态文件目录和欢迎页设置</h3>
 <p>同样在config中重写<code>addResourceHandlers</code>和<code>addViewControllers</code>方法;</p>
-
-<pre><code class="language-java">@Configuration
-public class WebConfig extends WebMvcConfigurerAdapter
-｛
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-            &quot;classpath:/dist/&quot;, &quot;classpath:/public/&quot; };
-    // @Value(&quot;${property:default value}&quot;)
-    @Value(&quot;${dubbor.web.welcome-file:index.html}&quot;)
-    private String welcomeFile;
-    ...
-｝
-</code></pre>
-
-<pre><code class="language-java">@Override
-public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    if (!registry.hasMappingForPattern(&quot;/webjars/**&quot;)) {
-        registry.addResourceHandler(&quot;/webjars/**&quot;).addResourceLocations(
-                &quot;classpath:/META-INF/resources/webjars/&quot;);
-    }
-    if (!registry.hasMappingForPattern(&quot;/**&quot;)) {
-        registry.addResourceHandler(&quot;/**&quot;).addResourceLocations(
-                CLASSPATH_RESOURCE_LOCATIONS);
-    }
-}
-</code></pre>
-
-<pre><code class="language-java">@Override
-public void addViewControllers(ViewControllerRegistry registry) {
-    if(!StringUtils.isEmpty(welcomeFile) || !&quot;index.html&quot;.equals(welcomeFile)){
-        registry.addViewController(&quot;/&quot;).setViewName(&quot;forward:&quot;+welcomeFile);
-        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-    }
-    super.addViewControllers( registry );
-}
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WebConfig</span> <span style="color:#66d9ef">extends</span> WebMvcConfigurerAdapter
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">｛</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String<span style="color:#f92672">[]</span> CLASSPATH_RESOURCE_LOCATIONS <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;classpath:/dist/&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;classpath:/public/&#34;</span> <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// @Value(&#34;${property:default value}&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Value</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${dubbor.web.welcome-file:index.html}&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String welcomeFile<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">｝</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addResourceHandlers</span><span style="color:#f92672">(</span>ResourceHandlerRegistry registry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">hasMappingForPattern</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceHandler</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">addResourceLocations</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;classpath:/META-INF/resources/webjars/&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">hasMappingForPattern</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/**&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceHandler</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">addResourceLocations</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                CLASSPATH_RESOURCE_LOCATIONS<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addViewControllers</span><span style="color:#f92672">(</span>ViewControllerRegistry registry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>StringUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>welcomeFile<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#e6db74">&#34;index.html&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>welcomeFile<span style="color:#f92672">)){</span>
+</span></span><span style="display:flex;"><span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addViewController</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">setViewName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;forward:&#34;</span><span style="color:#f92672">+</span>welcomeFile<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">setOrder</span><span style="color:#f92672">(</span> Ordered<span style="color:#f92672">.</span><span style="color:#a6e22e">HIGHEST_PRECEDENCE</span> <span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">addViewControllers</span><span style="color:#f92672">(</span> registry <span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#一-maven构建">一、maven构建</a>
-<ul>
-<li><a href="#1-1-继承boot超级parent">1.1 继承boot超级parent</a></li>
-<li><a href="#1-2-不继承parent">1.2 不继承parent</a></li>
-<li><a href="#1-3-指定jdk版本">1.3 指定jdk版本</a></li>
-<li><a href="#1-4-打包">1.4 打包</a></li>
-<li><a href="#1-5-俩个常用包">1.5 俩个常用包</a></li>
-</ul></li>
-<li><a href="#二-代码结构">二、代码结构</a></li>
-<li><a href="#三-启动和部署">三、启动和部署</a>
-<ul>
-<li><a href="#3-1-开发启动">3.1 开发启动</a></li>
-<li><a href="#3-2-热启动">3.2 热启动</a>
-<ul>
-<li><a href="#3-2-1-添加依赖">3.2.1 添加依赖</a></li>
-<li><a href="#3-2-2-ide-自动加载">3.2.2 IDE 自动加载</a></li>
-<li><a href="#3-2-3-配置">3.2.3 配置</a></li>
-<li><a href="#3-2-3-关闭restart">3.2.3 关闭restart</a></li>
-<li><a href="#3-2-4-美化配置">3.2.4 美化配置</a></li>
-</ul></li>
-<li><a href="#3-3-生产环境部署">3.3 生产环境部署</a>
-<ul>
-<li><a href="#3-3-1-init-d-启停">3.3.1 <code>init.d</code> 启停</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#四-spring-boot配置">四、spring-boot配置</a>
-<ul>
-<li><a href="#4-1-application-properties">4.1 application.properties</a></li>
-<li><a href="#4-2-环境相关配置">4.2 环境相关配置</a></li>
-</ul></li>
-<li><a href="#五-个性化">五、个性化</a>
-<ul>
-<li><a href="#5-1-处理错误页面">5.1 处理错误页面</a></li>
-<li><a href="#5-2-messageconverters个性化配置">5.2 MessageConverters个性化配置</a>
-<ul>
-<li><a href="#4-2-1-自带jackson配置">4.2.1 自带Jackson配置</a></li>
-<li><a href="#4-2-1-扩展fastjson">4.2.1 扩展fastjson</a></li>
-</ul></li>
-<li><a href="#5-3-静态文件目录和欢迎页设置">5.3 静态文件目录和欢迎页设置</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一maven构建">一、maven构建</a>
+      <ul>
+        <li><a href="#11-继承boot超级parent">1.1 继承boot超级parent</a></li>
+        <li><a href="#12-不继承parent">1.2 不继承parent</a></li>
+        <li><a href="#13-指定jdk版本">1.3 指定jdk版本</a></li>
+        <li><a href="#14-打包">1.4 打包</a></li>
+        <li><a href="#15-俩个常用包">1.5 俩个常用包</a></li>
+      </ul>
+    </li>
+    <li><a href="#二代码结构">二、代码结构</a></li>
+    <li><a href="#三启动和部署">三、启动和部署</a>
+      <ul>
+        <li><a href="#31-开发启动">3.1 开发启动</a></li>
+        <li><a href="#32-热启动">3.2 热启动</a></li>
+        <li><a href="#33-生产环境部署">3.3 生产环境部署</a></li>
+      </ul>
+    </li>
+    <li><a href="#四spring-boot配置">四、spring-boot配置</a>
+      <ul>
+        <li><a href="#41-applicationproperties">4.1 application.properties</a></li>
+        <li><a href="#42-环境相关配置">4.2 环境相关配置</a></li>
+      </ul>
+    </li>
+    <li><a href="#五个性化">五、个性化</a>
+      <ul>
+        <li><a href="#51-处理错误页面">5.1 处理错误页面</a></li>
+        <li><a href="#52-messageconverters个性化配置">5.2 MessageConverters个性化配置</a></li>
+        <li><a href="#53-静态文件目录和欢迎页设置">5.3 静态文件目录和欢迎页设置</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

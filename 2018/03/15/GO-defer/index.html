@@ -21,7 +21,7 @@
   	<meta property="og:title" content="GO-defer语句 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/03/15/GO-defer/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>GO-defer语句 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;quot;The finishing touches .&amp;quot;) 为什么叫延长函数，有" />
+    <meta name="description" content="概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;#34;The finishing touches .&amp;#34;) 为什么叫延长函数，有" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/03/15/GO-defer/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": GO-defer语句,
-    "name": GO-defer语句,
-    "wordCount": 708,
+    "headline": "GO-defer语句",
+    "name": "GO-defer语句",
+    "wordCount":  704 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/03/15/GO-defer/,
-    "datePublished": 2018-03-15T00:41Z,
-    "dateModified": 2018-03-15T00:41Z,
+    "url": "http://thoreauz.com/2018/03/15/GO-defer/",
+    "datePublished": "2018-03-15T00:41Z",
+    "dateModified": "2018-03-15T00:41Z",
     
-    "keywords": go,
-    "description": ,
+    "keywords": "go",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/03/15/GO-defer/
+        "@id": "http://thoreauz.com/2018/03/15/GO-defer/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,140 +243,113 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
-<p>defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为<code>延迟函数</code>。<br />
+      <h2 id="概述">概述</h2>
+<p>defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为<code>延迟函数</code>。
 格式：</p>
-
-<pre><code class="language-go">defer fmt.Println(&quot;The finishing touches .&quot;)
-</code></pre>
-
-<p>为什么叫延长函数，有这样的规则：<br />
-1. 包含defer的函数中所有语句被执行完，defer调用的函数被执行，才算此函数执行结束<br />
-2. 如果有return，需要defer调用结束，才返回值<br />
-3. 当出现panic时，defer被执行，才会扩散到调用方。</p>
-
-<!-- more -->
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;The finishing touches .&#34;</span>)
+</span></span></code></pre></div><p>为什么叫延长函数，有这样的规则：</p>
+<ol>
+<li>包含defer的函数中所有语句被执行完，defer调用的函数被执行，才算此函数执行结束</li>
+<li>如果有return，需要defer调用结束，才返回值</li>
+<li>当出现panic时，defer被执行，才会扩散到调用方。</li>
+</ol>
+<!-- raw HTML omitted -->
 <h2 id="示例1">示例1</h2>
-
 <p>看起来有点像java中的<code>finally</code>,在return和抛出异常后也一样会执行，可用于资源的关闭。但也不太一样，下面看一个示例：</p>
-
-<pre><code class="language-go">func main() {
-	fmt.Println(isPositiveEventNumber(1))
-}
-func isPositiveEventNumber(number int) (result bool) {
-	defer fmt.Println(&quot;done1..&quot;)
-	fmt.Println(&quot;start...&quot;)
-	if number&lt; 0 {
-		panic(errors.New(&quot;The number is a negative number!&quot;))
-	}
-	if number%2 == 0 {
-		return true
-	}
-	// 匿名函数
-	defer func() {
-		fmt.Println(&quot;done2..&quot;)
-	}()
-	return
-}
-</code></pre>
-
-<p>input: 1<br />
-&gt; start&hellip;<br />
-done2..<br />
-done1..<br />
-false</p>
-
-<p>input: 2<br />
-&gt;start&hellip;<br />
-done1..<br />
-true</p>
-
-<p>input: -1<br />
-&gt;start&hellip;<br />
-panic: The number is a negative number!<br />
-done1..<br />
-&hellip;</p>
-
-<p>输入1时，done2在done1之前输出，它是按照相反顺序输出。输入2时，done2并没有执行，因为return执行后就结束了，defer相当于放入了一个后进先出的队列，done2没有被放入队列。同样，在输入3时，panic执行后，还要执行defer。</p>
-
-<h2 id="示例2">示例2</h2>
-
-<pre><code class="language-go">func main() {
-	recode()
-}
-func begin(funcName string) string {
-	fmt.Println(&quot;function being&quot;)
-	return funcName
-}
-func end(funcName string) string{
-	 fmt.Println(&quot;function end&quot;)
-	 return funcName
-}
-func recode() {
-	defer end(begin(&quot;recode&quot;))
-	fmt.Println(&quot;function recode&quot;)
-}
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">isPositiveEventNumber</span>(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isPositiveEventNumber</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>) (<span style="color:#a6e22e">result</span> <span style="color:#66d9ef">bool</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;done1..&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;start...&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">number</span>&lt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;The number is a negative number!&#34;</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">number</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 匿名函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;done2..&#34;</span>)
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>input: 1</p>
 <blockquote>
-<p>function being<br />
-function recode<br />
+<p>start&hellip;
+done2..
+done1..
+false</p>
+</blockquote>
+<p>input: 2</p>
+<blockquote>
+<p>start&hellip;
+done1..
+true</p>
+</blockquote>
+<p>input: -1</p>
+<blockquote>
+<p>start&hellip;
+panic: The number is a negative number!
+done1..
+&hellip;</p>
+</blockquote>
+<p>输入1时，done2在done1之前输出，它是按照相反顺序输出。输入2时，done2并没有执行，因为return执行后就结束了，defer相当于放入了一个后进先出的队列，done2没有被放入队列。同样，在输入3时，panic执行后，还要执行defer。</p>
+<h2 id="示例2">示例2</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">recode</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">begin</span>(<span style="color:#a6e22e">funcName</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;function being&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">funcName</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">end</span>(<span style="color:#a6e22e">funcName</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span>{
+</span></span><span style="display:flex;"><span>	 <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;function end&#34;</span>)
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">funcName</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recode</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">end</span>(<span style="color:#a6e22e">begin</span>(<span style="color:#e6db74">&#34;recode&#34;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;function recode&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>function being
+function recode
 function end</p>
 </blockquote>
-
 <p>为什么会先执行begin，因为它的值作为end的参数，先求职。对于参数的问题，再看一个示例：</p>
-
-<pre><code class="language-go">func main() {
-	for i:=0; i&lt;5; i++ {
-		defer func() {
-			fmt.Printf(&quot;%d &quot;,i)
-		}()
-	}
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span>&lt;<span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d &#34;</span>,<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>		}()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
 <p>5 5 5 5 5</p>
 </blockquote>
-
 <p>为什么输出的不是4 3 2 1 0呢？因为这个匿名函数没有参数，不会先求值。如果把i作为参数，就会得到想要的结果:</p>
-
-<pre><code class="language-go">defer func(i int) {
-		fmt.Printf(&quot;%d &quot;,i)
-}(i)
-</code></pre>
-
-<p>也因此，使用要特别小心，如果延迟函数使用外部变量，最好作为参数传入。如果延迟函数return修改了外部值，有可能导致return结果的改变：</p>
-
-<pre><code class="language-go">func c() (i int) {
-	defer func() { i++ }()
-	return 1
-}
-</code></pre>
-
-<p>返回值为2。</p>
-
-<hr />
-
-<p>参考书目：<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d &#34;</span>,<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>}(<span style="color:#a6e22e">i</span>)
+</span></span></code></pre></div><p>也因此，使用要特别小心，如果延迟函数使用外部变量，最好作为参数传入。如果延迟函数return修改了外部值，有可能导致return结果的改变：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">c</span>() (<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> }()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>返回值为2。</p>
+<hr>
+<p>参考书目：
 go并发编程实战</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#示例1">示例1</a></li>
-<li><a href="#示例2">示例2</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#示例1">示例1</a></li>
+    <li><a href="#示例2">示例2</a></li>
+  </ul>
 </nav>
     </section>
 

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Netty实战-ChannelHandler &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Netty实战-ChannelHandler,
-    "name": Netty实战-ChannelHandler,
-    "wordCount": 1147,
+    "headline": "Netty实战-ChannelHandler",
+    "name": "Netty实战-ChannelHandler",
+    "wordCount":  1139 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/,
-    "datePublished": 2017-09-02T16:40Z,
-    "dateModified": 2017-09-02T16:40Z,
+    "url": "http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/",
+    "datePublished": "2017-09-02T16:40Z",
+    "dateModified": "2017-09-02T16:40Z",
     
-    "keywords": netty,
-    "description": ,
+    "keywords": "netty",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/
+        "@id": "http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,69 +243,50 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>ChannelPileline将ChannelHandler串联起来，形成一个处理逻辑。而ChannelhandlerContext管理上下文关系。</p>
-
+      <p>ChannelPileline将ChannelHandler串联起来，形成一个处理逻辑。而ChannelhandlerContext管理上下文关系。</p>
 <h2 id="channelhandler-和-channelpipeline">ChannelHandler 和 ChannelPipeline</h2>
-
 <p>Netty的channel生命周期是ChannelRegistered，ChannelActive，ChannelInactive，ChannelUnregistered。 一个ChannelHandler可以被添加和移除ChannelPipeline，而Context作为参数传入。</p>
-
-<p>Netty定义了下面个重要的ChannelHandler:<br />
-* ChannelInboundHandler：处理入站数据及各种变化<br />
-* ChannelOutboundHandler：处理出站数据及各种变化<br />
-* ChannelHandler适配器：分别提供了上俩类的基本实现，通过扩展类ChannelHandlerAdapter，获得了共同超接口 ChannelHandler方法。</p>
-
+<p>Netty定义了下面个重要的ChannelHandler:</p>
+<ul>
+<li>ChannelInboundHandler：处理入站数据及各种变化</li>
+<li>ChannelOutboundHandler：处理出站数据及各种变化</li>
+<li>ChannelHandler适配器：分别提供了上俩类的基本实现，通过扩展类ChannelHandlerAdapter，获得了共同超接口 ChannelHandler方法。</li>
+</ul>
 <p><strong>ChannelInboundHandler</strong></p>
-
 <p>当ChannelInboundHandler的实现重写channelRead()方法,他将负责显示地释放ByteBuf实例相关的内 。Netty为此提供了一个实用方 ReferenceCountUtil.release()，如下：</p>
-
-<pre><code class="language-java">@Sharable
-public class DiscardHandler extends ChannelInboundHandlerAdapter {
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ReferenceCountUtil.release(msg); 
-    }
-}
-
-</code></pre>
-
-<p>但显示释放还是有些繁琐，如果没释放，需要通过WARN日志检查，SimpleChannelInboundHandler则会自动释放资源，如果存储对资源的引用，将会失效。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Sharable</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DiscardHandler</span> <span style="color:#66d9ef">extends</span> ChannelInboundHandlerAdapter <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">channelRead</span><span style="color:#f92672">(</span>ChannelHandlerContext ctx<span style="color:#f92672">,</span> Object msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        ReferenceCountUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">release</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>但显示释放还是有些繁琐，如果没释放，需要通过WARN日志检查，SimpleChannelInboundHandler则会自动释放资源，如果存储对资源的引用，将会失效。</p>
 <p><strong>ChannelOutboundHandler</strong></p>
-
 <p>ChannelOutboundHandler一个强大的功能是可以按需推迟操作或者事件。它的大部分方法都需要一个 ChannelPromise参数，以便在完成时通知。ChannelPromise是ChannelFuture的一个子类,其定义了一些可写的方法,如setSuccess()和setFailure(), 从而使ChannelFuture可变。</p>
-
 <p>不管是入站还是出站，消息被消费或者丢弃，需要传递给下一个handler，否则用户有责任主动释放。如果一直传递到传输层，Channel关闭时，都将被自动释放。</p>
-
 <h2 id="channelpipeline">ChannelPipeline</h2>
-
 <p>ChannelPipeline 好比是ChannelHandler的一个链。 一个新创建的Channel将会被分到一个新的 ChannelPipeline，关联是永久性的，Channel不能附加外一个ChannelPipeline, 也不能分分离它。</p>
-
 <p>ChannelHandlerContext使得ChannelHandler能够和它的ChannelPipeline以及其他的ChannelHandler交互。 ChannelHandler可以通知其属下的ChannelPipeline的下一个ChannelHandler, 甚至可以动态改变它所属的Pipeline。</p>
-
-<p><img src="http://thoreauz.com/images/2017-08-26-10-52-43.jpg" alt="" /></p>
-
-<hr />
-
-<p>参考列表：<br />
-* <a href="http://remcarpediem.com/2017/03/22/Netty%E6%BA%90%E7%A0%81-%E4%B8%80-Netty%E4%B8%AD%E7%9A%84Buffer/">http://remcarpediem.com/2017/03/22/Netty%E6%BA%90%E7%A0%81-%E4%B8%80-Netty%E4%B8%AD%E7%9A%84Buffer/</a><br />
-* <a href="http://yihongwei.com/2014/01/netty-4-x-channel-pipeline/">http://yihongwei.com/2014/01/netty-4-x-channel-pipeline/</a><br />
-* <a href="http://www.jianshu.com/u/4fdc8c2315e8">http://www.jianshu.com/u/4fdc8c2315e8</a><br />
-* <a href="http://www.infoq.com/cn/articles/netty-threading-model">http://www.infoq.com/cn/articles/netty-threading-model</a><br />
-* <a href="http://remcarpediem.com/2017/03/27/Netty%E6%BA%90%E7%A0%81-%E4%BA%8C-Netty%E7%9A%84Channel%E5%92%8CPipeline/">http://remcarpediem.com/2017/03/27/Netty%E6%BA%90%E7%A0%81-%E4%BA%8C-Netty%E7%9A%84Channel%E5%92%8CPipeline/</a></p>
+<p><img src="http://thoreauz.com/images/2017-08-26-10-52-43.jpg" alt=""></p>
+<hr>
+<p>参考列表：</p>
+<ul>
+<li><a href="http://remcarpediem.com/2017/03/22/Netty%E6%BA%90%E7%A0%81-%E4%B8%80-Netty%E4%B8%AD%E7%9A%84Buffer/">http://remcarpediem.com/2017/03/22/Netty%E6%BA%90%E7%A0%81-%E4%B8%80-Netty%E4%B8%AD%E7%9A%84Buffer/</a></li>
+<li><a href="http://yihongwei.com/2014/01/netty-4-x-channel-pipeline/">http://yihongwei.com/2014/01/netty-4-x-channel-pipeline/</a></li>
+<li><a href="http://www.jianshu.com/u/4fdc8c2315e8">http://www.jianshu.com/u/4fdc8c2315e8</a></li>
+<li><a href="http://www.infoq.com/cn/articles/netty-threading-model">http://www.infoq.com/cn/articles/netty-threading-model</a></li>
+<li><a href="http://remcarpediem.com/2017/03/27/Netty%E6%BA%90%E7%A0%81-%E4%BA%8C-Netty%E7%9A%84Channel%E5%92%8CPipeline/">http://remcarpediem.com/2017/03/27/Netty%E6%BA%90%E7%A0%81-%E4%BA%8C-Netty%E7%9A%84Channel%E5%92%8CPipeline/</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#channelhandler-和-channelpipeline">ChannelHandler 和 ChannelPipeline</a></li>
-<li><a href="#channelpipeline">ChannelPipeline</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#channelhandler-和-channelpipeline">ChannelHandler 和 ChannelPipeline</a></li>
+    <li><a href="#channelpipeline">ChannelPipeline</a></li>
+  </ul>
 </nav>
     </section>
 

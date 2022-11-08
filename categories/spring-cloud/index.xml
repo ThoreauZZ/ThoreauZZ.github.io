@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>spring cloud on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Fri, 11 Aug 2017 20:12:38 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/categories/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 11 Aug 2017 20:12:38 +0000</lastBuildDate><atom:link href="http://thoreauz.com/categories/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ribbon源码阅读</title>
       <link>http://thoreauz.com/2017/08/11/Ribbon/</link>
@@ -27,7 +23,7 @@
       <pubDate>Mon, 24 Apr 2017 17:33:45 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/04/24/spring-cloud-config-json/</guid>
-      <description>假设现在有这样一个接口： GET /emojes { &amp;quot;emojies&amp;quot;: [{ &amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;呵呵&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://xxx.png&amp;quot; }, { &amp;quot;id&amp;quot;: &amp;quot;2&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;嘿嘿&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://ooo.png&amp;quot; }] } 里面的数据希望存储</description>
+      <description>假设现在有这样一个接口： GET /emojes { &amp;#34;emojies&amp;#34;: [{ &amp;#34;id&amp;#34;: &amp;#34;1&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;呵呵&amp;#34;, &amp;#34;uri&amp;#34;: &amp;#34;http://xxx.png&amp;#34; }, { &amp;#34;id&amp;#34;: &amp;#34;2&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;嘿嘿&amp;#34;, &amp;#34;uri&amp;#34;: &amp;#34;http://ooo.png&amp;#34; }] } 里面的数据希望存储在配置中</description>
     </item>
     
     <item>
@@ -54,7 +50,7 @@
       <pubDate>Mon, 13 Feb 2017 20:12:00 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/02/13/spring-restful-exception-status/</guid>
-      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;quot;/trade/order&amp;quot;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
+      <description>异常处理和状态码 一、自定义异常类 OrderNotFoundException.java @ResponseStatus(HttpStatus.NOT_FOUND) public class OrderNotFoundException extends RuntimeException { public OrderNotFoundException(String message) { super(message); } } @RequestMapping(value = &amp;#34;/trade/order&amp;#34;, method = RequestMethod.GET) public Order doGet(@RequestParam Long id) { if (id == 1L) { Order order = new Order(); order.setId(1L); order.setCustomerId(1L); order.setPrice(12.32); order.setSellerId(2L); return order; } else { throw new OrderN</description>
     </item>
     
     <item>

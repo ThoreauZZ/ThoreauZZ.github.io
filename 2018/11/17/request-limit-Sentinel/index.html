@@ -21,7 +21,7 @@
   	<meta property="og:title" content="限流-阿里开源Sentinel &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/11/17/request-limit-Sentinel/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/11/17/request-limit-Sentinel/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 限流-阿里开源Sentinel,
-    "name": 限流-阿里开源Sentinel,
-    "wordCount": 4562,
-    "timeRequired": "PT10M",
+    "headline": "限流-阿里开源Sentinel",
+    "name": "限流-阿里开源Sentinel",
+    "wordCount":  4457 ,
+    "timeRequired": "PT9M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/11/17/request-limit-Sentinel/,
-    "datePublished": 2018-11-17T13:48Z,
-    "dateModified": 2018-11-17T13:48Z,
+    "url": "http://thoreauz.com/2018/11/17/request-limit-Sentinel/",
+    "datePublished": "2018-11-17T13:48Z",
+    "dateModified": "2018-11-17T13:48Z",
     
-    "keywords": 分布式系统,
-    "description": ,
+    "keywords": "分布式系统",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/11/17/request-limit-Sentinel/
+        "@id": "http://thoreauz.com/2018/11/17/request-limit-Sentinel/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,231 +243,228 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="sentinel作用">Sentinel作用</h2>
-
+      <h2 id="sentinel作用">Sentinel作用</h2>
 <p>Sentinelm，分布式系统的流量防卫兵，可以从多个维度保护应用，广泛用于阿里各个系统，是大促稳定性保障的关键。现已开源，github地址<a href="https://github.com/alibaba/Sentinel">Sentinel</a>。</p>
-
-<p>最常用的场景就是限流，比方说提供某个http接口的服务，经过压测，我单机qps只能达到500，流量再大就可能导致系统崩溃，从而无法提供服务。参考压测进过，可以对此接口限流500，一旦超过，其他请求就快速失败，从而保证系统正常工作不被压垮。sentinel总结起来主要有以下作用：<br />
-1. 保护服务提供方不被过于频繁的调用压垮。<br />
-2. 保护服务调用方不被不可用的服务拖死。<br />
-3. 保护系统不超过负载。</p>
-
-<p>Sentinel 的开源生态：<br />
-<img src="https://user-images.githubusercontent.com/9434884/46240214-9c72ff80-c3d6-11e8-937a-0cffa1e8dc58.png" alt="" /><br />
-&gt; 图1: 来源：sentinel github wiki</p>
-
-<!-- more -->
-
+<p>最常用的场景就是限流，比方说提供某个http接口的服务，经过压测，我单机qps只能达到500，流量再大就可能导致系统崩溃，从而无法提供服务。参考压测进过，可以对此接口限流500，一旦超过，其他请求就快速失败，从而保证系统正常工作不被压垮。sentinel总结起来主要有以下作用：</p>
+<ol>
+<li>保护服务提供方不被过于频繁的调用压垮。</li>
+<li>保护服务调用方不被不可用的服务拖死。</li>
+<li>保护系统不超过负载。</li>
+</ol>
+<p>Sentinel 的开源生态：
+<img src="https://user-images.githubusercontent.com/9434884/46240214-9c72ff80-c3d6-11e8-937a-0cffa1e8dc58.png" alt=""></p>
+<blockquote>
+<p>图1: 来源：sentinel github wiki</p>
+</blockquote>
+<!-- raw HTML omitted -->
 <h2 id="qps限流示例">qps限流示例</h2>
-
 <p>下文通过一个示例，见<a href="https://github.com/alibaba/Sentinel">github</a>下sentinel-demo/sentinel-demo-basic。其他如spring的整合见spring-cloud-starter-alibaba-sentinel<a href="https://github.com/spring-cloud-incubator/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-examples/sentinel-example/sentinel-core-example/readme-zh.md">文档</a></p>
-
-<pre><code class="language-java">static class RunTask implements Runnable {
-    @Override
-    public void run() {
-        while (!stop) {
-            Entry entry = null;
-
-            try {
-                // 1.获取token，如果不能，将会抛出BlockException
-                entry = SphU.entry(KEY);
-                pass.addAndGet(1);
-            } catch (BlockException e1) {
-                block.incrementAndGet();
-            } catch (Exception e2) {
-                // biz exception
-            } finally {
-                total.incrementAndGet();
-                if (entry != null) {
-                    // 2. 退出
-                    entry.exit();
-                }
-            }
-            Random random2 = new Random();
-            try {
-                TimeUnit.MILLISECONDS.sleep(random2.nextInt(50));
-            } catch (InterruptedException e) {
-            }
-        }
-    }
-}
-</code></pre>
-
-<p>上面只是截取了FlowQpsDemo的一段代码，这个示例主要做了几个工作：<br />
-1. 初始化限流规则,限流20<br />
-2. 开启32个线程循环执行RunTask，并把总qps/通过qps/限流qps分表计入3个AtomicInteger<br />
-3. 开启一个定时任务，每秒统计一次3个AtomicInteger的值，作为统计数据输出</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RunTask</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>stop<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Entry entry <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 1.获取token，如果不能，将会抛出BlockException
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                entry <span style="color:#f92672">=</span> SphU<span style="color:#f92672">.</span><span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span>KEY<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                pass<span style="color:#f92672">.</span><span style="color:#a6e22e">addAndGet</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>BlockException e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                block<span style="color:#f92672">.</span><span style="color:#a6e22e">incrementAndGet</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// biz exception
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                total<span style="color:#f92672">.</span><span style="color:#a6e22e">incrementAndGet</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>entry <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// 2. 退出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    entry<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            Random random2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Random<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span><span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>random2<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">(</span>50<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>上面只是截取了FlowQpsDemo的一段代码，这个示例主要做了几个工作：</p>
+<ol>
+<li>初始化限流规则,限流20</li>
+<li>开启32个线程循环执行RunTask，并把总qps/通过qps/限流qps分表计入3个AtomicInteger</li>
+<li>开启一个定时任务，每秒统计一次3个AtomicInteger的值，作为统计数据输出</li>
+</ol>
 <p>如:</p>
-
-<pre><code>1541907654105, total:1185, pass:20, block:1165
+<pre tabindex="0"><code>1541907654105, total:1185, pass:20, block:1165
 46 send qps is: 1218
 1541907655110, total:1218, pass:21, block:1197
 45 send qps is: 1130
 1541907656115, total:1130, pass:20, block:1110
 44 send qps is: 1177
 1541907657119, total:1177, pass:22, block:1155
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>出现大于20的情况，因为统计线程有误差。那么，sentinel之所以能限流，肯定也统计了qps，有误差么？这个问题以后讨论</p>
 </blockquote>
-
 <h2 id="概念名词解释">概念名词解释</h2>
-
-<p><img src="http://thoreauz.com/images/2018-11-13-17-20-08.jpg" alt="" /><br />
-&gt; 图2</p>
-
+<p><img src="http://thoreauz.com/images/2018-11-13-17-20-08.jpg" alt=""></p>
+<blockquote>
+<p>图2</p>
+</blockquote>
 <p>可以理解，上图为一个应用，其中ABCDEF为可以对其授权、限流、降级的入口，在sentinel中也叫<strong>切入点</strong>。比如现在访问C的qps为100，但是有可能A-&gt;C的访问频繁但不是很重要，而B-C次数不多但比较关键。此时我只想对A-&gt;C限流，于是就需要一个链路的概念，途中1、2、3组成3条<strong>链路</strong>，链路上的切入点也叫<strong>树节点</strong>。这些切入点可能处于不同链路如C，于是把用来汇总切入点信息的叫<strong>簇结点</strong>。</p>
-
 <p>示最简单的示例中，sentinel入口代码，定义一个切入口。</p>
-
-<pre><code class="language-java">// 为需要保护的资源(概念或者逻辑上)定义一个入口，所有访问资源的请求都需要从此入口申请令牌
-Entry entry = SphU.entry(“自定义资源名”);
-</code></pre>
-
-<p>如果要把节点纳入链路中，需要根据链路限流，需要通过上下文（Context）声明链路入口如：</p>
-
-<pre><code class="language-java">ContextUtil.enter(&quot;entrance1&quot;, &quot;appA&quot;);
-Entry nodeA = SphU.entry(&quot;nodeA&quot;);
-if (nodeA != null) {
-nodeA.exit();
-}
- ContextUtil.exit();
-</code></pre>
-
-<h2 id="原理">原理</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 为需要保护的资源(概念或者逻辑上)定义一个入口，所有访问资源的请求都需要从此入口申请令牌
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Entry entry <span style="color:#f92672">=</span> SphU<span style="color:#f92672">.</span><span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">“</span>自定义资源名<span style="color:#960050;background-color:#1e0010">”</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>如果要把节点纳入链路中，需要根据链路限流，需要通过上下文（Context）声明链路入口如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ContextUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">enter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;entrance1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;appA&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Entry nodeA <span style="color:#f92672">=</span> SphU<span style="color:#f92672">.</span><span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;nodeA&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>nodeA <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>nodeA<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span> ContextUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">();</span>
+</span></span></code></pre></div><h2 id="原理">原理</h2>
 <p>还是从示例FlowQpsDemo，进入<code>entry = SphU.entry(KEY)</code>代码开始分析；</p>
-
-<pre><code class="language-java">// 为了获取令牌，从此入口进入，通过一些列ProcessorSlot校验限流规则，能通过返回Entry，否则抛BlockException
-public Entry entry(ResourceWrapper resourceWrapper, int count, Object... args) throws BlockException {
-    Context context = ContextUtil.getContext();
-    if (context instanceof NullContext) {
-         return new CtEntry(resourceWrapper, null, context);
-    }
-    if (context == null) {
-        // Using default context.
-        context = MyContextUtil.myEnter(Constants.CONTEXT_DEFAULT_NAME, &quot;&quot;, resourceWrapper.getType());
-    }
-    // 2
-    ProcessorSlot&lt;Object&gt; chain = lookProcessChain(resourceWrapper);
-
-    /*
-     * Means amount of resources (slot chain) exceeds {@link Constants.MAX_SLOT_CHAIN_SIZE},
-     * so no rule checking will be done.
-     */
-    if (chain == null) {
-        return new CtEntry(resourceWrapper, null, context);
-    }
-
-    Entry e = new CtEntry(resourceWrapper, chain, context);
-    try {
-        chain.entry(context, resourceWrapper, null, count, args);
-    } catch (BlockException e1) {
-        e.exit(count, args);
-        throw e1;
-    } catch (Throwable e1) {
-        // This should not happen, unless there are errors existing in Sentinel internal.
-        RecordLog.info(&quot;Sentinel unexpected exception&quot;, e1);
-    }
-    return e;
-}
-</code></pre>
-
-<ol>
-<li>从threadLocal获取Context，没有就使用默认Context<br /></li>
-<li>获取处理Slot(ProcessorSlot)<br /></li>
-<li>执行Slot的entry方法，校验通过则返回Entry<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 为了获取令牌，从此入口进入，通过一些列ProcessorSlot校验限流规则，能通过返回Entry，否则抛BlockException
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> Entry <span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span>ResourceWrapper resourceWrapper<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> count<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> BlockException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Context context <span style="color:#f92672">=</span> ContextUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getContext</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context <span style="color:#66d9ef">instanceof</span> NullContext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CtEntry<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> context<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Using default context.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        context <span style="color:#f92672">=</span> MyContextUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">myEnter</span><span style="color:#f92672">(</span>Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">CONTEXT_DEFAULT_NAME</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ProcessorSlot<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> chain <span style="color:#f92672">=</span> lookProcessChain<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Means amount of resources (slot chain) exceeds {@link Constants.MAX_SLOT_CHAIN_SIZE},
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * so no rule checking will be done.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>chain <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CtEntry<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> context<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Entry e <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CtEntry<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">,</span> chain<span style="color:#f92672">,</span> context<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        chain<span style="color:#f92672">.</span><span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span>context<span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>BlockException e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        e<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(</span>count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> e1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// This should not happen, unless there are errors existing in Sentinel internal.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        RecordLog<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Sentinel unexpected exception&#34;</span><span style="color:#f92672">,</span> e1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> e<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ol>
+<li>从threadLocal获取Context，没有就使用默认Context</li>
+<li>获取处理Slot(ProcessorSlot)</li>
+<li>执行Slot的entry方法，校验通过则返回Entry</li>
 </ol>
-
 <p>整个设计模式和netty类似：</p>
-
-<p>|责任链模式|netty |sentinel|<br />
-|&mdash;|&mdash;|&mdash;|&mdash;|&mdash;|<br />
-|链|ChannelPipeline | chain |<br />
-|处理器|ChannelHandler| ProcessorSlot  |<br />
-|上下文,携带元数据|ChannelHandlerContext|Context   |<br />
-|不同|双向链表|单向链表|</p>
-
+<table>
+<thead>
+<tr>
+<th>责任链模式</th>
+<th>netty</th>
+<th>sentinel</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>链</td>
+<td>ChannelPipeline</td>
+<td>chain</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>处理器</td>
+<td>ChannelHandler</td>
+<td>ProcessorSlot</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>上下文,携带元数据</td>
+<td>ChannelHandlerContext</td>
+<td>Context</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>不同</td>
+<td>双向链表</td>
+<td>单向链表</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>所以下文重点看采用了哪些ProcessorSlot。</p>
-
 <h3 id="processorslot">ProcessorSlot</h3>
-
 <p>先看lookProcessChain是如何创建ProcessorSlotChain。</p>
-
-<pre><code class="language-java">ProcessorSlot&lt;Object&gt; lookProcessChain(ResourceWrapper resourceWrapper) {
-    // 更加资源wrapper从缓存查询
-    ProcessorSlotChain chain = chainMap.get(resourceWrapper);
-    if (chain == null) {
-        // 缓存不存在，加锁双重检查创建chain
-        synchronized (LOCK) { 
-            chain = chainMap.get(resourceWrapper);
-            if (chain == null) {
-                if (chainMap.size() &gt;= Constants.MAX_SLOT_CHAIN_SIZE) {
-                    return null;
-                }
-                chain = SlotChainProvider.newSlotChain();
-                Map&lt;ResourceWrapper, ProcessorSlotChain&gt; newMap = new HashMap&lt;ResourceWrapper, ProcessorSlotChain&gt;(
-                    chainMap.size() + 1);
-                newMap.putAll(chainMap);
-                newMap.put(resourceWrapper, chain);
-                chainMap = newMap;
-            }
-        }
-    }
-    return chain;
-}
-</code></pre>
-
-<p>我们接着看<code>chain = SlotChainProvider.newSlotChain()</code>如何创建chain，跟踪代码发现DefaultSlotChainBuilder这个类，build方法如下。</p>
-
-<pre><code class="language-java"> public ProcessorSlotChain build() {
-    ProcessorSlotChain chain = new DefaultProcessorSlotChain();
-    chain.addLast(new NodeSelectorSlot());
-    chain.addLast(new ClusterBuilderSlot());
-    chain.addLast(new LogSlot());
-    chain.addLast(new StatisticSlot());
-    chain.addLast(new SystemSlot());
-    chain.addLast(new AuthoritySlot());
-    chain.addLast(new FlowSlot());
-    chain.addLast(new DegradeSlot());
-    return chain;
-}
-</code></pre>
-
-<ul>
-<li>NodeSelectorSlot 负责收集资源的路径，并将这些资源的调用路径，以树状结构存储起来，用于根据调用路径来限流降级；<br /></li>
-<li>ClusterBuilderSlot 则用于存储资源的统计信息以及调用者信息，例如该资源的 RT, QPS, thread count 等等，这些信息将用作为多维度限流，降级的依据；<br /></li>
-<li>StatisticSlot 则用于记录、统计不同纬度的 runtime 指标监控信息；<br /></li>
-<li>FlowSlot 则用于根据预设的限流规则以及前面 slot 统计的状态，来进行流量控制；<br /></li>
-<li>AuthoritySlot 则根据配置的黑白名单和调用来源信息，来做黑白名单控制；<br /></li>
-<li>DegradeSlot 则通过统计信息以及预设的规则，来做熔断降级；<br /></li>
-<li>SystemSlot 则通过系统的状态，例如 load1 等，来控制总的入口流量；<br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ProcessorSlot<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">lookProcessChain</span><span style="color:#f92672">(</span>ResourceWrapper resourceWrapper<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 更加资源wrapper从缓存查询
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ProcessorSlotChain chain <span style="color:#f92672">=</span> chainMap<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>chain <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 缓存不存在，加锁双重检查创建chain
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>LOCK<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>            chain <span style="color:#f92672">=</span> chainMap<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>chain <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>chainMap<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;=</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_SLOT_CHAIN_SIZE</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                chain <span style="color:#f92672">=</span> SlotChainProvider<span style="color:#f92672">.</span><span style="color:#a6e22e">newSlotChain</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                Map<span style="color:#f92672">&lt;</span>ResourceWrapper<span style="color:#f92672">,</span> ProcessorSlotChain<span style="color:#f92672">&gt;</span> newMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>ResourceWrapper<span style="color:#f92672">,</span> ProcessorSlotChain<span style="color:#f92672">&gt;(</span>
+</span></span><span style="display:flex;"><span>                    chainMap<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                newMap<span style="color:#f92672">.</span><span style="color:#a6e22e">putAll</span><span style="color:#f92672">(</span>chainMap<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                newMap<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">,</span> chain<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                chainMap <span style="color:#f92672">=</span> newMap<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> chain<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>我们接着看<code>chain = SlotChainProvider.newSlotChain()</code>如何创建chain，跟踪代码发现DefaultSlotChainBuilder这个类，build方法如下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> ProcessorSlotChain <span style="color:#a6e22e">build</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ProcessorSlotChain chain <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultProcessorSlotChain<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> NodeSelectorSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ClusterBuilderSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> LogSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> StatisticSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> SystemSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> AuthoritySlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FlowSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    chain<span style="color:#f92672">.</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DegradeSlot<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> chain<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>NodeSelectorSlot 负责收集资源的路径，并将这些资源的调用路径，以树状结构存储起来，用于根据调用路径来限流降级；</li>
+<li>ClusterBuilderSlot 则用于存储资源的统计信息以及调用者信息，例如该资源的 RT, QPS, thread count 等等，这些信息将用作为多维度限流，降级的依据；</li>
+<li>StatisticSlot 则用于记录、统计不同纬度的 runtime 指标监控信息；</li>
+<li>FlowSlot 则用于根据预设的限流规则以及前面 slot 统计的状态，来进行流量控制；</li>
+<li>AuthoritySlot 则根据配置的黑白名单和调用来源信息，来做黑白名单控制；</li>
+<li>DegradeSlot 则通过统计信息以及预设的规则，来做熔断降级；</li>
+<li>SystemSlot 则通过系统的状态，例如 load1 等，来控制总的入口流量；</li>
 </ul>
-
-<p>总体框架图：<br />
-<img src="https://github.com/alibaba/Sentinel/raw/master/doc/image/slots.gif" alt="" /><br />
-&gt; 图3</p>
-
-<p><img src="https://user-images.githubusercontent.com/9434884/46783631-93324d00-cd5d-11e8-8ad1-a802bcc8f9c9.png" alt="" /><br />
-&gt;图4: 3/4来源：sentinel github wiki</p>
-
+<p>总体框架图：
+<img src="https://github.com/alibaba/Sentinel/raw/master/doc/image/slots.gif" alt=""></p>
+<blockquote>
+<p>图3</p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/9434884/46783631-93324d00-cd5d-11e8-8ad1-a802bcc8f9c9.png" alt=""></p>
+<blockquote>
+<p>图4: 3/4来源：sentinel github wiki</p>
+</blockquote>
 <p>下午详细看看几个slot。</p>
-
 <h3 id="nodeselectorslot">NodeSelectorSlot</h3>
-
 <p>从上文可知，NodeSelectorSlot对象是根据resourceWrapper缓存，也就是说，图2中BC节点(资源/入口)分别拥有不同NodeSelectorSlot对象。NodeSelectorSlot缓存了对应节点DefaultNode。</p>
-
 <p>但是，缓存DefaultNode的key不是资源名，因为同一个资源可能处于不同链路，所以，sentinel采用Context的名字来缓存DefaultNode，从而构建不同链路的节点树；</p>
-
 <p>图3中treenode还有一种结构没有画出来：</p>
-
-<pre><code> *                  machine-root
+<pre tabindex="0"><code> *                  machine-root
  *                  /         \
  *                 /           \
  *         EntranceNode1   EntranceNode2
@@ -475,314 +473,270 @@ public Entry entry(ResourceWrapper resourceWrapper, int count, Object... args) t
  *      DefaultNode(nodeA)   DefaultNode(nodeA)
  *             |                    |
  *             +- - - - - - - - - - +- - - - - - -&gt; ClusterNode(nodeA);
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>图5</p>
 </blockquote>
-
 <h3 id="clusterbuilderslot">ClusterBuilderSlot</h3>
-
 <p>ClusterBuilderSlot用来创建构建资源的ClusterNode，主要维护资源的运行时统计数据，比如响应时间、qps、线程数、异常等。一个资源有一个clusterNode，但可以有多个defaultNode，如上图5。</p>
-
 <h3 id="statisticslot">StatisticSlot</h3>
-
-<p>StatisticSlot 是 Sentinel 的核心功能插槽之一，用于统计实时的调用数据，维护到NodeSelectorSlot和ClusterBuilderSlot创建的数据结构中：<br />
-* clusterNode：资源唯一标识的 ClusterNode 的 runtime 统计<br />
-* origin：根据来自不同调用者的统计信息<br />
-* defaultnode: 根据上下文条目名称和资源 ID 的 runtime 统计<br />
-* 入口的统计</p>
-
+<p>StatisticSlot 是 Sentinel 的核心功能插槽之一，用于统计实时的调用数据，维护到NodeSelectorSlot和ClusterBuilderSlot创建的数据结构中：</p>
+<ul>
+<li>clusterNode：资源唯一标识的 ClusterNode 的 runtime 统计</li>
+<li>origin：根据来自不同调用者的统计信息</li>
+<li>defaultnode: 根据上下文条目名称和资源 ID 的 runtime 统计</li>
+<li>入口的统计</li>
+</ul>
 <p>核心代码：</p>
-
-<pre><code class="language-java">@Override
-public void entry(Context context, ResourceWrapper resourceWrapper, DefaultNode node, int count, Object... args)
-    throws Throwable {
-    try {
-        fireEntry(context, resourceWrapper, node, count, args);
-        // 线程+1
-        node.increaseThreadNum();
-        // 通过请求数+1
-        node.addPassRequest();
-
-        if (context.getCurEntry().getOriginNode() != null) {
-            // 如果origin不为空，也更新数据
-            context.getCurEntry().getOriginNode().increaseThreadNum();
-            context.getCurEntry().getOriginNode().addPassRequest();
-        }
-
-        if (resourceWrapper.getType() == EntryType.IN) {
-            // ru入站请求，全局统计
-            Constants.ENTRY_NODE.increaseThreadNum();
-            Constants.ENTRY_NODE.addPassRequest();
-        }
-        
-        for (ProcessorSlotEntryCallback&lt;DefaultNode&gt; handler : StatisticSlotCallbackRegistry.getEntryCallbacks()) {
-            handler.onPass(context, resourceWrapper, node, count, args);
-        }
-    } catch (BlockException e) {
-        context.getCurEntry().setError(e);
-
-        // Add block count.
-        node.increaseBlockQps();
-        if (context.getCurEntry().getOriginNode() != null) {
-            context.getCurEntry().getOriginNode().increaseBlockQps();
-        }
-
-        if (resourceWrapper.getType() == EntryType.IN) {
-            Constants.ENTRY_NODE.increaseBlockQps();
-        }
-
-        for (ProcessorSlotEntryCallback&lt;DefaultNode&gt; handler : StatisticSlotCallbackRegistry.getEntryCallbacks()) {
-            handler.onBlocked(e, context, resourceWrapper, node, count, args);
-        }
-
-        throw e;
-    } catch (Throwable e) {
-        context.getCurEntry().setError(e);
-
-        // Should not happen
-        node.increaseExceptionQps();
-        if (context.getCurEntry().getOriginNode() != null) {
-            context.getCurEntry().getOriginNode().increaseExceptionQps();
-        }
-
-        if (resourceWrapper.getType() == EntryType.IN) {
-            Constants.ENTRY_NODE.increaseExceptionQps();
-        }
-        throw e;
-    }
-}
-</code></pre>
-
-<p>我们关注下这两行代码：</p>
-
-<pre><code class="language-java">node.increaseThreadNum();
-node.addPassRequest();
-</code></pre>
-
-<p>线程数统计比较容器，AtomicInteger保存即可。但是qps怎么统计，毕竟qps是一段时间内的请求数量。<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span>Context context<span style="color:#f92672">,</span> ResourceWrapper resourceWrapper<span style="color:#f92672">,</span> DefaultNode node<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> count<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> args<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        fireEntry<span style="color:#f92672">(</span>context<span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">,</span> node<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 线程+1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">increaseThreadNum</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 通过请求数+1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">addPassRequest</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果origin不为空，也更新数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increaseThreadNum</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">().</span><span style="color:#a6e22e">addPassRequest</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> EntryType<span style="color:#f92672">.</span><span style="color:#a6e22e">IN</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// ru入站请求，全局统计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">increaseThreadNum</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">addPassRequest</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>ProcessorSlotEntryCallback<span style="color:#f92672">&lt;</span>DefaultNode<span style="color:#f92672">&gt;</span> handler <span style="color:#f92672">:</span> StatisticSlotCallbackRegistry<span style="color:#f92672">.</span><span style="color:#a6e22e">getEntryCallbacks</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            handler<span style="color:#f92672">.</span><span style="color:#a6e22e">onPass</span><span style="color:#f92672">(</span>context<span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">,</span> node<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>BlockException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setError</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Add block count.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">increaseBlockQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increaseBlockQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> EntryType<span style="color:#f92672">.</span><span style="color:#a6e22e">IN</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">increaseBlockQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>ProcessorSlotEntryCallback<span style="color:#f92672">&lt;</span>DefaultNode<span style="color:#f92672">&gt;</span> handler <span style="color:#f92672">:</span> StatisticSlotCallbackRegistry<span style="color:#f92672">.</span><span style="color:#a6e22e">getEntryCallbacks</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            handler<span style="color:#f92672">.</span><span style="color:#a6e22e">onBlocked</span><span style="color:#f92672">(</span>e<span style="color:#f92672">,</span> context<span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">,</span> node<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> e<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Throwable e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setError</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Should not happen
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        node<span style="color:#f92672">.</span><span style="color:#a6e22e">increaseExceptionQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            context<span style="color:#f92672">.</span><span style="color:#a6e22e">getCurEntry</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOriginNode</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increaseExceptionQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> EntryType<span style="color:#f92672">.</span><span style="color:#a6e22e">IN</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">increaseExceptionQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> e<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>我们关注下这两行代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">increaseThreadNum</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">addPassRequest</span><span style="color:#f92672">();</span>
+</span></span></code></pre></div><p>线程数统计比较容器，AtomicInteger保存即可。但是qps怎么统计，毕竟qps是一段时间内的请求数量。
 我们找到如下代码：</p>
-
-<pre><code class="language-java">@Override
-public void addPassRequest() {
-    rollingCounterInSecond.addPass();
-    rollingCounterInMinute.addPass();
-}
-</code></pre>
-
-<p>在深入看代码之前，我们先看看，假设统计qps，我们会怎么做。比如用一个AtomicInteger数组保存每一秒的请求，index就是当前秒/60。 统计qps只需要用当前时间计算数组Index，就可以获取qps。比如下图，1时秒10qps,2秒时400qps。<br />
-<img src="http://thoreauz.com/images/2018-11-16-20-10-36.jpg" alt="" /><br />
-&gt;图6</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addPassRequest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    rollingCounterInSecond<span style="color:#f92672">.</span><span style="color:#a6e22e">addPass</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    rollingCounterInMinute<span style="color:#f92672">.</span><span style="color:#a6e22e">addPass</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在深入看代码之前，我们先看看，假设统计qps，我们会怎么做。比如用一个AtomicInteger数组保存每一秒的请求，index就是当前秒/60。 统计qps只需要用当前时间计算数组Index，就可以获取qps。比如下图，1时秒10qps,2秒时400qps。
+<img src="http://thoreauz.com/images/2018-11-16-20-10-36.jpg" alt=""></p>
+<blockquote>
+<p>图6</p>
+</blockquote>
 <p>问题在于：读取qps的时间不是整秒，比如上图，统计时刻2秒500毫秒，此时，获取的qps是100，但其实还有后500毫秒的请求没有统计。如果此时我统计t-1呢，也就是1秒的qps，此刻qps是准确的，但是不及时，第2秒的qps突然暴增，那统计就延迟了一秒。对只用来展示倒是问题不太大，但是对于限流来说，晚1秒可能系统已经挂了。</p>
-
 <p>优化的办法，我们会想，把时间间隔缩小，比如10ms。这样是更准确了，但是就得保存很多数据，并且求qps需要把100个刻度加起来。对资源消耗太大。下面，我们看看sentinel怎么做的。</p>
-
-<p>sentinel使用滑动窗口，数据结构如下：<br />
-<img src="http://thoreauz.com/images/2018-11-16-21-10-34.jpg" alt="" /><br />
-&gt; 图7</p>
-
-<pre><code class="language-java">public class WindowWrap&lt;T&gt; {
-    /**
-     * 一个bucket的长度，单位毫秒
-     */
-    private final long windowLengthInMs;
-    /**
-     * 窗口开始时间，也是毫秒
-     */
-    private long windowStart;
-    /**
-     * 统计值
-     */
-    private T value;
- }
-</code></pre>
-
-<p>sentinel 默认采用windowLengthInMs=500计算qps。也就是说，1秒只有两个窗口。初始化如下方式如下</p>
-
-<pre><code class="language-java">// 1. 创建rollingCounterInSecond
-private transient volatile Metric rollingCounterInSecond = new ArrayMetric(1000 / SampleCountProperty.SAMPLE_COUNT,1）
-ArrayMetric{
-    // 2. ArrayMetric包装了 MetricsLeapArray
-     private final MetricsLeapArray data = new MetricsLeapArray(500, 1);
-}
-public abstract class LeapArray&lt;T&gt; {
-    // 3 array 所以计算qps  ，sampleCount = 2。
-    protected final AtomicReferenceArray&lt;WindowWrap&lt;T&gt;&gt; array = new AtomicReferenceArray&lt;WindowWrap&lt;T&gt;&gt;(sampleCount);
-}
-</code></pre>
-
-<p>创建几个bucket，取决于SampleCountProperty.SAMPLE_COUNT设置。还有个rollingCounterInMinute用于存储分钟请求数，buckets长度是1000ms。</p>
-
+<p>sentinel使用滑动窗口，数据结构如下：
+<img src="http://thoreauz.com/images/2018-11-16-21-10-34.jpg" alt=""></p>
+<blockquote>
+<p>图7</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WindowWrap</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 一个bucket的长度，单位毫秒
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> windowLengthInMs<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 窗口开始时间，也是毫秒
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">long</span> windowStart<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 统计值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> T value<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>sentinel 默认采用windowLengthInMs=500计算qps。也就是说，1秒只有两个窗口。初始化如下方式如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 1. 创建rollingCounterInSecond
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">transient</span> <span style="color:#66d9ef">volatile</span> Metric rollingCounterInSecond <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayMetric<span style="color:#f92672">(</span>1000 <span style="color:#f92672">/</span> SampleCountProperty<span style="color:#f92672">.</span><span style="color:#a6e22e">SAMPLE_COUNT</span><span style="color:#f92672">,</span>1<span style="color:#960050;background-color:#1e0010">）</span>
+</span></span><span style="display:flex;"><span>ArrayMetric<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. ArrayMetric包装了 MetricsLeapArray
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> MetricsLeapArray data <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MetricsLeapArray<span style="color:#f92672">(</span>500<span style="color:#f92672">,</span> 1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LeapArray</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3 array 所以计算qps  ，sampleCount = 2。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> AtomicReferenceArray<span style="color:#f92672">&lt;</span>WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> array <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AtomicReferenceArray<span style="color:#f92672">&lt;</span>WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;(</span>sampleCount<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>创建几个bucket，取决于SampleCountProperty.SAMPLE_COUNT设置。还有个rollingCounterInMinute用于存储分钟请求数，buckets长度是1000ms。</p>
 <h4 id="累积请求">累积请求</h4>
-
-<p>主要是以下步骤：<br />
-1. 获取当前窗口(bucket)<br />
-2. bucket的值+1</p>
-
-<p>获取当前窗口(bucket)<br />
-1. 获取当前时间<br />
-2. 计算当前时间对应的bucket下标(index)和bucket起始时间。<br />
-3. 获取窗口 array.get(index),</p>
-
-<pre><code class="language-java">public WindowWrap&lt;T&gt; currentWindow(long time) {
-    long timeId = time / windowLengthInMs;
-    // Calculate current index.
-    int idx = (int)(timeId % array.length());
-
-    // Cut the time to current window start.
-    time = time - time % windowLengthInMs;
-
-    while (true) {
-        WindowWrap&lt;T&gt; old = array.get(idx);
-        if (old == null) {
-            WindowWrap&lt;T&gt; window = new WindowWrap&lt;T&gt;(windowLengthInMs, time, newEmptyBucket());
-            if (array.compareAndSet(idx, null, window)) {
-                return window;
-            } else {
-                Thread.yield();
-            }
-        } else if (time == old.windowStart()) {
-            return old;
-        } else if (time &gt; old.windowStart()) {
-            if (updateLock.tryLock()) {
-                try {
-                    // if (old is deprecated) then [LOCK] resetTo currentTime.
-                    return resetWindowTo(old, time);
-                } finally {
-                    updateLock.unlock();
-                }
-            } else {
-                Thread.yield();
-            }
-
-        } else if (time &lt; old.windowStart()) {
-            // Cannot go through here.
-            return new WindowWrap&lt;T&gt;(windowLengthInMs, time, newEmptyBucket());
-        }
-    }
-}
-</code></pre>
-
-<pre><code>1. 如果为空就新创建一个，new WindowWrap&lt;T&gt;
+<p>主要是以下步骤：</p>
+<ol>
+<li>获取当前窗口(bucket)</li>
+<li>bucket的值+1</li>
+</ol>
+<p>获取当前窗口(bucket)</p>
+<ol>
+<li>获取当前时间</li>
+<li>计算当前时间对应的bucket下标(index)和bucket起始时间。</li>
+<li>获取窗口 array.get(index),</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">currentWindow</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> timeId <span style="color:#f92672">=</span> time <span style="color:#f92672">/</span> windowLengthInMs<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Calculate current index.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)(</span>timeId <span style="color:#f92672">%</span> array<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Cut the time to current window start.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    time <span style="color:#f92672">=</span> time <span style="color:#f92672">-</span> time <span style="color:#f92672">%</span> windowLengthInMs<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> old <span style="color:#f92672">=</span> array<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>idx<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>old <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> window <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;(</span>windowLengthInMs<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> newEmptyBucket<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>array<span style="color:#f92672">.</span><span style="color:#a6e22e">compareAndSet</span><span style="color:#f92672">(</span>idx<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> window<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> window<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">yield</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>time <span style="color:#f92672">==</span> old<span style="color:#f92672">.</span><span style="color:#a6e22e">windowStart</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> old<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>time <span style="color:#f92672">&gt;</span> old<span style="color:#f92672">.</span><span style="color:#a6e22e">windowStart</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>updateLock<span style="color:#f92672">.</span><span style="color:#a6e22e">tryLock</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// if (old is deprecated) then [LOCK] resetTo currentTime.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">return</span> resetWindowTo<span style="color:#f92672">(</span>old<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    updateLock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">yield</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>time <span style="color:#f92672">&lt;</span> old<span style="color:#f92672">.</span><span style="color:#a6e22e">windowStart</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Cannot go through here.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> WindowWrap<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;(</span>windowLengthInMs<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> newEmptyBucket<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><pre tabindex="0"><code>1. 如果为空就新创建一个，new WindowWrap&lt;T&gt;
 2. 如果不为空，且窗口时间对得上，则使用这个窗口
 3. 如果时间大于返回窗口的起始时间，说明这个窗口过期，应该加锁重置为新窗口
 4. 如果窗口时间小于返回窗口的起始时间，也不能用，也需要新返回一个bucket
-</code></pre>
-
-<pre><code class="language-java">// add pass(LongAdder)
-wrap.value().addPass();
-
-MetricBucket{
-      // 使用LongAdder保存数据，高并发下比cas原子操作类性能更好
-      private final LongAdder pass = new LongAdder();
-}
-</code></pre>
-
-<h4 id="获取qps">获取qps</h4>
-
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// add pass(LongAdder)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>wrap<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">().</span><span style="color:#a6e22e">addPass</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MetricBucket<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 使用LongAdder保存数据，高并发下比cas原子操作类性能更好
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LongAdder pass <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LongAdder<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="获取qps">获取qps</h4>
 <p>qps就是通过的请求，统计pass只需要把所有bucket的请求相加，StatisticNode代码如下：</p>
-
-<pre><code class="language-java">@Override
-public long pass() {
-    data.currentWindow();
-    long pass = 0;
-    List&lt;MetricBucket&gt; list = data.values();
-
-    for (MetricBucket window : list) {
-        pass += window.pass();
-    }
-    return pass;
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">pass</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    data<span style="color:#f92672">.</span><span style="color:#a6e22e">currentWindow</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> pass <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>MetricBucket<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">values</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>MetricBucket window <span style="color:#f92672">:</span> list<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        pass <span style="color:#f92672">+=</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">pass</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pass<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>qps统计只用了两个buckets，其实也跟我们最初设计的有一样的问题，如果流量波动加大，还是反应慢，可以适当调整bucket数量，比如10个。</p>
 </blockquote>
-
 <h3 id="systemslot">SystemSlot</h3>
-
 <p>按系统负载级别限流。只按照一个切入口qps，可能并不能反映系统负责情况。还可能需要考虑所有线程、qps、rt，load等。</p>
-
-<pre><code class="language-java">@Override
-public void entry(Context context, ResourceWrapper resourceWrapper, DefaultNode node, int count, Object... args)
-    throws Throwable {
-    SystemRuleManager.checkSystem(resourceWrapper);
-    fireEntry(context, resourceWrapper, node, count, args);
-}
-</code></pre>
-
-<pre><code class="language-java">public static void checkSystem(ResourceWrapper resourceWrapper) throws BlockException {
-    // Ensure the checking switch is on.
-    if (!checkSystemStatus.get()) {
-        return;
-    }
-    // for inbound traffic only
-    if (resourceWrapper.getType() != EntryType.IN) {
-        return;
-    }
-    // total qps
-    double currentQps = Constants.ENTRY_NODE == null ? 0.0 : Constants.ENTRY_NODE.successQps();
-    if (currentQps &gt; qps) {
-        throw new SystemBlockException(resourceWrapper.getName(), &quot;qps&quot;);
-    }
-    // total thread
-    int currentThread = Constants.ENTRY_NODE == null ? 0 : Constants.ENTRY_NODE.curThreadNum();
-    if (currentThread &gt; maxThread) {
-        throw new SystemBlockException(resourceWrapper.getName(), &quot;thread&quot;);
-    }
-    double rt = Constants.ENTRY_NODE == null ? 0 : Constants.ENTRY_NODE.avgRt();
-    if (rt &gt; maxRt) {
-        throw new SystemBlockException(resourceWrapper.getName(), &quot;rt&quot;);
-    }
-    // BBR algorithm.
-    if (highestSystemLoadIsSet &amp;&amp; getCurrentSystemAvgLoad() &gt; highestSystemLoad) {
-        if (currentThread &gt; 1 &amp;&amp;
-            currentThread &gt; Constants.ENTRY_NODE.maxSuccessQps() * Constants.ENTRY_NODE.minRt() / 1000) {
-            throw new SystemBlockException(resourceWrapper.getName(), &quot;load&quot;);
-        }
-    }
-}
-</code></pre>
-
-<p>比较好理解，只是多了一个load的实时统计。这里使用一个算法<code>BBR</code> 来实现。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">entry</span><span style="color:#f92672">(</span>Context context<span style="color:#f92672">,</span> ResourceWrapper resourceWrapper<span style="color:#f92672">,</span> DefaultNode node<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> count<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> args<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    SystemRuleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">checkSystem</span><span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    fireEntry<span style="color:#f92672">(</span>context<span style="color:#f92672">,</span> resourceWrapper<span style="color:#f92672">,</span> node<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">checkSystem</span><span style="color:#f92672">(</span>ResourceWrapper resourceWrapper<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> BlockException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Ensure the checking switch is on.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>checkSystemStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// for inbound traffic only
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> EntryType<span style="color:#f92672">.</span><span style="color:#a6e22e">IN</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// total qps
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> currentQps <span style="color:#f92672">=</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span> <span style="color:#f92672">:</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">successQps</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currentQps <span style="color:#f92672">&gt;</span> qps<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> SystemBlockException<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;qps&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// total thread
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> currentThread <span style="color:#f92672">=</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> 0 <span style="color:#f92672">:</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">curThreadNum</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currentThread <span style="color:#f92672">&gt;</span> maxThread<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> SystemBlockException<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;thread&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> rt <span style="color:#f92672">=</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> 0 <span style="color:#f92672">:</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">avgRt</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>rt <span style="color:#f92672">&gt;</span> maxRt<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> SystemBlockException<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;rt&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// BBR algorithm.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>highestSystemLoadIsSet <span style="color:#f92672">&amp;&amp;</span> getCurrentSystemAvgLoad<span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> highestSystemLoad<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>currentThread <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>            currentThread <span style="color:#f92672">&gt;</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">maxSuccessQps</span><span style="color:#f92672">()</span> <span style="color:#f92672">*</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">ENTRY_NODE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">minRt</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> SystemBlockException<span style="color:#f92672">(</span>resourceWrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;load&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>比较好理解，只是多了一个load的实时统计。这里使用一个算法<code>BBR</code> 来实现。</p>
 <h2 id="总结">总结</h2>
-
 <p>本文简单介绍sentinel的责任链模式完成限流，并介绍了几个slot。其实还有很多细节可以挖掘。</p>
-
-<hr />
-
-<p>参考:<br />
-1. <a href="https://github.com/alibaba/Sentinel/wiki/">https://github.com/alibaba/Sentinel/wiki/</a><br />
-2. <a href="https://github.com/sentinel-group/sentinel-awesome">https://github.com/sentinel-group/sentinel-awesome</a></p>
+<hr>
+<p>参考:</p>
+<ol>
+<li><a href="https://github.com/alibaba/Sentinel/wiki/">https://github.com/alibaba/Sentinel/wiki/</a></li>
+<li><a href="https://github.com/sentinel-group/sentinel-awesome">https://github.com/sentinel-group/sentinel-awesome</a></li>
+</ol>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#sentinel作用">Sentinel作用</a></li>
-<li><a href="#qps限流示例">qps限流示例</a></li>
-<li><a href="#概念名词解释">概念名词解释</a></li>
-<li><a href="#原理">原理</a>
-<ul>
-<li><a href="#processorslot">ProcessorSlot</a></li>
-<li><a href="#nodeselectorslot">NodeSelectorSlot</a></li>
-<li><a href="#clusterbuilderslot">ClusterBuilderSlot</a></li>
-<li><a href="#statisticslot">StatisticSlot</a>
-<ul>
-<li><a href="#累积请求">累积请求</a></li>
-<li><a href="#获取qps">获取qps</a></li>
-</ul></li>
-<li><a href="#systemslot">SystemSlot</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#sentinel作用">Sentinel作用</a></li>
+    <li><a href="#qps限流示例">qps限流示例</a></li>
+    <li><a href="#概念名词解释">概念名词解释</a></li>
+    <li><a href="#原理">原理</a>
+      <ul>
+        <li><a href="#processorslot">ProcessorSlot</a></li>
+        <li><a href="#nodeselectorslot">NodeSelectorSlot</a></li>
+        <li><a href="#clusterbuilderslot">ClusterBuilderSlot</a></li>
+        <li><a href="#statisticslot">StatisticSlot</a></li>
+        <li><a href="#systemslot">SystemSlot</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 

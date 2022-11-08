@@ -21,7 +21,7 @@
   	<meta property="og:title" content="高性能Mysql-性能剖析 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -41,7 +41,7 @@
     <title>高性能Mysql-性能剖析 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="性能优化的两个原则： 1. 我们通过任务和时间而不是资源来衡量性能。 2. 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。" />
+    <meta name="description" content="性能优化的两个原则： 我们通过任务和时间而不是资源来衡量性能。 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。如果" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 高性能Mysql-性能剖析,
-    "name": 高性能Mysql-性能剖析,
-    "wordCount": 1970,
+    "headline": "高性能Mysql-性能剖析",
+    "name": "高性能Mysql-性能剖析",
+    "wordCount":  1968 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/,
-    "datePublished": 2017-11-25T14:53Z,
-    "dateModified": 2017-11-25T14:53Z,
+    "url": "http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/",
+    "datePublished": "2017-11-25T14:53Z",
+    "dateModified": "2017-11-25T14:53Z",
     
-    "keywords": mysql,
-    "description": ,
+    "keywords": "mysql",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/
+        "@id": "http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,229 +243,184 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>性能优化的两个原则：<br />
-1. 我们通过任务和时间而不是资源来衡量性能。<br />
-2. 无法测量就无法优化。</p>
-
+      <p>性能优化的两个原则：</p>
+<ol>
+<li>我们通过任务和时间而不是资源来衡量性能。</li>
+<li>无法测量就无法优化。</li>
+</ol>
 <p>完成一项任务所需要的时间分为两部分：执行时间和等待时间。如果优化任务执行时间，最好的办法是通过测量不同子任务花费的时间。对于等待时间相对复杂，可能是系统间接影响。</p>
-
 <p>下面我们主要借助一些工具分析单条查询的效率。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="剖析单条查询">剖析单条查询</h2>
-
 <h3 id="使用show-profile">使用SHOW PROFILE</h3>
-
 <h4 id="开启">开启</h4>
-
-<p>profiling参数可以启用SQL剖析。该参数开启后，后续执行的SQL语句都将记录其资源开销，诸如IO，上下文切换，CPU，Memory等等。<br />
+<p>profiling参数可以启用SQL剖析。该参数开启后，后续执行的SQL语句都将记录其资源开销，诸如IO，上下文切换，CPU，Memory等等。
 查询是否开启，值为1，则开启：</p>
-
-<pre><code class="language-sql">mysql root@192.168.99.100:afbet&gt; select @@profiling;
-+-------------+
-| @@profiling |
-+-------------+
-| 0           |
-+-------------+
-1 row in set
-Time: 0.008s
-</code></pre>
-
-<p>可以通过<code>set profiling=1;</code>和<code>set profiling=0;</code>开启和关闭，注意开启后损耗性能，测试后一定得关闭。如果是session级别，退出session后，会自动关闭。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>mysql root<span style="color:#f92672">@</span><span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">99</span>.<span style="color:#ae81ff">100</span>:afbet<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>profiling;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#f92672">@@</span>profiling <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>           <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>Time: <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">008</span>s
+</span></span></code></pre></div><p>可以通过<code>set profiling=1;</code>和<code>set profiling=0;</code>开启和关闭，注意开启后损耗性能，测试后一定得关闭。如果是session级别，退出session后，会自动关闭。</p>
 <p>也可以通过下列命令查询:</p>
-
-<pre><code class="language-sql">mysql root@192.168.99.100:afbet&gt; show variables like '%profil%';
-+------------------------+-------+
-| Variable_name          | Value |
-+------------------------+-------+
-| have_profiling         | YES   |
-| profiling              | ON    |
-| profiling_history_size | 15    |
-+------------------------+-------+
-3 rows in set
-Time: 0.007s
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>mysql root<span style="color:#f92672">@</span><span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">99</span>.<span style="color:#ae81ff">100</span>:afbet<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> variables <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;%profil%&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Variable_name          <span style="color:#f92672">|</span> Value <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> have_profiling         <span style="color:#f92672">|</span> YES   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> profiling              <span style="color:#f92672">|</span> <span style="color:#66d9ef">ON</span>    <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> profiling_history_size <span style="color:#f92672">|</span> <span style="color:#ae81ff">15</span>    <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">3</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>Time: <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">007</span>s
+</span></span></code></pre></div><blockquote>
 <p>已经开启，记录数15</p>
 </blockquote>
-
 <p>当然，如果忘记具体命令使用，可以通过万能的help帮助:<code>help profile</code></p>
-
 <h2 id="使用">使用</h2>
-
 <p>开启后，执行需要分析的指令如，然后show profils：</p>
-
-<pre><code class="language-sql">&gt; show PROFILES
-+----------+------------+---------------------------------------+
-| Query_ID | Duration   | Query                                 |
-+----------+------------+---------------------------------------+
-| 1        | 0.00012325 | SHOW WARNINGS                         |
-| 2        | 0.0030495  | select count(1) from t_realsports_bet |
-+----------+------------+---------------------------------------+
-</code></pre>
-
-<p>第二条指令就是我们查询指令，然后看详细信息：</p>
-
-<pre><code class="language-sql">&gt; show PROFILE for query 2;
-+----------------------+----------+
-| Status               | Duration |
-+----------------------+----------+
-| starting             | 0.000068 |
-| checking permissions | 0.000010 |
-| Opening tables       | 0.000017 |
-| init                 | 0.000013 |
-| System lock          | 0.000009 |
-| optimizing           | 0.000006 |
-| statistics           | 0.000012 |
-| preparing            | 0.000011 |
-| executing            | 0.000004 |
-| Sending data         | 0.002694 |
-| end                  | 0.000011 |
-| query end            | 0.000007 |
-| closing tables       | 0.000009 |
-| freeing items        | 0.000159 |
-| cleaning up          | 0.000023 |
-+----------------------+----------+
-</code></pre>
-
-<p>Druation表示持续时间，作为默认输出，可以使用<code>show profile all for query 2</code>获取其他开销细节。profile相关细节可以更灵活地从INFORMATION_SCHEMA中对应的表查询。</p>
-
-<pre><code class="language-sql">&gt;set @query_id=2;
-&gt; SELECT STATE, SUM(DURATION) AS Total_R,
--&gt; ROUND(
--&gt;    100 * SUM(DURATION) /
--&gt;      (SELECT SUM(DURATION)
--&gt;           FROM INFORMATION_SCHEMA.PROFILING
--&gt;           WHERE QUERY_ID = @query_id
--&gt;       ), 2) AS Pct_R,
--&gt;    COUNT(*) AS Calls,
--&gt;    SUM(DURATION) / COUNT(*) AS &quot;R/Call&quot;
--&gt; FROM INFORMATION_SCHEMA.PROFILING
--&gt; WHERE QUERY_ID = @query_id
--&gt; GROUP BY STATE
--&gt; ORDER BY Total_R DESC;
-+----------------------+----------+-------+-------+--------------+
-| STATE                | Total_R  | Pct_R | Calls | R/Call       |
-+----------------------+----------+-------+-------+--------------+
-| Sending data         | 0.002498 | 87.31 | 1     | 0.0024980000 |
-| freeing items        | 0.000139 | 4.86  | 1     | 0.0001390000 |
-| starting             | 0.000068 | 2.38  | 1     | 0.0000680000 |
-| init                 | 0.000044 | 1.54  | 1     | 0.0000440000 |
-| cleaning up          | 0.000021 | 0.73  | 1     | 0.0000210000 |
-| Opening tables       | 0.000016 | 0.56  | 1     | 0.0000160000 |
-| statistics           | 0.000011 | 0.38  | 1     | 0.0000110000 |
-| end                  | 0.000011 | 0.38  | 1     | 0.0000110000 |
-| preparing            | 0.000009 | 0.31  | 1     | 0.0000090000 |
-| System lock          | 0.000009 | 0.31  | 1     | 0.0000090000 |
-| closing tables       | 0.000009 | 0.31  | 1     | 0.0000090000 |
-| checking permissions | 0.000009 | 0.31  | 1     | 0.0000090000 |
-| optimizing           | 0.000007 | 0.24  | 1     | 0.0000070000 |
-| query end            | 0.000006 | 0.21  | 1     | 0.0000060000 |
-| executing            | 0.000004 | 0.14  | 1     | 0.0000040000 |
-+----------------------+----------+-------+-------+--------------+
-</code></pre>
-
-<p>上面的统计sql来源于《高性能mysql》，可以使用group by，更灵活。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> PROFILES
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------+------------+---------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Query_ID <span style="color:#f92672">|</span> Duration   <span style="color:#f92672">|</span> Query                                 <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------+------------+---------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>        <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00012325</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">SHOW</span> WARNINGS                         <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>        <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0030495</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">count</span>(<span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">from</span> t_realsports_bet <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------+------------+---------------------------------------+
+</span></span></span></code></pre></div><p>第二条指令就是我们查询指令，然后看详细信息：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> PROFILE <span style="color:#66d9ef">for</span> query <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Status               <span style="color:#f92672">|</span> Duration <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> starting             <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000068</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> checking permissions <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000010</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Opening tables       <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000017</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> init                 <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000013</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">System</span> <span style="color:#66d9ef">lock</span>          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> optimizing           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000006</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">statistics</span>           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000012</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> preparing            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000011</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> executing            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000004</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Sending <span style="color:#66d9ef">data</span>         <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">002694</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">end</span>                  <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000011</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> query <span style="color:#66d9ef">end</span>            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000007</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> closing tables       <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> freeing items        <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000159</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> cleaning up          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000023</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+
+</span></span></span></code></pre></div><p>Druation表示持续时间，作为默认输出，可以使用<code>show profile all for query 2</code>获取其他开销细节。profile相关细节可以更灵活地从INFORMATION_SCHEMA中对应的表查询。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>query_id<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">STATE</span>, <span style="color:#66d9ef">SUM</span>(DURATION) <span style="color:#66d9ef">AS</span> Total_R,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> ROUND(
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>    <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">SUM</span>(DURATION) <span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>      (<span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">SUM</span>(DURATION)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>           <span style="color:#66d9ef">FROM</span> INFORMATION_SCHEMA.PROFILING
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>           <span style="color:#66d9ef">WHERE</span> QUERY_ID <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>query_id
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>       ), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> Pct_R,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>    <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> Calls,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span>    <span style="color:#66d9ef">SUM</span>(DURATION) <span style="color:#f92672">/</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#34;R/Call&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">FROM</span> INFORMATION_SCHEMA.PROFILING
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">WHERE</span> QUERY_ID <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>query_id
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">STATE</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> Total_R <span style="color:#66d9ef">DESC</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+-------+-------+--------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#66d9ef">STATE</span>                <span style="color:#f92672">|</span> Total_R  <span style="color:#f92672">|</span> Pct_R <span style="color:#f92672">|</span> Calls <span style="color:#f92672">|</span> R<span style="color:#f92672">/</span><span style="color:#66d9ef">Call</span>       <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+-------+-------+--------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Sending <span style="color:#66d9ef">data</span>         <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">002498</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">87</span>.<span style="color:#ae81ff">31</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0024980000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> freeing items        <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000139</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">4</span>.<span style="color:#ae81ff">86</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0001390000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> starting             <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000068</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>.<span style="color:#ae81ff">38</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000680000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> init                 <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000044</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">54</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000440000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> cleaning up          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000021</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">73</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000210000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Opening tables       <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000016</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">56</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000160000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">statistics</span>           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000011</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">38</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000110000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">end</span>                  <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000011</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">38</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000110000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> preparing            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">31</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000090000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#66d9ef">System</span> <span style="color:#66d9ef">lock</span>          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">31</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000090000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> closing tables       <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">31</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000090000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> checking permissions <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000009</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">31</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000090000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> optimizing           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000007</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">24</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000070000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> query <span style="color:#66d9ef">end</span>            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000006</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">21</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000060000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> executing            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">000004</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">14</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0000040000</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------+----------+-------+-------+--------------+
+</span></span></span></code></pre></div><p>上面的统计sql来源于《高性能mysql》，可以使用group by，更灵活。</p>
 <h2 id="使用show-status">使用SHOW STATUS</h2>
-
 <p>SHOW STATUS无法基于时间统计，但可以观察哪些操作代价高，哪些消耗时间较多。如句柄计数器(handle counter)</p>
-
 <p>示例</p>
-
-<pre><code class="language-sql">&gt; FLUSH STATUS;
-&gt; select * from t_test_staus where status=0;
-&gt; show STATUS where variable_name like 'handler%' or variable_name like 'created%';
-+----------------------------+-------+
-| Variable_name              | Value |
-+----------------------------+-------+
-| Created_tmp_disk_tables    | 0     |
-| Created_tmp_files          | 0     |
-| Created_tmp_tables         | 2     |
-| Handler_commit             | 1     |
-| Handler_delete             | 0     |
-| Handler_discover           | 0     |
-| Handler_external_lock      | 2     |
-| Handler_mrr_init           | 0     |
-| Handler_prepare            | 0     |
-| Handler_read_first         | 1     |
-| Handler_read_key           | 1     |
-| Handler_read_last          | 0     |
-| Handler_read_next          | 0     |
-| Handler_read_prev          | 0     |
-| Handler_read_rnd           | 0     |
-| Handler_read_rnd_next      | 14551 |
-| Handler_rollback           | 0     |
-| Handler_savepoint          | 0     |
-| Handler_savepoint_rollback | 0     |
-| Handler_update             | 0     |
-| Handler_write              | 16    |
-+----------------------------+-------+
-21 rows in set (0.00 sec)
-</code></pre>
-
-<p>从上述结果可以看到，使用了2个临时表，并没有创建磁盘表。有14551个读操作没有用到索引（Handler_read_rnd_next)。Handler_read_key 值大，说明索引使用高。其他详细说明可以参阅官方文档。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> FLUSH STATUS;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t_test_staus <span style="color:#66d9ef">where</span> status<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> STATUS <span style="color:#66d9ef">where</span> variable_name <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;handler%&#39;</span> <span style="color:#66d9ef">or</span> variable_name <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;created%&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Variable_name              <span style="color:#f92672">|</span> Value <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Created_tmp_disk_tables    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Created_tmp_files          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Created_tmp_tables         <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_commit             <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_delete             <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_discover           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_external_lock      <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_mrr_init           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_prepare            <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_first         <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_key           <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_last          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_next          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_prev          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_rnd           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_read_rnd_next      <span style="color:#f92672">|</span> <span style="color:#ae81ff">14551</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_rollback           <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_savepoint          <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_savepoint_rollback <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_update             <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>     <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Handler_write              <span style="color:#f92672">|</span> <span style="color:#ae81ff">16</span>    <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----------------------------+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">21</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
+</span></span></code></pre></div><p>从上述结果可以看到，使用了2个临时表，并没有创建磁盘表。有14551个读操作没有用到索引（Handler_read_rnd_next)。Handler_read_key 值大，说明索引使用高。其他详细说明可以参阅官方文档。</p>
 <h2 id="使用explain">使用EXPLAIN</h2>
-
-<pre><code class="language-sql">&gt; explain SELECT t2.id FROM `t_realsports_subbet_selection` t1, `t_realsports_subbet` t2 WHERE t1.selection_id ='1711211453551000003795' AND t1.subBet_id = t2.id AND t2.status = 0
-+----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
-| id | select_type | table | type   | possible_keys | key     | key_len | ref               | rows  | Extra                    |
-+----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
-| 1  | SIMPLE      | t2    | ALL    | PRIMARY       | &lt;null&gt;  | &lt;null&gt;  | &lt;null&gt;            | 40365 | Using where              |
-| 1  | SIMPLE      | t1    | eq_ref | PRIMARY       | PRIMARY | 304     | test.t2.id,const | 1     | Using where; Using index |
-+----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
-2 rows in set
-Time: 0.011s
-</code></pre>
-
-<ul>
-<li>id：每个被独立执行的操作的标识，表示对象被操作的顺序；ID值大，先被执行；如果相同，执行顺序一般从上到下；<br /></li>
-<li>select_type：数据库引擎将SQL拆分成若干部分的子查询/子操作，每个查询select子句中的查询类型；<br /></li>
-<li>table: 本次子查询所查询的目标数据表;<br /></li>
-<li>type：子查询类型，非常重要的性能衡量点。这个字段项可能显示的值包括：“ALL-&gt;index-&gt;range-&gt;ref-&gt;eq_ref-&gt;const | system-&gt;NULL”这些值所表示的查询性能，从左至右依次增加;<br /></li>
-<li>possible_keys：本次子查询可能使用的索引。如果查询所使用的检索条件可能涉及到多个索引，这里将会列出这些所有的可能性；<br /></li>
-<li>key: 本次子查询最终被选定的执行索引<br /></li>
-<li>key_len： 被选定的索引键的长度；<br /></li>
-<li>ref：表示本次子查询参照的参照条件/参照数据表，参照条件/参照数据表，这个字段的值还可能是一个常量；<br /></li>
-<li>rows： 执行根据目前数据表的实际情况预估的，完成这个子查询需要扫描的数据行数；<br /></li>
-<li>Extra：包含不适合在其他列中显示但十分重要的额外信息<br />
-详细说明参考<a href="http://blog.csdn.net/u012758088/article/details/77151548">MySQL系列—EXPLAIN 介绍</a><br />
-<br /></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">explain</span> <span style="color:#66d9ef">SELECT</span> t2.id <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">`</span>t_realsports_subbet_selection<span style="color:#f92672">`</span> t1, <span style="color:#f92672">`</span>t_realsports_subbet<span style="color:#f92672">`</span> t2 <span style="color:#66d9ef">WHERE</span> t1.selection_id <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1711211453551000003795&#39;</span> <span style="color:#66d9ef">AND</span> t1.subBet_id <span style="color:#f92672">=</span> t2.id <span style="color:#66d9ef">AND</span> t2.status <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> select_type <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">type</span>   <span style="color:#f92672">|</span> possible_keys <span style="color:#f92672">|</span> <span style="color:#66d9ef">key</span>     <span style="color:#f92672">|</span> key_len <span style="color:#f92672">|</span> <span style="color:#66d9ef">ref</span>               <span style="color:#f92672">|</span> <span style="color:#66d9ef">rows</span>  <span style="color:#f92672">|</span> Extra                    <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> t2    <span style="color:#f92672">|</span> <span style="color:#66d9ef">ALL</span>    <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">null</span><span style="color:#f92672">&gt;</span>  <span style="color:#f92672">|</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">null</span><span style="color:#f92672">&gt;</span>  <span style="color:#f92672">|</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">null</span><span style="color:#f92672">&gt;</span>            <span style="color:#f92672">|</span> <span style="color:#ae81ff">40365</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span>              <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">SIMPLE</span>      <span style="color:#f92672">|</span> t1    <span style="color:#f92672">|</span> eq_ref <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">PRIMARY</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">304</span>     <span style="color:#f92672">|</span> test.t2.id,const <span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>     <span style="color:#f92672">|</span> <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">where</span>; <span style="color:#66d9ef">Using</span> <span style="color:#66d9ef">index</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+-------------+-------+--------+---------------+---------+---------+-------------------+-------+--------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>Time: <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">011</span>s
+</span></span></code></pre></div><ul>
+<li>id：每个被独立执行的操作的标识，表示对象被操作的顺序；ID值大，先被执行；如果相同，执行顺序一般从上到下；</li>
+<li>select_type：数据库引擎将SQL拆分成若干部分的子查询/子操作，每个查询select子句中的查询类型；</li>
+<li>table: 本次子查询所查询的目标数据表;</li>
+<li>type：子查询类型，非常重要的性能衡量点。这个字段项可能显示的值包括：“ALL-&gt;index-&gt;range-&gt;ref-&gt;eq_ref-&gt;const | system-&gt;NULL”这些值所表示的查询性能，从左至右依次增加;</li>
+<li>possible_keys：本次子查询可能使用的索引。如果查询所使用的检索条件可能涉及到多个索引，这里将会列出这些所有的可能性；</li>
+<li>key: 本次子查询最终被选定的执行索引</li>
+<li>key_len： 被选定的索引键的长度；</li>
+<li>ref：表示本次子查询参照的参照条件/参照数据表，参照条件/参照数据表，这个字段的值还可能是一个常量；</li>
+<li>rows： 执行根据目前数据表的实际情况预估的，完成这个子查询需要扫描的数据行数；</li>
+<li>Extra：包含不适合在其他列中显示但十分重要的额外信息
+详细说明参考<a href="http://blog.csdn.net/u012758088/article/details/77151548">MySQL系列—EXPLAIN 介绍</a></li>
 </ul>
-
 <p>使用EXPLAIN的局限在于，它只是预估结果，不能使用cache，不能分析insert语句。</p>
-
-<hr />
-
-<p>参考资料:<br />
-[1]. 高性能mysql<br />
+<hr>
+<p>参考资料:
+[1]. 高性能mysql
 [2]. <a href="http://blog.csdn.net/u012758088/article/details/77151548">http://blog.csdn.net/u012758088/article/details/77151548</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#剖析单条查询">剖析单条查询</a>
-<ul>
-<li><a href="#使用show-profile">使用SHOW PROFILE</a>
-<ul>
-<li><a href="#开启">开启</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#使用">使用</a></li>
-<li><a href="#使用show-status">使用SHOW STATUS</a></li>
-<li><a href="#使用explain">使用EXPLAIN</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#剖析单条查询">剖析单条查询</a>
+      <ul>
+        <li><a href="#使用show-profile">使用SHOW PROFILE</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用">使用</a></li>
+    <li><a href="#使用show-status">使用SHOW STATUS</a></li>
+    <li><a href="#使用explain">使用EXPLAIN</a></li>
+  </ul>
 </nav>
     </section>
 

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="kubernetes入门之Deployments &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/03/21/kubernetes-deployments/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -43,7 +43,7 @@
     <title>kubernetes入门之Deployments &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态" />
+    <meta name="description" content="Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： 参建副本集和 Pods 检查部署状态 更新" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/03/21/kubernetes-deployments/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": kubernetes入门之Deployments,
-    "name": kubernetes入门之Deployments,
-    "wordCount": 1624,
+    "headline": "kubernetes入门之Deployments",
+    "name": "kubernetes入门之Deployments",
+    "wordCount":  1616 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/03/21/kubernetes-deployments/,
-    "datePublished": 2017-03-21T12:15Z,
-    "dateModified": 2017-03-21T12:15Z,
+    "url": "http://thoreauz.com/2017/03/21/kubernetes-deployments/",
+    "datePublished": "2017-03-21T12:15Z",
+    "dateModified": "2017-03-21T12:15Z",
     
-    "keywords": kubernetes, docker,
-    "description": ,
+    "keywords": "kubernetes, docker",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/03/21/kubernetes-deployments/
+        "@id": "http://thoreauz.com/2017/03/21/kubernetes-deployments/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,280 +247,215 @@
     </header>
 
     <section class="post-content">
-      
-
-<p><code>Deployment</code> 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。<br />
-使用场景：<br />
-* 参建副本集和 Pods<br />
-* 检查部署状态<br />
-* 更新升级Pods<br />
-* 回滚到历史版本<br />
-* 暂停或恢复部署</p>
-
+      <p><code>Deployment</code> 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。
+使用场景：</p>
+<ul>
+<li>参建副本集和 Pods</li>
+<li>检查部署状态</li>
+<li>更新升级Pods</li>
+<li>回滚到历史版本</li>
+<li>暂停或恢复部署</li>
+</ul>
 <h2 id="创建deployment">创建Deployment</h2>
-
 <p>新建文件<code>nginx-deployment.yaml</code></p>
-
-<pre><code class="language-yml">apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.7.9
-        ports:
-        - containerPort: 80
-</code></pre>
-
-<p>参建deployment</p>
-
-<pre><code>kubectl create -f nginx-deployment.yml --record
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.7.9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>参建deployment</p>
+<pre tabindex="0"><code>kubectl create -f nginx-deployment.yml --record
+</code></pre><blockquote>
 <p><code>--record</code> 可以不加，但是添加这个可以将当前命令记录在正在创建或更新的资源的注释中。 有助于查看在每个部署版本中执行的命令。</p>
 </blockquote>
-
-<pre><code>$ kubectl get deployments
+<pre tabindex="0"><code>$ kubectl get deployments
 NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   2         2         2            2           4m
-</code></pre>
-
-<p>查看部署的pods和RS</p>
-
-<pre><code>kubectl get rs
+</code></pre><p>查看部署的pods和RS</p>
+<pre tabindex="0"><code>kubectl get rs
 kubectl get pods
-</code></pre>
-
-<pre><code>$ kubectl get pods --show-labels
+</code></pre><pre tabindex="0"><code>$ kubectl get pods --show-labels
 NAME                                READY     STATUS    RESTARTS   AGE       LABELS
 nginx-deployment-4087004473-2wphk   1/1       Running   0          12m       app=nginx,pod-template-hash=4087004473
 nginx-deployment-4087004473-cx2tv   1/1       Running   0          12m       app=nginx,pod-template-hash=4087004473
-</code></pre>
-
-<blockquote>
-<p>app=nignx 标签 ；  hash值4087004473<br />
-RC name = <code>&lt;the name of the Deployment&gt;-&lt;hash value of the pod template&gt;</code><br />
+</code></pre><blockquote>
+<p>app=nignx 标签 ；  hash值4087004473
+RC name = <code>&lt;the name of the Deployment&gt;-&lt;hash value of the pod template&gt;</code>
 注意：要设置和合适的选择器（app=nginx）和spec模板，不要和其他deployment、rs，Replication Controllers等重叠。</p>
 </blockquote>
-
 <h2 id="deployment状态">Deployment状态</h2>
-
 <p>在对一个 Deployment升级时，想确认是否成功，最简单的方式是通过<code>kubectl rollout status</code>查看，如：</p>
-
-<pre><code class="language-bash">kubectl rollout status deployment/nginx-deployment
-kubectl rollout status -f nginx-deployment
-</code></pre>
-
-<p>比如副本从2个升级到4个时：</p>
-
-<pre><code class="language-bash">$ kubectl rollout status deployment/nginx-deployment
-Waiting for deployment spec update to be observed...
-Waiting for rollout to finish: 2 out of 4 new replicas have been updated...
-Waiting for rollout to finish: 2 out of 4 new replicas have been updated...
-Waiting for rollout to finish: 2 of 4 updated replicas are available...
-Waiting for rollout to finish: 3 of 4 updated replicas are available...
-deployment &quot;nginx-deployment&quot; successfully rolled out
-</code></pre>
-
-<h2 id="deployment-更新">Deployment 更新</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl rollout status deployment/nginx-deployment
+</span></span><span style="display:flex;"><span>kubectl rollout status -f nginx-deployment
+</span></span></code></pre></div><p>比如副本从2个升级到4个时：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl rollout status deployment/nginx-deployment
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> deployment spec update to be observed...
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> rollout to finish: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">4</span> new replicas have been updated...
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> rollout to finish: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">4</span> new replicas have been updated...
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> rollout to finish: <span style="color:#ae81ff">2</span> of <span style="color:#ae81ff">4</span> updated replicas are available...
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> rollout to finish: <span style="color:#ae81ff">3</span> of <span style="color:#ae81ff">4</span> updated replicas are available...
+</span></span><span style="display:flex;"><span>deployment <span style="color:#e6db74">&#34;nginx-deployment&#34;</span> successfully rolled out
+</span></span></code></pre></div><h2 id="deployment-更新">Deployment 更新</h2>
 <p>变更部署对象时，可以直接更改<code>yml</code>部署文件更改，让后使用<code>apply</code>更新。也可以直接使用命令指定更新，如使用其他版本的nginx镜像。</p>
-
-<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
-deployment &quot;nginx-deployment&quot; image updated
-</code></pre>
-
-<p>要查看deployment的历史更新记录，可以通过<code>describe</code>:</p>
-
-<pre><code class="language-bash">kubectl describe deployments
-Name:			nginx-deployment
-Namespace:		default
-CreationTimestamp:	Mon, 20 Mar 2017 22:12:37 +0800
-Labels:			app=nginx
-Selector:		app=nginx
-Replicas:		4 updated | 4 total | 4 available | 0 unavailable
-StrategyType:		RollingUpdate
-MinReadySeconds:	0
-RollingUpdateStrategy:	1 max unavailable, 1 max surge
-Conditions:
-  Type		Status	Reason
-  ----		------	------
-  Available 	True	MinimumReplicasAvailable
-OldReplicaSets:	&lt;none&gt;
-NewReplicaSet:	nginx-deployment-4087004473 (4/4 replicas created)
-Events:
-  FirstSeen	LastSeen	Count	From				SubObjectPath	Type		Reason			Message
-  ---------	--------	-----	----				-------------	--------	------			-------
-  50m		50m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 2
-  25m		25m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 333
-  21m		21m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to 3
-  10m		10m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to 2
-  10m		10m		1	{deployment-controller }			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to 4
-</code></pre>
-
-<p>上例可以看到<code>replica set</code>的扩容和收缩记录。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl set image deployment/nginx-deployment nginx<span style="color:#f92672">=</span>nginx:1.9.1
+</span></span><span style="display:flex;"><span>deployment <span style="color:#e6db74">&#34;nginx-deployment&#34;</span> image updated
+</span></span></code></pre></div><p>要查看deployment的历史更新记录，可以通过<code>describe</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl describe deployments
+</span></span><span style="display:flex;"><span>Name:			nginx-deployment
+</span></span><span style="display:flex;"><span>Namespace:		default
+</span></span><span style="display:flex;"><span>CreationTimestamp:	Mon, <span style="color:#ae81ff">20</span> Mar <span style="color:#ae81ff">2017</span> 22:12:37 +0800
+</span></span><span style="display:flex;"><span>Labels:			app<span style="color:#f92672">=</span>nginx
+</span></span><span style="display:flex;"><span>Selector:		app<span style="color:#f92672">=</span>nginx
+</span></span><span style="display:flex;"><span>Replicas:		<span style="color:#ae81ff">4</span> updated | <span style="color:#ae81ff">4</span> total | <span style="color:#ae81ff">4</span> available | <span style="color:#ae81ff">0</span> unavailable
+</span></span><span style="display:flex;"><span>StrategyType:		RollingUpdate
+</span></span><span style="display:flex;"><span>MinReadySeconds:	<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>RollingUpdateStrategy:	<span style="color:#ae81ff">1</span> max unavailable, <span style="color:#ae81ff">1</span> max surge
+</span></span><span style="display:flex;"><span>Conditions:
+</span></span><span style="display:flex;"><span>  Type		Status	Reason
+</span></span><span style="display:flex;"><span>  ----		------	------
+</span></span><span style="display:flex;"><span>  Available 	True	MinimumReplicasAvailable
+</span></span><span style="display:flex;"><span>OldReplicaSets:	&lt;none&gt;
+</span></span><span style="display:flex;"><span>NewReplicaSet:	nginx-deployment-4087004473 <span style="color:#f92672">(</span>4/4 replicas created<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Events:
+</span></span><span style="display:flex;"><span>  FirstSeen	LastSeen	Count	From				SubObjectPath	Type		Reason			Message
+</span></span><span style="display:flex;"><span>  ---------	--------	-----	----				-------------	--------	------			-------
+</span></span><span style="display:flex;"><span>  50m		50m		1	<span style="color:#f92672">{</span>deployment-controller <span style="color:#f92672">}</span>			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  25m		25m		1	<span style="color:#f92672">{</span>deployment-controller <span style="color:#f92672">}</span>			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to <span style="color:#ae81ff">333</span>
+</span></span><span style="display:flex;"><span>  21m		21m		1	<span style="color:#f92672">{</span>deployment-controller <span style="color:#f92672">}</span>			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  10m		10m		1	<span style="color:#f92672">{</span>deployment-controller <span style="color:#f92672">}</span>			Normal		ScalingReplicaSet	Scaled down replica set nginx-deployment-4087004473 to <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  10m		10m		1	<span style="color:#f92672">{</span>deployment-controller <span style="color:#f92672">}</span>			Normal		ScalingReplicaSet	Scaled up replica set nginx-deployment-4087004473 to <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><p>上例可以看到<code>replica set</code>的扩容和收缩记录。</p>
 <h2 id="deployment回退">Deployment回退</h2>
-
 <p>如果某个部署版本不稳定，可以回退到历史版本。默认情况下，将保存所有历史版本，也可以通过设置<code>.spec.revisionHistoryLimit</code>作限制，如果值为0，表示清除历史版本记录。需要注意的是，只有在<code>.spec.template</code>发生改变时(如：更新标签或镜像)，才会有版本记录。对于扩容等非template改变将不会有版本记录。</p>
-
 <p>比如，我把nignx从1.7.9升级到latest</p>
-
-<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:latest
-$ kubectl rollout history -f nginx-deployment.yml
-deployments &quot;nginx-deployment&quot;
-REVISION	CHANGE-CAUSE
-1		kubectl apply -f nginx.yml --record
-2		kubectl set image deployment/nginx-deployment nginx=nginx:latest
-</code></pre>
-
-<p>知道版本后，我们可以通过<code>undo</code>回退到上一个版本或者指定版本。</p>
-
-<pre><code class="language-bash"> kubectl rollout undo deployment/nginx-deployment
- kubectl rollout undo deployment/nginx-deployment --to-revision=2
-</code></pre>
-
-<h2 id="deployment扩缩容">Deployment扩缩容</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl set image deployment/nginx-deployment nginx<span style="color:#f92672">=</span>nginx:latest
+</span></span><span style="display:flex;"><span>$ kubectl rollout history -f nginx-deployment.yml
+</span></span><span style="display:flex;"><span>deployments <span style="color:#e6db74">&#34;nginx-deployment&#34;</span>
+</span></span><span style="display:flex;"><span>REVISION	CHANGE-CAUSE
+</span></span><span style="display:flex;"><span>1		kubectl apply -f nginx.yml --record
+</span></span><span style="display:flex;"><span>2		kubectl set image deployment/nginx-deployment nginx<span style="color:#f92672">=</span>nginx:latest
+</span></span></code></pre></div><p>知道版本后，我们可以通过<code>undo</code>回退到上一个版本或者指定版本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> kubectl rollout undo deployment/nginx-deployment
+</span></span><span style="display:flex;"><span> kubectl rollout undo deployment/nginx-deployment --to-revision<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><h2 id="deployment扩缩容">Deployment扩缩容</h2>
 <p>直接修改yml部署文件中的<code>replicas</code>或者使用scale命令都能实现扩缩容的效果。</p>
-
-<pre><code class="language-bash">kubectl scale deployment nginx-deployment --replicas 3
-</code></pre>
-
-<p>在集群环境中，可以设置自动伸缩。</p>
-
-<pre><code class="language-bash">$ kubectl autoscale deployment nginx-deployment --min=10 --max=15 --cpu-percent=80
-deployment &quot;nginx-deployment&quot; autoscaled
-</code></pre>
-
-<blockquote>
-<p>min: 最小副本数<br />
-max：最大副本数<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl scale deployment nginx-deployment --replicas <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><p>在集群环境中，可以设置自动伸缩。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl autoscale deployment nginx-deployment --min<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> --max<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span> --cpu-percent<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>deployment <span style="color:#e6db74">&#34;nginx-deployment&#34;</span> autoscaled
+</span></span></code></pre></div><blockquote>
+<p>min: 最小副本数
+max：最大副本数
 &ndash;cpu-percent=80</p>
 </blockquote>
-
 <h2 id="deployment-暂停和恢复">Deployment 暂停和恢复</h2>
-
 <p>可以通过控制deployment的执行过程实现“金丝雀发布”，</p>
-
-<pre><code class="language-bash">$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1; kubectl rollout pause deployment/nginx-deployment
-deployment &quot;nginx-deployment&quot; image updated
-deployment &quot;nginx-deployment&quot; paused
-</code></pre>
-
-<p>同事有两个版本在跑</p>
-
-<pre><code class="language-bash">kubectl get rs
-NAME                          DESIRED   CURRENT   READY     AGE
-nginx-deployment-2273492681   2         2         2         42m
-nginx-deployment-4087004473   2         2         2         12h
-nginx-deployment-4182293765   0         0         0         1h
-</code></pre>
-
-<pre><code class="language-bash">$ kubectl rollout status deployment/nginx-deployment 
-# 恢复deploy
-$ kubectl rollout resume deployment/nginx-deployment
-</code></pre>
-
-<h2 id="deployment-配置">Deployment 配置</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl set image deployment/nginx-deployment nginx<span style="color:#f92672">=</span>nginx:1.9.1; kubectl rollout pause deployment/nginx-deployment
+</span></span><span style="display:flex;"><span>deployment <span style="color:#e6db74">&#34;nginx-deployment&#34;</span> image updated
+</span></span><span style="display:flex;"><span>deployment <span style="color:#e6db74">&#34;nginx-deployment&#34;</span> paused
+</span></span></code></pre></div><p>同事有两个版本在跑</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get rs
+</span></span><span style="display:flex;"><span>NAME                          DESIRED   CURRENT   READY     AGE
+</span></span><span style="display:flex;"><span>nginx-deployment-2273492681   <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">2</span>         42m
+</span></span><span style="display:flex;"><span>nginx-deployment-4087004473   <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">2</span>         12h
+</span></span><span style="display:flex;"><span>nginx-deployment-4182293765   <span style="color:#ae81ff">0</span>         <span style="color:#ae81ff">0</span>         <span style="color:#ae81ff">0</span>         1h
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl rollout status deployment/nginx-deployment 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 恢复deploy</span>
+</span></span><span style="display:flex;"><span>$ kubectl rollout resume deployment/nginx-deployment
+</span></span></code></pre></div><h2 id="deployment-配置">Deployment 配置</h2>
 <p>查看正则运行的版本配置可以通过以下命令：</p>
-
-<pre><code class="language-bash">kubectl get deployment nginx-deployment -o yaml
-</code></pre>
-
-<pre><code class="language-yml">apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  annotations:
-    deployment.kubernetes.io/revision: &quot;5&quot;
-    kubectl.kubernetes.io/last-applied-configuration: '{&quot;kind&quot;:&quot;Deployment&quot;,&quot;apiVersion&quot;:&quot;extensions/v1beta1&quot;,&quot;metadata&quot;:{&quot;name&quot;:&quot;nginx-deployment&quot;,&quot;creationTimestamp&quot;:null},&quot;spec&quot;:{&quot;replicas&quot;:3,&quot;template&quot;:{&quot;metadata&quot;:{&quot;creationTimestamp&quot;:null,&quot;labels&quot;:{&quot;app&quot;:&quot;nginx&quot;}},&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;nginx&quot;,&quot;image&quot;:&quot;nginx:1.7.9&quot;,&quot;ports&quot;:[{&quot;containerPort&quot;:80}],&quot;resources&quot;:{}}]}},&quot;strategy&quot;:{},&quot;revisionHistoryLimit&quot;:5},&quot;status&quot;:{}}'
-    kubernetes.io/change-cause: kubectl apply -f nginx.yml --record
-  creationTimestamp: 2017-03-21T03:36:49Z
-  generation: 13
-  labels:
-    app: nginx
-  name: nginx-deployment
-  namespace: default
-  resourceVersion: &quot;96882&quot;
-  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/nginx-deployment
-  uid: 9dfe0a3f-0de7-11e7-a5ac-080027f0adcd
-spec:
-  replicas: 3
-  revisionHistoryLimit: 5
-  selector:
-    matchLabels:
-      app: nginx
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - image: nginx:1.7.9
-        imagePullPolicy: IfNotPresent
-        name: nginx
-        ports:
-        - containerPort: 80
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 3
-  conditions:
-  - lastTransitionTime: 2017-03-21T03:40:01Z
-    lastUpdateTime: 2017-03-21T03:40:01Z
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: &quot;True&quot;
-    type: Available
-  observedGeneration: 13
-  replicas: 3
-  updatedReplicas: 3
-</code></pre>
-
-<p>通过此配置，我们也可以参考调整<code>yml</code>配置然后<code>apply -f</code>。</p>
-
-<p><strong>Pod Template</strong><br />
-.spec.template<br />
-* metadata: 设置labels等。<code>.spec.template.metadata.labels</code> 和<code>.spec.selector</code>相等，才会被Replication Controller管理。<br />
-*  restartPolicy: Always默认<br />
-* spec.containers: docker容器相关配置(镜像，环境变量，数据卷&hellip;)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get deployment nginx-deployment -o yaml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">deployment.kubernetes.io/revision</span>: <span style="color:#e6db74">&#34;5&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubectl.kubernetes.io/last-applied-configuration</span>: <span style="color:#e6db74">&#39;{&#34;kind&#34;:&#34;Deployment&#34;,&#34;apiVersion&#34;:&#34;extensions/v1beta1&#34;,&#34;metadata&#34;:{&#34;name&#34;:&#34;nginx-deployment&#34;,&#34;creationTimestamp&#34;:null},&#34;spec&#34;:{&#34;replicas&#34;:3,&#34;template&#34;:{&#34;metadata&#34;:{&#34;creationTimestamp&#34;:null,&#34;labels&#34;:{&#34;app&#34;:&#34;nginx&#34;}},&#34;spec&#34;:{&#34;containers&#34;:[{&#34;name&#34;:&#34;nginx&#34;,&#34;image&#34;:&#34;nginx:1.7.9&#34;,&#34;ports&#34;:[{&#34;containerPort&#34;:80}],&#34;resources&#34;:{}}]}},&#34;strategy&#34;:{},&#34;revisionHistoryLimit&#34;:5},&#34;status&#34;:{}}&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/change-cause</span>: <span style="color:#ae81ff">kubectl apply -f nginx.yml --record</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">creationTimestamp</span>: <span style="color:#e6db74">2017-03-21T03:36:49Z</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">generation</span>: <span style="color:#ae81ff">13</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resourceVersion</span>: <span style="color:#e6db74">&#34;96882&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selfLink</span>: <span style="color:#ae81ff">/apis/extensions/v1beta1/namespaces/default/deployments/nginx-deployment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">uid</span>: <span style="color:#ae81ff">9dfe0a3f-0de7-11e7-a5ac-080027f0adcd</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">revisionHistoryLimit</span>: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">strategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">rollingUpdate</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">maxSurge</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">maxUnavailable</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">RollingUpdate</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">creationTimestamp</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.7.9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>: {}
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">terminationMessagePath</span>: <span style="color:#ae81ff">/dev/termination-log</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dnsPolicy</span>: <span style="color:#ae81ff">ClusterFirst</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">restartPolicy</span>: <span style="color:#ae81ff">Always</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">securityContext</span>: {}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">terminationGracePeriodSeconds</span>: <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">availableReplicas</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">2017-03-21T03:40:01Z</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lastUpdateTime</span>: <span style="color:#e6db74">2017-03-21T03:40:01Z</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">message</span>: <span style="color:#ae81ff">Deployment has minimum availability.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">MinimumReplicasAvailable</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Available</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">observedGeneration</span>: <span style="color:#ae81ff">13</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">updatedReplicas</span>: <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><p>通过此配置，我们也可以参考调整<code>yml</code>配置然后<code>apply -f</code>。</p>
+<p><strong>Pod Template</strong>
+.spec.template</p>
+<ul>
+<li>metadata: 设置labels等。<code>.spec.template.metadata.labels</code> 和<code>.spec.selector</code>相等，才会被Replication Controller管理。</li>
+<li>restartPolicy: Always默认</li>
+<li>spec.containers: docker容器相关配置(镜像，环境变量，数据卷&hellip;)</li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#创建deployment">创建Deployment</a></li>
-<li><a href="#deployment状态">Deployment状态</a></li>
-<li><a href="#deployment-更新">Deployment 更新</a></li>
-<li><a href="#deployment回退">Deployment回退</a></li>
-<li><a href="#deployment扩缩容">Deployment扩缩容</a></li>
-<li><a href="#deployment-暂停和恢复">Deployment 暂停和恢复</a></li>
-<li><a href="#deployment-配置">Deployment 配置</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#创建deployment">创建Deployment</a></li>
+    <li><a href="#deployment状态">Deployment状态</a></li>
+    <li><a href="#deployment-更新">Deployment 更新</a></li>
+    <li><a href="#deployment回退">Deployment回退</a></li>
+    <li><a href="#deployment扩缩容">Deployment扩缩容</a></li>
+    <li><a href="#deployment-暂停和恢复">Deployment 暂停和恢复</a></li>
+    <li><a href="#deployment-配置">Deployment 配置</a></li>
+  </ul>
 </nav>
     </section>
 

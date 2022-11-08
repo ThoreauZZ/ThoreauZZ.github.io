@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>并发 on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sat, 04 Nov 2017 18:15:37 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 04 Nov 2017 18:15:37 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>线程与锁</title>
       <link>http://thoreauz.com/2017/11/04/thread-lock/</link>
@@ -36,7 +32,7 @@
       <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
-      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;quot;Do something ...&amp;quot;); new Thread(new</description>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;#34;Do something ...&amp;#34;); new Thread(new</description>
     </item>
     
   </channel>

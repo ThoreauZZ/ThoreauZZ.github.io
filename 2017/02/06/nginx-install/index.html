@@ -21,7 +21,7 @@
   	<meta property="og:title" content="nginx入门之安装 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/06/nginx-install/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/06/nginx-install/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": nginx入门之安装,
-    "name": nginx入门之安装,
-    "wordCount": 470,
+    "headline": "nginx入门之安装",
+    "name": "nginx入门之安装",
+    "wordCount":  470 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/06/nginx-install/,
-    "datePublished": 2017-02-06T20:57Z,
-    "dateModified": 2017-02-06T20:57Z,
+    "url": "http://thoreauz.com/2017/02/06/nginx-install/",
+    "datePublished": "2017-02-06T20:57Z",
+    "dateModified": "2017-02-06T20:57Z",
     
-    "keywords": nginx,
-    "description": ,
+    "keywords": "nginx",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/06/nginx-install/
+        "@id": "http://thoreauz.com/2017/02/06/nginx-install/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,135 +243,94 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="nginx入门之安装">nginx入门之安装</h1>
-
-<h2 id="一-编译安装">一、编译安装</h2>
-
+      <h1 id="nginx入门之安装">nginx入门之安装</h1>
+<h2 id="一编译安装">一、编译安装</h2>
 <h3 id="下载">下载</h3>
-
 <p>如：nginx-1.11.9.tar.gz</p>
-
-<pre><code>wget http://nginx.org/download/nginx-1.11.9.tar.gz
-</code></pre>
-
-<h3 id="编译安装">编译安装</h3>
-
+<pre tabindex="0"><code>wget http://nginx.org/download/nginx-1.11.9.tar.gz
+</code></pre><h3 id="编译安装">编译安装</h3>
 <p>安装之前需要安装依赖库</p>
-
-<pre><code class="language-bash">yum -y install gcc gcc-c++ automake pcre pcre-devel zlib-devel open openssl-devel 
-</code></pre>
-
-<p>解压、编译、安装</p>
-
-<pre><code>tar -zxvf nginx-1.11.9.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum -y install gcc gcc-c++ automake pcre pcre-devel zlib-devel open openssl-devel 
+</span></span></code></pre></div><p>解压、编译、安装</p>
+<pre tabindex="0"><code>tar -zxvf nginx-1.11.9.tar.gz
 cd nginx-1.11.9
 ./configure --prefix=/usr/local/nginx
 make
 make install
-</code></pre>
-
-<h3 id="高级">高级</h3>
-
-<h3 id="1-3-1-查看编译参数">1.3.1 查看编译参数</h3>
-
+</code></pre><h3 id="高级">高级</h3>
+<h3 id="131-查看编译参数">1.3.1 查看编译参数</h3>
 <p>编译成功后，使用<code>/sbin/nginx -V</code>可以查看编译参数：</p>
-
-<pre><code>$ ../nginx/sbin/nginx -V
+<pre tabindex="0"><code>$ ../nginx/sbin/nginx -V
 nginx version: nginx/1.11.9
 built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC)
 configure arguments: --prefix=/usr/local/nginx
-</code></pre>
-
-<h3 id="1-3-2-加速编译">1.3.2 加速编译</h3>
-
-<pre><code>make -j4
-</code></pre>
-
-<h3 id="1-3-3-添加模块">1.3.3 添加模块</h3>
-
+</code></pre><h3 id="132-加速编译">1.3.2 加速编译</h3>
+<pre tabindex="0"><code>make -j4
+</code></pre><h3 id="133-添加模块">1.3.3 添加模块</h3>
 <p>如：添加http_ssl_module</p>
-
-<pre><code>cd nginx-1.11.9
+<pre tabindex="0"><code>cd nginx-1.11.9
 ./configure --prefix=/usr/local/nginx --with-http_ssl_module
 make
 mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak #备份
 cp objs/nginx /usr/local/nginx/sbin/nginx
-</code></pre>
-
-<p>检查</p>
-
-<pre><code>/usr/local/nginx/sbin/nginx -V
+</code></pre><p>检查</p>
+<pre tabindex="0"><code>/usr/local/nginx/sbin/nginx -V
 nginx version: nginx/1.11.9
 built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC)
 built with OpenSSL 1.0.1e-fips 11 Feb 2013
 TLS SNI support enabled
 configure arguments: --prefix=/usr/local/nginx --with-http_ssl_module
-</code></pre>
-
-<h2 id="二-yum-安装">二、yum 安装</h2>
-
+</code></pre><h2 id="二yum-安装">二、yum 安装</h2>
 <p>To set up the yum repository for RHEL/CentOS</p>
-
-<p>$ vi /etc/yum.repos.d/nginx.repo<br />
-&gt;[nginx]<br />
-name=nginx repo<br />
-baseurl=<a href="http://nginx.org/packages/centos/7/$basearch/">http://nginx.org/packages/centos/7/$basearch/</a><br />
-gpgcheck=0<br />
+<p>$ vi /etc/yum.repos.d/nginx.repo</p>
+<blockquote>
+<p>[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=0
 enabled=1</p>
-
-<pre><code>yum install nginx 
-</code></pre>
-
-<h2 id="三-常用命令">三、 常用命令</h2>
-
+</blockquote>
+<pre tabindex="0"><code>yum install nginx 
+</code></pre><h2 id="三-常用命令">三、 常用命令</h2>
 <p>基本命令</p>
-
-<pre><code class="language-bash">  ./sbin/nginx -h # help
-  ./sbin/nginx -t # 检查配置正确性并退出
-  ./sbin/nginx -q # 检查配置只显示错误(如端口被占用)
-  ./sbin/nginx #启动
-  ./sbin/nginx -s reload #重新加载
-  ./sbin/nginx -s stop   #停止
-  ./sbin/nginx -s quit   #停止
-  ./sbin/nginx -c /usr/local/nginx/conf/nginx.conf #指定配置文件
- ./sbin/nginx -p prefix # 指定nginx服务器路径前缀 
-  ./sbin/nginx -g directives #指定nginx附加配置文件路径 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./sbin/nginx -h <span style="color:#75715e"># help</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -t <span style="color:#75715e"># 检查配置正确性并退出</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -q <span style="color:#75715e"># 检查配置只显示错误(如端口被占用)</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx <span style="color:#75715e">#启动</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -s reload <span style="color:#75715e">#重新加载</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -s stop   <span style="color:#75715e">#停止</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -s quit   <span style="color:#75715e">#停止</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -c /usr/local/nginx/conf/nginx.conf <span style="color:#75715e">#指定配置文件</span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -p prefix <span style="color:#75715e"># 指定nginx服务器路径前缀 </span>
+</span></span><span style="display:flex;"><span>./sbin/nginx -g directives <span style="color:#75715e">#指定nginx附加配置文件路径 </span>
+</span></span></code></pre></div><p>强行停止</p>
+<pre tabindex="0"><code>#nginx从容停止命令，等所有请求结束后关闭服务
+ps -ef |grep nginx
+kill -QUIT  nginx主进程号
+#nginx 快速停止命令，立刻关闭nginx进程
+ps -ef |grep nginx
+kill -TERM nginx主进程号
+#如果以上命令不管用，可以强制停止
+kill -9 nginx主进程号
 </code></pre>
-
-<p>强行停止</p>
-
-<pre><code>  #nginx从容停止命令，等所有请求结束后关闭服务
-  ps -ef |grep nginx
-  kill -QUIT  nginx主进程号
-  #nginx 快速停止命令，立刻关闭nginx进程
-  ps -ef |grep nginx
-  kill -TERM nginx主进程号
-  #如果以上命令不管用，可以强制停止
-  kill -9 nginx主进程号
-</code></pre>
-
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#nginx入门之安装">nginx入门之安装</a>
-<ul>
-<li><a href="#一-编译安装">一、编译安装</a>
-<ul>
-<li><a href="#下载">下载</a></li>
-<li><a href="#编译安装">编译安装</a></li>
-<li><a href="#高级">高级</a></li>
-<li><a href="#1-3-1-查看编译参数">1.3.1 查看编译参数</a></li>
-<li><a href="#1-3-2-加速编译">1.3.2 加速编译</a></li>
-<li><a href="#1-3-3-添加模块">1.3.3 添加模块</a></li>
-</ul></li>
-<li><a href="#二-yum-安装">二、yum 安装</a></li>
-<li><a href="#三-常用命令">三、 常用命令</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一编译安装">一、编译安装</a>
+      <ul>
+        <li><a href="#下载">下载</a></li>
+        <li><a href="#编译安装">编译安装</a></li>
+        <li><a href="#高级">高级</a></li>
+        <li><a href="#131-查看编译参数">1.3.1 查看编译参数</a></li>
+        <li><a href="#132-加速编译">1.3.2 加速编译</a></li>
+        <li><a href="#133-添加模块">1.3.3 添加模块</a></li>
+      </ul>
+    </li>
+    <li><a href="#二yum-安装">二、yum 安装</a></li>
+    <li><a href="#三-常用命令">三、 常用命令</a></li>
+  </ul>
 </nav>
     </section>
 

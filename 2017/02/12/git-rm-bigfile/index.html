@@ -21,7 +21,7 @@
   	<meta property="og:title" content="git删除版本库中大文件记录 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/12/git-rm-bigfile/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/12/git-rm-bigfile/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": git删除版本库中大文件记录,
-    "name": git删除版本库中大文件记录,
-    "wordCount": 414,
+    "headline": "git删除版本库中大文件记录",
+    "name": "git删除版本库中大文件记录",
+    "wordCount":  414 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/12/git-rm-bigfile/,
-    "datePublished": 2017-02-12T14:54Z,
-    "dateModified": 2017-02-12T14:54Z,
+    "url": "http://thoreauz.com/2017/02/12/git-rm-bigfile/",
+    "datePublished": "2017-02-12T14:54Z",
+    "dateModified": "2017-02-12T14:54Z",
     
-    "keywords": git,
-    "description": ,
+    "keywords": "git",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/12/git-rm-bigfile/
+        "@id": "http://thoreauz.com/2017/02/12/git-rm-bigfile/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,100 +243,72 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="git删除版本库中大文件记录">git删除版本库中大文件记录</h1>
-
-<h2 id="一-场景">一、场景</h2>
-
+      <h1 id="git删除版本库中大文件记录">git删除版本库中大文件记录</h1>
+<h2 id="一场景">一、场景</h2>
 <p>现在有这样一种情况，我不小心往git库上传了一个很大的文件，如<code>xxxx.tar.gz</code>,我删除后，提交推送，文件没有了，但在git的版本库中还是存在，使<code>.git</code>目录特别大，可以通过以下几个命令轻松搞定。</p>
-
-<h2 id="二-实例">二、实例：</h2>
-
-<p>我的spring-cloud学习的仓库github地址：<br />
-<a href="https://github.com/ThoreauZZ/spring-cloud-example">spring-cloud-example</a><br />
+<h2 id="二实例">二、实例：</h2>
+<p>我的spring-cloud学习的仓库github地址：
+<a href="https://github.com/ThoreauZZ/spring-cloud-example">spring-cloud-example</a>
 先看看目录文件大小：</p>
-
-<pre><code class="language-bash"> $ du -d 1 -h
-23M	./.git
-32K	./cloud-api-gateway
-20K	./cloud-config-server
-32K	./cloud-data-mysql
-28K	./cloud-eureka-server
-36K	./cloud-service-ext
-32K	./cloud-trade-service
-20K	./cloud-user-api
-60K	./cloud-user-service
-20K	./cloud-zipkin-ui
-24K	./config-repo
-1.5M	./doc
-20K	./cloud-admin-ui
-20K	./cloud-turbine-dashboard
-388K	./cloud-comx
-80K	./bs-common-exception
-25M	.
-</code></pre>
-
-<h3 id="1-先找到最大的5个文件">1. 先找到最大的5个文件</h3>
-
-<pre><code class="language-bash">$ git rev-list --objects --all | grep &quot;$(git verify-pack -v .git/objects/pack/*.idx | sort -k 3 -n | tail -5 | awk '{print$1}')&quot;
-
-79a60cf86e4953b296e62da88fee1cfa8ce20a66 cloud-swagger/src/main/webapp/api/dist/swagger-ui.js
-a3a34487421247549f944d017ef480ce7d4be537 cloud-swagger/src/main/webapp/dist/91baf32caa045b74d22e.worker.js.map
-8aad956353bf4d3b5363d36f2766bf01ca961fda cloud-swagger/src/main/webapp/dist/bundle.js
-49d3c113e1983e7bc3e0fdefa99793d34e5ee9c6 cloud-swagger/src/main/webapp/dist/bundle.js.map
-ab9148b0a5b882c6f57b0ab97e7c93125058f155 cloud-swagger/src/main/webapp/dist/styles.css
-</code></pre>
-
-<p>可以看出，我上传的<code>cloud-swagger</code>已经被删除，但还在版本库中占空间。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> $ du -d <span style="color:#ae81ff">1</span> -h
+</span></span><span style="display:flex;"><span>23M	./.git
+</span></span><span style="display:flex;"><span>32K	./cloud-api-gateway
+</span></span><span style="display:flex;"><span>20K	./cloud-config-server
+</span></span><span style="display:flex;"><span>32K	./cloud-data-mysql
+</span></span><span style="display:flex;"><span>28K	./cloud-eureka-server
+</span></span><span style="display:flex;"><span>36K	./cloud-service-ext
+</span></span><span style="display:flex;"><span>32K	./cloud-trade-service
+</span></span><span style="display:flex;"><span>20K	./cloud-user-api
+</span></span><span style="display:flex;"><span>60K	./cloud-user-service
+</span></span><span style="display:flex;"><span>20K	./cloud-zipkin-ui
+</span></span><span style="display:flex;"><span>24K	./config-repo
+</span></span><span style="display:flex;"><span>1.5M	./doc
+</span></span><span style="display:flex;"><span>20K	./cloud-admin-ui
+</span></span><span style="display:flex;"><span>20K	./cloud-turbine-dashboard
+</span></span><span style="display:flex;"><span>388K	./cloud-comx
+</span></span><span style="display:flex;"><span>80K	./bs-common-exception
+</span></span><span style="display:flex;"><span>25M	.
+</span></span></code></pre></div><h3 id="1-先找到最大的5个文件">1. 先找到最大的5个文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git rev-list --objects --all | grep <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>git verify-pack -v .git/objects/pack/*.idx | sort -k <span style="color:#ae81ff">3</span> -n | tail -5 | awk <span style="color:#e6db74">&#39;{print$1}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>79a60cf86e4953b296e62da88fee1cfa8ce20a66 cloud-swagger/src/main/webapp/api/dist/swagger-ui.js
+</span></span><span style="display:flex;"><span>a3a34487421247549f944d017ef480ce7d4be537 cloud-swagger/src/main/webapp/dist/91baf32caa045b74d22e.worker.js.map
+</span></span><span style="display:flex;"><span>8aad956353bf4d3b5363d36f2766bf01ca961fda cloud-swagger/src/main/webapp/dist/bundle.js
+</span></span><span style="display:flex;"><span>49d3c113e1983e7bc3e0fdefa99793d34e5ee9c6 cloud-swagger/src/main/webapp/dist/bundle.js.map
+</span></span><span style="display:flex;"><span>ab9148b0a5b882c6f57b0ab97e7c93125058f155 cloud-swagger/src/main/webapp/dist/styles.css
+</span></span></code></pre></div><p>可以看出，我上传的<code>cloud-swagger</code>已经被删除，但还在版本库中占空间。</p>
 <h3 id="2-记录大文件">2. 记录大文件</h3>
-
 <p>把上面几个文件名保证到一个文件如<code>log.txt</code>:</p>
-
-<pre><code>$ cat log.txt
+<pre tabindex="0"><code>$ cat log.txt
 
 cloud-swagger/src/main/webapp/api/dist/swagger-ui.js cloud-swagger/src/main/webapp/dist/91baf32caa045b74d22e.worker.js.map cloud-swagger/src/main/webapp/dist/bundle.js cloud-swagger/src/main/webapp/dist/bundle.js.map cloud-swagger/src/main/webapp/dist/styles.css
-</code></pre>
-
-<h3 id="3-重写commit-删除大文件">3.重写commit，删除大文件</h3>
-
-<pre><code class="language-bash">git filter-branch -f --prune-empty --index-filter &quot;git rm -rf --cached --ignore-unmatch `cat log.txt`&quot; --tag-name-filter cat -- --all
-</code></pre>
-
-<h3 id="4-清理和回收空间">4. 清理和回收空间</h3>
-
-<pre><code class="language-bash">rm -rf .git/refs/original/ 
-git reflog expire --expire=now --all
-git gc --prune=now
-git gc --aggressive --prune=now
-</code></pre>
-
-<p>清理后再看，发现.git目录从23M变成了3.6M</p>
-
+</code></pre><h3 id="3重写commit删除大文件">3.重写commit，删除大文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git filter-branch -f --prune-empty --index-filter <span style="color:#e6db74">&#34;git rm -rf --cached --ignore-unmatch `cat log.txt`&#34;</span> --tag-name-filter cat -- --all
+</span></span></code></pre></div><h3 id="4-清理和回收空间">4. 清理和回收空间</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rm -rf .git/refs/original/ 
+</span></span><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all
+</span></span><span style="display:flex;"><span>git gc --prune<span style="color:#f92672">=</span>now
+</span></span><span style="display:flex;"><span>git gc --aggressive --prune<span style="color:#f92672">=</span>now
+</span></span></code></pre></div><p>清理后再看，发现.git目录从23M变成了3.6M</p>
 <h3 id="5-强行推送到仓库">5. 强行推送到仓库</h3>
-
-<pre><code class="language-bash"> git push origin master --force
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push origin master --force
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#git删除版本库中大文件记录">git删除版本库中大文件记录</a>
-<ul>
-<li><a href="#一-场景">一、场景</a></li>
-<li><a href="#二-实例">二、实例：</a>
-<ul>
-<li><a href="#1-先找到最大的5个文件">1. 先找到最大的5个文件</a></li>
-<li><a href="#2-记录大文件">2. 记录大文件</a></li>
-<li><a href="#3-重写commit-删除大文件">3.重写commit，删除大文件</a></li>
-<li><a href="#4-清理和回收空间">4. 清理和回收空间</a></li>
-<li><a href="#5-强行推送到仓库">5. 强行推送到仓库</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一场景">一、场景</a></li>
+    <li><a href="#二实例">二、实例：</a>
+      <ul>
+        <li><a href="#1-先找到最大的5个文件">1. 先找到最大的5个文件</a></li>
+        <li><a href="#2-记录大文件">2. 记录大文件</a></li>
+        <li><a href="#3重写commit删除大文件">3.重写commit，删除大文件</a></li>
+        <li><a href="#4-清理和回收空间">4. 清理和回收空间</a></li>
+        <li><a href="#5-强行推送到仓库">5. 强行推送到仓库</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

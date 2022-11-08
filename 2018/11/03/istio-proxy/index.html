@@ -21,7 +21,7 @@
   	<meta property="og:title" content="istio-proxy原理 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/11/03/istio-proxy/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/11/03/istio-proxy/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": istio-proxy原理,
-    "name": istio-proxy原理,
-    "wordCount": 1231,
+    "headline": "istio-proxy原理",
+    "name": "istio-proxy原理",
+    "wordCount":  1226 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/11/03/istio-proxy/,
-    "datePublished": 2018-11-03T18:33Z,
-    "dateModified": 2018-11-03T18:33Z,
+    "url": "http://thoreauz.com/2018/11/03/istio-proxy/",
+    "datePublished": "2018-11-03T18:33Z",
+    "dateModified": "2018-11-03T18:33Z",
     
-    "keywords": istio, service-mesh,
-    "description": ,
+    "keywords": "istio, service-mesh",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/11/03/istio-proxy/
+        "@id": "http://thoreauz.com/2018/11/03/istio-proxy/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,228 +247,198 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="前言">前言</h2>
-
+      <h2 id="前言">前言</h2>
 <p>在上一篇文章介绍的kubernetes环境的示例中，istio以边车模式部署在pod中，它接管了业务容器所有出入站流量，从而灵活控制网络。本文关键讨论如何接管。</p>
-
 <h2 id="kubernetes-init-containers">kubernetes Init Containers</h2>
-
 <p>在开始之前，先介绍kubernetes的 Init Containers。比如如下示例</p>
-
-<pre><code class="language-yml">apiVersion: v1
-kind: Pod
-metadata:
-  name: myapp-pod
-  labels:
-    app: myapp
-spec:
-  containers:
-  - name: myapp-container
-    image: busybox
-    command: ['sh', '-c', 'echo The app is running! &amp;&amp; sleep 3600']
-  initContainers:
-  - name: init-myservice
-    image: busybox
-    command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
-  - name: init-mydb
-    image: busybox
-    command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
-</code></pre>
-
-<p>initContainers有几个特点：<br />
-1.  从开始到结束，只运行一次<br />
-2.  每一个initContainer都必须成功执行后才会执行下一个<br />
-3.  在容器启动之前执行<br />
-4.  如果执行失败，pod会重启(restartPolicy为Never除外)</p>
-
-<p>因为pod共享命名空间、网络和volumes，可以通过它在普通容器启动前初始化网络环境。</p>
-
-<!-- more -->
-
-<h2 id="istio-proxy">istio-proxy</h2>
-
-<p>一个普通nginx-deployment.yaml</p>
-
-<pre><code class="language-yml">apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.14.0-alpine
-        ports:
-        - containerPort: 80
-</code></pre>
-
-<p>使用istioctl部署如下</p>
-
-<pre><code>kubectl apply -f &lt;(istioctl kube-inject -f nginx-deployment.yaml) 
-</code></pre>
-
-<p>我们关注<code>istioctl kube-inject -f nginx-deployment.yaml</code> 生成的内容。</p>
-
-<pre><code class="language-yml">apiVersion: apps/v1
-kind: Deployment
-metadata:
-  creationTimestamp: null
-  labels:
-    app: nginx
-  name: nginx-deployment
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx
-  strategy: {}
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/status: '{&quot;version&quot;:&quot;c560152609b91ff8d7c47257873095fffb2bddad37acf20013cc9362e6b389de&quot;,&quot;initContainers&quot;:[&quot;istio-init&quot;],&quot;containers&quot;:[&quot;istio-proxy&quot;],&quot;volumes&quot;:[&quot;istio-envoy&quot;,&quot;istio-certs&quot;],&quot;imagePullSecrets&quot;:null}'
-      creationTimestamp: null
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - image: nginx:1.14.0-alpine
-        name: nginx
-        ports:
-        - containerPort: 80
-        resources: {}
-      - args:
-        - proxy
-        - sidecar
-        - --configPath
-        - /etc/istio/proxy
-        - --binaryPath
-        - /usr/local/bin/envoy
-        - --serviceCluster
-        - nginx
-        - --drainDuration
-        - 45s
-        - --parentShutdownDuration
-        - 1m0s
-        - --discoveryAddress
-        - istio-pilot.istio-system:15007
-        - --discoveryRefreshDelay
-        - 1s
-        - --zipkinAddress
-        - zipkin.istio-system:9411
-        - --connectTimeout
-        - 10s
-        - --statsdUdpAddress
-        - istio-statsd-prom-bridge.istio-system:9125
-        - --proxyAdminPort
-        - &quot;15000&quot;
-        - --controlPlaneAuthPolicy
-        - NONE
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: INSTANCE_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        - name: ISTIO_META_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: ISTIO_META_INTERCEPTION_MODE
-          value: REDIRECT
-        image: registry.cn-hangzhou.aliyuncs.com/my-istio-release/proxyv2:1.0.2
-        imagePullPolicy: IfNotPresent
-        name: istio-proxy
-        resources:
-          requests:
-            cpu: 10m
-        securityContext:
-          readOnlyRootFilesystem: true
-          runAsUser: 1337
-        volumeMounts:
-        - mountPath: /etc/istio/proxy
-          name: istio-envoy
-        - mountPath: /etc/certs/
-          name: istio-certs
-          readOnly: true
-      initContainers:
-      - args:
-        - -p
-        - &quot;15001&quot;
-        - -u
-        - &quot;1337&quot;
-        - -m
-        - REDIRECT
-        - -i
-        - '*'
-        - -x
-        - &quot;&quot;
-        - -b
-        - 80,
-        - -d
-        - &quot;&quot;
-        image: registry.cn-hangzhou.aliyuncs.com/my-istio-release/proxy_init:1.0.2
-        imagePullPolicy: IfNotPresent
-        name: istio-init
-        resources: {}
-        securityContext:
-          capabilities:
-            add:
-            - NET_ADMIN
-      volumes:
-      - emptyDir:
-          medium: Memory
-        name: istio-envoy
-      - name: istio-certs
-        secret:
-          optional: true
-          secretName: istio.default
-status: {}
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp-pod</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp-container</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo The app is running! &amp;&amp; sleep 3600&#39;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">initContainers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">init-myservice</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;until nslookup myservice; do echo waiting for myservice; sleep 2; done;&#39;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">init-mydb</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;until nslookup mydb; do echo waiting for mydb; sleep 2; done;&#39;</span>]
+</span></span></code></pre></div><p>initContainers有几个特点：</p>
 <ol>
-<li>在原理pod基础增加了容器istio-proxy<br /></li>
-<li>在原理pod基础增加了初始化容器istio-init<br />
-<br /></li>
+<li>从开始到结束，只运行一次</li>
+<li>每一个initContainer都必须成功执行后才会执行下一个</li>
+<li>在容器启动之前执行</li>
+<li>如果执行失败，pod会重启(restartPolicy为Never除外)</li>
 </ol>
-
+<p>因为pod共享命名空间、网络和volumes，可以通过它在普通容器启动前初始化网络环境。</p>
+<!-- raw HTML omitted -->
+<h2 id="istio-proxy">istio-proxy</h2>
+<p>一个普通nginx-deployment.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.14.0-alpine</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>使用istioctl部署如下</p>
+<pre tabindex="0"><code>kubectl apply -f &lt;(istioctl kube-inject -f nginx-deployment.yaml) 
+</code></pre><p>我们关注<code>istioctl kube-inject -f nginx-deployment.yaml</code> 生成的内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">creationTimestamp</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">strategy</span>: {}
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">sidecar.istio.io/status</span>: <span style="color:#e6db74">&#39;{&#34;version&#34;:&#34;c560152609b91ff8d7c47257873095fffb2bddad37acf20013cc9362e6b389de&#34;,&#34;initContainers&#34;:[&#34;istio-init&#34;],&#34;containers&#34;:[&#34;istio-proxy&#34;],&#34;volumes&#34;:[&#34;istio-envoy&#34;,&#34;istio-certs&#34;],&#34;imagePullSecrets&#34;:null}&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">creationTimestamp</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.14.0-alpine</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>: {}
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">proxy</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">sidecar</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">configPath</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">/etc/istio/proxy</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">binaryPath</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">/usr/local/bin/envoy</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">serviceCluster</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">drainDuration</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">45s</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">parentShutdownDuration</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">1m0s</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">discoveryAddress</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">istio-pilot.istio-system:15007</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">discoveryRefreshDelay</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">1s</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">zipkinAddress</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">zipkin.istio-system:9411</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">connectTimeout</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">10s</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">statsdUdpAddress</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">istio-statsd-prom-bridge.istio-system:9125</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">proxyAdminPort</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;15000&#34;</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">controlPlaneAuthPolicy</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">NONE</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">POD_NAME</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">fieldRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">fieldPath</span>: <span style="color:#ae81ff">metadata.name</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">POD_NAMESPACE</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">fieldRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">fieldPath</span>: <span style="color:#ae81ff">metadata.namespace</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">INSTANCE_IP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">fieldRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">fieldPath</span>: <span style="color:#ae81ff">status.podIP</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ISTIO_META_POD_NAME</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">fieldRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">fieldPath</span>: <span style="color:#ae81ff">metadata.name</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ISTIO_META_INTERCEPTION_MODE</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#ae81ff">REDIRECT</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/my-istio-release/proxyv2:1.0.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-proxy</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">10m</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">securityContext</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">readOnlyRootFilesystem</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">runAsUser</span>: <span style="color:#ae81ff">1337</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/istio/proxy</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-envoy</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/certs/</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-certs</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">initContainers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">p</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;15001&#34;</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">u</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;1337&#34;</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">m</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">REDIRECT</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">i</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;*&#39;</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">x</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">b</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">80</span>,
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">d</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.cn-hangzhou.aliyuncs.com/my-istio-release/proxy_init:1.0.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-init</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>: {}
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">securityContext</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">capabilities</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">add</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">NET_ADMIN</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">emptyDir</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">medium</span>: <span style="color:#ae81ff">Memory</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-envoy</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">istio-certs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">secret</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">optional</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">istio.default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>: {}
+</span></span></code></pre></div><ol>
+<li>在原理pod基础增加了容器istio-proxy</li>
+<li>在原理pod基础增加了初始化容器istio-init</li>
+</ol>
 <p><code>istio-init</code>正是上文提到的k8s initContainers。使用proxy_init镜像，通过<code>docker inspect</code>命令可以查看此镜像的Entrypoint：</p>
-
-<pre><code class="language-json">{
-&quot;Entrypoint&quot;: [&quot;/usr/local/bin/istio-iptables.sh&quot;]
-}
-</code></pre>
-
-<p>这个初始化容器主要工作就是执行这样一个脚本istio-iptables.sh参数args是：</p>
-
-<pre><code>istio-iptables.sh -p &quot;15001&quot; -u &quot;1337&quot; -m REDIRECT -i '*' -x &quot;&quot; -b 80, -d &quot;&quot;
-</code></pre>
-
-<p>他的作用是把所有80端口的出入站流量重定向 UID为1337、端口为15001的istio_proxy(Envoy)。通过iptable完成了网络流量的拦截转发都到Envoy代理，这就是sidecar接管流量的关键。iptables的详细介绍见<a href="http://thoreauz.com/2017/11/09/linux/core/%E7%90%86%E8%A7%A3iptables/">理解iptables</a></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;Entrypoint&#34;</span>: [<span style="color:#e6db74">&#34;/usr/local/bin/istio-iptables.sh&#34;</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个初始化容器主要工作就是执行这样一个脚本istio-iptables.sh参数args是：</p>
+<pre tabindex="0"><code>istio-iptables.sh -p &#34;15001&#34; -u &#34;1337&#34; -m REDIRECT -i &#39;*&#39; -x &#34;&#34; -b 80, -d &#34;&#34;
+</code></pre><p>他的作用是把所有80端口的出入站流量重定向 UID为1337、端口为15001的istio_proxy(Envoy)。通过iptable完成了网络流量的拦截转发都到Envoy代理，这就是sidecar接管流量的关键。iptables的详细介绍见<a href="http://thoreauz.com/2017/11/09/linux/core/%E7%90%86%E8%A7%A3iptables/">理解iptables</a></p>
 <p>流量到envoy后，它的路由、服务发现等动态配置从哪里获取的？</p>
-
-<p>从<code>istioctl kube-inject -f</code>生成的内容还有这样一段：</p>
-
-<pre><code>proxy
+<p>从<code>istioctl kube-inject -f </code>生成的内容还有这样一段：</p>
+<pre tabindex="0"><code>proxy
 sidecar
 --configPath
 /etc/istio/proxy
@@ -490,40 +461,29 @@ zipkin.istio-system:9411
 --statsdUdpAddress
 istio-statsd-prom-bridge.istio-system:9125
 --proxyAdminPort
-&quot;15000&quot;
+&#34;15000&#34;
 --controlPlaneAuthPolicy
 NONE
-</code></pre>
-
-<p>这是proxy的初始化参数，告诉envoy，discoveryAddress地址istio-pilot.istio-system:15007</p>
-
-<pre><code>--discoveryAddress istio-pilot.istio-system:15007
+</code></pre><p>这是proxy的初始化参数，告诉envoy，discoveryAddress地址istio-pilot.istio-system:15007</p>
+<pre tabindex="0"><code>--discoveryAddress istio-pilot.istio-system:15007
 --discoveryRefreshDelay 1s
-</code></pre>
-
-<h2 id="总结">总结</h2>
-
+</code></pre><h2 id="总结">总结</h2>
 <ol>
-<li>通过k8s初始化容器执行iptables指令，把流量交给proxy<br /></li>
-<li>proxy通过pilot获取配置<br />
-<br /></li>
+<li>通过k8s初始化容器执行iptables指令，把流量交给proxy</li>
+<li>proxy通过pilot获取配置</li>
 </ol>
-
 <p>下文我们讨论，pilot 和 envoy是怎么结合的。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#kubernetes-init-containers">kubernetes Init Containers</a></li>
-<li><a href="#istio-proxy">istio-proxy</a></li>
-<li><a href="#总结">总结</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#kubernetes-init-containers">kubernetes Init Containers</a></li>
+    <li><a href="#istio-proxy">istio-proxy</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
 </nav>
     </section>
 

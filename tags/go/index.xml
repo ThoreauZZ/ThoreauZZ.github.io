@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>go on 造舟野渡</title>
@@ -7,18 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Thu, 15 Mar 2018 00:41:09 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 15 Mar 2018 00:41:09 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GO-defer语句</title>
       <link>http://thoreauz.com/2018/03/15/GO-defer/</link>
       <pubDate>Thu, 15 Mar 2018 00:41:09 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/03/15/GO-defer/</guid>
-      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;quot;The finishing touches .&amp;quot;) 为什么叫延长函数，有</description>
+      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;#34;The finishing touches .&amp;#34;) 为什么叫延长函数，有</description>
     </item>
     
     <item>
@@ -31,15 +27,6 @@
     </item>
     
     <item>
-      <title>GO— 异常错误处理</title>
-      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
-      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
-      
-      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
-      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
-    </item>
-    
-    <item>
       <title>go 开发web应用</title>
       <link>http://thoreauz.com/2018/01/09/go-web-example/</link>
       <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
@@ -49,12 +36,21 @@
     </item>
     
     <item>
+      <title>GO— 异常错误处理</title>
+      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
+      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
+    </item>
+    
+    <item>
       <title>Go语言8-Json</title>
       <link>http://thoreauz.com/2017/11/11/go-learn-8-json/</link>
       <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/11/11/go-learn-8-json/</guid>
-      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;quot;login&amp;quot;:</description>
+      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;#34;login&amp;#34;:</description>
     </item>
     
     <item>
@@ -117,7 +113,7 @@
       <pubDate>Thu, 27 Jul 2017 00:15:11 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/07/27/go-learn-2-struct/</guid>
-      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 1. 基础类型: byte、int、bool、float等 2. 复合类型:</description>
+      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 基础类型: byte、int、bool、float等 复合类型: 如数</description>
     </item>
     
     <item>

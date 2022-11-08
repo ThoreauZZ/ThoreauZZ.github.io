@@ -21,7 +21,7 @@
   	<meta property="og:title" content="shell编程三-循环语句 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/08/shell-forloop/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/08/shell-forloop/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": shell编程三-循环语句,
-    "name": shell编程三-循环语句,
-    "wordCount": 226,
+    "headline": "shell编程三-循环语句",
+    "name": "shell编程三-循环语句",
+    "wordCount":  223 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/08/shell-forloop/,
-    "datePublished": 2017-02-08T13:16Z,
-    "dateModified": 2017-02-08T13:16Z,
+    "url": "http://thoreauz.com/2017/02/08/shell-forloop/",
+    "datePublished": "2017-02-08T13:16Z",
+    "dateModified": "2017-02-08T13:16Z",
     
-    "keywords": linux, shell,
-    "description": ,
+    "keywords": "linux, shell",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/08/shell-forloop/
+        "@id": "http://thoreauz.com/2017/02/08/shell-forloop/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,114 +247,87 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="shell编程三-循环语句">shell编程三-循环语句</h1>
-
+      <h1 id="shell编程三-循环语句">shell编程三-循环语句</h1>
 <h2 id="for循环">for循环</h2>
-
-<pre><code class="language-bash">for var in list
-do 
-   commands
-done
-</code></pre>
-
-<p>C语言风格的for循环:</p>
-
-<pre><code class="language-bash">#!/bin/bash
-for  (( i=1; i &lt;= 10; i ++ ))
-do
-	echo value is $i
-done    
-</code></pre>
-
-<pre><code class="language-bash">#!/bin/bash
-for  (( a=1, b=10; a &lt;= 10; a++,b-- ))
-do
-	echo  &quot;$a - $b&quot;
-done
-</code></pre>
-
-<h2 id="while循环">while循环</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> var in list
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>   commands
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>C语言风格的for循环:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span>  <span style="color:#f92672">((</span> i<span style="color:#f92672">=</span>1; i &lt;<span style="color:#f92672">=</span> 10; i ++ <span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	echo value is $i
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>    
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span>  <span style="color:#f92672">((</span> a<span style="color:#f92672">=</span>1, b<span style="color:#f92672">=</span>10; a &lt;<span style="color:#f92672">=</span> 10; a++,b-- <span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	echo  <span style="color:#e6db74">&#34;</span>$a<span style="color:#e6db74"> - </span>$b<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="while循环">while循环</h2>
 <blockquote>
-<p>while test command<br />
-do<br />
-  commands<br />
+<p>while test command
+do
+commands
 done</p>
 </blockquote>
-
-<pre><code class="language-bash">#!/bin/bash
-var=10
-while [ $var -gt 0 ]
-do
-	echo $var' &gt; 0'
-	var=$[ $var - 1 ]
-done
-</code></pre>
-
-<h2 id="until-循环">until 循环</h2>
-
-<pre><code class="language-bash">#!/bin/bash
-var=10
-until [ $var -lt 0 ]
-do
-	echo $var' &gt; 0'
-	var=$[ $var - 1 ]
-done
-</code></pre>
-
-<h2 id="循环其他功能">循环其他功能</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>var<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var -gt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	echo $var<span style="color:#e6db74">&#39; &gt; 0&#39;</span>
+</span></span><span style="display:flex;"><span>	var<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="until-循环">until 循环</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>var<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> $var -lt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	echo $var<span style="color:#e6db74">&#39; &gt; 0&#39;</span>
+</span></span><span style="display:flex;"><span>	var<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="循环其他功能">循环其他功能</h2>
 <h3 id="循环控制">循环控制</h3>
-
-<p>跟其他语言一样，控制循环：<br />
-* break<br />
-* continue</p>
-
+<p>跟其他语言一样，控制循环：</p>
+<ul>
+<li>break</li>
+<li>continue</li>
+</ul>
 <h3 id="循环输出">循环输出</h3>
-
-<pre><code class="language-bash">#!/bin/bash
-for file in /root/*
-do
-	if [ -d $file ]
-	then
-		echo ${file}是目录
-	fi
-done &gt; output.txt
-</code></pre>
-
-<h2 id="示例">示例</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> file in /root/*
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d $file <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>		echo <span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span>是目录
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> &gt; output.txt
+</span></span></code></pre></div><h2 id="示例">示例</h2>
 <p>读取文件变量，<code>,</code>区分：</p>
-
-<pre><code class="language-bash">#!/bin/bash
-input=&quot;users.csv&quot;
-while IFS=',' read -r userid name
-do
-  echo &quot;adding $userid&quot;
-  useradd -c &quot;$name&quot; -m $userid
-done &lt; &quot;$input”
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;users.csv&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span> read -r userid name
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;adding </span>$userid<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  useradd -c <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span> -m $userid
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> &lt; <span style="color:#e6db74">&#34;</span>$input<span style="color:#e6db74">”
+</span></span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#shell编程三-循环语句">shell编程三-循环语句</a>
-<ul>
-<li><a href="#for循环">for循环</a></li>
-<li><a href="#while循环">while循环</a></li>
-<li><a href="#until-循环">until 循环</a></li>
-<li><a href="#循环其他功能">循环其他功能</a>
-<ul>
-<li><a href="#循环控制">循环控制</a></li>
-<li><a href="#循环输出">循环输出</a></li>
-</ul></li>
-<li><a href="#示例">示例</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#for循环">for循环</a></li>
+    <li><a href="#while循环">while循环</a></li>
+    <li><a href="#until-循环">until 循环</a></li>
+    <li><a href="#循环其他功能">循环其他功能</a>
+      <ul>
+        <li><a href="#循环控制">循环控制</a></li>
+        <li><a href="#循环输出">循环输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a></li>
+  </ul>
 </nav>
     </section>
 

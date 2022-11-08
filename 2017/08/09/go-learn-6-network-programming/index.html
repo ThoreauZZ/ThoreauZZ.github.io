@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Go语言6-网络编程 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/09/go-learn-6-network-programming/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/09/go-learn-6-network-programming/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": Go语言6-网络编程,
-    "name": Go语言6-网络编程,
-    "wordCount": 841,
+    "headline": "Go语言6-网络编程",
+    "name": "Go语言6-网络编程",
+    "wordCount":  828 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/09/go-learn-6-network-programming/,
-    "datePublished": 2017-08-09T19:56Z,
-    "dateModified": 2017-08-09T19:56Z,
+    "url": "http://thoreauz.com/2017/08/09/go-learn-6-network-programming/",
+    "datePublished": "2017-08-09T19:56Z",
+    "dateModified": "2017-08-09T19:56Z",
     
-    "keywords": go学习, go,
-    "description": ,
+    "keywords": "go学习, go",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/09/go-learn-6-network-programming/
+        "@id": "http://thoreauz.com/2017/08/09/go-learn-6-network-programming/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,200 +247,174 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>Go语言标准库里提供的net包,支持基于IP层、TCP/UDP层及更高层面(如HTTP、FTP、SMTP)的网络操作，其中用于IP层的称为Raw Socket。</p>
-
-<p><code>net.Dial()</code>函数对TCP和UDP等协议的建立、绑定、监听socket作了抽象和封装，只需要把协议和地址作为参数传递给它，即可处理。<code>Dial()</code>返回的Conn接口，支持Io.Reader和io.Writer等。</p>
-
-<!-- more -->
-
-<h2 id="一-tcp-服务端客户端">一、TCP 服务端客户端</h2>
-
+      <p>Go语言标准库里提供的net包,支持基于IP层、TCP/UDP层及更高层面(如HTTP、FTP、SMTP)的网络操作，其中用于IP层的称为Raw Socket。</p>
+<p><code>net.Dial() </code>函数对TCP和UDP等协议的建立、绑定、监听socket作了抽象和封装，只需要把协议和地址作为参数传递给它，即可处理。<code>Dial()</code>返回的Conn接口，支持Io.Reader和io.Writer等。</p>
+<!-- raw HTML omitted -->
+<h2 id="一tcp-服务端客户端">一、TCP 服务端客户端</h2>
 <p>根据协议<a href="https://tools.ietf.org/html/rfc862">Echo Protocol RFC 862</a>，使用GO编写一个简单Echo服务。</p>
-
-<pre><code class="language-go">package main
-
-import (
-	&quot;fmt&quot;
-	&quot;net&quot;
-	&quot;os&quot;
-	&quot;io&quot;
-)
-
-const (
-	CONN_HOST = &quot;localhost&quot;
-	CONN_PORT = &quot;3333&quot;
-	CONN_TYPE = &quot;tcp&quot;
-)
-
-func main() {
-	// 1. 监听地址
-	l, err := net.Listen(CONN_TYPE, CONN_HOST+&quot;:&quot;+CONN_PORT)
-	if err != nil {
-		fmt.Println(&quot;Error listening:&quot;, err.Error())
-		os.Exit(1)
-	}
-	defer l.Close()
-	fmt.Println(&quot;Listening on &quot; + CONN_HOST + &quot;:&quot; + CONN_PORT)
-	for {
-		// 2. 接受连接
-		conn, err := l.Accept()
-		if err != nil {
-			fmt.Println(&quot;Error accepting: &quot;, err.Error())
-			os.Exit(1)
-		}
-		fmt.Printf(&quot;Received message %s -&gt; %s \n&quot;, conn.RemoteAddr(), conn.LocalAddr())
-		// 在一个Goroutine中处理conn
-		go handleRequest(conn)
-	}
-}
-
-func handleRequest(conn net.Conn) {
-	defer conn.Close()
-	for {
-		io.Copy(conn, conn)
-	}
-}
-
-</code></pre>
-
-<p>启动main函数后，通过telnet 客户端即可访问：</p>
-
-<pre><code class="language-go">telnet localhost 3333
-Trying ::1...
-telnet: connect to address ::1: Connection refused
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is '^]'.
-hello server
-hello server
-</code></pre>
-
-<p>如果是go编写客户端，我们希望通过两个goroutine，一个写数据到服务端，一个读取相应，如下通过sync完成：</p>
-
-<pre><code class="language-go">package main
-
-import (
-	&quot;net&quot;
-	&quot;fmt&quot;
-	&quot;os&quot;
-	&quot;sync&quot;
-	&quot;strconv&quot;
-	&quot;bufio&quot;
-)
-const (
-	HOST = &quot;localhost&quot;
-	PORT = &quot;3333&quot;
-	TYPE = &quot;tcp&quot;
-)
-
-func main() {
-	conn, err := net.Dial(TYPE, HOST+&quot;:&quot;+PORT)
-	if err != nil {
-		fmt.Println(&quot;Error connecting:&quot;, err)
-		os.Exit(1)
-	}
-	defer conn.Close()
-	var wg sync.WaitGroup
-	wg.Add(2)
-	fmt.Println(&quot;Connecting to &quot; + HOST + &quot;:&quot; + PORT)
-	go writeData(conn, &amp;wg)
-	go getResponse(conn, &amp;wg)
-	wg.Wait()
-}
-func writeData(conn net.Conn, wg *sync.WaitGroup) {
-	defer wg.Done()
-	for i := 10; i &gt; 0; i-- {
-		_, e := conn.Write([]byte(&quot;hello &quot; + strconv.Itoa(i) + &quot;\r\n&quot;))
-		if e != nil {
-			fmt.Println(&quot;Error to send message because of &quot;, e.Error())
-			break
-		}
-	}
-}
-func getResponse(conn net.Conn, wg *sync.WaitGroup) {
-	defer wg.Done()
-	reader := bufio.NewReader(conn)
-	for i := 1; i &lt;= 10; i++ {
-		line, err := reader.ReadString(byte('\n'))
-		if err != nil {
-			fmt.Print(&quot;Error to read message because of &quot;, err)
-			return
-		}
-		fmt.Print(line)
-	}
-}
-</code></pre>
-
-<p>当然，也可以使用channel。</p>
-
-<h2 id="二-udp-服务端">二、UDP 服务端</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CONN_HOST</span> = <span style="color:#e6db74">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CONN_PORT</span> = <span style="color:#e6db74">&#34;3333&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CONN_TYPE</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 监听地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">l</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#a6e22e">CONN_TYPE</span>, <span style="color:#a6e22e">CONN_HOST</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">CONN_PORT</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error listening:&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Listening on &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">CONN_HOST</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">CONN_PORT</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 2. 接受连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">Accept</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error accepting: &#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Received message %s -&gt; %s \n&#34;</span>, <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">RemoteAddr</span>(), <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">LocalAddr</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 在一个Goroutine中处理conn
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">handleRequest</span>(<span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleRequest</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">Copy</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>启动main函数后，通过telnet 客户端即可访问：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">telnet</span> <span style="color:#a6e22e">localhost</span> <span style="color:#ae81ff">3333</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Trying</span> ::<span style="color:#ae81ff">1.</span>..
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">telnet</span>: <span style="color:#a6e22e">connect</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">address</span> ::<span style="color:#ae81ff">1</span>: <span style="color:#a6e22e">Connection</span> <span style="color:#a6e22e">refused</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Trying</span> <span style="color:#ae81ff">127.0.0.1</span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Connected</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">localhost</span>.
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Escape</span> <span style="color:#a6e22e">character</span> <span style="color:#a6e22e">is</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>^]<span style="color:#960050;background-color:#1e0010">&#39;</span>.
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">hello</span> <span style="color:#a6e22e">server</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">hello</span> <span style="color:#a6e22e">server</span>
+</span></span></code></pre></div><p>如果是go编写客户端，我们希望通过两个goroutine，一个写数据到服务端，一个读取相应，如下通过sync完成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;strconv&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bufio&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">HOST</span> = <span style="color:#e6db74">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">PORT</span> = <span style="color:#e6db74">&#34;3333&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TYPE</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Dial</span>(<span style="color:#a6e22e">TYPE</span>, <span style="color:#a6e22e">HOST</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">PORT</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error connecting:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Connecting to &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">HOST</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">PORT</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">writeData</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">getResponse</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">writeData</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">&#34;hello &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">i</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\r\n&#34;</span>))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error to send message because of &#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getResponse</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">reader</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">ReadString</span>(byte(<span style="color:#e6db74">&#39;\n&#39;</span>))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#e6db74">&#34;Error to read message because of &#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">line</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>当然，也可以使用channel。</p>
+<h2 id="二udp-服务端">二、UDP 服务端</h2>
 <p>服务端简单实现：</p>
-
-<pre><code class="language-go">package main
-
-import (
-	&quot;fmt&quot;
-	&quot;net&quot;
-	&quot;os&quot;
-)
-func main() {
-	// 1. 监听4444
-	udp_addr, err := net.ResolveUDPAddr(&quot;udp&quot;, &quot;:4444&quot;)
-	checkError(err)
-	//2. 创建监听连接
-	conn, err := net.ListenUDP(&quot;udp&quot;, udp_addr)
-	defer conn.Close()
-	checkError(err)
-	//3. 处理连接
-	recvUDPMsg(conn)
-}
-
-func recvUDPMsg(conn *net.UDPConn) {
-	data := make([]byte, 1024)
-	n, addr, err := conn.ReadFromUDP(data)
-	if err != nil {
-		return
-	}
-	fmt.Println(&quot;udp msg: &quot;, string(data[:n]))
-	_, err = conn.WriteToUDP([]byte(&quot;nice to see u&quot;), addr)
-	checkError(err)
-}
-
-func checkError(err error) {
-	if err != nil {
-		fmt.Printf(&quot;Error:%s&quot;, err.Error())
-		os.Exit(1)
-	}
-}
-</code></pre>
-
-<p>可以使用<code>nc -vuz localhost 4444</code>测试，代码实现也很简单:</p>
-
-<pre><code class="language-go">conn, err := net.Dial(&quot;udp&quot;, &quot;host:port&quot;)
-</code></pre>
-
-<hr />
-
-<p>引用列表:<br />
-* <a href="https://colobu.com/2014/12/02/go-socket-programming-TCP/">Go socket编程实践: TCP服务器和客户端实现</a><br />
-* <a href="http://studygolang.com/articles/6559">go简易udp socket客户端和服务器</a><br />
-* <a href="http://colobu.com/2016/10/19/Go-UDP-Programming/">深入Go UDP编程</a><br />
-* <a href="https://aicode.cc/yi-zai-go-yu-yan-zhong-shi-xian-udp-he-tcp-wang-lu.html">在 Go 语言中实现 UDP 和 TCP 网络通讯</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 1. 监听4444
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">udp_addr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ResolveUDPAddr</span>(<span style="color:#e6db74">&#34;udp&#34;</span>, <span style="color:#e6db74">&#34;:4444&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">checkError</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//2. 创建监听连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ListenUDP</span>(<span style="color:#e6db74">&#34;udp&#34;</span>, <span style="color:#a6e22e">udp_addr</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">checkError</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//3. 处理连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">recvUDPMsg</span>(<span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">recvUDPMsg</span>(<span style="color:#a6e22e">conn</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">UDPConn</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">1024</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">addr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">ReadFromUDP</span>(<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;udp msg: &#34;</span>, string(<span style="color:#a6e22e">data</span>[:<span style="color:#a6e22e">n</span>]))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">WriteToUDP</span>([]byte(<span style="color:#e6db74">&#34;nice to see u&#34;</span>), <span style="color:#a6e22e">addr</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">checkError</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">checkError</span>(<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Error:%s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以使用<code>nc -vuz localhost 4444</code>测试，代码实现也很简单:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Dial</span>(<span style="color:#e6db74">&#34;udp&#34;</span>, <span style="color:#e6db74">&#34;host:port&#34;</span>)
+</span></span></code></pre></div><hr>
+<p>引用列表:</p>
+<ul>
+<li><a href="https://colobu.com/2014/12/02/go-socket-programming-TCP/">Go socket编程实践: TCP服务器和客户端实现</a></li>
+<li><a href="http://studygolang.com/articles/6559">go简易udp socket客户端和服务器</a></li>
+<li><a href="http://colobu.com/2016/10/19/Go-UDP-Programming/">深入Go UDP编程</a></li>
+<li><a href="https://aicode.cc/yi-zai-go-yu-yan-zhong-shi-xian-udp-he-tcp-wang-lu.html">在 Go 语言中实现 UDP 和 TCP 网络通讯</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#一-tcp-服务端客户端">一、TCP 服务端客户端</a></li>
-<li><a href="#二-udp-服务端">二、UDP 服务端</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一tcp-服务端客户端">一、TCP 服务端客户端</a></li>
+    <li><a href="#二udp-服务端">二、UDP 服务端</a></li>
+  </ul>
 </nav>
     </section>
 

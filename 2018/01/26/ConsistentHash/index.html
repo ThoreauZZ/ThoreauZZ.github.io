@@ -21,7 +21,7 @@
   	<meta property="og:title" content="一致性hash算法 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/01/26/ConsistentHash/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/01/26/ConsistentHash/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": 一致性hash算法,
-    "name": 一致性hash算法,
-    "wordCount": 2143,
+    "headline": "一致性hash算法",
+    "name": "一致性hash算法",
+    "wordCount":  2139 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/01/26/ConsistentHash/,
-    "datePublished": 2018-01-26T19:56Z,
-    "dateModified": 2018-01-26T19:56Z,
+    "url": "http://thoreauz.com/2018/01/26/ConsistentHash/",
+    "datePublished": "2018-01-26T19:56Z",
+    "dateModified": "2018-01-26T19:56Z",
     
-    "keywords": algorithm, hash,
-    "description": ,
+    "keywords": "algorithm, hash",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/01/26/ConsistentHash/
+        "@id": "http://thoreauz.com/2018/01/26/ConsistentHash/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,316 +247,267 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
+      <h2 id="概述">概述</h2>
 <p>现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实例。</p>
-
 <p>这里面涉及几个问题：故障；扩容；数据均匀分配。下面，我们看一致性hash算法怎么解决这些问题。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="简陋实现">简陋实现</h2>
-
 <p>现有四台redis：</p>
-
-<pre><code>node1 (192.168.99.101:6379)
+<pre tabindex="0"><code>node1 (192.168.99.101:6379)
 node2 (192.168.99.102:6379)
 node3 (192.168.99.103:6379)
 node4 (192.168.99.104:6379)
-</code></pre>
-
-<p>实例数量n=4； 如果缓存k,v如：&raquo;name&raquo;:&laquo;thoreau&raquo;， 通过hash计算出对应的redis实例：</p>
-
-<pre><code class="language-java">// hashcode绝对值取模
-index = (Math.abs(&quot;name&quot;.hashCode()) % n)
-</code></pre>
-
-<p>index =3, 定位到第四台redis，这就是最简单的实现，那它有什么问题呢，我们看一个示例：</p>
-
-<pre><code class="language-java">AtomicInteger atomicInteger = new AtomicInteger();
-@Test
-public void testNodeChange() {
-    int n = 4, newNode = 5;
-    for (int i = 0; i &lt; 100_0000; i++) {
-        int r1 = Math.abs((&quot;key&quot; + i).hashCode()) % n;
-        int r2 = Math.abs((&quot;key&quot; + i).hashCode()) % newNode;
-        if (r1 != r2) {
-            atomicInteger.addAndGet(1);
-        }
-    }
-    System.out.println(atomicInteger);
-}
-</code></pre>
-
-<blockquote>
+</code></pre><p>实例数量n=4； 如果缓存k,v如：&ldquo;name&rdquo;:&ldquo;thoreau&rdquo;， 通过hash计算出对应的redis实例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// hashcode绝对值取模
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>index <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Math<span style="color:#f92672">.</span><span style="color:#a6e22e">abs</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">hashCode</span><span style="color:#f92672">())</span> <span style="color:#f92672">%</span> n<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>index =3, 定位到第四台redis，这就是最简单的实现，那它有什么问题呢，我们看一个示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>AtomicInteger atomicInteger <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AtomicInteger<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testNodeChange</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> 4<span style="color:#f92672">,</span> newNode <span style="color:#f92672">=</span> 5<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 100_0000<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> r1 <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">abs</span><span style="color:#f92672">((</span><span style="color:#e6db74">&#34;key&#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">).</span><span style="color:#a6e22e">hashCode</span><span style="color:#f92672">())</span> <span style="color:#f92672">%</span> n<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> r2 <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">abs</span><span style="color:#f92672">((</span><span style="color:#e6db74">&#34;key&#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">).</span><span style="color:#a6e22e">hashCode</span><span style="color:#f92672">())</span> <span style="color:#f92672">%</span> newNode<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>r1 <span style="color:#f92672">!=</span> r2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            atomicInteger<span style="color:#f92672">.</span><span style="color:#a6e22e">addAndGet</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>atomicInteger<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>输出：800112</p>
 </blockquote>
-
 <p>也就是说，新增一个节点，100万数据有80万需要迁移到新node，其实很好理解，就是4/5的数据都需要迁移。节点数(redis实例)越多，每加一个节点，数据迁移量越大，给扩容带来很大的麻烦。</p>
-
 <h2 id="hash环">hash环</h2>
-
-<p><img src="http://thoreauz.com/images/2018-01-26-22-30-14.jpg" alt="" /><br />
+<p><img src="http://thoreauz.com/images/2018-01-26-22-30-14.jpg" alt="">
 为了解决扩容带来的大数据量迁移的问题，引入hash环。如图2，假设hash值范围是0到2^32-1，首尾连成环，环上分布3个Node。假如key1的hash结果是A，沿环顺时针寻找，找到的第一个节点N1，这个实例就是key的数据落点。</p>
-
-<p>优点: 如果新增一个节点，那么，需要迁移的数据只有hash值处于新节点和逆时针方向第一个节点间的范围。如图3，新增N4，那么，只有N3到N4间的数据受影响，解决了取模运算方式大量数据迁移的麻烦。<br />
-<img src="http://thoreauz.com/images/2018-01-26-22-31-06.jpg" alt="" /></p>
-
+<p>优点: 如果新增一个节点，那么，需要迁移的数据只有hash值处于新节点和逆时针方向第一个节点间的范围。如图3，新增N4，那么，只有N3到N4间的数据受影响，解决了取模运算方式大量数据迁移的麻烦。
+<img src="http://thoreauz.com/images/2018-01-26-22-31-06.jpg" alt=""></p>
 <p>Java实现：</p>
-
-<pre><code class="language-java">/**
- * 物理节点接口
- */
-public interface PhysicalNode {
-    /**
-     * 返回用于计算hash的key
-     */
-    String getKey();
-}
-</code></pre>
-
-<pre><code class="language-java">/**
- * hash算法接口
- */
-public interface IHash {
-    /**
-     * 根据字符串key，获取long型hash值
-    */
-    long getHash(String key);
-}
-</code></pre>
-
-<pre><code class="language-java">public class ConsistentHash {
-    private SortedMap&lt;Long, PhysicalNode&gt; hashWheel = new TreeMap&lt;&gt;();
-    private IHash hashfunc = new MD5Hash();
-    public void addNode(PhysicalNode physicalNode) {
-        long hash = hashfunc.getHash(physicalNode.getKey());
-        hashWheel.put(hash, physicalNode);
-    }
-    public PhysicalNode getNode(String key) {
-        long hash = hashfunc.getHash(key);
-        SortedMap&lt;Long, PhysicalNode&gt; collect = hashWheel.tailMap(hash);
-        return hashWheel.get(collect.firstKey());
-    }
-}
-</code></pre>
-
-<p>hash算法可以选择(FNV1_32_HASH, MD5, crc32,&hellip;.)，实现IHash的getHash方法。<br />
-hash轮使用treeMap存储：<br />
-1. treeMap基于红黑树实现，查找时间复杂度O(logN)<br />
-2. 提供tailMap(K fromKey)，返回fromKey之后的map。正好适用hash环顺时针查找。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 物理节点接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">PhysicalNode</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 返回用于计算hash的key
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    String <span style="color:#a6e22e">getKey</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * hash算法接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IHash</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 根据字符串key，获取long型hash值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConsistentHash</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SortedMap<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> PhysicalNode<span style="color:#f92672">&gt;</span> hashWheel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> IHash hashfunc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MD5Hash<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addNode</span><span style="color:#f92672">(</span>PhysicalNode physicalNode<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> hash <span style="color:#f92672">=</span> hashfunc<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>physicalNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>hash<span style="color:#f92672">,</span> physicalNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PhysicalNode <span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> hash <span style="color:#f92672">=</span> hashfunc<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        SortedMap<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> PhysicalNode<span style="color:#f92672">&gt;</span> collect <span style="color:#f92672">=</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">tailMap</span><span style="color:#f92672">(</span>hash<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>collect<span style="color:#f92672">.</span><span style="color:#a6e22e">firstKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>hash算法可以选择(FNV1_32_HASH, MD5, crc32,&hellip;.)，实现IHash的getHash方法。
+hash轮使用treeMap存储：</p>
+<ol>
+<li>treeMap基于红黑树实现，查找时间复杂度O(logN)</li>
+<li>提供tailMap(K fromKey)，返回fromKey之后的map。正好适用hash环顺时针查找。</li>
+</ol>
 <p>测试一下：</p>
-
-<pre><code class="language-java">@Test
-public void testNode() {
-    List&lt;PhysicalNode&gt; redisNodes = new ArrayList&lt;&gt;();
-    IHash hash = new MD5Hash();
-    redisNodes.add(new RedisNode(&quot;192.168.99.100&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.101&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.102&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.103&quot;, 8080));
-    ConsistentHash consistentHash = new ConsistentHash(redisNodes);
-    String key1 = &quot;hello&quot;;
-    String key2 = &quot;world&quot;;
-    String key3 = &quot;1&quot;;
-    String key4 = &quot;pwdpwdpwdpwdpwd&quot;;
-    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key1, hash.getHash(key1), consistentHash.getNode(key1));
-    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key2, hash.getHash(key2), consistentHash.getNode(key2));
-    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key3, hash.getHash(key3), consistentHash.getNode(key3));
-    log.info(&quot;key:{}, hash:{}, node:{}&quot;, key4, hash.getHash(key4), consistentHash.getNode(key4));
-}
-</code></pre>
-
-<p>格式输出：<br />
-&gt;add node[192.168.99.100:8080],hash:[1546744927]<br />
-add node[192.168.99.101:8080],hash:[3621727994]<br />
-add node[192.168.99.102:8080],hash:[426906814]<br />
-add node[192.168.99.103:8080],hash:[4138500944]</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testNode</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>PhysicalNode<span style="color:#f92672">&gt;</span> redisNodes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    IHash hash <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MD5Hash<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.100&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.101&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.102&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.103&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    ConsistentHash consistentHash <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConsistentHash<span style="color:#f92672">(</span>redisNodes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    String key1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    String key2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    String key3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    String key4 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;pwdpwdpwdpwdpwd&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key:{}, hash:{}, node:{}&#34;</span><span style="color:#f92672">,</span> key1<span style="color:#f92672">,</span> hash<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key1<span style="color:#f92672">),</span> consistentHash<span style="color:#f92672">.</span><span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>key1<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key:{}, hash:{}, node:{}&#34;</span><span style="color:#f92672">,</span> key2<span style="color:#f92672">,</span> hash<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key2<span style="color:#f92672">),</span> consistentHash<span style="color:#f92672">.</span><span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>key2<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key:{}, hash:{}, node:{}&#34;</span><span style="color:#f92672">,</span> key3<span style="color:#f92672">,</span> hash<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key3<span style="color:#f92672">),</span> consistentHash<span style="color:#f92672">.</span><span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>key3<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key:{}, hash:{}, node:{}&#34;</span><span style="color:#f92672">,</span> key4<span style="color:#f92672">,</span> hash<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key4<span style="color:#f92672">),</span> consistentHash<span style="color:#f92672">.</span><span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>key4<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>格式输出：</p>
 <blockquote>
-<p>key:hello,              hash:1564557354,    node:192.168.99.101:8080<br />
-key:world,              hash:2105094199,    node:192.168.99.101:8080<br />
-key:1,                  hash:3301589560,    node:192.168.99.101:8080<br />
+<p>add node[192.168.99.100:8080],hash:[1546744927]
+add node[192.168.99.101:8080],hash:[3621727994]
+add node[192.168.99.102:8080],hash:[426906814]
+add node[192.168.99.103:8080],hash:[4138500944]</p>
+</blockquote>
+<blockquote>
+<p>key:hello,              hash:1564557354,    node:192.168.99.101:8080
+key:world,              hash:2105094199,    node:192.168.99.101:8080
+key:1,                  hash:3301589560,    node:192.168.99.101:8080
 key:pwdpwdpwdpwdpwd,    hash:37046274,      node:192.168.99.102:8080</p>
 </blockquote>
-
 <p>可以看到，4台redis的ip+端口进行hash，值从小到大依次是：1546744927(node1) -&gt; 3621727994 (node2)-&gt; 4138500944(node4) -&gt;426906814(node3)。 四个key有3个的hash值在node1和node2之间，所以对于节点是node2。</p>
-
 <p>如果新增一个节点<code>192.168.99.104:8080</code>，hash值：2941049386，相当于在node1和node2直接新增节点，node1和新增节点间的数据需要迁移。</p>
-
 <p>这样，一个简单的hash环实现了一致性hash算法。但从示例中也看得出来，数据分布不不均匀。要解决这个问题，需要引入虚拟节点。</p>
-
 <h2 id="虚拟节点">虚拟节点</h2>
-
-<p><img src="http://thoreauz.com/images/2018-01-26-22-31-46.jpg" alt="" /><br />
-如上图，如果物理节点N1-N4的hash值比较集中在一个小范围，将会导致，N1到N2之间的所有数据将被分配到N2节点。我们引入虚拟节点，每个物理节点管理一定数量的虚拟节点，虚拟节点分布在环上，和物理节点有映射。如下图，通过引入虚拟节点，环上的小球归属同颜色的N1-N3，一个物理节点存0~ 2^32-1范围内多个片段的数据，从而是分配更均匀，也没破坏迁移成本。<br />
-<img src="http://thoreauz.com/images/2018-01-26-22-32-05.jpg" alt="" /><br />
+<p><img src="http://thoreauz.com/images/2018-01-26-22-31-46.jpg" alt="">
+如上图，如果物理节点N1-N4的hash值比较集中在一个小范围，将会导致，N1到N2之间的所有数据将被分配到N2节点。我们引入虚拟节点，每个物理节点管理一定数量的虚拟节点，虚拟节点分布在环上，和物理节点有映射。如下图，通过引入虚拟节点，环上的小球归属同颜色的N1-N3，一个物理节点存0~ 2^32-1范围内多个片段的数据，从而是分配更均匀，也没破坏迁移成本。
+<img src="http://thoreauz.com/images/2018-01-26-22-32-05.jpg" alt="">
 java 实现：</p>
-
-<pre><code class="language-java">@Getter
-public class VirtualNode {
-    /**
-     * 虚拟节点序号
-     */
-    private int replicaNumber;
-    /**
-     * 对应的物理节点
-     */
-    private PhysicalNode parent;
-
-    public VirtualNode(PhysicalNode parent, int replicaNumber) {
-        this.replicaNumber = replicaNumber;
-        this.parent = parent;
-    }
-    /**
-     * 使用物理节点的&quot;key#12&quot;作为虚拟节点的key
-     *
-     * @return String
-     */
-    public String getKey() {
-        return parent.getKey() + &quot;#&quot; + replicaNumber;
-    }
-}
-</code></pre>
-
-<p>具体实现:</p>
-
-<pre><code class="language-java">@Slf4j
-public class ConsistentHash {
-    /**
-     * hash 轮使用treeMap存储：
-     * &lt;p&gt;
-     * 1. treeMap基于红黑树实现，查找时间复杂度O(logN)
-     * 2. 提供tailMap(K fromKey)，返回fromKey之后的map。正好和hash环顺时针查找切和
-     */
-    private SortedMap&lt;Long, VirtualNode&gt; hashWheel = new TreeMap&lt;&gt;();
-    /**
-     * 默认虚拟节点数
-     */
-    private final static int DEFAULT_VNODE_SIZE = 150;
-    /**
-     * md5实现hash
-     */
-    private IHash hashfunc = new MD5Hash();
-
-    /**
-     * 初始化节点
-     *
-     * @param servers
-     */
-    public ConsistentHash(Collection&lt;PhysicalNode&gt; servers) {
-        for (PhysicalNode server : servers) {
-            addNode(server);
-        }
-    }
-
-    /**
-     * 添加节点
-     *
-     * @param physicalNode 节点
-     */
-    public void addNode(PhysicalNode physicalNode) {
-        // 获取虚拟节点序号
-        int virtualNumber = getVirtualNumber(physicalNode.getKey());
-        for (int i = 0; i &lt; DEFAULT_VNODE_SIZE; i++) {
-            VirtualNode virtualNode = new VirtualNode(physicalNode, virtualNumber + i);
-            // 对虚拟节点key计算hash值
-            long hash = hashfunc.getHash(virtualNode.getKey());
-            hashWheel.put(hash, virtualNode);
-        }
-        log.info(&quot;add node[{}],hash:[{}]&quot;, physicalNode.getKey());
-    }
-
-    /**
-     * 获取节点
-     *
-     * @param key key
-     * @return 节点信息
-     */
-    public PhysicalNode getNode(String key) {
-        long hash = hashfunc.getHash(key);
-        SortedMap&lt;Long, VirtualNode&gt; collect = hashWheel.tailMap(hash);
-        if (collect.size() == 0) {
-            return hashWheel.get(hashWheel.firstKey()).getParent();
-        }
-        return hashWheel.get(collect.firstKey()).getParent();
-    }
-
-    /**
-     * parentKey#number
-     *
-     * @param nodeKey nodeKey
-     * @return number
-     */
-    private int getVirtualNumber(String nodeKey) {
-        int num = 0;
-        for (VirtualNode node : hashWheel.values()) {
-            if (node.getKey().equals(nodeKey)) {
-                num++;
-            }
-        }
-        return num;
-    }
-}
-</code></pre>
-
-<p>测试hash分布：</p>
-
-<pre><code class="language-java">Map&lt;String, AtomicInteger&gt; count = new HashMap&lt;&gt;();
-@Test
-public void testBalance() {
-    List&lt;PhysicalNode&gt; redisNodes = new ArrayList&lt;&gt;();
-    IHash hash = new MD5Hash();
-    redisNodes.add(new RedisNode(&quot;192.168.99.100&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.101&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.102&quot;, 8080));
-    redisNodes.add(new RedisNode(&quot;192.168.99.103&quot;, 8080));
-    ConsistentHash consistentHash = new ConsistentHash(redisNodes);
-    for (int i = 0; i &lt; 1000000; i++) {
-        addCount(consistentHash.getNode(&quot;key&quot; + i));
-    }
-    System.out.println(count);
-}
-
-private void addCount(PhysicalNode node) {
-    if (count.get(node.getKey()) == null) {
-        count.put(node.getKey(), new AtomicInteger(1));
-    } else {
-        count.get(node.getKey()).addAndGet(1);
-    }
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Getter</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VirtualNode</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 虚拟节点序号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> replicaNumber<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 对应的物理节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> PhysicalNode parent<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">VirtualNode</span><span style="color:#f92672">(</span>PhysicalNode parent<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> replicaNumber<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">replicaNumber</span> <span style="color:#f92672">=</span> replicaNumber<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">parent</span> <span style="color:#f92672">=</span> parent<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 使用物理节点的&#34;key#12&#34;作为虚拟节点的key
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @return String
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getKey</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;#&#34;</span> <span style="color:#f92672">+</span> replicaNumber<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>具体实现:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConsistentHash</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * hash 轮使用treeMap存储：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * &lt;p&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 1. treeMap基于红黑树实现，查找时间复杂度O(logN)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 2. 提供tailMap(K fromKey)，返回fromKey之后的map。正好和hash环顺时针查找切和
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SortedMap<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> VirtualNode<span style="color:#f92672">&gt;</span> hashWheel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 默认虚拟节点数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> DEFAULT_VNODE_SIZE <span style="color:#f92672">=</span> 150<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * md5实现hash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> IHash hashfunc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MD5Hash<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 初始化节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param servers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ConsistentHash</span><span style="color:#f92672">(</span>Collection<span style="color:#f92672">&lt;</span>PhysicalNode<span style="color:#f92672">&gt;</span> servers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>PhysicalNode server <span style="color:#f92672">:</span> servers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            addNode<span style="color:#f92672">(</span>server<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 添加节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param physicalNode 节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addNode</span><span style="color:#f92672">(</span>PhysicalNode physicalNode<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取虚拟节点序号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> virtualNumber <span style="color:#f92672">=</span> getVirtualNumber<span style="color:#f92672">(</span>physicalNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> DEFAULT_VNODE_SIZE<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            VirtualNode virtualNode <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> VirtualNode<span style="color:#f92672">(</span>physicalNode<span style="color:#f92672">,</span> virtualNumber <span style="color:#f92672">+</span> i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 对虚拟节点key计算hash值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">long</span> hash <span style="color:#f92672">=</span> hashfunc<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>virtualNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>hash<span style="color:#f92672">,</span> virtualNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;add node[{}],hash:[{}]&#34;</span><span style="color:#f92672">,</span> physicalNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 获取节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param key key
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @return 节点信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PhysicalNode <span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> hash <span style="color:#f92672">=</span> hashfunc<span style="color:#f92672">.</span><span style="color:#a6e22e">getHash</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        SortedMap<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> VirtualNode<span style="color:#f92672">&gt;</span> collect <span style="color:#f92672">=</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">tailMap</span><span style="color:#f92672">(</span>hash<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>collect<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">firstKey</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>collect<span style="color:#f92672">.</span><span style="color:#a6e22e">firstKey</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * parentKey#number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param nodeKey nodeKey
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @return number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getVirtualNumber</span><span style="color:#f92672">(</span>String nodeKey<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>VirtualNode node <span style="color:#f92672">:</span> hashWheel<span style="color:#f92672">.</span><span style="color:#a6e22e">values</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>nodeKey<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                num<span style="color:#f92672">++;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> num<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>测试hash分布：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> AtomicInteger<span style="color:#f92672">&gt;</span> count <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testBalance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>PhysicalNode<span style="color:#f92672">&gt;</span> redisNodes <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    IHash hash <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MD5Hash<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.100&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.101&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.102&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    redisNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> RedisNode<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.99.103&#34;</span><span style="color:#f92672">,</span> 8080<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    ConsistentHash consistentHash <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConsistentHash<span style="color:#f92672">(</span>redisNodes<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 1000000<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        addCount<span style="color:#f92672">(</span>consistentHash<span style="color:#f92672">.</span><span style="color:#a6e22e">getNode</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key&#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>count<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addCount</span><span style="color:#f92672">(</span>PhysicalNode node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>count<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">())</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        count<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">(),</span> <span style="color:#66d9ef">new</span> AtomicInteger<span style="color:#f92672">(</span>1<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        count<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">addAndGet</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>输出 {192.168.99.101:8080=267981, 192.168.99.103:8080=248429, 192.168.99.102:8080=227529, 192.168.99.100:8080=256061}</p>
 </blockquote>
-
 <p>测试结果显示，100万数据，每个节点有25万左右，相对均匀。这样，一致性hash算法的实现就算完成了。</p>
-
-<hr />
-
-<p>参考:<br />
-[1]. <a href="https://yikun.github.io/2016/06/09/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%AE%9E%E8%B7%B5/">一致性哈希算法的理解与实践/</a><br />
-[2]. <a href="http://www.importnew.com/22488.html">对一致性Hash算法，Java代码实现的深入研究</a><br />
-[3]. <a href="http://www.oschina.net/translate/state-of-hash-functions">Hash 函数概览</a><br />
+<hr>
+<p>参考:
+[1]. <a href="https://yikun.github.io/2016/06/09/%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E5%AE%9E%E8%B7%B5/">一致性哈希算法的理解与实践/</a>
+[2]. <a href="http://www.importnew.com/22488.html">对一致性Hash算法，Java代码实现的深入研究</a>
+[3]. <a href="http://www.oschina.net/translate/state-of-hash-functions">Hash 函数概览</a>
 [4]. <a href="http://calvin1978.blogcn.com/articles/murmur.html">陌生但默默一统江湖的MurmurHash</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#简陋实现">简陋实现</a></li>
-<li><a href="#hash环">hash环</a></li>
-<li><a href="#虚拟节点">虚拟节点</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#简陋实现">简陋实现</a></li>
+    <li><a href="#hash环">hash环</a></li>
+    <li><a href="#虚拟节点">虚拟节点</a></li>
+  </ul>
 </nav>
     </section>
 

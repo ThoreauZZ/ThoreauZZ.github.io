@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Docker镜像仓库 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/17/docker-registry/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/17/docker-registry/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Docker镜像仓库,
-    "name": Docker镜像仓库,
-    "wordCount": 827,
+    "headline": "Docker镜像仓库",
+    "name": "Docker镜像仓库",
+    "wordCount":  825 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/17/docker-registry/,
-    "datePublished": 2017-02-17T22:27Z,
-    "dateModified": 2017-02-17T22:27Z,
+    "url": "http://thoreauz.com/2017/02/17/docker-registry/",
+    "datePublished": "2017-02-17T22:27Z",
+    "dateModified": "2017-02-17T22:27Z",
     
-    "keywords": docker,
-    "description": ,
+    "keywords": "docker",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/17/docker-registry/
+        "@id": "http://thoreauz.com/2017/02/17/docker-registry/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,148 +243,105 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="docker镜像仓库">Docker镜像仓库</h1>
-
+      <h1 id="docker镜像仓库">Docker镜像仓库</h1>
 <p>顾名思义，Docker Registry就是用来存储docker镜像的。就像maven私服，我们也可以搭建自己的仓库来存自己的镜像。</p>
-
 <p>在前面的文章中，我们已经提到了如何搭建简单registy服务和使用：<a href="http://thoreauz.com/2017/01/08/docker/Docker%E5%85%A5%E9%97%A8/">Docker入门</a>，这篇文章作进一步介绍名、版本和API等。</p>
-
-<!-- more -->
-
-<h2 id="一-简单安装使用">一、简单安装使用</h2>
-
+<!-- raw HTML omitted -->
+<h2 id="一简单安装使用">一、简单安装使用</h2>
 <ol>
-<li>安装<br />
-<code>
-docker run -d -p 5000:5000 --restart=always --name registry \
--v /data:/var/lib/registry \
-registry:2
-</code><br /></li>
-<li>打标签并推送<br />
-<code>bash
-➜   docker tag busybox 192.168.99.100:5000/erdaoya/busybox
-➜   docker push 192.168.99.100:5000/erdaoya/busybox
-The push refers to a repository [192.168.99.100:5000/erdaoya/busybox]
-Get https://192.168.99.100:5000/v1/_ping: http: server gave HTTP response to HTTPS client
-</code><br /></li>
-
-<li><p>配置非认证模式<br />
-2中推送报错，给DOCKER_HSOT添加认证，在给docker主机添加启动变量。</p>
-
-<pre><code class="language-bash"># 不同版本和不同机器上的docker配置地方不太一样,如果有多个register，再加--insecure-registry xxx:port
---insecure-registry 192.168.99.100:5000
-</code></pre>
-
-<p>重启docker daemon，再push就可以了。</p></li>
-
-<li><p>停止</p>
-
-<pre><code>docker stop registry &amp;&amp; docker rm -v registry
-</code></pre>
-
-<h2 id="二-镜像命名">二、镜像命名</h2>
-
-<h3 id="2-1-tag">2.1 tag</h3>
-
-<p>先说tag是怎么玩法：</p>
-
-<pre><code>docker tag IMAGE[:TAG] IMAGE[:TAG]
-</code></pre>
-
-<p>打标签时，通过<code>:v2</code>给镜像加tag，如果不加，往仓库推送时，默认是latest。tag名唯一，后面推送的镜像会覆盖前面的，非latest并不会覆盖latest，所以latest并不是最新镜像的意思。</p></li>
+<li>安装</li>
 </ol>
-
+<pre tabindex="0"><code>docker run -d -p 5000:5000 --restart=always --name registry \
+  -v /data:/var/lib/registry \
+  registry:2
+</code></pre><ol start="2">
+<li>打标签并推送</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜   docker tag busybox 192.168.99.100:5000/erdaoya/busybox
+</span></span><span style="display:flex;"><span>➜   docker push 192.168.99.100:5000/erdaoya/busybox
+</span></span><span style="display:flex;"><span>The push refers to a repository <span style="color:#f92672">[</span>192.168.99.100:5000/erdaoya/busybox<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get https://192.168.99.100:5000/v1/_ping: http: server gave HTTP response to HTTPS client
+</span></span></code></pre></div><ol start="3">
+<li>配置非认证模式
+2中推送报错，给DOCKER_HSOT添加认证，在给docker主机添加启动变量。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 不同版本和不同机器上的docker配置地方不太一样,如果有多个register，再加--insecure-registry xxx:port</span>
+</span></span><span style="display:flex;"><span>--insecure-registry 192.168.99.100:5000
+</span></span></code></pre></div><p>重启docker daemon，再push就可以了。
+4. 停止</p>
+<pre tabindex="0"><code>docker stop registry &amp;&amp; docker rm -v registry
+</code></pre><h2 id="二镜像命名">二、镜像命名</h2>
+<h3 id="21-tag">2.1 tag</h3>
+<p>先说tag是怎么玩法：</p>
+<pre tabindex="0"><code>docker tag IMAGE[:TAG] IMAGE[:TAG]
+</code></pre><p>打标签时，通过<code>:v2</code>给镜像加tag，如果不加，往仓库推送时，默认是latest。tag名唯一，后面推送的镜像会覆盖前面的，非latest并不会覆盖latest，所以latest并不是最新镜像的意思。</p>
 <p>如果有一个myname:v2的镜像,你希望推送到仓库，还希望是latest。先推送v2，在使用<code>docker tag -f myname:v2 myname:latest</code>，再推送一次latest。</p>
-
-<h3 id="2-2-命名">2.2 命名</h3>
-
-<pre><code>[仓库地址]&lt;仓库名&gt;:&lt;标签&gt;
-</code></pre>
-
-<ul>
-<li>仓库地址：ip:port 或者域名，没有变成官方仓库<br /></li>
-<li>仓库名：一般由&lt;用户名&gt;/&lt;软件名&gt;构成，没有用户名表示library。<br /></li>
-<li>标签：2.1 所述tag<br />
-<br /></li>
+<h3 id="22-命名">2.2 命名</h3>
+<pre tabindex="0"><code>[仓库地址]&lt;仓库名&gt;:&lt;标签&gt;
+</code></pre><ul>
+<li>仓库地址：ip:port 或者域名，没有变成官方仓库</li>
+<li>仓库名：一般由&lt;用户名&gt;/&lt;软件名&gt;构成，没有用户名表示library。</li>
+<li>标签：2.1 所述tag</li>
 </ul>
-
-<h2 id="三-register认证配置">三、register认证配置</h2>
-
-<p>这儿有两篇文章可参考：<br />
-1. <a href="http://tech.paulcz.net/2016/01/deploying-a-secure-docker-registry/">deploying-a-secure-docker-registry/</a><br />
-2. <a href="http://tech.paulcz.net/2016/01/secure-docker-with-tls/">secure-docker-with-tls</a></p>
-
-<h2 id="四-v2-api">四、V2 API</h2>
-
+<h2 id="三register认证配置">三、register认证配置</h2>
+<p>这儿有两篇文章可参考：</p>
+<ol>
+<li><a href="http://tech.paulcz.net/2016/01/deploying-a-secure-docker-registry/">deploying-a-secure-docker-registry/</a></li>
+<li><a href="http://tech.paulcz.net/2016/01/secure-docker-with-tls/">secure-docker-with-tls</a></li>
+</ol>
+<h2 id="四v2-api">四、V2 API</h2>
 <p>官网文档：<a href="https://docs.docker.com/registry/spec/api/">Docker Registry HTTP API V2</a></p>
-
 <p>这儿只列出几个查询接口：</p>
-
-<h3 id="4-1-查询镜像列表">4.1 查询镜像列表</h3>
-
-<pre><code class="language-bash">➜  work curl http://192.168.99.100:5000/v2/_catalog -s |jq .
-{
-  &quot;repositories&quot;: [
-    &quot;erdaoya/busybox&quot;,
-    &quot;erdaoya/doc&quot;
-  ]
-}
-</code></pre>
-
-<h3 id="4-2-查询tag列表">4.2 查询tag列表</h3>
-
-<pre><code class="language-bash">➜  work curl http://192.168.99.100:5000/v2/erdaoya/busybox/tags/list -s |jq .
-{
-  &quot;name&quot;: &quot;erdaoya/busybox&quot;,
-  &quot;tags&quot;: [
-    &quot;latest&quot;,
-    &quot;1.0-SNAPSHOT&quot;
-  ]
-}
-</code></pre>
-
-<h3 id="4-3-查镜像详细信息">4.3 查镜像详细信息</h3>
-
-<pre><code>curl http://192.168.99.100:5000/v2/erdaoya/busybox/manifests/1.0-SNAPSHOT -s |jq .
-</code></pre>
-
-<h2 id="五-ui管理">五、UI管理</h2>
-
+<h3 id="41-查询镜像列表">4.1 查询镜像列表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  work curl http://192.168.99.100:5000/v2/_catalog -s |jq .
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;repositories&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;erdaoya/busybox&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;erdaoya/doc&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="42-查询tag列表">4.2 查询tag列表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  work curl http://192.168.99.100:5000/v2/erdaoya/busybox/tags/list -s |jq .
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;erdaoya/busybox&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;tags&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;latest&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;1.0-SNAPSHOT&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="43-查镜像详细信息">4.3 查镜像详细信息</h3>
+<pre tabindex="0"><code>curl http://192.168.99.100:5000/v2/erdaoya/busybox/manifests/1.0-SNAPSHOT -s |jq .
+</code></pre><h2 id="五ui管理">五、UI管理</h2>
 <p>官方没有提供web界面，第三方提供了一些，如下：</p>
-
-<pre><code class="language-bash">docker run -d \
-       -p 8080:8080 \
-       --name registry-web \
-       -e REGISTRY_URL=http://192.168.99.100:5000/v2 \
-       -e REGISTRY_NAME=192.168.99.100:5000 \
-       hyper/docker-registry-web
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -d <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -p 8080:8080 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       --name registry-web <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -e REGISTRY_URL<span style="color:#f92672">=</span>http://192.168.99.100:5000/v2 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -e REGISTRY_NAME<span style="color:#f92672">=</span>192.168.99.100:5000 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       hyper/docker-registry-web
+</span></span></code></pre></div>
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#docker镜像仓库">Docker镜像仓库</a>
-<ul>
-<li><a href="#一-简单安装使用">一、简单安装使用</a></li>
-<li><a href="#二-镜像命名">二、镜像命名</a>
-<ul>
-<li><a href="#2-1-tag">2.1 tag</a></li>
-<li><a href="#2-2-命名">2.2 命名</a></li>
-</ul></li>
-<li><a href="#三-register认证配置">三、register认证配置</a></li>
-<li><a href="#四-v2-api">四、V2 API</a>
-<ul>
-<li><a href="#4-1-查询镜像列表">4.1 查询镜像列表</a></li>
-<li><a href="#4-2-查询tag列表">4.2 查询tag列表</a></li>
-<li><a href="#4-3-查镜像详细信息">4.3 查镜像详细信息</a></li>
-</ul></li>
-<li><a href="#五-ui管理">五、UI管理</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一简单安装使用">一、简单安装使用</a></li>
+    <li><a href="#二镜像命名">二、镜像命名</a>
+      <ul>
+        <li><a href="#21-tag">2.1 tag</a></li>
+        <li><a href="#22-命名">2.2 命名</a></li>
+      </ul>
+    </li>
+    <li><a href="#三register认证配置">三、register认证配置</a></li>
+    <li><a href="#四v2-api">四、V2 API</a>
+      <ul>
+        <li><a href="#41-查询镜像列表">4.1 查询镜像列表</a></li>
+        <li><a href="#42-查询tag列表">4.2 查询tag列表</a></li>
+        <li><a href="#43-查镜像详细信息">4.3 查镜像详细信息</a></li>
+      </ul>
+    </li>
+    <li><a href="#五ui管理">五、UI管理</a></li>
+  </ul>
 </nav>
     </section>
 

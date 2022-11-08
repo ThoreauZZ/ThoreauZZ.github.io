@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>json on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Fri, 11 Aug 2017 23:30:06 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/json/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 11 Aug 2017 23:30:06 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/json/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>jq使用</title>
       <link>http://thoreauz.com/2017/08/11/jq/</link>

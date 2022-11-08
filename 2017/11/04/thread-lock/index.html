@@ -21,7 +21,7 @@
   	<meta property="og:title" content="线程与锁 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/11/04/thread-lock/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/11/04/thread-lock/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": 线程与锁,
-    "name": 线程与锁,
-    "wordCount": 1481,
+    "headline": "线程与锁",
+    "name": "线程与锁",
+    "wordCount":  1481 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/11/04/thread-lock/,
-    "datePublished": 2017-11-04T18:15Z,
-    "dateModified": 2017-11-04T18:15Z,
+    "url": "http://thoreauz.com/2017/11/04/thread-lock/",
+    "datePublished": "2017-11-04T18:15Z",
+    "dateModified": "2017-11-04T18:15Z",
     
-    "keywords": 并发,
-    "description": ,
+    "keywords": "并发",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/11/04/thread-lock/
+        "@id": "http://thoreauz.com/2017/11/04/thread-lock/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -243,96 +244,78 @@
 
     <section class="post-content">
       <p>线程和锁，先从简单的示例1开始：</p>
-
-<pre><code class="language-java">**public class App {
-    public static void main(String[] args) throws InterruptedException {
-        class Counter {
-            private int count = 0;
-            void increment() {
-                ++count;
-            }
-            private int getCount() {
-                return count;
-            }
-        }
-        final Counter counter = new Counter();
-        class CountingThread extends Thread {
-            @Override
-            public void run() {
-                for (int x = 0; x &lt; 10000; ++x) {
-                    counter.increment();
-                }
-            }
-        }
-        CountingThread t1 = new CountingThread();
-        CountingThread t2 = new CountingThread();
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
-        System.out.println(counter.getCount());
-    }
-}
-</code></pre>
-
-<p>这是一个最简单的示例，两个线程分别执行count++ 10000次，但最后getCount()时，结果并不一定是20000。这就是并发的最简单最常见的问题：对共享资源的访问存在竞争，即并发中的<code>竞态条件</code>。</p>
-
-<!-- more -->
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">**</span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Counter</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">++</span>count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getCount</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">final</span> Counter counter <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Counter<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CountingThread</span> <span style="color:#66d9ef">extends</span> Thread <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> x <span style="color:#f92672">&lt;</span> 10000<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    counter<span style="color:#f92672">.</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        CountingThread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CountingThread<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        CountingThread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CountingThread<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>counter<span style="color:#f92672">.</span><span style="color:#a6e22e">getCount</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这是一个最简单的示例，两个线程分别执行count++ 10000次，但最后getCount()时，结果并不一定是20000。这就是并发的最简单最常见的问题：对共享资源的访问存在竞争，即并发中的<code>竞态条件</code>。</p>
+<!-- raw HTML omitted -->
 <p>解决的常规做法就是加锁，如下：</p>
-
-<pre><code class="language-java">synchronized void increment() {
-    ++count;
-}
-</code></pre>
-
-<p>对共享资源的操作加锁，使得同时只有一个线程操作。但还是不能从根上解决问题。看下面的示例：<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span>count<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>对共享资源的操作加锁，使得同时只有一个线程操作。但还是不能从根上解决问题。看下面的示例：
 示例二</p>
-
-<pre><code class="language-java">public class App {
-    static boolean answerReady = false;
-    static int answer = 0;
-    static Thread t1 = new Thread() {
-        @Override
-        public void run() {
-            answer = 21;
-            answerReady = true;
-        }
-    };
-    static Thread t2 = new Thread() {
-        @Override
-        public void run() {
-            if (answerReady) {
-                System.out.println(&quot;The meaning of life is: &quot; + answer);
-            } else {
-                System.out.println(&quot;I don't know the answer&quot;);
-            }
-        }
-    };
-    public static void main(String[] args) throws InterruptedException {
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
-    }
-}
-</code></pre>
-
-<p>上述代码可能输出“The meaning of life is: 21”，可能是“I don&rsquo;t know the answer”，这无需介绍，因为线程1和2执行顺序未定。但要命的是，可能输出“The meaning of life is: 0”。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">App</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> answerReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> answer <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            answer <span style="color:#f92672">=</span> 21<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            answerReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Thread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>answerReady<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;The meaning of life is: &#34;</span> <span style="color:#f92672">+</span> answer<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I don&#39;t know the answer&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>上述代码可能输出“The meaning of life is: 21”，可能是“I don&rsquo;t know the answer”，这无需介绍，因为线程1和2执行顺序未定。但要命的是，可能输出“The meaning of life is: 0”。</p>
 <p>难道<code>answerReady = true;</code>先执行？是的，编译器的静态优化、JVM的动态优化以及硬件都可能打乱代码的执行顺序。但就算是执行顺序一致，线程1的修改可能都线程2不可见。这就是线程的<code>内存可见性</code>问题。</p>
-
 <p>解决线程同步操作和内存可见性问题后，线程锁带来的另一个问题就是死锁。死锁是一个线程想要多把锁引起的。</p>
-
 <p>比如线程1需要拿到锁A，在锁中需要拿到锁B，而线程2刚好相反。这样一来，如果线程1拿到锁A的同时，线程2拿到锁B，两个线程都在等待对方释放锁，从而导致死锁。好比一个建筑的大门里有个小门，如果一个人拿到大门的钥匙，进去后发现小门的钥匙被另一个拿走了。</p>
-
 <p>解决方式是，只能先拿到大门钥匙，才能拿小门的。这就是最简单的解决死锁的方法：保证锁顺序，然后按顺序获取锁(使用对象散列值作为全局锁的顺序)。但这种方式对于复杂逻辑时，处理起来太麻烦，而且容易出错，散列值也可能冲突。</p>
-
-<p>java提供了很多平方工具，解决了锁中断，超时，读写锁，锁判断，原子变量等高级用法。在开发过程中，尽量使用它们。详细可以看<code>java.util.concurrent</code>包提供的类。</p>
-
+<p>java提供了很多平方工具，解决了锁中断，超时，读写锁，锁判断，原子变量等高级用法。在开发过程中，尽量使用它们。详细可以看<code>java.util.concurrent </code>包提供的类。</p>
 <p>这儿说下<code>条件变量</code>的情况：</p>
-
-<pre><code>获取锁;
+<pre tabindex="0"><code>获取锁;
 while (条件状态不满足) {
     释放锁;
     线程挂起等待，直到条件满足通知;
@@ -340,32 +323,23 @@ while (条件状态不满足) {
 }
 临界区操作;
 释放锁;
-</code></pre>
-
-<p>条件变量最主要的作用是用来管理线程执行对某些状态的依赖性。比如一个线程是某个队列的消费者，它必须要等到队列中有数据时才能执行，如果队列为空，则会一直等待挂起，直到另外一个线程在队列中存入数据，并通知先前挂起的线程，该线程才会唤醒重新开始执行。使用类似：</p>
-
-<pre><code class="language-java">ReentrantLock lock = new ReentrantLock(); 
-Condition condition = lock.newCondition();
-lock.lock(); try {
-while (!«条件为真») {condition.await();}
-«使用共享资源»
-} finally { lock.unlock(); }
-</code></pre>
-
-<p>虽然java提供的并发工具足够多，但根据场景合理使用才是关键。比如使用<code>生产者-消费</code>者模式解耦，使用阻塞队列，使用ConcurrentHashMap分段锁减少锁等待。甚至使用分段归并的方式而不是对共享资源加锁。如果每个任务执行时间不等，<code>work-stealing</code>模式是一个不错的选择。</p>
-
+</code></pre><p>条件变量最主要的作用是用来管理线程执行对某些状态的依赖性。比如一个线程是某个队列的消费者，它必须要等到队列中有数据时才能执行，如果队列为空，则会一直等待挂起，直到另外一个线程在队列中存入数据，并通知先前挂起的线程，该线程才会唤醒重新开始执行。使用类似：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ReentrantLock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span> 
+</span></span><span style="display:flex;"><span>Condition condition <span style="color:#f92672">=</span> lock<span style="color:#f92672">.</span><span style="color:#a6e22e">newCondition</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span> <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span><span style="color:#960050;background-color:#1e0010">«</span>条件为真<span style="color:#960050;background-color:#1e0010">»</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>condition<span style="color:#f92672">.</span><span style="color:#a6e22e">await</span><span style="color:#f92672">();}</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">«</span>使用共享资源<span style="color:#960050;background-color:#1e0010">»</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span> lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span> <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>虽然java提供的并发工具足够多，但根据场景合理使用才是关键。比如使用<code>生产者-消费</code>者模式解耦，使用阻塞队列，使用ConcurrentHashMap分段锁减少锁等待。甚至使用分段归并的方式而不是对共享资源加锁。如果每个任务执行时间不等，<code>work-stealing</code>模式是一个不错的选择。</p>
 <p>既然说到线程，那就涉及线程创建，一般都会使用线程池而不是直接创建的方式。但这又引入一个问题，线程池大小多少合适？需要判断操作是CPU密集型还是IO密集型，如果是CPU密集任务，线程池和cpu合数一样即可，如果是IO密集型，因为IO等待会释放CPU资源，所以可以大一点，但具体还是通过不断的性能测试调整较为合适。</p>
-
 <p>一般来说，可以根据这一一个结论判断：N核服务器，本地计算时间为x，等待时间为y，则工作线程数设置为 N*(x+y)/x。</p>
-
-<hr />
-
+<hr>
 <p>[1]. 《七周七并发》</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
-      
+      <nav id="TableOfContents"></nav>
     </section>
 
 

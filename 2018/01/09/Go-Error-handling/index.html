@@ -21,7 +21,7 @@
   	<meta property="og:title" content="GO— 异常错误处理 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2018/01/09/Go-Error-handling/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/01/09/Go-Error-handling/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": GO— 异常错误处理,
-    "name": GO— 异常错误处理,
-    "wordCount": 1713,
+    "headline": "GO— 异常错误处理",
+    "name": "GO— 异常错误处理",
+    "wordCount":  1700 ,
     "timeRequired": "PT4M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2018/01/09/Go-Error-handling/,
-    "datePublished": 2018-01-09T11:41Z,
-    "dateModified": 2018-01-09T11:41Z,
+    "url": "http://thoreauz.com/2018/01/09/Go-Error-handling/",
+    "datePublished": "2018-01-09T11:41Z",
+    "dateModified": "2018-01-09T11:41Z",
     
-    "keywords": go,
-    "description": ,
+    "keywords": "go",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2018/01/09/Go-Error-handling/
+        "@id": "http://thoreauz.com/2018/01/09/Go-Error-handling/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,245 +243,193 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="error标识符">error标识符</h2>
-
+      <h2 id="error标识符">error标识符</h2>
 <h3 id="概述">概述</h3>
-
 <p>error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下:</p>
-
-<pre><code class="language-go">type error interface {
-    Error() string
-}
-</code></pre>
-
-<p>所以，任何实现<code>Error() string</code>方法的类型结构都可以作为error使用。<br />
-go标准库的errors包提供了创建error类型的函数New()，可以这样使用<br />
-<!-- more --></p>
-
-<pre><code class="language-go">func c(i int) error{
-	if i&lt;0 {
-		return errors.New(&quot;i is a negative number&quot;)
-	}
-	return nil
-}
-</code></pre>
-
-<p>我们看下new的实现：</p>
-
-<pre><code class="language-go">package errors
-func New(text string) error {
-	return &amp;errorString{text}
-}
-type errorString struct {
-	s string
-}
-func (e *errorString) Error() string {
-	return e.s
-}
-</code></pre>
-
-<p>new是text参数作为errors包下私有类似<code>errorString</code>的初始化参数，Error()的指针接收者为errorString，也就是说，errorString类型实现了erorr的<code>Error() string</code>方法，他就是一个error类型。new就是返回一个error类型值。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">error</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Error</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>所以，任何实现<code>Error() string</code>方法的类型结构都可以作为error使用。
+go标准库的errors包提供了创建error类型的函数New()，可以这样使用</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">error</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span>&lt;<span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;i is a negative number&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们看下new的实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">errors</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">text</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">errorString</span>{<span style="color:#a6e22e">text</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">errorString</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">errorString</span>) <span style="color:#a6e22e">Error</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">s</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>new是text参数作为errors包下私有类似<code>errorString</code>的初始化参数，Error()的指针接收者为errorString，也就是说，errorString类型实现了erorr的<code>Error() string</code>方法，他就是一个error类型。new就是返回一个error类型值。</p>
 <p>可以产生error类型值的另一个内建方式：</p>
-
-<pre><code class="language-go">fmt.Errorf(&quot;%d is a negative number&quot;,i)
-</code></pre>
-
-<p>他也是通过errors.new 和Sprintf实现，并不会在屏幕打印字符串。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;%d is a negative number&#34;</span>,<span style="color:#a6e22e">i</span>)
+</span></span></code></pre></div><p>他也是通过errors.new 和Sprintf实现，并不会在屏幕打印字符串。</p>
 <h3 id="自定义">自定义</h3>
-
 <p>有时候，调用一个方法，我们需要根据返回error类型做不同的操作，比如http 4xx和5xx错误打印不同的日志等。可以定义自己的错误类型；自定义其实就跟new函数实现类似。</p>
-
-<pre><code class="language-go">var e4xxError = errors.New(&quot;4xx&quot;)
-func main() {
-	if err:=c(400);err == e4xxError{
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(&quot;unknown err&quot;)
-}
-func c(i int) error{
-	if i&lt;500 &amp;&amp; i&gt;=400 {
-		return e4xxError
-	}
-	return errors.New(&quot;no 4xx error&quot;)
-}
-</code></pre>
-
-<p>但是使用==比较，只能是完全相同的变量值。这里通常指作为一个错误信号使用。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e4xxError</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;4xx&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">400</span>);<span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">e4xxError</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;unknown err&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">error</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span>&lt;<span style="color:#ae81ff">500</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">400</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e4xxError</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;no 4xx error&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>但是使用==比较，只能是完全相同的变量值。这里通常指作为一个错误信号使用。</p>
 <p>对于需要复杂的错误对象，比如error codes等，这种方式不太好，还是应该创建自己error实现类型结构,需要注意的是，返回值推荐设置为error类型，而非自定义错误类型。通常为了扩展复杂的错误信息，可以如下实现：</p>
-
-<pre><code class="language-go">type Error interface {
-    error
-    Timeout() bool  
-    Temporary() bool 
-}
-</code></pre>
-
-<p>调用时，通过类型断言err是不是net.Error,来细化错误的处理，比如使用switch语句判断。</p>
-
-<pre><code class="language-go">if nerr, ok := err.(net.Error); ok &amp;&amp; nerr.Temporary() {
-	time.Sleep(1e9)
-	continue
-}
-if err != nil {
-	log.Fatal(err)
-}
-</code></pre>
-
-<h3 id="压缩代码行数">压缩代码行数</h3>
-
-<pre><code class="language-go">d, err := F()
-if err != nil {
-	fmt.Println(err)
-	return err
-}
-
-c, err := F1()
-if err != nil {
-	fmt.Println(err)
-	return err
-}
-</code></pre>
-
-<p>编程go时，经常有这种代码，每调用一次函数判断一次，可以换一种方式编写：</p>
-
-<pre><code class="language-go">var d int
-if d, err := F(); err != nil {
-	fmt.Println(err) // some int
-	return err
-}
-fmt.Println(d) // 0
-</code></pre>
-
-<h3 id="统一处理">统一处理</h3>
-
-<p>有时候，业务代码不需要没走不都判断错误，可以有一个统一错误处理方法解决；<br />
-1. 把错误都定义在同一个包下；</p>
-
-<pre><code class="language-go">// Kubernetes 源码
-package errors
-type StatusError struct {
-	ErrStatus metav1.Status
-}
-
-type APIStatus interface {
-	Status() metav1.Status
-}
-
-var _ error = &amp;StatusError{}
-
-// Error implements the Error interface.
-func (e *StatusError) Error() string {
-	return e.ErrStatus.Message
-}
-
-func (e *StatusError) Status() metav1.Status {
-	return e.ErrStatus
-}
-
-func (e *StatusError) DebugError() (string, []interface{}) {
-	if out, err := json.MarshalIndent(e.ErrStatus, &quot;&quot;, &quot;  &quot;); err == nil {
-		return &quot;server response object: %s&quot;, []interface{}{string(out)}
-	}
-	return &quot;server response object: %#v&quot;, []interface{}{e.ErrStatus}
-}
-// error包下还可以这样定义一堆error
-var ERR_EOF = errors.New(&quot;EOF&quot;)
-var ERR_CLOSED_PIPE = errors.New(&quot;io: read/write on closed pipe&quot;)
-var ERR_NO_PROGRESS = errors.New(&quot;multiple Read calls return no data or error&quot;)
-var ERR_SHORT_BUFFER = errors.New(&quot;short buffer&quot;)
-var ERR_SHORT_WRITE = errors.New(&quot;short write&quot;)
-var ERR_UNEXPECTED_EOF = errors.New(&quot;unexpected EOF&quot;)
-</code></pre>
-
-<p>这个包下好友很多check函数，对于一直错误条件的check，可以直接返回bool类型。</p>
-
-<pre><code class="language-go">func IsBadRequest(err error) bool {
-	return ReasonForError(err) == metav1.StatusReasonBadRequest
-}
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Error</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Timeout</span>() <span style="color:#66d9ef">bool</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Temporary</span>() <span style="color:#66d9ef">bool</span> 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>调用时，通过类型断言err是不是net.Error,来细化错误的处理，比如使用switch语句判断。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nerr</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">err</span>.(<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Error</span>); <span style="color:#a6e22e">ok</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nerr</span>.<span style="color:#a6e22e">Temporary</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1e9</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="压缩代码行数">压缩代码行数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">F</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">F1</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>编程go时，经常有这种代码，每调用一次函数判断一次，可以换一种方式编写：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">F</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>) <span style="color:#75715e">// some int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">d</span>) <span style="color:#75715e">// 0
+</span></span></span></code></pre></div><h3 id="统一处理">统一处理</h3>
+<p>有时候，业务代码不需要没走不都判断错误，可以有一个统一错误处理方法解决；</p>
 <ol>
-<li>编写代码时，最后通过谓语句判断直接return，外层统一处理，比如：<br />
-<code>go
-// Kubernetes 源码
-cmdutil.CheckErr(options.RunCreate(f, cmd))
-</code><br />
-统一在CheckErr()中处理。<br />
-<br /></li>
+<li>把错误都定义在同一个包下；</li>
 </ol>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Kubernetes 源码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">errors</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">StatusError</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrStatus</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Status</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">APIStatus</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Status</span>() <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Status</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#66d9ef">error</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">StatusError</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Error implements the Error interface.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StatusError</span>) <span style="color:#a6e22e">Error</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">ErrStatus</span>.<span style="color:#a6e22e">Message</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StatusError</span>) <span style="color:#a6e22e">Status</span>() <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Status</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">ErrStatus</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StatusError</span>) <span style="color:#a6e22e">DebugError</span>() (<span style="color:#66d9ef">string</span>, []<span style="color:#66d9ef">interface</span>{}) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">MarshalIndent</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">ErrStatus</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;  &#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;server response object: %s&#34;</span>, []<span style="color:#66d9ef">interface</span>{}{string(<span style="color:#a6e22e">out</span>)}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;server response object: %#v&#34;</span>, []<span style="color:#66d9ef">interface</span>{}{<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">ErrStatus</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// error包下还可以这样定义一堆error
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_EOF</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;EOF&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_CLOSED_PIPE</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;io: read/write on closed pipe&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_NO_PROGRESS</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;multiple Read calls return no data or error&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_SHORT_BUFFER</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;short buffer&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_SHORT_WRITE</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;short write&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ERR_UNEXPECTED_EOF</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;unexpected EOF&#34;</span>)
+</span></span></code></pre></div><p>这个包下好友很多check函数，对于一直错误条件的check，可以直接返回bool类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">IsBadRequest</span>(<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ReasonForError</span>(<span style="color:#a6e22e">err</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">StatusReasonBadRequest</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="2">
+<li>编写代码时，最后通过谓语句判断直接return，外层统一处理，比如：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Kubernetes 源码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">cmdutil</span>.<span style="color:#a6e22e">CheckErr</span>(<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">RunCreate</span>(<span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">cmd</span>))
+</span></span></code></pre></div><p>统一在CheckErr()中处理。</p>
 <h2 id="异常panic">异常panic</h2>
-
 <p>直接看一个示例：</p>
-
-<pre><code class="language-go">func main() {
-	B()
-	fmt.Println(&quot;会执行.&quot;)
-}
-func A()  {
-	fmt.Println(&quot;func A : do somethings&quot;)
-	// 出现问题，抛出异常(panic)
-	panic(&quot;not expect error&quot;)
-	fmt.Println(&quot;不会执行.&quot;)
-
-}
-func B()  {
-	// defer 在前
-	defer func(){
-		if r := recover(); r != nil {
-			log.Println(&quot;捕获panic:&quot;,r)
-		}
-	}()
-	A()
-	fmt.Println(&quot;不会执行.&quot;)
-}
-</code></pre>
-
-<blockquote>
-<p>func A : do somethings<br />
-会执行.<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">B</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;会执行.&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">A</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;func A : do somethings&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 出现问题，抛出异常(panic)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	panic(<span style="color:#e6db74">&#34;not expect error&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;不会执行.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">B</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// defer 在前
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>(){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> recover(); <span style="color:#a6e22e">r</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;捕获panic:&#34;</span>,<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">A</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;不会执行.&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>func A : do somethings
+会执行.
 2018/03/16 11:49:20 捕获panic: not expect error</p>
 </blockquote>
-
 <p>执行函数A，出现严重问题、致命错误时，使用panic。panic用于停止当前控制流程，并报告一个运行时恐慌/异常(panic)。之后的语句不会被执行，直接把控制权交给函数调用方，直到goroutine调用栈的最顶层。执行B，因为A出现panic，所以后面的语句不会执行，但是defer会执行，从而捕获panic。在main函数中，panic不再出现，所有B函数调用后的语句会被执行。</p>
-
-<p>总结：<br />
-1. panic 会根据函数的调用顺序逐层传递；<br />
-2. panic 仅限于当前协程（routine），子协程抛出 panic，父协程无法捕获；<br />
-3. 虽然子协程 panic 父协程无法捕获，但子协程的 panic 会导致父协程 crash（所以子协程最好捕获 panic），想要父协程获取子协程的 panic 信息，可以在子协程 recover 之后用 channel 传递出去；</p>
-
-<hr />
-
-<p>参考：<br />
-[1]. <a href="https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee">go-best-practices-error-handling</a><br />
-[2]. <a href="https://blog.golang.org/error-handling-and-go">error-handling-and-go</a><br />
-[3]. <a href="https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.1.md">错误处理</a><br />
-[4]. <a href="https://github.com/juju/errors">juju/errors</a><br />
+<p>总结：</p>
+<ol>
+<li>panic 会根据函数的调用顺序逐层传递；</li>
+<li>panic 仅限于当前协程（routine），子协程抛出 panic，父协程无法捕获；</li>
+<li>虽然子协程 panic 父协程无法捕获，但子协程的 panic 会导致父协程 crash（所以子协程最好捕获 panic），想要父协程获取子协程的 panic 信息，可以在子协程 recover 之后用 channel 传递出去；</li>
+</ol>
+<hr>
+<p>参考：<br>
+[1]. <a href="https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee">go-best-practices-error-handling</a><br>
+[2]. <a href="https://blog.golang.org/error-handling-and-go">error-handling-and-go</a><br>
+[3]. <a href="https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.1.md">错误处理</a><br>
+[4]. <a href="https://github.com/juju/errors">juju/errors</a><br>
 [5]. <a href="http://blog.zhangjiee.com/go-defer-panic-reover.html">go-defer-panic-reover</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#error标识符">error标识符</a>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#自定义">自定义</a></li>
-<li><a href="#压缩代码行数">压缩代码行数</a></li>
-<li><a href="#统一处理">统一处理</a></li>
-</ul></li>
-<li><a href="#异常panic">异常panic</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#error标识符">error标识符</a>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#自定义">自定义</a></li>
+        <li><a href="#压缩代码行数">压缩代码行数</a></li>
+        <li><a href="#统一处理">统一处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#异常panic">异常panic</a></li>
+  </ul>
 </nav>
     </section>
 
@@ -576,17 +525,17 @@ func B()  {
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/09/go-web-example/">
           <section class="post">
-              <h2>二叉搜索树</h2>
+              <h2>go 开发web应用</h2>
               
           </section>
       </a>
   
   
-      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/09/go-web-example/">
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/12/02/high-performance-mysql-key/">
           <section class="post">
-              <h2>go 开发web应用</h2>
+              <h2>高性能Mysql-索引</h2>
           </section>
       </a>
   

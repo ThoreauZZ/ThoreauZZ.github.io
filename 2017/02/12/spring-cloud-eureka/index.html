@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Spring Cloud 微服务注册中心(Eureka) &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/02/12/spring-cloud-eureka/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -82,7 +82,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/12/spring-cloud-eureka/" />
 
@@ -95,21 +96,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -121,23 +122,23 @@
             
         ]
     },
-    "headline": Spring Cloud 微服务注册中心(Eureka),
-    "name": Spring Cloud 微服务注册中心(Eureka),
-    "wordCount": 2230,
+    "headline": "Spring Cloud 微服务注册中心(Eureka)",
+    "name": "Spring Cloud 微服务注册中心(Eureka)",
+    "wordCount":  2229 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/02/12/spring-cloud-eureka/,
-    "datePublished": 2017-02-12T19:11Z,
-    "dateModified": 2017-02-12T19:11Z,
+    "url": "http://thoreauz.com/2017/02/12/spring-cloud-eureka/",
+    "datePublished": "2017-02-12T19:11Z",
+    "dateModified": "2017-02-12T19:11Z",
     
-    "keywords": spring, 微服务,
-    "description": ,
+    "keywords": "spring, 微服务",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/02/12/spring-cloud-eureka/
+        "@id": "http://thoreauz.com/2017/02/12/spring-cloud-eureka/"
     }
 }
     </script>
@@ -197,7 +198,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -246,251 +247,184 @@
     </header>
 
     <section class="post-content">
-      
-
-<h1 id="spring-cloud-微服务注册中心-eureka">Spring Cloud 微服务注册中心(Eureka)</h1>
-
+      <h1 id="spring-cloud-微服务注册中心eureka">Spring Cloud 微服务注册中心(Eureka)</h1>
 <p>Eureka，服务注册和发现，它提供了一个服务注册中心、服务发现的客户端，还有一个方便的查看所有注册服务的界面。</p>
-
 <p>所有的服务使用Eureka的服务发现客户端来将自己注册到Eureka的服务器上。</p>
-
 <h2 id="一-基础架构">一 基础架构</h2>
-
-<p><img src="http://thoreauz.com/images/eurekaBasicArchitecture.png" alt="" /></p>
-
+<p><img src="http://thoreauz.com/images/eurekaBasicArchitecture.png" alt=""></p>
 <p>图1：角色解释：</p>
-
 <ul>
-<li>Eureka Server：提供服务注册和发现<br /></li>
-<li>Service Provider：服务提供方，将自身服务注册到Eureka。服务注册、服务续约、服务下线。<br /></li>
-<li>Service Consumer：服务消费方，从Eureka获取注册服务列表，从而能够消费服务。<br />
-<br /></li>
+<li>Eureka Server：提供服务注册和发现</li>
+<li>Service Provider：服务提供方，将自身服务注册到Eureka。服务注册、服务续约、服务下线。</li>
+<li>Service Consumer：服务消费方，从Eureka获取注册服务列表，从而能够消费服务。</li>
 </ul>
-
 <p>Eureka支持<code>Region</code>和<code>Zone</code>的概念，其中一个Region可以包含多个Zone。Eureka在启动时需要指定一个Zone名，即当前Eureka属于哪个zone, 如果不指定则属于<code>defaultZone</code>。Eureka Client也需要指定Zone, Client(当与Ribbon配置使用时)在向Server获取注册列表时会优先向自己Zone的Eureka发请求，如果自己Zone中的Eureka全挂了才会尝试向其它Zone。当获取到远程服务列表后，Client也会优先向同一个Zone的服务发起远程调用。Region和Zone可以对应于现实中的大区和机房。</p>
-
 <h2 id="二-实战">二 实战</h2>
-
-<h3 id="2-1-eureka单机示例">2.1 Eureka单机示例</h3>
-
-<h4 id="2-1-1-服务端">2.1.1 服务端</h4>
-
+<h3 id="21-eureka单机示例">2.1 Eureka单机示例</h3>
+<h4 id="211-服务端">2.1.1 服务端</h4>
 <p><code>pom.xml</code>: maven 依赖</p>
-
-<pre><code class="language-xml">&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-&lt;dependencyManagement&gt;
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-            &lt;version&gt;Camden.SR2&lt;/version&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-</code></pre>
-
-<p><code>EurekaApplication.java</code>: 启动函数</p>
-
-<pre><code class="language-java">@SpringBootApplication
-@EnableEurekaServer
-public class EurekaApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(EurekaApplication.class,args);
-    }
-}
-</code></pre>
-
-<p><code>application.properties</code>: 配置文件</p>
-
-<pre><code class="language-properties">server.port=9001
-eureka.instance.hostname=localhost
-eureka.client.register-with-eureka=false
-eureka.client.fetch-registry=false
-eureka.instance.preferIpAddress=true
-eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server.port}/eureka/
-eureka.server.enableSelfPreservation=false
-</code></pre>
-
-<h4 id="2-1-2-客户端">2.1.2 客户端</h4>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-eureka-server<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-eureka<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dependencyManagement&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-dependencies<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>Camden.SR2<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;type&gt;</span>pom<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;scope&gt;</span>import<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencyManagement&gt;</span>
+</span></span></code></pre></div><p><code>EurekaApplication.java</code>: 启动函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableEurekaServer</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EurekaApplication</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>EurekaApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>application.properties</code>: 配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">server.port</span><span style="color:#f92672">=</span><span style="color:#e6db74">9001</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.hostname</span><span style="color:#f92672">=</span><span style="color:#e6db74">localhost</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.register-with-eureka</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.fetch-registry</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.preferIpAddress</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.serviceUrl.defaultZone</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://${eureka.instance.hostname}:${server.port}/eureka/</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.server.enableSelfPreservation</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
+</span></span></code></pre></div><h4 id="212-客户端">2.1.2 客户端</h4>
 <p><code>pom.properites</code>: maven依赖</p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p><code>UserApplication.java</code>: 启动函数</p>
-
-<pre><code class="language-java">@SpringBootApplication
-@EnableDiscoveryClient
-public class UserApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class,args);
-    }
-}
-</code></pre>
-
-<p><code>application.properties</code>: 配置文件</p>
-
-<pre><code class="language-properties">spring.application.name=user-service
-spring.cloud.config.profile=dev
-spring.profiles.active=dev
-eureka.client.serviceUrl.defaultZone=http://localhost:9001/eureka/
-</code></pre>
-
-<p>先后启动服务端和客户端，访问 <a href="http://localhost:9001/，可以在eureka界面看到，服务user-service注册成功如图。">http://localhost:9001/，可以在eureka界面看到，服务user-service注册成功如图。</a></p>
-
-<p><img src="http://thoreauz.com/images/jiankongjiemain.png" alt="" /></p>
-
-<h3 id="2-2-高可用集群">2.2 高可用集群</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-eureka<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><code>UserApplication.java</code>: 启动函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableDiscoveryClient</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserApplication</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>UserApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>application.properties</code>: 配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">spring.application.name</span><span style="color:#f92672">=</span><span style="color:#e6db74">user-service</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.cloud.config.profile</span><span style="color:#f92672">=</span><span style="color:#e6db74">dev</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">spring.profiles.active</span><span style="color:#f92672">=</span><span style="color:#e6db74">dev</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.serviceUrl.defaultZone</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://localhost:9001/eureka/</span>
+</span></span></code></pre></div><p>先后启动服务端和客户端，访问 <a href="http://localhost:9001/%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%9C%A8eureka%E7%95%8C%E9%9D%A2%E7%9C%8B%E5%88%B0%EF%BC%8C%E6%9C%8D%E5%8A%A1user-service%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F%E5%A6%82%E5%9B%BE%E3%80%82">http://localhost:9001/，可以在eureka界面看到，服务user-service注册成功如图。</a></p>
+<p><img src="http://thoreauz.com/images/jiankongjiemain.png" alt=""></p>
+<h3 id="22-高可用集群">2.2 高可用集群</h3>
 <p>注册中心单机，如果挂了，将导致整个服务不可用。生产环境不可能只有一个实例。 下图为官网给出的高可用集群架构图。</p>
-
-<p><img src="http://thoreauz.com/images/eureka_architecture.png" alt="" /></p>
-
+<p><img src="http://thoreauz.com/images/eureka_architecture.png" alt=""></p>
 <p>集群配置很简单，比如上图有3个节点us-east-1c,us-east-1d,us-east-1e。配置集群只需要把分别把自己作为客户端，其他两个节点当作服务端即可。 在2.1.1 的基础上，添加<code>application-peer1.properties</code>和<code>application-peer2.properties</code>:</p>
-
-<pre><code class="language-properties">server.port=9011
-eureka.instance.hostname=peer1
-eureka.client.serviceUrl.defaultZone=http://peer2:9111/eureka/
-</code></pre>
-
-<pre><code class="language-properties">server.port=9111
-eureka.instance.hostname=peer2
-eureka.client.serviceUrl.defaultZone=http://peer1:9011/eureka/
-</code></pre>
-
-<p>修改<code>hosts</code>:</p>
-
-<pre><code class="language-bash">127.0.0.1 peer1
-127.0.0.1 peer2
-</code></pre>
-
-<p>分别通过<code>spring.profiles.active=peer1</code>和<code>spring.profiles.active=peer2</code>启动。</p>
-
-<p><img src="http://thoreauz.com/images/eureka-peer01.png" alt="" /> 注意：如果使用<code>localhost</code>，将出现<code>unavailable-replicas</code>的情况。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">server.port</span><span style="color:#f92672">=</span><span style="color:#e6db74">9011</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.hostname</span><span style="color:#f92672">=</span><span style="color:#e6db74">peer1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.serviceUrl.defaultZone</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://peer2:9111/eureka/</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">server.port</span><span style="color:#f92672">=</span><span style="color:#e6db74">9111</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.hostname</span><span style="color:#f92672">=</span><span style="color:#e6db74">peer2</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.serviceUrl.defaultZone</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://peer1:9011/eureka/</span>
+</span></span></code></pre></div><p>修改<code>hosts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>127.0.0.1 peer1
+</span></span><span style="display:flex;"><span>127.0.0.1 peer2
+</span></span></code></pre></div><p>分别通过<code>spring.profiles.active=peer1</code>和<code>spring.profiles.active=peer2</code>启动。</p>
+<p><img src="http://thoreauz.com/images/eureka-peer01.png" alt=""> 注意：如果使用<code>localhost</code>，将出现<code>unavailable-replicas</code>的情况。</p>
 <h2 id="三-原理分析">三 原理分析</h2>
-
 <p>两个重要类：客户端：<code>DiscoveryClient</code>，服务端：<code>ApplicationResourcs</code>。 DiscoveryClient在Eureka-client(jar包)里。 提共一下功能：</p>
-
 <ul>
-<li>Registering：注册<br /></li>
-<li>Renewal：续约<br /></li>
-<li>Cancellation：取消<br /></li>
-<li>Querying：查询已注册的服务列表<br />
-<br /></li>
+<li>Registering：注册</li>
+<li>Renewal：续约</li>
+<li>Cancellation：取消</li>
+<li>Querying：查询已注册的服务列表</li>
 </ul>
-
-<h3 id="3-1-注册续约">3.1 注册续约</h3>
-
+<h3 id="31-注册续约">3.1 注册续约</h3>
 <p><strong>客户端</strong> DiscoveryClient通过initScheduledTasks()初始化定时任务。</p>
-
 <ul>
-<li><p>shouldRegisterWithEureka：注册判断</p></li>
-
-<li><p>renewalIntervalInSecs : 续约间隔(即心跳间隔，默认30s)等其他客户端和实例配置信息</p></li>
-
-<li><p>心跳定时任务;注册<code>instanceInfoReplicator.run()</code></p></li>
-
-<li><p>register()方法中发起http请求注册，传入<code>instanceInfo</code>实体。</p></li>
+<li>
+<p>shouldRegisterWithEureka：注册判断</p>
+</li>
+<li>
+<p>renewalIntervalInSecs : 续约间隔(即心跳间隔，默认30s)等其他客户端和实例配置信息</p>
+</li>
+<li>
+<p>心跳定时任务;注册<code>instanceInfoReplicator.run()</code></p>
+</li>
+<li>
+<p>register()方法中发起http请求注册，传入<code>instanceInfo</code>实体。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>httpResponse <span style="color:#f92672">=</span> eurekaTransport<span style="color:#f92672">.</span><span style="color:#a6e22e">registrationClient</span><span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>instanceInfo<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>涉及配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#75715e"># 续租间隔</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.lease-renewal-interval-in-seconds</span><span style="color:#f92672">=</span><span style="color:#e6db74">30</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 服务失效时间。默认是90秒</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.instance.lease-expiration-duration-in-seconds</span><span style="color:#f92672">=</span><span style="color:#e6db74">90</span>
+</span></span></code></pre></div><p>其实注册和续约是一个逻辑。</p>
+</li>
 </ul>
-
-<pre><code class="language-java">  httpResponse = eurekaTransport.registrationClient.register(instanceInfo);
-</code></pre>
-
-<p>涉及配置：</p>
-
-<pre><code class="language-properties">  # 续租间隔
-  eureka.instance.lease-renewal-interval-in-seconds=30
-  # 服务失效时间。默认是90秒
-  eureka.instance.lease-expiration-duration-in-seconds=90
-</code></pre>
-
-<p>其实注册和续约是一个逻辑。</p>
-
 <p><strong>服务端</strong></p>
-
 <ul>
-<li><p>ApplicationResource类接收Http服务请求，调用PeerAwareInstanceRegistryImpl的register方法</p></li>
-
-<li><p>PeerAwareInstanceRegistryImpl完成服务注册后，调用replicateToPeers向其它Eureka Server节点（Peer）做状态同步（异步操作）<img src="http://thoreauz.com/images/eureka-server-register.png" alt="" /> 注册的服务列表保存在一个嵌套的hash map中：</p></li>
-
-<li><p>第一层hash map的key是app name，也就是应用名字</p></li>
-
-<li><p>第二层hash map的key是instance name，也就是实例名字 USER-SERVICE就是app name，192.168.1.106:user-service:9002就是instance name。</p></li>
+<li>
+<p>ApplicationResource类接收Http服务请求，调用PeerAwareInstanceRegistryImpl的register方法</p>
+</li>
+<li>
+<p>PeerAwareInstanceRegistryImpl完成服务注册后，调用replicateToPeers向其它Eureka Server节点（Peer）做状态同步（异步操作）<img src="http://thoreauz.com/images/eureka-server-register.png" alt=""> 注册的服务列表保存在一个嵌套的hash map中：</p>
+</li>
+<li>
+<p>第一层hash map的key是app name，也就是应用名字</p>
+</li>
+<li>
+<p>第二层hash map的key是instance name，也就是实例名字 USER-SERVICE就是app name，192.168.1.106:user-service:9002就是instance name。</p>
+</li>
 </ul>
-
-<p>下图为renew服务端实现：<br />
- <img src="http://thoreauz.com/images/eureka-server-renew.png" alt="" /></p>
-
-<h3 id="3-2-获取服务列表">3.2 获取服务列表</h3>
-
+<p>下图为renew服务端实现：
+<img src="http://thoreauz.com/images/eureka-server-renew.png" alt=""></p>
+<h3 id="32-获取服务列表">3.2 获取服务列表</h3>
 <p><strong>客户端</strong> 和注册在<code>DiscoveryClient</code>的方法initScheduledTasks()中定义。</p>
-
 <ol>
-<li>shouldFetchRegistry：<br /></li>
-<li>设置配置。<br /></li>
-<li>定时任务CacheRefreshThread（）<br />
-<br /></li>
+<li>shouldFetchRegistry：</li>
+<li>设置配置。</li>
+<li>定时任务CacheRefreshThread（）</li>
 </ol>
-
 <p>涉及配置：</p>
-
-<pre><code class="language-properties"># 是否获取服务列表
-eureka.client.fetch-registry=true
-# 更新间隔
-eureka.client.registry-fetch-interval-seconds=30
-</code></pre>
-
-<h3 id="3-3-peer-节点通讯">3.3 peer 节点通讯</h3>
-
-<p>Eureka Server在启动后会调用<code>EurekaClientConfig.getEurekaServerServiceUrls</code>来获取所有的Peer节点，并且会定期更新。定期更新频率可以通过<code>eureka.server.peerEurekaNodesUpdateIntervalMs</code>配置。 这个方法的默认实现是从配置文件读取，所以如果Eureka Server节点相对固定的话，可以通过在配置文件中配置来实现。 如果希望能更灵活的控制Eureka Server节点，比如动态扩容/缩容，那么可以override <code>getEurekaServerServiceUrls</code>方法，比如从数据库读取Eureka Server列表。下图为一个服务节点的初始化过程。<br><br />
-<img src="http://thoreauz.com/images/eureka-server-peer-init.png" alt="" /></p>
-
-<hr />
-
-<p>参考文档： [1].<a href="http://nobodyiam.com/2016/06/25/dive-into-eureka/">http://nobodyiam.com/2016/06/25/dive-into-eureka/</a><br />
-&gt; 源码部分参考此文档</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#75715e"># 是否获取服务列表</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.fetch-registry</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 更新间隔</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">eureka.client.registry-fetch-interval-seconds</span><span style="color:#f92672">=</span><span style="color:#e6db74">30</span>
+</span></span></code></pre></div><h3 id="33-peer-节点通讯">3.3 peer 节点通讯</h3>
+<p>Eureka Server在启动后会调用<code>EurekaClientConfig.getEurekaServerServiceUrls</code>来获取所有的Peer节点，并且会定期更新。定期更新频率可以通过<code>eureka.server.peerEurekaNodesUpdateIntervalMs</code>配置。 这个方法的默认实现是从配置文件读取，所以如果Eureka Server节点相对固定的话，可以通过在配置文件中配置来实现。 如果希望能更灵活的控制Eureka Server节点，比如动态扩容/缩容，那么可以override <code>getEurekaServerServiceUrls</code>方法，比如从数据库读取Eureka Server列表。下图为一个服务节点的初始化过程。<!-- raw HTML omitted -->
+<img src="http://thoreauz.com/images/eureka-server-peer-init.png" alt=""></p>
+<hr>
+<p>参考文档： [1].<a href="http://nobodyiam.com/2016/06/25/dive-into-eureka/">http://nobodyiam.com/2016/06/25/dive-into-eureka/</a></p>
+<blockquote>
+<p>源码部分参考此文档</p>
+</blockquote>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li><a href="#spring-cloud-微服务注册中心-eureka">Spring Cloud 微服务注册中心(Eureka)</a>
-<ul>
-<li><a href="#一-基础架构">一 基础架构</a></li>
-<li><a href="#二-实战">二 实战</a>
-<ul>
-<li><a href="#2-1-eureka单机示例">2.1 Eureka单机示例</a>
-<ul>
-<li><a href="#2-1-1-服务端">2.1.1 服务端</a></li>
-<li><a href="#2-1-2-客户端">2.1.2 客户端</a></li>
-</ul></li>
-<li><a href="#2-2-高可用集群">2.2 高可用集群</a></li>
-</ul></li>
-<li><a href="#三-原理分析">三 原理分析</a>
-<ul>
-<li><a href="#3-1-注册续约">3.1 注册续约</a></li>
-<li><a href="#3-2-获取服务列表">3.2 获取服务列表</a></li>
-<li><a href="#3-3-peer-节点通讯">3.3 peer 节点通讯</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#一-基础架构">一 基础架构</a></li>
+    <li><a href="#二-实战">二 实战</a>
+      <ul>
+        <li><a href="#21-eureka单机示例">2.1 Eureka单机示例</a></li>
+        <li><a href="#22-高可用集群">2.2 高可用集群</a></li>
+      </ul>
+    </li>
+    <li><a href="#三-原理分析">三 原理分析</a>
+      <ul>
+        <li><a href="#31-注册续约">3.1 注册续约</a></li>
+        <li><a href="#32-获取服务列表">3.2 获取服务列表</a></li>
+        <li><a href="#33-peer-节点通讯">3.3 peer 节点通讯</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </section>
 

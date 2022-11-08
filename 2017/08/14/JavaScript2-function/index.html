@@ -21,7 +21,7 @@
   	<meta property="og:title" content="JavaScript基础2-函数 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/14/JavaScript2-function/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/14/JavaScript2-function/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": JavaScript基础2-函数,
-    "name": JavaScript基础2-函数,
-    "wordCount": 874,
+    "headline": "JavaScript基础2-函数",
+    "name": "JavaScript基础2-函数",
+    "wordCount":  870 ,
     "timeRequired": "PT2M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/14/JavaScript2-function/,
-    "datePublished": 2017-08-14T11:33Z,
-    "dateModified": 2017-08-14T11:33Z,
+    "url": "http://thoreauz.com/2017/08/14/JavaScript2-function/",
+    "datePublished": "2017-08-14T11:33Z",
+    "dateModified": "2017-08-14T11:33Z",
     
-    "keywords": js,
-    "description": ,
+    "keywords": "js",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/14/JavaScript2-function/
+        "@id": "http://thoreauz.com/2017/08/14/JavaScript2-function/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -242,100 +243,70 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="定义使用">定义使用</h2>
-
-<pre><code class="language-js">function abs(x) {
-    if (x &gt;= 0) {
-        return x;
-    } else {
-        return -x;
-    }
-}
-</code></pre>
-
-<ul>
-<li>function全名，go中<code>func</code>，python使用<code>def</code><br /></li>
-<li>不需要说明是否有返回值，使用return返回或者停止执行，否则返回undefined<br /></li>
-<li>传入参数比定义少时，并且函数中使用到了，则返回NaN或者undefined<br />
-<br /></li>
+      <h2 id="定义使用">定义使用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">abs</span>(<span style="color:#a6e22e">x</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">x</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>function全名，go中<code>func</code>，python使用<code>def</code></li>
+<li>不需要说明是否有返回值，使用return返回或者停止执行，否则返回undefined</li>
+<li>传入参数比定义少时，并且函数中使用到了，则返回NaN或者undefined</li>
 </ul>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <p>调用函数：函数名传入参数即可，arguments可以获取当前函数的参数，rest允许接收任何参数。</p>
-
-<pre><code class="language-js">function foo(a, b, ...rest) {
-}
-</code></pre>
-
-<p>函数内部变量的作用域只在函数内，相互不影响，如果是内部函数，则何以访问外部，且内部屏蔽外部。声明在函数外的变量即为全局变量，属于Windows的变量，函数本身也是一个全局变量。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">foo</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>, ...<span style="color:#a6e22e">rest</span>) {
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>函数内部变量的作用域只在函数内，相互不影响，如果是内部函数，则何以访问外部，且内部屏蔽外部。声明在函数外的变量即为全局变量，属于Windows的变量，函数本身也是一个全局变量。</p>
 <p>既然定义的函数也是一个全局变量，那么引入不同的js文件就会存在冲突，所以需要定义自己的命名空间。命名空间也容易引起混乱，最好使用CMD/AMD规范（<a href="http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html">AMD规范</a>）。</p>
-
 <p>还有一点，js在函数内定义的变量对整个函数都生效，不像java那样只是<code>{}</code>内的局部变量，ES6引入<code>let</code>声明的变量为块级变量。其中常量也需要ES6后的关键字<code>const</code>。</p>
-
 <p>js中使用<code>this</code>是个大坑，不小心就会出错(this可能指向Windows而不是对象)，一般都会声明一个变量先别this存起来使用。或者使用<a href="https://www.cnblogs.com/coco1s/p/4833199.html"><code>apply()</code></a>。</p>
-
 <h2 id="高阶函数">高阶函数</h2>
-
 <p>高阶函数就不细说了，只要支持函数式编程的语言几乎都支持map，reduce和filter，sort等高阶函数。</p>
-
 <p>一个简单示例：</p>
-
-<pre><code class="language-js">var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-console.log(arr.map(function(x){
-	return x +10
-}))//[11, 12, 13, 14, 15, 16, 17, 18, 19]
-arr.map(x =&gt; x + 5) // lambda表达式(java中是-&gt;)
-</code></pre>
-
-<h2 id="闭包">闭包</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>];
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">map</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">x</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>}))<span style="color:#75715e">//[11, 12, 13, 14, 15, 16, 17, 18, 19]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">x</span> =&gt; <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>) <span style="color:#75715e">// lambda表达式(java中是-&gt;)
+</span></span></span></code></pre></div><h2 id="闭包">闭包</h2>
 <p>函数式编程中，函数可以作为一个返回值存在，可以延迟执行。前面说，JavaScript中的外部函数不能访问内部函数变量，那如何从外部读取内部变量呢，就是函数再定义一个内部函数作为返回值。</p>
-
-<pre><code class="language-js">function outter() {
-	let x = &quot;outter&quot;
-	return () =&gt; console.log(name)
-}
-var f = outter()
-f()// outter
-</code></pre>
-
-<p>这个示例就是能访问内部变量的闭包，那再看一个示例。</p>
-
-<pre><code class="language-js">function persion() {
-	var age = 12
-	return () =&gt; console.log(age += 10)
-}
-var p = persion()
-p()//22
-p()//32
-</code></pre>
-
-<p>执行两次调用后，age值变了，说明age一直保存在内存中。所以闭包的作用就是访问内部变量和让变量保存在内存中，但因此使用不当会引起性能问题。</p>
-
-<hr />
-
-<p>参考文档<br />
-* <a href="https://developer.mozilla.org/cn/docs/Web/JavaScript/Closures">https://developer.mozilla.org/cn/docs/Web/JavaScript/Closures</a><br />
-* <a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html">http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html</a><br />
-* <a href="http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html">http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html</a><br />
-* <a href="https://www.cnblogs.com/coco1s/p/4833199.html">https://www.cnblogs.com/coco1s/p/4833199.html</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">outter</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;outter&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> () =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">outter</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">f</span>()<span style="color:#75715e">// outter
+</span></span></span></code></pre></div><p>这个示例就是能访问内部变量的闭包，那再看一个示例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">persion</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> () =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">age</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">persion</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">p</span>()<span style="color:#75715e">//22
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">p</span>()<span style="color:#75715e">//32
+</span></span></span></code></pre></div><p>执行两次调用后，age值变了，说明age一直保存在内存中。所以闭包的作用就是访问内部变量和让变量保存在内存中，但因此使用不当会引起性能问题。</p>
+<hr>
+<p>参考文档</p>
+<ul>
+<li><a href="https://developer.mozilla.org/cn/docs/Web/JavaScript/Closures">https://developer.mozilla.org/cn/docs/Web/JavaScript/Closures</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html">http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html">http://www.ruanyifeng.com/blog/2012/10/asynchronous_module_definition.html</a></li>
+<li><a href="https://www.cnblogs.com/coco1s/p/4833199.html">https://www.cnblogs.com/coco1s/p/4833199.html</a></li>
+</ul>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#定义使用">定义使用</a></li>
-<li><a href="#高阶函数">高阶函数</a></li>
-<li><a href="#闭包">闭包</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#定义使用">定义使用</a></li>
+    <li><a href="#高阶函数">高阶函数</a></li>
+    <li><a href="#闭包">闭包</a></li>
+  </ul>
 </nav>
     </section>
 

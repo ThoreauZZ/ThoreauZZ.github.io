@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Java测试驱动看这篇就够了 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2019/05/19/java-tdd/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -80,7 +80,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/05/19/java-tdd/" />
 
@@ -93,21 +94,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -119,23 +120,23 @@
             
         ]
     },
-    "headline": Java测试驱动看这篇就够了,
-    "name": Java测试驱动看这篇就够了,
-    "wordCount": 3161,
+    "headline": "Java测试驱动看这篇就够了",
+    "name": "Java测试驱动看这篇就够了",
+    "wordCount":  3161 ,
     "timeRequired": "PT7M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2019/05/19/java-tdd/,
-    "datePublished": 2019-05-19T13:59Z,
-    "dateModified": 2019-05-19T13:59Z,
+    "url": "http://thoreauz.com/2019/05/19/java-tdd/",
+    "datePublished": "2019-05-19T13:59Z",
+    "dateModified": "2019-05-19T13:59Z",
     
-    "keywords": test,
-    "description": ,
+    "keywords": "test",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2019/05/19/java-tdd/
+        "@id": "http://thoreauz.com/2019/05/19/java-tdd/"
     }
 }
     </script>
@@ -195,7 +196,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -243,273 +244,211 @@
 
     <section class="post-content">
       <h2 id="tdd">tdd</h2>
-
-<p>测试驱动开发，从字面谁上很好理解，开发流程应该是这样的。<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-21-24-45.jpg" alt=""></figure><br>
+<p>测试驱动开发，从字面谁上很好理解，开发流程应该是这样的。
+<img src="http://thoreauz.com/images/2019-03-23-21-24-45.jpg" alt="">
 关键在于测试编写先于实现，如果是写完实现再补测试，虽然总比没有强，但它不是TDD。测试驱动开发是一种设计方法，并不是测试方法，要求在编写代码前考虑代码需要实现的功能。它不是灵丹妙药，不能解决所有问题，只是为我们找到解决问题指明方向。明白这一点，就先抛开单元测试、集成测试这些概念，那是测试方法，不是设计方法。</p>
-
 <p>可以说，单元测试只是推动TDD的技术。反过来，全面、自动化、随时运行的单元测试只是TDD的一个结果。</p>
-
 <p>TDD要求快速，不断改代码不断运行单元测试，测试和实现的切换以秒计，如果运行一个测试要好几分钟，换任何人都会崩溃，那TDD也只是流于表面的好想法而已。</p>
-
 <h2 id="tdd示例">tdd示例</h2>
-
 <p>1.新建一个类</p>
-
-<pre><code class="language-java">public class StringUtils {
-    public boolean isEmpty(String srt) {
-        return false;
-    }
-}
-</code></pre>
-
-<p>2.创建测试<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-22-28-07.jpg" alt=""></figure></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StringUtils</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>String srt<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>2.创建测试
+<img src="http://thoreauz.com/images/2019-03-23-22-28-07.jpg" alt=""></p>
 <blockquote>
 <p>我的idea快捷键: <code>command + shift + T</code></p>
 </blockquote>
-
-<p>3.编写测试并运行：创建测试类后，可以按自己的习惯分屏。先写测试，运行失败(红灯)。<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-22-46-29.jpg" alt=""></figure></p>
-
+<p>3.编写测试并运行：创建测试类后，可以按自己的习惯分屏。先写测试，运行失败(红灯)。
+<img src="http://thoreauz.com/images/2019-03-23-22-46-29.jpg" alt=""></p>
 <blockquote>
-<p>我的快捷键:<br>
-水平分屏：<code>command + ctrl + S</code><br>
+<p>我的快捷键:
+水平分屏：<code>command + ctrl + S</code>
 重复运行测试：<code>command + R</code></p>
 </blockquote>
-
-<p>4.实现代码，运行测试通过(绿灯)<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-22-53-34.jpg" alt=""></figure><br>
-5.重构，运行测试通过(绿灯)<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-22-54-22.jpg" alt=""></figure></p>
-
-<p>6.idea自带覆盖率插件，可以随时查看覆盖率。<br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-23-07-29.jpg" alt=""></figure><br>
-<figure><img src="http://thoreauz.com/images/2019-03-23-22-57-35.jpg" alt=""></figure></p>
-
+<p>4.实现代码，运行测试通过(绿灯)
+<img src="http://thoreauz.com/images/2019-03-23-22-53-34.jpg" alt="">
+5.重构，运行测试通过(绿灯)
+<img src="http://thoreauz.com/images/2019-03-23-22-54-22.jpg" alt=""></p>
+<p>6.idea自带覆盖率插件，可以随时查看覆盖率。
+<img src="http://thoreauz.com/images/2019-03-23-23-07-29.jpg" alt="">
+<img src="http://thoreauz.com/images/2019-03-23-22-57-35.jpg" alt=""></p>
 <h2 id="单测基础工具">单测基础工具</h2>
-
 <p>TDD时设计方法，单元测试是实现TDD的一种方式，下面我们再来介绍各种单元测试框架和工具的使用。</p>
-
 <p>初始化一个java项目，先把单测基础需要的框架、工具给配置好。比如junit和jacoco。</p>
-
 <p>在上文tdd示例中，我们用了junit，用什么框架不重要，不过要求IDE(idea,eclipse)支持，构建工具(maven、gradle)支持。主流框架是junit和testng，testng功能更强大，不过一般junit就够了。如果用到起一些比较偏的库，一般都支持junit，但不一定支持testng。</p>
-
 <ul>
-<li>junit：<a href="https://junit.org/junit5/">https://junit.org/junit5/</a><br></li>
-<li>testng：<a href="https://testng.org/doc/index.html">https://testng.org/doc/index.html</a><br>
-测试覆盖率：代码覆盖率工具能够指出测试执行期间触及了哪些代码行，但并不能保证你遵循了良好的测试实践，因为这些指标中不包含测试质量。常用覆盖率工具有：<br></li>
-<li>JaCoCo：<a href="http://www.eclemma.org/jacoco/">http://www.eclemma.org/jacoco/</a><br></li>
-<li>Cobetura：<a href="http://cobertura.sourceforge.net/">http://cobertura.sourceforge.net/</a><br></li>
-<li>Emma：<a href="http://emma.sourceforge.net/">http://emma.sourceforge.net/</a><br>
-<br></li>
+<li>junit：https://junit.org/junit5/</li>
+<li>testng：https://testng.org/doc/index.html
+测试覆盖率：代码覆盖率工具能够指出测试执行期间触及了哪些代码行，但并不能保证你遵循了良好的测试实践，因为这些指标中不包含测试质量。常用覆盖率工具有：</li>
+<li>JaCoCo：http://www.eclemma.org/jacoco/</li>
+<li>Cobetura：http://cobertura.sourceforge.net/</li>
+<li>Emma：http://emma.sourceforge.net/</li>
 </ul>
-
 <p>一般选择JaCoCo，因为它支持java8。</p>
-
 <h3 id="mavenjunitjacoco">maven+junit+jacoco</h3>
-
 <p>添加junit依赖。</p>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;junit&lt;/groupId&gt;
-    &lt;artifactId&gt;junit&lt;/artifactId&gt;
-    &lt;version&gt;4.12&lt;/version&gt;
-    &lt;scope&gt;test&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<pre><code class="language-bash"># 运行测试
-mvn test 
-# 指定测试类
-mvn test -Dtest=com.thoreauz.bootlearn.utils.StringUtilsTest
-</code></pre>
-
-<p>还可以指定包，指定方法测试，详解<a href="http://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html">single-test</a></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>junit<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>junit<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>4.12<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 运行测试</span>
+</span></span><span style="display:flex;"><span>mvn test 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 指定测试类</span>
+</span></span><span style="display:flex;"><span>mvn test -Dtest<span style="color:#f92672">=</span>com.thoreauz.bootlearn.utils.StringUtilsTest
+</span></span></code></pre></div><p>还可以指定包，指定方法测试，详解<a href="http://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html">single-test</a></p>
 <p>为什么mvn test能执行测试，原因是maven默认自带了插件maven-surefire-plugin。它不是一个单元测试框架，它只是在构建执行到特定生命周期阶段的时候，通过插件来执行JUnit或者TestNG的测试用例。可以在<code>trage/surefire-reports</code>目录下看到执行报告。</p>
-
 <p>我们希望不止在idea看到覆盖率，希望maven执行测试后生成覆盖率报告，可以通过jacoco插件实现。</p>
-
-<pre><code class="language-xml">&lt;plugin&gt;
-    &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
-    &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;0.8.2&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;id&gt;jacoco-initialize&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;prepare-agent&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;
-            &lt;!--把jacoco生成报告阶段绑定到mvn test阶段，这样mvn test执行完就能生产报告--&gt;
-            &lt;id&gt;jacoco-site&lt;/id&gt;
-            &lt;phase&gt;test&lt;/phase&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;report&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
-&lt;/plugins&gt;
-</code></pre>
-
-<p>注意，如果在maven-surefire-plugin插件中配置了argLine参数，需要如下配置：</p>
-
-<pre><code class="language-bash">&lt;argLine&gt;-Xmx1024m -XX:MaxPermSize=256m&lt;/argLine&gt;
-# 修改为
-&lt;argLine&gt;${argLine} -Xmx1024m -XX:MaxPermSize=256m&lt;/argLine&gt;
-</code></pre>
-
-<p>因为jacoco是通过javaagent实现，如果写死<code>argLine</code>，jacoco插件带入的<code>-javaagent</code>运行参数无法传递到测试运参数中，从而出现无法生成报告的情况。</p>
-
-<p>默认报告地址：<code>target/site/jacoco</code><br>
-<figure><img src="http://thoreauz.com/images/2019-03-24-00-41-37.jpg" alt=""></figure></p>
-
-<p><figure><img src="http://thoreauz.com/images/2019-03-24-00-41-58.jpg" alt=""></figure></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.jacoco<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>jacoco-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>0.8.2<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;executions&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;execution&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;id&gt;</span>jacoco-initialize<span style="color:#f92672">&lt;/id&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;goals&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;goal&gt;</span>prepare-agent<span style="color:#f92672">&lt;/goal&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/goals&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/execution&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;execution&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!--把jacoco生成报告阶段绑定到mvn test阶段，这样mvn test执行完就能生产报告--&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;id&gt;</span>jacoco-site<span style="color:#f92672">&lt;/id&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;phase&gt;</span>test<span style="color:#f92672">&lt;/phase&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;goals&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;goal&gt;</span>report<span style="color:#f92672">&lt;/goal&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/goals&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/execution&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/executions&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span></code></pre></div><p>注意，如果在maven-surefire-plugin插件中配置了argLine参数，需要如下配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;argLine&gt;-Xmx1024m -XX:MaxPermSize<span style="color:#f92672">=</span>256m&lt;/argLine&gt;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改为</span>
+</span></span><span style="display:flex;"><span>&lt;argLine&gt;<span style="color:#e6db74">${</span>argLine<span style="color:#e6db74">}</span> -Xmx1024m -XX:MaxPermSize<span style="color:#f92672">=</span>256m&lt;/argLine&gt;
+</span></span></code></pre></div><p>因为jacoco是通过javaagent实现，如果写死<code>argLine</code>，jacoco插件带入的<code>-javaagent</code>运行参数无法传递到测试运参数中，从而出现无法生成报告的情况。</p>
+<p>默认报告地址：<code>target/site/jacoco</code>
+<img src="http://thoreauz.com/images/2019-03-24-00-41-37.jpg" alt=""></p>
+<p><img src="http://thoreauz.com/images/2019-03-24-00-41-58.jpg" alt=""></p>
 <h2 id="断言">断言</h2>
-
 <p>除了junit和testgn自带断言，还有以下常用库：</p>
-
 <ul>
-<li>Hamcrest：<a href="http://hamcrest.org/JavaHamcrest/tutorial">http://hamcrest.org/JavaHamcrest/tutorial</a><br></li>
-<li>JSONassert：<a href="https://github.com/skyscreamer/JSONassert">https://github.com/skyscreamer/JSONassert</a><br></li>
-<li>AssertJ：<a href="http://joel-costigliola.github.io/assertj/">http://joel-costigliola.github.io/assertj/</a><br>
-<br></li>
+<li>Hamcrest：http://hamcrest.org/JavaHamcrest/tutorial</li>
+<li>JSONassert：https://github.com/skyscreamer/JSONassert</li>
+<li>AssertJ：http://joel-costigliola.github.io/assertj/</li>
 </ul>
-
 <p>我更喜欢AssertJ，流式断言，语义清晰。示例如下：</p>
-
-<pre><code class="language-java">@Test
-public void assartJTest() {
-    assertThat(&quot;Frodo&quot;).isEqualTo(&quot;Frodo&quot;).isEqualToIgnoringCase(&quot;frodo&quot;);
-    assertThat(42).isGreaterThan(38).isGreaterThanOrEqualTo(38);
-    assertThat(Dates.parse(&quot;2014-02-01&quot;))
-            .isEqualTo(&quot;2014-02-01&quot;)
-            .isNotEqualTo(&quot;2014-01-01&quot;)
-            .isAfter(&quot;2014-01-01&quot;).isBefore(Dates.parse(&quot;2014-03-01&quot;));
-    assertThat(newArrayList(1, 2, 3))
-            .contains(1, atIndex(0))
-            .contains(2, atIndex(1))
-            .contains(3).isSorted();
-    assertThat(RequestMapping.class).isAnnotation();
-    assertThat(&quot;string&quot;).isInstanceOf(String.class);
-}
-</code></pre>
-
-<h2 id="mock">mock</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">assartJTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Frodo&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Frodo&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isEqualToIgnoringCase</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;frodo&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>42<span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThan</span><span style="color:#f92672">(</span>38<span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThanOrEqualTo</span><span style="color:#f92672">(</span>38<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>Dates<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-02-01&#34;</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-02-01&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isNotEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-01-01&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isAfter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-01-01&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isBefore</span><span style="color:#f92672">(</span>Dates<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-03-01&#34;</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>newArrayList<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 2<span style="color:#f92672">,</span> 3<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span>0<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span>1<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>3<span style="color:#f92672">).</span><span style="color:#a6e22e">isSorted</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>RequestMapping<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isAnnotation</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;string&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isInstanceOf</span><span style="color:#f92672">(</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="mock">mock</h2>
 <p>前面提到TDD要求快速，只关注某项功能的实现，所以我们需要把单测的依赖mock掉，给一个期望的返回值，mock对象主要有：</p>
-
 <ol>
-<li>其他类：因为我只关注某个类的方法。<br></li>
-<li>远程调用：prc、数据库、消息中间件等。<br>
-<br></li>
+<li>其他类：因为我只关注某个类的方法。</li>
+<li>远程调用：prc、数据库、消息中间件等。</li>
 </ol>
-
 <p>主要mock框架有：</p>
-
 <ul>
-<li>mockito：<a href="https://site.mockito.org/">https://site.mockito.org/</a><br></li>
-<li>easymock：<a href="http://easymock.org/">http://easymock.org/</a><br></li>
-<li>powermock：<a href="http://powermock.github.io/">http://powermock.github.io/</a><br>
-<br></li>
+<li>mockito：https://site.mockito.org/</li>
+<li>easymock：http://easymock.org/</li>
+<li>powermock：http://powermock.github.io/</li>
 </ul>
-
 <p>前两者使用差别不大，我更喜欢mockito，因为它支持间谍类，spring boot的@mockbean也是基于mockito。而powermock主要用来完成一些前两个框架无法mock的方法，尽量别使用powermock，必须使用它一般表示代码设计比较糟糕。通常用来处理历史代码。</p>
-
 <h3 id="mockito使用">mockito使用</h3>
-
-<p>测试UserService：UserMongo需要访问mongodb，mock其返回值。<br>
-<figure><img src="http://thoreauz.com/images/2019-03-24-01-57-26.jpg" alt=""></figure><br>
-注解写法：<br>
-<figure><img src="http://thoreauz.com/images/2019-03-24-02-09-41.jpg" alt=""></figure></p>
-
+<p>测试UserService：UserMongo需要访问mongodb，mock其返回值。
+<img src="http://thoreauz.com/images/2019-03-24-01-57-26.jpg" alt="">
+注解写法：
+<img src="http://thoreauz.com/images/2019-03-24-02-09-41.jpg" alt=""></p>
 <blockquote>
 <p>如果使用的是junit，可以使用@RunWith(MockitoJUnitRunner.class)注解在类上，不需要MockitoAnnotations.initMocks(this);</p>
 </blockquote>
-
-<h4 id="springboot">spring-boot:</h4>
-
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p><figure><img src="http://thoreauz.com/images/2019-03-24-02-21-23.jpg" alt=""></figure></p>
-
+<h4 id="spring-boot">spring-boot:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-test<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2019-03-24-02-21-23.jpg" alt=""></p>
 <blockquote>
 <p>@mockBean对testng支持好像有点问题。</p>
 </blockquote>
-
 <p>非spring-boot，把类注解换成</p>
-
-<pre><code class="language-java">@ContextConfiguration(locations={&quot;classpath:spring-test.xml&quot;})
-</code></pre>
-
-<pre><code class="language-xml">&lt;bean id=&quot;userMongo&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot; &gt; 
-    &lt;property&gt;
-        &lt;bean class = &quot;org.mockito.Mockito&quot; factory-method=&quot;mock&quot;&gt;
-            &lt;constructor-arg value=&quot;com.thoreauz.bootlearn.service.UserMongo&quot;/&gt;
-        &lt;/bean&gt;
-    &lt;/property&gt;
-&lt;/bean&gt; 
-</code></pre>
-
-<h4 id="mock-finel方法">mock finel方法</h4>
-
-<pre><code class="language-java">public class FinalClass {
-    final String finalMethod() { return &quot;something&quot;; }
-}
-</code></pre>
-
-<pre><code class="language-java">public class FinalClassTest {
-    @Test
-    public void finalMethod() {
-        FinalClass concrete = new FinalClass();
-        FinalClass mock = mock(FinalClass.class);
-        given(mock.finalMethod()).willReturn(&quot;not anymore&quot;);
-        assertThat(mock.finalMethod()).isNotEqualTo(concrete.finalMethod());
-    }
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ContextConfiguration</span><span style="color:#f92672">(</span>locations<span style="color:#f92672">={</span><span style="color:#e6db74">&#34;classpath:spring-test.xml&#34;</span><span style="color:#f92672">})</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;userMongo&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.springframework.aop.framework.ProxyFactoryBean&#34;</span> <span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;property&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">class =</span> <span style="color:#e6db74">&#34;org.mockito.Mockito&#34;</span> <span style="color:#a6e22e">factory-method=</span><span style="color:#e6db74">&#34;mock&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;constructor-arg</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;com.thoreauz.bootlearn.service.UserMongo&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/property&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span> 
+</span></span></code></pre></div><h4 id="mock-finel方法">mock finel方法</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FinalClass</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> String <span style="color:#a6e22e">finalMethod</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;something&#34;</span><span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FinalClassTest</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">finalMethod</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        FinalClass concrete <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FinalClass<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        FinalClass mock <span style="color:#f92672">=</span> mock<span style="color:#f92672">(</span>FinalClass<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        given<span style="color:#f92672">(</span>mock<span style="color:#f92672">.</span><span style="color:#a6e22e">finalMethod</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">willReturn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;not anymore&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        assertThat<span style="color:#f92672">(</span>mock<span style="color:#f92672">.</span><span style="color:#a6e22e">finalMethod</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">isNotEqualTo</span><span style="color:#f92672">(</span>concrete<span style="color:#f92672">.</span><span style="color:#a6e22e">finalMethod</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>运行会报错，因为mockito基于动态代理(cglib)，它不能代理finel方法。现在换成了bytecode。</p>
 </blockquote>
-
-<p>新版本加入了对finel method的支持。<br>
+<p>新版本加入了对finel method的支持。
 创建文件：<code>src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker</code></p>
-
-<pre><code>mock-maker-inline
-</code></pre>
-
-<h4 id="其他mockito使用经验">其他mockito使用经验</h4>
-
+<pre tabindex="0"><code>mock-maker-inline
+</code></pre><h4 id="其他mockito使用经验">其他mockito使用经验</h4>
 <ol>
-<li>注解：使用注解，主要需要<code>@RunWith(MockitoJUnitRunner.class)</code>或者<code>2MockitoAnnotations.initMocks(this)</code>;<br></li>
-<li>@MockBean是spring-boot支持的，需要在SpringRunner下运行，别搞混了。<br></li>
-<li>mock void方法<code>doNothing().when(spy).add(anyInt(),anyString())</code>。<br></li>
-<li>mock 异常：<code>doThrow(new XxxException()).when(spy).add(anyInt(),anyString())</code>。<br></li>
-<li>mock 静态方法：需要使用poermock。<br></li>
-<li>spy和mock的区别：spy是间谍类，如果没有打桩，将会调用真正的方法。mock如果没有打桩，不会调用方法，返回默认零值。<br></li>
-<li>doReturn/when和when/thenReturn是有区别的，一般使用前者。在使用spy创建间谍类时，when/thenReturn会执行真正的方法，再给出mock的返回值，如果执行报错，就会中断。<br></li>
-<li>打桩doReturn/when，参数要么都是固定值，要么都用匹配器(<code>anyInt()</code>.<code>any(Xxx.clas)</code>，<code>eq(&quot;string&quot;)</code>)。<br>
-<br></li>
+<li>注解：使用注解，主要需要<code>@RunWith(MockitoJUnitRunner.class)</code>或者<code>2MockitoAnnotations.initMocks(this)</code>;</li>
+<li>@MockBean是spring-boot支持的，需要在SpringRunner下运行，别搞混了。</li>
+<li>mock void方法<code>doNothing().when(spy).add(anyInt(),anyString())</code>。</li>
+<li>mock 异常：<code>doThrow(new XxxException()).when(spy).add(anyInt(),anyString())</code>。</li>
+<li>mock 静态方法：需要使用poermock。</li>
+<li>spy和mock的区别：spy是间谍类，如果没有打桩，将会调用真正的方法。mock如果没有打桩，不会调用方法，返回默认零值。</li>
+<li>doReturn/when和when/thenReturn是有区别的，一般使用前者。在使用spy创建间谍类时，when/thenReturn会执行真正的方法，再给出mock的返回值，如果执行报错，就会中断。</li>
+<li>打桩doReturn/when，参数要么都是固定值，要么都用匹配器(<code>anyInt()</code>.<code>any(Xxx.clas)</code>，<code>eq(&quot;string&quot;)</code>)。</li>
 </ol>
-
 <h2 id="总结">总结</h2>
-
 <p>本文简单介绍TDD测试驱动开发，他是一种设计思想。单元测试上，介绍了maven+junit+jacoco配置。 具体到业务上，不会只是util类测试那么简单，很大可能依赖外部方法，那么，mockito是个不错的选择。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
-      
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tdd">tdd</a></li>
+    <li><a href="#tdd示例">tdd示例</a></li>
+    <li><a href="#单测基础工具">单测基础工具</a>
+      <ul>
+        <li><a href="#mavenjunitjacoco">maven+junit+jacoco</a></li>
+      </ul>
+    </li>
+    <li><a href="#断言">断言</a></li>
+    <li><a href="#mock">mock</a>
+      <ul>
+        <li><a href="#mockito使用">mockito使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
     </section>
 
 

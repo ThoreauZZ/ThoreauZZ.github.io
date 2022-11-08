@@ -21,7 +21,7 @@
   	<meta property="og:title" content="B树和B&#43;树 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2019/02/16/Btree-B-Tree/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/02/16/Btree-B-Tree/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": B树和B&#43;树,
-    "name": B树和B&#43;树,
-    "wordCount": 1220,
+    "headline": "B树和B+树",
+    "name": "B树和B+树",
+    "wordCount":  1211 ,
     "timeRequired": "PT3M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2019/02/16/Btree-B-Tree/,
-    "datePublished": 2019-02-16T21:44Z,
-    "dateModified": 2019-02-16T21:44Z,
+    "url": "http://thoreauz.com/2019/02/16/Btree-B-Tree/",
+    "datePublished": "2019-02-16T21:44Z",
+    "dateModified": "2019-02-16T21:44Z",
     
-    "keywords": algorithm, tree, mysql,
-    "description": ,
+    "keywords": "algorithm, tree, mysql",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2019/02/16/Btree-B-Tree/
+        "@id": "http://thoreauz.com/2019/02/16/Btree-B-Tree/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,94 +251,71 @@
     </header>
 
     <section class="post-content">
-      
-
-<h2 id="概述">概述</h2>
-
-<p>之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。<br />
+      <h2 id="概述">概述</h2>
+<p>之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。
 本文不深入实现，主要介绍B树和B+树为什么存在，应用场景是什么，为什么不能用红黑树代替？</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="什么是b树">什么是B树</h2>
-
 <p>先不解释B树的规则，否则容易头晕，我们先来看问题。红黑树查询效率已经很好了，特别是对于jdk8中HashMap中数据结构：首先，他为等值查找，不需要范围查找也不需要分组。其次，它都在内存里查找。</p>
-
 <p>“内存”关键字很重要，如果数据存在磁盘上，每次节点对比查找，都涉及非顺序读的io操作，就比较耗时了，B树也正好为解决这个问题而来&ndash;更少的io操作。</p>
-
 <blockquote>
 <p>磁盘读取数据是以盘块(block)为基本单位的。位于同一盘块中的所有数据都能被一次性全部读取出来。因此我们应该尽量将相关信息存放在同一盘块，同一磁道中，以求在读/写信息时尽量减少磁头来回移动的次数。</p>
 </blockquote>
-
 <p>按顺序依次插入如下数据：</p>
-
-<pre><code>2,33,1,6,88,44,65,99,89,3,55,10,77
-</code></pre>
-
-<p><img src="http://thoreauz.com/images/2019-02-23-13-52-55.jpg" alt="" /><br />
-&gt; 红黑树</p>
-
-<p><img src="http://thoreauz.com/images/2019-02-23-14-07-22.jpg" alt="" /><br />
-&gt; B树</p>
-
-<p>可以看到B树和红黑树最明显的区别：<br />
-* 不止两个儿子<br />
-* 同一个节点上有多个元素</p>
-
+<pre tabindex="0"><code>2,33,1,6,88,44,65,99,89,3,55,10,77
+</code></pre><p><img src="http://thoreauz.com/images/2019-02-23-13-52-55.jpg" alt=""></p>
+<blockquote>
+<p>红黑树</p>
+</blockquote>
+<p><img src="http://thoreauz.com/images/2019-02-23-14-07-22.jpg" alt=""></p>
+<blockquote>
+<p>B树</p>
+</blockquote>
+<p>可以看到B树和红黑树最明显的区别：</p>
+<ul>
+<li>不止两个儿子</li>
+<li>同一个节点上有多个元素</li>
+</ul>
 <p>这两个特点意味着树的高度更小，如果每个节点是一个磁盘block，io读写移动次数更少。一个节点上多个元素一起读出来在内存查找，又一次减少了io访问次数。</p>
-
 <p>比如图中红黑树查找88需要4次，而B树只需要3次即可。况且这是2元素3子节点的B树，如果数据量大、更多叉(阶)，优点更明显。当然也不是子节点越多越好，每个节点容纳的元素应该都在一个磁盘block上才能保证更少次数io访问。</p>
-
-<p>下面我们再看B树的特点：<br />
-1. 根结点至少有两个子女。<br />
-2. 每个中间节点都包含k-1个元素和k个孩子，其中 m/2 &lt;= k &lt;= m。(也就是孩子数比元素多一个)<br />
-3. 每一个叶子节点都包含k-1个元素，其中 m/2 &lt;= k &lt;= m<br />
-4. 所有的叶子结点都位于同一层。<br />
-5. 每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域分划(别被绕晕了，看一眼上图65-89和孩子的大小关系就清楚)。</p>
-
+<p>下面我们再看B树的特点：</p>
+<ol>
+<li>根结点至少有两个子女。</li>
+<li>每个中间节点都包含k-1个元素和k个孩子，其中 m/2 &lt;= k &lt;= m。(也就是孩子数比元素多一个)</li>
+<li>每一个叶子节点都包含k-1个元素，其中 m/2 &lt;= k &lt;= m</li>
+<li>所有的叶子结点都位于同一层。</li>
+<li>每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域分划(别被绕晕了，看一眼上图65-89和孩子的大小关系就清楚)。</li>
+</ol>
 <blockquote>
 <p>m又叫阶，比如上图即一颗3阶的B树。元素个数最大2(k-1)，孩子数最大3(k&lt;=m)</p>
 </blockquote>
-
-<h2 id="b-树">B+树</h2>
-
+<h2 id="b树">B+树</h2>
 <p>B+树是B树的变形，做了什么优化？</p>
-
-<p><img src="http://thoreauz.com/images/2019-02-16-20-58-23.jpg" alt="" /><br />
+<p><img src="http://thoreauz.com/images/2019-02-16-20-58-23.jpg" alt="">
 可以看到，有重复元素，但叶子节点包含了所有节点元素，且除了叶子节点，其他节点并不保存具体元素对应的位置信息。什么意思，拿mysql存储来说，索引除了保存key，还需要保存对应数据位置才能定位到某条记录。 B+树在非叶子节不保存位置信息，意味着一个节点能存储更多元素，从而减少io次数。</p>
-
 <p>这也意味着每个元素查找最后都要走到叶子节点才能拿到数据位置，但因此查询效率比较稳定。</p>
-
 <p>从图中可以看到，叶子节点从小到大连起来，又解决B树遍历的效率和范围查询效率的问题。所以B+树比较适合作为关系型数据库存储数据结构。</p>
-
 <p>先对B树特征如下：</p>
-
 <ul>
-<li>有n棵子树的结点中含有n-1 个元素；<br /></li>
-<li>所有的叶子结点中包含了全部元素，及指向含有这些元素记录的指针，且叶子结点本身依元素的大小自小而大的顺序链接。<br />
-<br /></li>
+<li>有n棵子树的结点中含有n-1 个元素；</li>
+<li>所有的叶子结点中包含了全部元素，及指向含有这些元素记录的指针，且叶子结点本身依元素的大小自小而大的顺序链接。</li>
 </ul>
-
-<hr />
-
-<p>参考：<br />
-<a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a><br />
-<a href="http://yangez.github.io/btree-js/">http://yangez.github.io/btree-js/</a><br />
-<a href="http://goneill.co.nz/btree-demo.php">http://goneill.co.nz/btree-demo.php</a><br />
+<hr>
+<p>参考：
+<a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a>
+<a href="http://yangez.github.io/btree-js/">http://yangez.github.io/btree-js/</a>
+<a href="http://goneill.co.nz/btree-demo.php">http://goneill.co.nz/btree-demo.php</a>
 <a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.02.md">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.02.md</a></p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#概述">概述</a></li>
-<li><a href="#什么是b树">什么是B树</a></li>
-<li><a href="#b-树">B+树</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#什么是b树">什么是B树</a></li>
+    <li><a href="#b树">B+树</a></li>
+  </ul>
 </nav>
     </section>
 

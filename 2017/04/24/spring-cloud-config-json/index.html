@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Spring Cloud Config 存储复杂数据结构 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/04/24/spring-cloud-config-json/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -45,7 +45,7 @@
     <title>Spring Cloud Config 存储复杂数据结构 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="假设现在有这样一个接口： GET /emojes { &amp;quot;emojies&amp;quot;: [{ &amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;呵呵&amp;quot;, &amp;quot;uri&amp;quot;: &amp;quot;http://xxx.png&amp;quot; " />
+    <meta name="description" content="假设现在有这样一个接口： GET /emojes { &amp;#34;emojies&amp;#34;: [{ &amp;#34;id&amp;#34;: &amp;#34;1&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;呵呵&amp;#34;, &amp;#34;uri&amp;#34;: &amp;#34;http://xxx.png&amp;#34; }, { &amp;#34;id&amp;#" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/04/24/spring-cloud-config-json/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": Spring Cloud Config 存储复杂数据结构,
-    "name": Spring Cloud Config 存储复杂数据结构,
-    "wordCount": 358,
+    "headline": "Spring Cloud Config 存储复杂数据结构",
+    "name": "Spring Cloud Config 存储复杂数据结构",
+    "wordCount":  354 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/04/24/spring-cloud-config-json/,
-    "datePublished": 2017-04-24T17:33Z,
-    "dateModified": 2017-04-24T17:33Z,
+    "url": "http://thoreauz.com/2017/04/24/spring-cloud-config-json/",
+    "datePublished": "2017-04-24T17:33Z",
+    "dateModified": "2017-04-24T17:33Z",
     
-    "keywords": spring, 微服务, spring cloud,
-    "description": ,
+    "keywords": "spring, 微服务, spring cloud",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/04/24/spring-cloud-config-json/
+        "@id": "http://thoreauz.com/2017/04/24/spring-cloud-config-json/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,110 +251,84 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>假设现在有这样一个接口：<br />
+      <p>假设现在有这样一个接口：
 GET /emojes</p>
-
-<pre><code class="language-json">{
-	&quot;emojies&quot;: [{
-		&quot;id&quot;: &quot;1&quot;,
-		&quot;name&quot;: &quot;呵呵&quot;,
-		&quot;uri&quot;: &quot;http://xxx.png&quot;
-	},
-	{
-		&quot;id&quot;: &quot;2&quot;,
-		&quot;name&quot;: &quot;嘿嘿&quot;,
-		&quot;uri&quot;: &quot;http://ooo.png&quot;
-	}]
-}
-</code></pre>
-
-<p>里面的数据希望存储在配置中心，以便方便修改，动态刷新。spring cloud config支持<code>yaml</code>格式的配置文件。结合spring boot配置类，可以把相关配置注入到一个Java Bean中，供其他对象使用。</p>
-
-<!-- more -->
-
-<h2 id="添加-yaml-文件">添加<code>yaml</code>文件</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;emojies&#34;</span>: [{
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;呵呵&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;uri&#34;</span>: <span style="color:#e6db74">&#34;http://xxx.png&#34;</span>
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;2&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;嘿嘿&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;uri&#34;</span>: <span style="color:#e6db74">&#34;http://ooo.png&#34;</span>
+</span></span><span style="display:flex;"><span>	}]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>里面的数据希望存储在配置中心，以便方便修改，动态刷新。spring cloud config支持<code>yaml</code>格式的配置文件。结合spring boot配置类，可以把相关配置注入到一个Java Bean中，供其他对象使用。</p>
+<!-- raw HTML omitted -->
+<h2 id="添加yaml文件">添加<code>yaml</code>文件</h2>
 <p>cat test-dev.yaml</p>
-
-<pre><code class="language-yml">im:
-  emojis:
-    - id: 1
-      name: 呵呵
-      uri: http://xxx1.png
-    - id: 2
-      name: 嘿嘿
-      uri: http://ooo.png
-</code></pre>
-
-<h2 id="添加配置类">添加配置类</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">im</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">emojis</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">呵呵</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uri</span>: <span style="color:#ae81ff">http://xxx1.png</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">嘿嘿</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uri</span>: <span style="color:#ae81ff">http://ooo.png</span>
+</span></span></code></pre></div><h2 id="添加配置类">添加配置类</h2>
 <p>EmojisConfig.java</p>
-
-<pre><code class="language-java">import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.List;
-
-@Component
-@ConfigurationProperties(prefix = &quot;im&quot;)
-@Data
-public class EmojisConfig {
-    private List&lt;Emojis&gt; emojis = new ArrayList&lt;&gt;();
-}
-</code></pre>
-
-<p>Emojis.java</p>
-
-<pre><code class="language-java">import lombok.Data;
-
-@Data
-public class Emojis {
-    private String id;
-    private String name;
-    private String uri;
-}
-</code></pre>
-
-<h2 id="使用配置类">使用配置类</h2>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> lombok.Data<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.context.properties.ConfigurationProperties<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.stereotype.Component<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.ArrayList<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;im&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EmojisConfig</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> List<span style="color:#f92672">&lt;</span>Emojis<span style="color:#f92672">&gt;</span> emojis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Emojis.java</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> lombok.Data<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Emojis</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String id<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String uri<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="使用配置类">使用配置类</h2>
 <p>EmojisController.java</p>
-
-<pre><code class="language-java">@RestController
-@RequestMapping(&quot;/emojs&quot;)
-@RefreshScope
-public class EmojisController {
-
-    @Autowired
-    private EmojisConfig emojisConfig;
-
-    @GetMapping
-    public EmojisConfig doGet(){
-        return emojisConfig;
-    }
-}
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/emojs&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RefreshScope</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EmojisController</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> EmojisConfig emojisConfig<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> EmojisConfig <span style="color:#a6e22e">doGet</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> emojisConfig<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
 <p>一定不要忘记添加<code>@RefreshScope</code>，修改配置后。<code>POST /refresh</code>使其动态生效。</p>
 </blockquote>
-
 <p>每次修改<code>yml</code>文件后，先通过在线校验工具<a href="http://codebeautify.org/yaml-validator">yaml-validator</a>校验，以保证配置格式正确。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#添加-yaml-文件">添加<code>yaml</code>文件</a></li>
-<li><a href="#添加配置类">添加配置类</a></li>
-<li><a href="#使用配置类">使用配置类</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#添加yaml文件">添加<code>yaml</code>文件</a></li>
+    <li><a href="#添加配置类">添加配置类</a></li>
+    <li><a href="#使用配置类">使用配置类</a></li>
+  </ul>
 </nav>
     </section>
 

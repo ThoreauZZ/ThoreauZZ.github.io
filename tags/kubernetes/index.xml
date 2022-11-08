@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kubernetes on 造舟野渡</title>
@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate>
-    
-	<atom:link href="http://thoreauz.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 04 Nov 2018 01:16:10 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在mac上安装minikube</title>
       <link>http://thoreauz.com/2018/11/04/mac-install-minikube/</link>
@@ -54,7 +50,7 @@
       <pubDate>Tue, 21 Mar 2017 12:15:08 +0000</pubDate>
       
       <guid>http://thoreauz.com/2017/03/21/kubernetes-deployments/</guid>
-      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： * 参建副本集和 Pods * 检查部署状态</description>
+      <description>Deployment 提供了声明式的pods和Replica配置。只需要描述一个部署对象，即可根据该描述参建或者更资源。 使用场景： 参建副本集和 Pods 检查部署状态 更新</description>
     </item>
     
     <item>

@@ -21,7 +21,7 @@
   	<meta property="og:title" content="Ribbon源码阅读 &middot; 造舟野渡" />
   	<meta property="og:site_name" content="造舟野渡" />
   	<meta property="og:url" content="http://thoreauz.com/2017/08/11/Ribbon/" />
-
+    <meta name="generator" content="Hugo 0.99.1" />
     
         
             <meta property="og:image" content="/images/cover.jpg"/>
@@ -84,7 +84,8 @@
       
       
     
-    <meta name="generator" content="Hugo 0.54.0" />
+    
+    <meta name="generator" content="Hugo 0.105.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/11/Ribbon/" />
 
@@ -97,21 +98,21 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": ,
-        "logo": http://thoreauz.comDog-b.svg
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
     },
     "author": {
         "@type": "Person",
-        "name": ,
+        "name":  null ,
         
         "image": {
             "@type": "ImageObject",
-            "url": http://thoreauz.comDog-b.svg,
+            "url": "http://thoreauz.comDog-b.svg",
             "width": 250,
             "height": 250
         }, 
         
-        "url": http://thoreauz.com,
+        "url": "http://thoreauz.com",
         "sameAs": [
             
             
@@ -123,23 +124,23 @@
             
         ]
     },
-    "headline": Ribbon源码阅读,
-    "name": Ribbon源码阅读,
-    "wordCount": 2168,
+    "headline": "Ribbon源码阅读",
+    "name": "Ribbon源码阅读",
+    "wordCount":  2154 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
-      "alternateName": en
+      "alternateName": "en"
     },
-    "url": http://thoreauz.com/2017/08/11/Ribbon/,
-    "datePublished": 2017-08-11T20:12Z,
-    "dateModified": 2017-08-11T20:12Z,
+    "url": "http://thoreauz.com/2017/08/11/Ribbon/",
+    "datePublished": "2017-08-11T20:12Z",
+    "dateModified": "2017-08-11T20:12Z",
     
-    "keywords": spring, 微服务, spring cloud,
-    "description": ,
+    "keywords": "spring, 微服务, spring cloud",
+    "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": http://thoreauz.com/2017/08/11/Ribbon/
+        "@id": "http://thoreauz.com/2017/08/11/Ribbon/"
     }
 }
     </script>
@@ -199,7 +200,7 @@
     </ul>
 
     
-    <a class="subscribe-button icon-feed" href="http://thoreauz.com/index.xml">Subscribe</a>
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -250,271 +251,225 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。<br />
+      <p>Ribbon是一个客户端负载均衡软件，通过注册到Eureka上的服务名，获取服务列表，缓存到本地，选择负载均衡算法，发送http请求。
 在spring cloud可以通过简单配置，即可完成客户端负载均衡，用法如下：配置，注入，请求</p>
-
-<pre><code class="language-java"> @Bean
-@LoadBalanced
-RestTemplate restTemplate() {
-    return new RestTemplate();
-
-}
-@Autowired
-private RestTemplate restTemplate;
-
-public Object getUser(Long id) {
-    return restTemplate.getForEntity(&quot;http://CLOUD-SERVICE-USER/user/persionalInfo?id=&quot; + id, Object.class).getBody();
-}
-</code></pre>
-
-<p>带着问题看源码：<br />
-1. Ribbon怎么和RestTemplate整合<br />
-2. 怎么样自定义负载均衡算法<br />
-3. 底层http客户端怎么修改</p>
-
-<!-- more -->
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@LoadBalanced</span>
+</span></span><span style="display:flex;"><span>RestTemplate <span style="color:#a6e22e">restTemplate</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RestTemplate<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> RestTemplate restTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getUser</span><span style="color:#f92672">(</span>Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">getForEntity</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://CLOUD-SERVICE-USER/user/persionalInfo?id=&#34;</span> <span style="color:#f92672">+</span> id<span style="color:#f92672">,</span> Object<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>带着问题看源码：</p>
+<ol>
+<li>Ribbon怎么和RestTemplate整合</li>
+<li>怎么样自定义负载均衡算法</li>
+<li>底层http客户端怎么修改</li>
+</ol>
+<!-- raw HTML omitted -->
 <h2 id="common-包">common 包</h2>
-
 <p>在spring-cloud-common中提供了这样一个接口<code>LoadBalancerClient</code>，注释说明是客户端负载均衡器。</p>
-
-<pre><code class="language-java">public interface LoadBalancerClient extends ServiceInstanceChooser {
-	&lt;T&gt; T execute(String serviceId, LoadBalancerRequest&lt;T&gt; request) throws IOException;
-	/**
-	 * 使用来自LoadBalancer的ServiceInstance，对起执行请求
-	 * @param serviceId 
-	 * @param 服务实例
-	 * @param Request。允许在执行前后添加metric
-	 * @return 回调结果
-	 */
-	&lt;T&gt; T execute(String serviceId, ServiceInstance serviceInstance, LoadBalancerRequest&lt;T&gt; request) throws IOException;
-	/**
-	 * 创建一个真正的URL包含主机和端口：
-	 * http://myservice/path/to/service --&gt; http://host:port/path/to/service
-	 * @param 服务实例
-	 * @param 源url，是一个包含serviceId或者dns的URL
-	 * @return 重新构造的URL
-	 */
-	URI reconstructURI(ServiceInstance instance, URI original);
-}
-</code></pre>
-
-<p>此接口提供了三个方法，继承ServiceInstanceChooser，我们再来看下这个接口：</p>
-
-<pre><code class="language-java">public interface ServiceInstanceChooser {
-    ServiceInstance choose(String serviceId);
-}
-</code></pre>
-
-<p>这个接口只提供了一个方法：通过serviceId获取需要访问的实例。而Ribbon则实现了LoadBalancerClient。</p>
-
-<p><img src="http://thoreauz.com/images/2017-08-11-00-34-40.jpg" alt="" /></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">LoadBalancerClient</span> <span style="color:#66d9ef">extends</span> ServiceInstanceChooser <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>String serviceId<span style="color:#f92672">,</span> LoadBalancerRequest<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> request<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * 使用来自LoadBalancer的ServiceInstance，对起执行请求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @param serviceId 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @param 服务实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @param Request。允许在执行前后添加metric
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @return 回调结果
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>String serviceId<span style="color:#f92672">,</span> ServiceInstance serviceInstance<span style="color:#f92672">,</span> LoadBalancerRequest<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> request<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * 创建一个真正的URL包含主机和端口：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * http://myservice/path/to/service --&gt; http://host:port/path/to/service
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @param 服务实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @param 源url，是一个包含serviceId或者dns的URL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * @return 重新构造的URL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	URI <span style="color:#a6e22e">reconstructURI</span><span style="color:#f92672">(</span>ServiceInstance instance<span style="color:#f92672">,</span> URI original<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>此接口提供了三个方法，继承ServiceInstanceChooser，我们再来看下这个接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ServiceInstanceChooser</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ServiceInstance <span style="color:#a6e22e">choose</span><span style="color:#f92672">(</span>String serviceId<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这个接口只提供了一个方法：通过serviceId获取需要访问的实例。而Ribbon则实现了LoadBalancerClient。</p>
+<p><img src="http://thoreauz.com/images/2017-08-11-00-34-40.jpg" alt=""></p>
 <p>下面分析这个类怎么具体实现接口中的choose方法：</p>
-
 <h3 id="choose实现">choose实现</h3>
-
-<pre><code class="language-java">@Override
-public ServiceInstance choose(String serviceId) {
-	Server server = getServer(serviceId);
-	if (server == null) {
-		return null;
-	}
-	return new RibbonServer(serviceId, server, isSecure(server, serviceId),
-			serverIntrospector(serviceId).getMetadata(server));
-}
-</code></pre>
-
-<p>第一行返回一个server，server包含了服务的地址端口和状态区域等信息，通过serviceId获取这个服务是关键。</p>
-
-<pre><code class="language-java">Server{
-	public static final String UNKNOWN_ZONE = &quot;UNKNOWN&quot;;
-    private String host;
-    private int port = 80;
-    private volatile String id;
-    private volatile boolean isAliveFlag;
-    private String zone = &quot;UNKNOWN&quot;;
-    private volatile boolean readyToServe = true;
-}
-</code></pre>
-
-<p>再看获取服务的方法：</p>
-
-<pre><code class="language-java">protected Server getServer(String serviceId) {
-	return getServer(getLoadBalancer(serviceId));
-}
-protected Server getServer(ILoadBalancer loadBalancer) {
-	if (loadBalancer == null) {
-		return null;
-	}
-	return loadBalancer.chooseServer(&quot;default&quot;); // TODO: better handling of key
-}
-</code></pre>
-
-<p>获取ILoadBalancer对象，再传递给另一个同名方法。下面分析ILoadBalancer及其实现成了重点。</p>
-
-<p><img src="http://thoreauz.com/images/2017-08-11-10-42-59.jpg" alt="" /></p>
-
-<p>追查ILoadBalancer的实现，最终落实到DynamicServerListLoadBalancer，下面从接口开始分析这个实现类。<br />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ServiceInstance <span style="color:#a6e22e">choose</span><span style="color:#f92672">(</span>String serviceId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	Server server <span style="color:#f92672">=</span> getServer<span style="color:#f92672">(</span>serviceId<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>server <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RibbonServer<span style="color:#f92672">(</span>serviceId<span style="color:#f92672">,</span> server<span style="color:#f92672">,</span> isSecure<span style="color:#f92672">(</span>server<span style="color:#f92672">,</span> serviceId<span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>			serverIntrospector<span style="color:#f92672">(</span>serviceId<span style="color:#f92672">).</span><span style="color:#a6e22e">getMetadata</span><span style="color:#f92672">(</span>server<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>第一行返回一个server，server包含了服务的地址端口和状态区域等信息，通过serviceId获取这个服务是关键。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Server<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String UNKNOWN_ZONE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UNKNOWN&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String host<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> port <span style="color:#f92672">=</span> 80<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">volatile</span> String id<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">boolean</span> isAliveFlag<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String zone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UNKNOWN&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">boolean</span> readyToServe <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>再看获取服务的方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> Server <span style="color:#a6e22e">getServer</span><span style="color:#f92672">(</span>String serviceId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> getServer<span style="color:#f92672">(</span>getLoadBalancer<span style="color:#f92672">(</span>serviceId<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> Server <span style="color:#a6e22e">getServer</span><span style="color:#f92672">(</span>ILoadBalancer loadBalancer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>loadBalancer <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> loadBalancer<span style="color:#f92672">.</span><span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">// TODO: better handling of key
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>获取ILoadBalancer对象，再传递给另一个同名方法。下面分析ILoadBalancer及其实现成了重点。</p>
+<p><img src="http://thoreauz.com/images/2017-08-11-10-42-59.jpg" alt=""></p>
+<p>追查ILoadBalancer的实现，最终落实到DynamicServerListLoadBalancer，下面从接口开始分析这个实现类。
 先看几个抽象类和接口中需要实现的方法：</p>
-
-<pre><code class="language-java">public interface ILoadBalancer {
-    void addServers(List&lt;Server&gt; var1); // 初始化服务列表
-    Server chooseServer(Object var1);	// 从列表中选择一个服务
-    void markServerDown(Server var1);	// 标记服务为down
-    List&lt;Server&gt; getReachableServers();	// 获取up和reachable的服务
-    List&lt;Server&gt; getAllServers();		//获取所有服务（reachable and unreachable）
-}
- public abstract List&lt;Server&gt; getServerList(ServerGroup serverGroup);
- public abstract LoadBalancerStats getLoadBalancerStats();    
- public void primeCompleted(Server s, Throwable lastException);
- public abstract void initWithNiwsConfig(IClientConfig clientConfig);
-</code></pre>
-
-<p>接着再看下面调用链：下面列出的代码中省略了很多逻辑。</p>
-
-<pre><code class="language-java">public ILoadBalancer getLoadBalancer(String name) {
-	return getInstance(name, ILoadBalancer.class);
-}
-
-//类：DynamicServerListLoadBalancer
-@Override
-public &lt;C&gt; C getInstance(String name, Class&lt;C&gt; type) {
-	C instance = super.getInstance(name, type);
-	if (instance != null) {
-		return instance; 
-	}
-	IClientConfig config = getInstance(name, IClientConfig.class);
-	return instantiateWithConfig(getContext(name), type, config);
-}
-
-//类：DynamicServerListLoadBalancer
-protected Server getServer(ILoadBalancer loadBalancer) { 
-	return loadBalancer.chooseServer(&quot;default&quot;); 
-	}
-
-//类：ZoneAwareLoadBalancer
-@Override
-public Server chooseServer(Object key) {
-    return zoneLoadBalancer.chooseServer(key);
-}
-
-//类：BaseLoadBalancer
-public Server chooseServer(Object key) {
-    return rule.choose(key); // 重要方法 rule = new RoundRobinRule()  
-}
-</code></pre>
-
-<p>总之，逻辑是这样的：<br />
-1. 获取负载均衡器(LoadBalancer)的实例(getInstance)。<br />
-2. 负载均衡器通过IRule实现的算法逻辑实现选择。<br />
-3. 最后获得一个Server(服务)</p>
-
-<p>负载均衡的算法主要通过ribbon提供的一些列算法实现IRule，默认是轮询。<br />
-<img src="http://thoreauz.com/images/2017-08-11-18-04-51.jpg" alt="" /><br />
-Ribbon提供了一些其他算法：<br />
-* RetryRule:根据轮询的方式重试<br />
-* RandomRule: 随机<br />
-* WeightedResponseTimeRule：根据响应时间去分配权重<br />
-* ZoneAvoidanceRule：区域可用性</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ILoadBalancer</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addServers</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>Server<span style="color:#f92672">&gt;</span> var1<span style="color:#f92672">);</span> <span style="color:#75715e">// 初始化服务列表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Server <span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span>Object var1<span style="color:#f92672">);</span>	<span style="color:#75715e">// 从列表中选择一个服务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">markServerDown</span><span style="color:#f92672">(</span>Server var1<span style="color:#f92672">);</span>	<span style="color:#75715e">// 标记服务为down
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>Server<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getReachableServers</span><span style="color:#f92672">();</span>	<span style="color:#75715e">// 获取up和reachable的服务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>Server<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getAllServers</span><span style="color:#f92672">();</span>		<span style="color:#75715e">//获取所有服务（reachable and unreachable）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> List<span style="color:#f92672">&lt;</span>Server<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getServerList</span><span style="color:#f92672">(</span>ServerGroup serverGroup<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> LoadBalancerStats <span style="color:#a6e22e">getLoadBalancerStats</span><span style="color:#f92672">();</span>    
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">primeCompleted</span><span style="color:#f92672">(</span>Server s<span style="color:#f92672">,</span> Throwable lastException<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initWithNiwsConfig</span><span style="color:#f92672">(</span>IClientConfig clientConfig<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>接着再看下面调用链：下面列出的代码中省略了很多逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ILoadBalancer <span style="color:#a6e22e">getLoadBalancer</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> getInstance<span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> ILoadBalancer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//类：DynamicServerListLoadBalancer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>C<span style="color:#f92672">&gt;</span> C <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> Class<span style="color:#f92672">&lt;</span>C<span style="color:#f92672">&gt;</span> type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	C instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> type<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>instance <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	IClientConfig config <span style="color:#f92672">=</span> getInstance<span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> IClientConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> instantiateWithConfig<span style="color:#f92672">(</span>getContext<span style="color:#f92672">(</span>name<span style="color:#f92672">),</span> type<span style="color:#f92672">,</span> config<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//类：DynamicServerListLoadBalancer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> Server <span style="color:#a6e22e">getServer</span><span style="color:#f92672">(</span>ILoadBalancer loadBalancer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> loadBalancer<span style="color:#f92672">.</span><span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">);</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//类：ZoneAwareLoadBalancer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Server <span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span>Object key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> zoneLoadBalancer<span style="color:#f92672">.</span><span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//类：BaseLoadBalancer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> Server <span style="color:#a6e22e">chooseServer</span><span style="color:#f92672">(</span>Object key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> rule<span style="color:#f92672">.</span><span style="color:#a6e22e">choose</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span> <span style="color:#75715e">// 重要方法 rule = new RoundRobinRule()  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>总之，逻辑是这样的：</p>
+<ol>
+<li>获取负载均衡器(LoadBalancer)的实例(getInstance)。</li>
+<li>负载均衡器通过IRule实现的算法逻辑实现选择。</li>
+<li>最后获得一个Server(服务)</li>
+</ol>
+<p>负载均衡的算法主要通过ribbon提供的一些列算法实现IRule，默认是轮询。
+<img src="http://thoreauz.com/images/2017-08-11-18-04-51.jpg" alt="">
+Ribbon提供了一些其他算法：</p>
+<ul>
+<li>RetryRule:根据轮询的方式重试</li>
+<li>RandomRule: 随机</li>
+<li>WeightedResponseTimeRule：根据响应时间去分配权重</li>
+<li>ZoneAvoidanceRule：区域可用性</li>
+</ul>
 <p>至于切换算法的配置，主要集中在初始化时的配置类里面<code>IClientConfig</code>，而这个bean的信息通过对restTemplate添加注解@LoadBalanced完成。具体的负载均衡算法可以通过bean注入，如下。</p>
-
-<pre><code class="language-java">@Bean
-public IRule ribbonRule() {
-    return new RandomRule();//这里配置策略，和配置文件对应
-}
-</code></pre>
-
-<p>这就解决了我在文章开头的第二个问题。如果需要自定义算法，实现IRule，通过bean的配置完成注入。至于服务列表维护，此文跳过。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> IRule <span style="color:#a6e22e">ribbonRule</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RandomRule<span style="color:#f92672">();</span><span style="color:#75715e">//这里配置策略，和配置文件对应
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这就解决了我在文章开头的第二个问题。如果需要自定义算法，实现IRule，通过bean的配置完成注入。至于服务列表维护，此文跳过。</p>
 <h2 id="resttemplate整合">restTemplate整合</h2>
-
 <p>上文提到通过注解即可开启restTemplate，那是如何做到的？</p>
-
-<pre><code class="language-java">@Configuration
-@ConditionalOnClass(RestTemplate.class)
-@ConditionalOnBean(LoadBalancerClient.class)
-@EnableConfigurationProperties(LoadBalancerRetryProperties.class)
-public class LoadBalancerAutoConfiguration {
-
-	@LoadBalanced
-	@Autowired(required = false)
-	private List&lt;RestTemplate&gt; restTemplates = Collections.emptyList();
-
-	@Bean
-	public SmartInitializingSingleton loadBalancedRestTemplateInitializer(
-			final List&lt;RestTemplateCustomizer&gt; customizers) {
-		return new SmartInitializingSingleton() {
-			@Override
-			public void afterSingletonsInstantiated() {
-				for (RestTemplate restTemplate : LoadBalancerAutoConfiguration.this.restTemplates) {
-					for (RestTemplateCustomizer customizer : customizers) {
-						customizer.customize(restTemplate);
-					}
-				}
-			}
-		};
-	}
-}
-</code></pre>
-
-<p>这是一个自动配置类，首先维护了一个<code>restTemplates</code>列表，并通过<code>RestTemplateCustomizer</code>对这些他们添加一个拦截器，如下。</p>
-
-<pre><code class="language-java">@Bean
-@ConditionalOnMissingBean
-public RestTemplateCustomizer restTemplateCustomizer(
-		final LoadBalancerInterceptor loadBalancerInterceptor) {
-	return new RestTemplateCustomizer() {
-		@Override
-		public void customize(RestTemplate restTemplate) {
-			List&lt;ClientHttpRequestInterceptor&gt; list = new ArrayList&lt;&gt;(
-					restTemplate.getInterceptors());
-			list.add(loadBalancerInterceptor);
-			restTemplate.setInterceptors(list);
-		}
-	};
-}
-</code></pre>
-
-<p>而拦截器的主要就是把serviceId取出来，再使用负载均衡器发起http请求。</p>
-
-<pre><code class="language-java">@Override
-public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
-		final ClientHttpRequestExecution execution) throws IOException {
-	final URI originalUri = request.getURI();
-	String serviceName = originalUri.getHost();
-	Assert.state(serviceName != null, &quot;Request URI does not contain a valid hostname: &quot; + originalUri);
-	return this.loadBalancer.execute(serviceName, requestFactory.createRequest(request, body, execution));
-}
-</code></pre>
-
-<p>又回到了common中提到的四个方法中的第一个。至此，很明了，就是通过注入给restTemplate注入一个拦截器达到使用loadBalancer的目的。</p>
-
-<p>RestTemplate 本身并没有做 HTTP 底层的实现，而是利用了现有的第三方库：<br />
-1. HttpURLConnection<br />
-2. Apache httpclient<br />
-3. ok http<br />
-4. netty</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnClass</span><span style="color:#f92672">(</span>RestTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnBean</span><span style="color:#f92672">(</span>LoadBalancerClient<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableConfigurationProperties</span><span style="color:#f92672">(</span>LoadBalancerRetryProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoadBalancerAutoConfiguration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@LoadBalanced</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Autowired</span><span style="color:#f92672">(</span>required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> List<span style="color:#f92672">&lt;</span>RestTemplate<span style="color:#f92672">&gt;</span> restTemplates <span style="color:#f92672">=</span> Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">emptyList</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> SmartInitializingSingleton <span style="color:#a6e22e">loadBalancedRestTemplateInitializer</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">final</span> List<span style="color:#f92672">&lt;</span>RestTemplateCustomizer<span style="color:#f92672">&gt;</span> customizers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> SmartInitializingSingleton<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">afterSingletonsInstantiated</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>RestTemplate restTemplate <span style="color:#f92672">:</span> LoadBalancerAutoConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">restTemplates</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>RestTemplateCustomizer customizer <span style="color:#f92672">:</span> customizers<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>						customizer<span style="color:#f92672">.</span><span style="color:#a6e22e">customize</span><span style="color:#f92672">(</span>restTemplate<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这是一个自动配置类，首先维护了一个<code>restTemplates</code>列表，并通过<code>RestTemplateCustomizer</code>对这些他们添加一个拦截器，如下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnMissingBean</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> RestTemplateCustomizer <span style="color:#a6e22e">restTemplateCustomizer</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">final</span> LoadBalancerInterceptor loadBalancerInterceptor<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RestTemplateCustomizer<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">customize</span><span style="color:#f92672">(</span>RestTemplate restTemplate<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			List<span style="color:#f92672">&lt;</span>ClientHttpRequestInterceptor<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>
+</span></span><span style="display:flex;"><span>					restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">getInterceptors</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>			list<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>loadBalancerInterceptor<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>			restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setInterceptors</span><span style="color:#f92672">(</span>list<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>而拦截器的主要就是把serviceId取出来，再使用负载均衡器发起http请求。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ClientHttpResponse <span style="color:#a6e22e">intercept</span><span style="color:#f92672">(</span><span style="color:#66d9ef">final</span> HttpRequest request<span style="color:#f92672">,</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> body<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">final</span> ClientHttpRequestExecution execution<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">final</span> URI originalUri <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getURI</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	String serviceName <span style="color:#f92672">=</span> originalUri<span style="color:#f92672">.</span><span style="color:#a6e22e">getHost</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	Assert<span style="color:#f92672">.</span><span style="color:#a6e22e">state</span><span style="color:#f92672">(</span>serviceName <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Request URI does not contain a valid hostname: &#34;</span> <span style="color:#f92672">+</span> originalUri<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">loadBalancer</span><span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>serviceName<span style="color:#f92672">,</span> requestFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">createRequest</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> body<span style="color:#f92672">,</span> execution<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>又回到了common中提到的四个方法中的第一个。至此，很明了，就是通过注入给restTemplate注入一个拦截器达到使用loadBalancer的目的。</p>
+<p>RestTemplate 本身并没有做 HTTP 底层的实现，而是利用了现有的第三方库：</p>
+<ol>
+<li>HttpURLConnection</li>
+<li>Apache httpclient</li>
+<li>ok http</li>
+<li>netty</li>
+</ol>
 <p>不同的底层实现，只需要定义直接的RequestFactory，实现ClientHttpRequestFactory。在spring cloud给出了http client切换成okhttp的配置。</p>
 
     </section>
     <section class="post-toc">
       <span>CONTENTS</span>
       <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#common-包">common 包</a>
-<ul>
-<li><a href="#choose实现">choose实现</a></li>
-</ul></li>
-<li><a href="#resttemplate整合">restTemplate整合</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#common-包">common 包</a>
+      <ul>
+        <li><a href="#choose实现">choose实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#resttemplate整合">restTemplate整合</a></li>
+  </ul>
 </nav>
     </section>
 
