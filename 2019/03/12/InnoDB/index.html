@@ -81,7 +81,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/03/12/InnoDB/" />
 
@@ -323,11 +323,11 @@ page的默认一般是<code>16KB</code>：</p>
 <p>mysql对<code>select count(*) form table</code>作了优化，他们挑选最小的一颗索引树统计，也是同样的道理。</p>
 <p>总之，索引的问题核心在B+树和Page这两个概念，明白了，很多问题迎刃而解，不需要记那么多规则。当然了，索引还有一些其他的优化，看下面的例子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> t1 (f1 INT, gc INT <span style="color:#66d9ef">AS</span> (f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) STORED, <span style="color:#66d9ef">INDEX</span> (gc));
-</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">此</span>sql能使用索引
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">此</span>sql<span style="color:#960050;background-color:#1e0010">能使用索引</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> t1 <span style="color:#66d9ef">WHERE</span> f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">下面</span>sql无法使用索引<span style="color:#960050;background-color:#1e0010">。表达式必须是相同的且返回相同的类型。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">下面</span>sql<span style="color:#960050;background-color:#1e0010">无法使用索引。表达式必须是相同的且返回相同的类型。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> t1 <span style="color:#66d9ef">WHERE</span> f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">如果按下列方式建表，则都根据</span>f1查询时不会用到索引<span style="color:#960050;background-color:#1e0010">。不能没有表达式直接映射。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">如果按下列方式建表，则都根据</span>f1<span style="color:#960050;background-color:#1e0010">查询时不会用到索引。不能没有表达式直接映射。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> t1 (f1 INT, gc INT <span style="color:#66d9ef">AS</span> (f1 ) STORED, <span style="color:#66d9ef">INDEX</span> (gc));
 </span></span></code></pre></div><blockquote>
 <p>详细优化内容见： <a href="https://dev.mysql.com/doc/refman/8.0/en/optimization.html">optimization</a></p>

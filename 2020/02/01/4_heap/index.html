@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="数据结构算法-4_堆heap"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="数据结构算法-4_堆heap &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2020/02/01/4_heap/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2020-02-01T19:56:52Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    
+
+    <title>数据结构算法-4_堆heap &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="定义 堆是一种特殊的树： 堆是一个完全二叉树。 堆中每一个节点的值都必须大于等于（或小于等于）其子树中每个节点的值。大于叫大顶堆(此文以大顶堆为例" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.109.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2020/02/01/4_heap/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "数据结构算法-4_堆heap",
+    "name": "数据结构算法-4_堆heap",
+    "wordCount":  1387 ,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2020/02/01/4_heap/",
+    "datePublished": "2020-02-01T19:56Z",
+    "dateModified": "2020-02-01T19:56Z",
+    
+    "keywords": "algorithm",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2020/02/01/4_heap/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">数据结构算法-4_堆heap</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2020-02-01T19:56:52Z">
+            2020-02-01
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="定义">定义</h2>
+<p>堆是一种特殊的树：</p>
+<ol>
+<li>堆是一个完全二叉树。</li>
+<li>堆中每一个节点的值都必须大于等于（或小于等于）其子树中每个节点的值。大于叫大顶堆(此文以大顶堆为例)，小于叫小顶堆。</li>
+</ol>
+<p>因为这两个特性，堆的查找效率很低，所以一般也不实现其查找元素。我们后面再讲其应用场景。先来看看图示：
+<img src="http://thoreauz.com/images/heap1.png" alt="">
+完全二叉树适合用数组存储：如图2</p>
+<ul>
+<li>节点：下标i</li>
+<li>左节点：$i*2$</li>
+<li>右节点：$i*2+1$</li>
+<li>父节点：$i/2$</li>
+<li>第一个节点：array[1]</li>
+</ul>
+<p><img src="http://thoreauz.com/images/Pasted%20image%2020230115131244.png" alt=""></p>
+<blockquote>
+<p>图2</p>
+</blockquote>
+<h2 id="实现">实现</h2>
+<h3 id="插入">插入</h3>
+<p>思路：把插入的元素放在最后一个位置，再从下往上，和父节点对比，不满足特性就交换元素即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Heap</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> a<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 容纳元素个数  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 当前元素数量  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> count<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Heap</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>capacity <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">];</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">capacity</span> <span style="color:#f92672">=</span> capacity<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> data<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>count <span style="color:#f92672">&gt;=</span> capacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>        count<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 先放中最后  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        a<span style="color:#f92672">[</span>count<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> data<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> count<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> a<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">&gt;</span> a<span style="color:#f92672">[</span>i <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 大于父节点  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            swap<span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> i<span style="color:#f92672">,</span> i <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">=</span> i <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>时间复杂度：一个包含N个节点的完全二叉树，树的高度不会超过log2N，所以一复杂度为O($\log n$)</p>
+<h3 id="删除堆顶元素">删除堆顶元素</h3>
+<p>思路：</p>
+<ol>
+<li>删除堆顶，需要找到左右子最大的元素替换。被替换的元素作为顶，继续往下遍历删除。但会出现问题，可能不满足完全二叉树的条件；</li>
+<li>删除堆顶元素，把最后一个元素替换到堆顶，然后『从上往下』对比交换元素，因为都是交换元素，不会出现某个叉空出来的情况，满足完全二叉树的特性。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeMax</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>    a<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> a<span style="color:#f92672">[</span>count<span style="color:#f92672">];</span>  
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">--;</span>  
+</span></span><span style="display:flex;"><span>    heapify<span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">heapify</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> count<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> maxPos <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;=</span> capacity <span style="color:#f92672">&amp;&amp;</span> a<span style="color:#f92672">[</span>maxPos<span style="color:#f92672">]</span> <span style="color:#f92672">&lt;</span> a<span style="color:#f92672">[</span>i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>            maxPos <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>  <span style="color:#f92672">&lt;=</span> capacity <span style="color:#f92672">&amp;&amp;</span> a<span style="color:#f92672">[</span>maxPos<span style="color:#f92672">]</span> <span style="color:#f92672">&lt;</span> a<span style="color:#f92672">[</span>i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>            maxPos <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>maxPos <span style="color:#f92672">==</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>        swap<span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> i<span style="color:#f92672">,</span> maxPos<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">=</span> maxPos<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>时间复杂度也是O($\log n$)</p>
+<h2 id="建堆">建堆</h2>
+<h3 id="插入式建堆">插入式建堆</h3>
+<p>先把已有数组按特性重新组织，也叫<strong>建堆</strong>，如果是从第一个开始读取元素，采用前面讲的插入的方法即可。</p>
+<p>每个元素插入时间复杂度O(logN)，所以总时间复杂度为：<code>O(N*logN)</code> 。</p>
+<p>如果是已经存在的数组，想原地(不需要new一个新数组存堆)建堆怎么做？也很简单，从下标为2的元素开始遍历，使用插入就行。如果是下标为i的元素，相当于i插入已经放中堆尾，然后就是往上(i/2)遍历交换元素,整个过程不影响i+1之后的元素。</p>
+<h3 id="从上往下">从上往下</h3>
+<p>和删除堆顶的操作类似，从上往下看，保证左右节点小于自己。但因为此数组本身每堆化。如果从堆顶开始，1次遍历下来，只能保证路径上的元素满足条件。</p>
+<p>换一种思路，如果从后往前遍历呢？</p>
+<ol>
+<li>叶子节点：没有子，满足；</li>
+<li>第一个非叶子节点a(兄弟为b)：对比两个子节点，和最大的元素替换，此时以a为顶的树满足堆的条件。</li>
+<li>遍历到a的父节点A：因为a已经满足了堆的条件，如果A,a,b中a最大，和a交换元素。然后就相当于前面讲到的，删除堆顶a时最后一个元素替换上来的操作。</li>
+</ol>
+<p>a-1,执行第3步直到堆顶即可。另外第一步每必要遍历，因为叶子节点天然满足条件。而完全二叉树，下标从<code>n/2+1</code>到 的节点都是叶子节点。于是只需要从n/2往前遍历即可。</p>
+<pre tabindex="0"><code>private  void buildHeap(int[] a, int n) {  
+    for (int i = n / 2; i &gt;= 1; --i) {  
+        heapify(a, n, i);  
+    }  
+}
+</code></pre><p><strong>时间复杂度:</strong>
+简单分析：每个元素的堆化时间复杂度为O($\log n$)，需要堆化的元素 n/2 + 1个，去掉常量，所以时间复杂度为<code>O(N*logN)</code>，但实际上是<code>O(N)</code>，详见推到过程：</p>
+<p>// TODO</p>
+<h3 id="插入式建堆-1">插入式建堆</h3>
+<h2 id="堆排序">堆排序</h2>
+<p>建堆之后，如果是大顶堆，第一个元素就是最大的元素，把他和最后一个元素(n)交换，此时就类似删除堆顶元素的操作。完成后，又把堆顶和n-1的元素交换，直到只剩下一个元素。</p>
+<p>时间复杂度：<code>O(N)</code>+ N* <code>O(logN)</code> = <code>O(N*logN)</code></p>
+<h2 id="应用">应用</h2>
+<ul>
+<li>优先级队列</li>
+<li>topK</li>
+<li>利用堆求中位数</li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#定义">定义</a></li>
+    <li><a href="#实现">实现</a>
+      <ul>
+        <li><a href="#插入">插入</a></li>
+        <li><a href="#删除堆顶元素">删除堆顶元素</a></li>
+      </ul>
+    </li>
+    <li><a href="#建堆">建堆</a>
+      <ul>
+        <li><a href="#插入式建堆">插入式建堆</a></li>
+        <li><a href="#从上往下">从上往下</a></li>
+        <li><a href="#插入式建堆-1">插入式建堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#堆排序">堆排序</a></li>
+    <li><a href="#应用">应用</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%ae%97%e6%b3%95-4_%e5%a0%86heap&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f01%2f4_heap%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f01%2f4_heap%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f01%2f4_heap%2f&amp;description=%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%ae%97%e6%b3%95-4_%e5%a0%86heap"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f01%2f4_heap%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2020/02/02/5_graph/">
+          <section class="post">
+              <h2>数据结构算法-5_图-BFS-DFS</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2020/01/28/3_sort/">
+          <section class="post">
+              <h2>数据结构算法-3_排序</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -79,7 +79,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/post/" />
 
@@ -222,7 +222,7 @@
 	
 	    <a class="newer-posts" href="http://thoreauz.com/post/page/9/">&larr; Newer Posts</a>
 	
-	<span class="page-number">Page 10 of 24</span>
+	<span class="page-number">Page 10 of 26</span>
 	
 	    <a class="older-posts" href="http://thoreauz.com/post/page/11/">Older Posts &rarr;</a>
 	
@@ -234,11 +234,169 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/08/23/netty-in-action-start/">Netty实战-起步</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/11/go-learn-9-test/">Go语言9-测试和性能</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>概述 Netty是一款异步的事件驱动的网络应用程序框架，支持快速地开发可维护的高性能的面向协议的服务器和客户端。为什么它就能做很多中间件的底层 <a class="read-more" href="http://thoreauz.com/2017/08/23/netty-in-action-start/">&raquo;</a></p>
+            <p>测试驱动开发推荐编写测试-运行测试-实现-运行测试-重构-运行测试的的开发流程。开发过程中就进行单元测试和基准测试，在GO语言中也一样可以。 <a class="read-more" href="http://thoreauz.com/2017/11/11/go-learn-9-test/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+            
+            
+
+            
+            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            二道涯
+                 
+        
+
+        
+            
+             &nbsp;
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go/">go</a></span>
+            
+        
+        <time class="post-date" datetime="2017-11-11T23:28:27Z">
+            2017-11-11
+        </time>
+    </footer>
+</article>
+
+	
+	   
+<article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/11/go-learn-7-json/">Go语言7-日志</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>日志是程序开发很重要的一部分，在java中，有一大堆第三方包，以至于各种冲突各种排除。本文看看go如何记录日志。 使用 go 自带log包，简单使用 <a class="read-more" href="http://thoreauz.com/2017/11/11/go-learn-7-json/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+            
+            
+
+            
+            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            二道涯
+                 
+        
+
+        
+            
+             &nbsp;
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go/">go</a></span>
+            
+        
+        <time class="post-date" datetime="2017-11-11T23:28:21Z">
+            2017-11-11
+        </time>
+    </footer>
+</article>
+
+	
+	   
+<article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/09/iptables/">理解iptables</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>iptables 初解 防火墙只是一个规则机器与外部有交互时的一个过滤规则，依赖netfilter注册各种hooks实现。iptables以表(table)- <a class="read-more" href="http://thoreauz.com/2017/11/09/iptables/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+            
+            
+
+            
+            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            二道涯
+                 
+        
+
+        
+            
+             &nbsp;
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/%E5%91%BD%E4%BB%A4/">命令</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/linux%E7%BD%91%E7%BB%9C/">linux网络</a></span>
+            
+        
+        <time class="post-date" datetime="2017-11-09T22:33:58Z">
+            2017-11-09
+        </time>
+    </footer>
+</article>
+
+	
+	   
+<article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/04/thread-lock/">线程与锁</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>线程和锁，先从简单的示例1开始： **public class App { public static void main(String[] args) throws InterruptedException { class Counter { private int count = 0; void increment() { ++count; } private int getCount() { return count; } } final Counter counter = new Counter(); class CountingThread extends Thread { @Override public void run() { for (int x = 0; <a class="read-more" href="http://thoreauz.com/2017/11/04/thread-lock/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+            
+            
+
+            
+            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            二道涯
+                 
+        
+
+        
+            
+             &nbsp;
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/">并发</a></span>
+            
+        
+        <time class="post-date" datetime="2017-11-04T18:15:37Z">
+            2017-11-04
+        </time>
+    </footer>
+</article>
+
+	
+	   
+<article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/">Netty实战-ChannelHandler</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>ChannelPileline将ChannelHandler串联起来，形成一个处理逻辑。而ChannelhandlerContext管理上下 <a class="read-more" href="http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -262,164 +420,8 @@
                 <span class="post-tag small"> <a href="http://thoreauz.com/tags/netty/">netty</a></span>
             
         
-        <time class="post-date" datetime="2017-08-23T23:20:35Z">
-            2017-08-23
-        </time>
-    </footer>
-</article>
-
-	
-	   
-<article class="post post">
-    <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/08/20/distributed-lock-redisson/">分布式锁和Redisson实现</a></h2>
-    </header>
-    <section class="post-excerpt">
-        
-            <p>概述 分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availabilit <a class="read-more" href="http://thoreauz.com/2017/08/20/distributed-lock-redisson/">&raquo;</a></p>
-        
-    </section>
-    <footer class="post-meta">
-        
-            
-            
-
-            
-            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
-            
-            
-            
-            二道涯
-                 
-        
-
-        
-            
-             &nbsp;
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/">并发</a></span>
-            
-        
-        <time class="post-date" datetime="2017-08-20T05:53:38Z">
-            2017-08-20
-        </time>
-    </footer>
-</article>
-
-	
-	   
-<article class="post post">
-    <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/08/20/future-promise/">给Future一个Promise</a></h2>
-    </header>
-    <section class="post-excerpt">
-        
-            <p>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&#34;Do something ...&#34;); new Thread(new <a class="read-more" href="http://thoreauz.com/2017/08/20/future-promise/">&raquo;</a></p>
-        
-    </section>
-    <footer class="post-meta">
-        
-            
-            
-
-            
-            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
-            
-            
-            
-            二道涯
-                 
-        
-
-        
-            
-             &nbsp;
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/java/">java</a></span>
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/">并发</a></span>
-            
-        
-        <time class="post-date" datetime="2017-08-20T01:16:33Z">
-            2017-08-20
-        </time>
-    </footer>
-</article>
-
-	
-	   
-<article class="post post">
-    <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/08/17/git-commit/">如何写好Git Commit</a></h2>
-    </header>
-    <section class="post-excerpt">
-        
-            <p>什么是好的git commit，有以下几点： message清楚反应本次提交内容 方便回退到某个版本 反应产品演进过程 主要针对团队开发，对于开源和非 <a class="read-more" href="http://thoreauz.com/2017/08/17/git-commit/">&raquo;</a></p>
-        
-    </section>
-    <footer class="post-meta">
-        
-            
-            
-
-            
-            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
-            
-            
-            
-            二道涯
-                 
-        
-
-        
-            
-             &nbsp;
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/git/">git</a></span>
-            
-        
-        <time class="post-date" datetime="2017-08-17T16:10:19Z">
-            2017-08-17
-        </time>
-    </footer>
-</article>
-
-	
-	   
-<article class="post post">
-    <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/08/15/swig/">前端模板swig</a></h2>
-    </header>
-    <section class="post-excerpt">
-        
-            <p>概述 前后端没有分离的时候，有的套模板的工作还是由后端做，因为后端方便拿数据，比如使用freemarker。如果让前端去做，还得自己搭建后端环 <a class="read-more" href="http://thoreauz.com/2017/08/15/swig/">&raquo;</a></p>
-        
-    </section>
-    <footer class="post-meta">
-        
-            
-            
-
-            
-            <img class="author-thumb" src="http://thoreauz.com/Dog-b.svg" alt="Author image" nopin="nopin" />
-            
-            
-            
-            二道涯
-                 
-        
-
-        
-            
-             &nbsp;
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/node/">node</a></span>
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/%E6%A8%A1%E6%9D%BF/">模板</a></span>
-            
-        
-        <time class="post-date" datetime="2017-08-15T11:34:56Z">
-            2017-08-15
+        <time class="post-date" datetime="2017-09-02T16:40:07Z">
+            2017-09-02
         </time>
     </footer>
 </article>
@@ -430,7 +432,7 @@
 	
 	    <a class="newer-posts" href="http://thoreauz.com/post/page/9/">&larr; Newer Posts</a>
 	
-	<span class="page-number">Page 10 of 24</span>
+	<span class="page-number">Page 10 of 26</span>
 	
 	    <a class="older-posts" href="http://thoreauz.com/post/page/11/">Older Posts &rarr;</a>
 	

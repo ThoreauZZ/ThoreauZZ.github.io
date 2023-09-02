@@ -72,6 +72,15 @@
     </item>
     
     <item>
+      <title>Java 泛型</title>
+      <link>http://thoreauz.com/2017/02/07/java-generics/</link>
+      <pubDate>Tue, 07 Feb 2017 21:38:43 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/07/java-generics/</guid>
+      <description>1. 介绍 Java泛型是Java编程语言中的一种强大特性，它在Java 5（JDK 1.5）中被引入，旨在提高代码的类型安全性和重用性。泛型允许开发</description>
+    </item>
+    
+    <item>
       <title>Java 7中的Try-with-resources</title>
       <link>http://thoreauz.com/2017/02/06/Java-Try-with-resources/</link>
       <pubDate>Mon, 06 Feb 2017 22:38:43 +0000</pubDate>
