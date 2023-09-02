@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="分布式事务"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="分布式事务 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2023/08/29/Distributed-Transaction/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-08-29T12:00:00Z" />
+
+    
+    <meta property="article:tag" content="分布式系统" />
+    
+    
+
+    <title>分布式事务 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="一、事务相关概念 事务（Transaction）是一组操作的集合，它们被视为一个不可分割的单元，要么全部执行，要么全部不执行。事务通常用于确保" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.109.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2023/08/29/Distributed-Transaction/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "分布式事务",
+    "name": "分布式事务",
+    "wordCount":  5119 ,
+    "timeRequired": "PT11M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2023/08/29/Distributed-Transaction/",
+    "datePublished": "2023-08-29T12:00Z",
+    "dateModified": "2023-08-29T12:00Z",
+    
+    "keywords": "分布式系统",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2023/08/29/Distributed-Transaction/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">分布式事务</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2023-08-29T12:00:00Z">
+            2023-08-29
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="一事务相关概念">一、事务相关概念</h2>
+<p>事务（Transaction）是一组操作的集合，它们被视为一个不可分割的单元，要么全部执行，要么全部不执行。事务通常用于确保数据库中的数据保持一致性和完整性。</p>
+<ul>
+<li>
+<p><strong>AICD</strong> ：ACID是事务的四个关键属性，分别是原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持久性（Durability）。这些属性确保了事务的可靠性和稳定性，保证了数据在并发操作中的正确性。</p>
+<ul>
+<li>原子性：原子性要求事务是不可分割的操作单元，要么全部成功执行，要么全部失败回滚</li>
+<li>一致性：一致性要求事务在执行前后，数据库的状态应该保持一致。</li>
+<li>隔离性：定义了多个并发事务之间的互相隔离程度，一个事务的操作不会影响其他事务的执行。</li>
+<li>持久性：要求一旦事务成功提交，其所做的修改将被永久保存在数据库中，即使发生系统故障。</li>
+</ul>
+</li>
+<li>
+<p><strong>BASE</strong>： 是分布式系统中的一种理论，它与传统的 ACID（原子性、一致性、隔离性、持久性）事务模型形成对比。BASE 是一个缩写，代表以下三个概念：Basically Available（基本可用），Soft state（软状态），Eventually Consistent（最终一致性）</p>
+</li>
+<li>
+<p><strong>CAP</strong>：一致性（Consistency），可用性（Availability），分区容忍性（Partition Tolerance）不能同时兼顾；</p>
+</li>
+<li>
+<p><strong>事务隔离级别</strong>： 事务管理器支持不同的事务隔离级别，用于定义多个并发事务之间的隔离程度。隔离级别包括READ_UNCOMMITTED、READ_COMMITTED、REPEATABLE_READ和SERIALIZABLE等。</p>
+</li>
+<li>
+<p><strong>事务传播行为</strong>： 事务传播行为定义了嵌套方法之间如何共享事务。常见的传播行为包括：REQUIRED、REQUIRES_NEW、NESTED等。不同的传播行为决定了方法调用链中的事务行为。</p>
+</li>
+</ul>
+<h2 id="二本地事务">二、本地事务</h2>
+<p>在介绍分布式事务前，我们先看本地事务的编写和实现方式。当然，前提是我们使用了支持事务的关系型数据库如mysql；</p>
+<p>手动编写JDBC事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JdbcTransactionExample</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>Connection connection <span style="color:#f92672">=</span> DriverManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> username<span style="color:#f92672">,</span> password<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#75715e">// Disable auto-commit
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            connection<span style="color:#f92672">.</span><span style="color:#a6e22e">setAutoCommit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span> 
+</span></span><span style="display:flex;"><span>            Statement statement <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span><span style="color:#a6e22e">createStatement</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// execute some sql 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// Commit the transaction
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                connection<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">();</span> 
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>SQLException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                connection<span style="color:#f92672">.</span><span style="color:#a6e22e">rollback</span><span style="color:#f92672">();</span> 
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>SQLException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// ignore
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在spring下的声明式事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;transactionManager&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.springframework.jdbc.datasource.DataSourceTransactionManager&#34;</span><span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;dataSource&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;dataSource&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Transactional</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transferAmount</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 方法里面的逻辑是一个事务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>spring事务管理的核心是AOP（面向切面编程）和代理模式。Spring通过AOP技术，在方法执行前后插入事务管理相关的逻辑，以实现声明式事务。</p>
+<p>Spring事务管理使得开发人员能够将关注点从事务管理的细节中解放出来，专注于业务逻辑的实现。它提供了更高层次的抽象，简化了事务的控制，提高了代码的可维护性和可读性。</p>
+<h2 id="三分布式事务">三、分布式事务</h2>
+<h3 id="31-1pc">3.1 1PC</h3>
+<p>1pc就是最普通的commit/rollback模式。比如在本地连接多个数据源时，使用多数据源事务，统一提交或者回滚。比如这两个框架实现的<strong>跨库本地事务</strong>：</p>
+<ul>
+<li>taobao-pamirs-transaction</li>
+<li>Spring的ChainedTransactionManager</li>
+</ul>
+<p>缺点：一致性会有问题；</p>
+<p>优点：在跨库“本地事务”等场景下，特别简单，性能好。</p>
+<h3 id="32-2pc">3.2 2PC</h3>
+<p>两阶段提交（Two-Phase Commit，2PC）是一种用于管理分布式环境中事务的协议。2PC旨在确保所有参与者（Participants）在分布式事务中要么全部提交，要么全部回滚，以保证数据的一致性。两阶段：准备阶段，提交阶段。</p>
+<ol>
+<li><strong>准备阶段</strong>：协调者向所有参与者发送准备请求，询问它们是否可以执行事务并准备好提交。协调者在收集所有参与者的响应后，结束准备阶段。</li>
+<li><strong>提交阶段</strong>：协调者根据准备阶段收集到的响应决定是提交还是回滚事务。如果所有参与者都准备好提交，协调者会向它们发送提交请求；如果有任何一个参与者无法提交，协调者会发送回滚请求，要求它们回滚事务。</li>
+</ol>
+<p><strong>优点：</strong></p>
+<ul>
+<li><strong>数据一致性</strong>：2PC确保在分布式环境中的数据一致性，要么所有参与者成功提交，要么全部回滚，杜绝了数据不一致的情况。</li>
+<li><strong>可靠性</strong>：通过协调者的控制，2PC可以应对参与者崩溃和网络故障等情况，确保了事务的可靠性。</li>
+</ul>
+<p>下面举例分析(db是支持aicd关系型数据库)：
+<img src="http://thoreauz.com/images/2pc-1.png" alt="">
+准备阶段：第一阶段很好理解，让参与者处理对应逻辑和事务，并告诉协调者结果；
+提交阶段：</p>
+<ol>
+<li>都成功：让所有参与者提交。</li>
+<li>有一个参与者失败或者应答超时：都回滚。</li>
+</ol>
+<p>从图可以看到，2pc的缺点：</p>
+<ul>
+<li><strong>性能开销</strong>：由于多次网络通信和等待，2PC会引入较大的性能开销，可能导致事务延迟。</li>
+<li><strong>阻塞问题</strong>：在提交阶段，如果一个参与者无法响应或发生故障，整个协议可能会阻塞，影响其他事务的执行。</li>
+<li><strong>单点故障</strong>：协调者是2PC协议的中心，如果协调者故障，可能会影响整个协议的执行。</li>
+<li>数据不一致问题：
+<ul>
+<li>提交后，部分参与者提交事务，部分参与者网络等问题无法提交。需要协调者一直重试。但如果db事务超时回滚，就没办法了。</li>
+<li>提交后,某个commit发出去的同时，协调者挂了。恢复后，协调者并不知道提交是否成功。</li>
+</ul>
+</li>
+</ul>
+<p>因此，在选择2PC协议时，需要权衡其优缺点，并根据应用的需求和性能要求进行决策。在一些场景中，可能会考虑使用其他分布式事务管理机制，如事务1PC或更高级别的分布式事务协议。不过大部分事务都是2pc，只是用其他方式来保障一致性和提升性能。下文介绍下ali开源分布式事务中间件seata(对应内部TXC)。</p>
+<h3 id="33-2pc-seata">3.3 2PC-seata</h3>
+<p>Seata 是一款开源的分布式事务解决方案，致力于提供高性能和简单易用的分布式事务服务。Seata 将为用户提供了 AT、TCC、SAGA 和 XA 事务模式，为用户打造一站式的分布式解决方案。下文只介绍AT模式：</p>
+<p>模型：
+<img src="http://thoreauz.com/images/2pc_seata_1.png" alt="">
+AT 模式（<a href="https://seata.io/zh-cn/docs/overview/what-is-seata.html">参考链接 TBD</a>）基于 <strong>支持本地 ACID 事务</strong> 的 <strong>关系型数据库</strong>：</p>
+<ul>
+<li>一阶段 prepare 行为：在本地事务中，一并提交业务数据更新和相应回滚日志记录。</li>
+<li>二阶段 commit 行为：马上成功结束，<strong>自动</strong> 异步批量清理回滚日志。</li>
+<li>二阶段 rollback 行为：通过回滚日志，<strong>自动</strong> 生成补偿操作，完成数据回滚。</li>
+</ul>
+<p>它的2阶段，和前面我们介绍2pc的示例就不太一样了。一阶段就提交关系型数据库的事务，并且在事务中记录回滚日志；通过回滚日志完成数据回滚，为什么不用db事务回滚而增加回滚复杂度？</p>
+<p>本地事务的本地锁，在阶段1结束释放：</p>
+<ol>
+<li>正常情况下，大部分业务都是成功的，如果Phase1提交，省去Phase2持有锁时间</li>
+<li>本地连接提前释放，不用等待最慢的分支事务。</li>
+<li>全局锁在协调者TC接到全部协调成功时，可以马上释放。只有在需要回滚时，才一直持有到Phase2，而大多数情况下都是全部提交的情况。</li>
+</ol>
+<p>这一个核心设计思想，极大减少了分支事务对资源(数据和连接)的锁定时间，给整体并发和吞吐的提升提供了基础。</p>
+<p><strong>回滚</strong>
+这样设计提升了性能，但回滚简单不了，引入了undo_log。回滚日志需要新建一个表来记录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>undo_log<span style="color:#f92672">`</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>branch_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>xid<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">100</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>context<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">128</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>rollback_info<span style="color:#f92672">`</span> longblob <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>log_status<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>log_created<span style="color:#f92672">`</span> datetime <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>log_modified<span style="color:#f92672">`</span> datetime <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">KEY</span> <span style="color:#f92672">`</span>ux_undo_log<span style="color:#f92672">`</span> (<span style="color:#f92672">`</span>xid<span style="color:#f92672">`</span>,<span style="color:#f92672">`</span>branch_id<span style="color:#f92672">`</span>)
+</span></span><span style="display:flex;"><span>) ENGINE<span style="color:#f92672">=</span>InnoDB AUTO_INCREMENT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+</span></span></code></pre></div><p>在Phase1提交时，代理数据源解析sql，查出当前数据镜像，在同一个本地事务中提交。详细见：https://seata.io/zh-cn/docs/overview/what-is-seata.html</p>
+<p>Phase2回滚时，通过xid和branch_id 查询回滚日志，通过回滚日志生成rollback反向sql并执行，已完成分支的回滚。 (大部分都不需要回滚，所以反向sql放在Phase2)</p>
+<p><strong>局限：</strong></p>
+<ul>
+<li>隔离性：因为前面提到的设计，seata默认隔离级别【读未提交】，必需要求全局的 <strong>读已提交</strong> ，目前 Seata 的方式是通过 SELECT FOR UPDATE 语句的代理，所以不能说完全支持。</li>
+<li>数据库支持：需要代理sql生成回滚日志。对数据库的支持，SQL解析语法的覆盖比价重要，使用时要特别关注的点。</li>
+</ul>
+<p><strong>扩展性：</strong>
+seata提供了多少模型，还有比如下方提到的TCC模式，可以通过对commit/rollback的自定义实现，从而把不支持本地事务的资源也纳入事务管理。</p>
+<p><strong>高可用</strong>：
+<a href="https://seata.io/zh-cn/blog/seata-analysis-java-server.html">https://seata.io/zh-cn/blog/seata-analysis-java-server.html</a></p>
+<h3 id="34-tcc编码方案">3.4 TCC编码方案</h3>
+<p>TCC(try-confirm-cancle)，是两阶段提交的变种，但完全靠业务编码实现。如下示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Transactional</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">createOrderWithTCC</span><span style="color:#f92672">(</span>String orderId<span style="color:#f92672">,</span> String productId<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> quantity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Try阶段：尝试扣减库存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">boolean</span> tryResult <span style="color:#f92672">=</span> stockService<span style="color:#f92672">.</span><span style="color:#a6e22e">tryDeductStock</span><span style="color:#f92672">(</span>productId<span style="color:#f92672">,</span> quantity<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>tryResult<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Confirm阶段：确认创建订单
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        confirmCreateOrder<span style="color:#f92672">(</span>orderId<span style="color:#f92672">,</span> productId<span style="color:#f92672">,</span> quantity<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Cancel阶段：取消创建订单
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cancelCreateOrder<span style="color:#f92672">(</span>orderId<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>因为不依赖中间件等其他协调中保障，没有全局锁等待，相比XA等2PC数据库，性能提升。不过我目前还没看到有人大规模单独使用TCC，因为缺点很明显：</p>
+<ol>
+<li>浸入业务，且代码很难看和难维护。</li>
+<li>设计不好，还是无法保障数据一致性。比如cancle出错，confirm错误后怎么重试。</li>
+</ol>
+<h3 id="35-最终一致性柔性事务">3.5 最终一致性&amp;柔性事务</h3>
+<p>概念：分布式系统中的最终一致性是一种弱一致性模型，它允许在一段时间内数据可能处于不一致的状态，但最终会达到一致状态。</p>
+<p>最终一致性模型的核心思想是：如果在分布式系统中没有新的更新操作发生，最终所有副本的数据状态将达到一致。最终一致性不要求在每次更新操作之后立即达到一致状态，而是允许在一段时间内存在副本之间的不一致，然后通过一系列协调和同步操作最终达到一致。</p>
+<p><img src="http://thoreauz.com/images/dp_1.png" alt="">
+上图是一个常见的AB两个系统，通过异步消息的最终一致性方案。</p>
+<ol>
+<li>A系统：A系统业务数据写DB后，发消息给MQ，在一个本地事务，确保两个操作的原子性；</li>
+<li>MQ：假设消息中间件是可靠，一旦投递成功，数据不会丢。且最少投递一次；</li>
+<li>B系统：幂等消费消息，处理业务逻辑写DB，如果出现消费异常，MQ再次投递。</li>
+</ol>
+<p>但分析会发现一些问题：</p>
+<ol>
+<li>系统A的本地事务只能有一个MQ投递且放中业务逻辑最后，否则要求MQ支持事务消息；</li>
+<li>投递MQ，如果实际投递成功但reponse出现网络问题，导致事务回滚，会出现不一致。</li>
+<li>强依赖MQ的可靠性；</li>
+<li>如果B系统消费异常，比如NPE，MQ一般只会在次数内重试。很难控制重试时间间隔。快速重试可能很快用完次数，梯度增加时间可能fix后很长时间不重试导致用户体验问题，手动重试解决不了大批量数据问题。</li>
+</ol>
+<p>我们把方案再重构一下：
+<img src="http://thoreauz.com/images/dp_2.png" alt="">
+解决了哪些问题：
+2. 新增本地消息持久化到db，用本地db事务保障数据一致性。
+3. 新增消息恢复服务：定时扫描没有发送成功的本地消息，保障投递成功。
+4. 事务结束后马上发送消息，解决恢复服务带来的实效性问题。
+5. 系统B解决幂等的同时，可以通过系统提供的查询服务判断数据的有效性，解决因网络问题带来的投递成功后A系统事务回滚的情况。</p>
+<p>其实还是没解决对MQ最少投递一次的要求，没解决B消费异常带来的问题。但很多时候，作为系统A，可能有很多下游，你只需要保障系统A的数据一定发出去。如果没有可靠MQ，可以直接请求一个通用接口，通过补偿服务来保障一定会请求成功。比如支付成功后，需要回调业务系统。</p>
+<p>变成了系统B依赖系统A，此时系统B可以接到消息后先持久化，再返回成功。通过持久化的消息去处理自己的业务逻辑，通过查询&amp;对账接口去保障数据的一致性。</p>
+<p>当然，根据业务情况，系统依赖情况，你也可以放弃一定的系统解偶要求，比如简单实现：
+<img src="http://thoreauz.com/images/dp_3.png" alt=""></p>
+<ol>
+<li>不用本地消息表，直接在业务a中增加一个字段，用来记录系统b的处理状态；</li>
+<li>b系统只须和a系统协商幂等问题，如果处理失败了，A系统会一直重试。</li>
+<li>甚至投递MQ都不需要，一个RPC服务即可。</li>
+</ol>
+<p>优点是简单，问题是相互依赖。</p>
+<p>前面提到过事务消息，在不需要本地消息表的情况下，可以做到写db和发消息的事务。rocketmq就支持事务消息，他的事务消息交互流程如下图所示：
+<img src="http://thoreauz.com/images/rocketmq_dp_msg.png" alt=""></p>
+<ol>
+<li>生产者将消息发送至Apache RocketMQ服务端。</li>
+<li>RocketMQ服务端将消息持久化成功之后，向生产者返回Ack确认消息已经发送成功，此时消息被标记为&quot;暂不能投递&quot;，这种状态下的消息即为半事务消息。</li>
+<li>生产者开始执行本地事务逻辑。</li>
+<li>生产者根据本地事务执行结果向服务端提交二次确认结果（Commit或是Rollback），服务端收到确认结果后处理逻辑如下：
+<ul>
+<li>二次确认结果为Commit：服务端将半事务消息标记为可投递，并投递给消费者。</li>
+<li>二次确认结果为Rollback：服务端将回滚事务，不会将半事务消息投递给消费者。</li>
+</ul>
+</li>
+<li>在断网或者是生产者应用重启的特殊情况下，若服务端未收到发送者提交的二次确认结果，或服务端收到的二次确认结果为Unknown未知状态，经过固定时间后，服务端将对消息生产者即生产者集群中任一生产者实例发起消息回查。 <strong>说明</strong> 服务端回查的间隔时间和最大回查次数，请参见<a href="https://rocketmq.apache.org/zh/docs/introduction/03limits">参数限制</a>。</li>
+<li>生产者收到消息回查后，需要检查对应消息的本地事务执行的最终结果。</li>
+<li>生产者根据检查到的本地事务的最终状态再次提交二次确认，服务端仍按照步骤4对半事务消息进行处理。</li>
+</ol>
+<p>实现原理其实也是2pc，这里需要业务关系的主要是第5步，实现回查逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>producer<span style="color:#f92672">.</span><span style="color:#a6e22e">setTransactionCheckListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TransactionCheckListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> LocalTransactionState <span style="color:#a6e22e">checkLocalTransactionState</span><span style="color:#f92672">(</span>MessageExt msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 查询本地事务的执行状态，返回COMMIT_MESSAGE或ROLLBACK_MESSAGE
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">});</span>
+</span></span></code></pre></div><hr>
+<ul>
+<li><a href="http://icyfenix.cn/architect-perspective/general-architecture/transaction/distributed.html">凤凰架构-分布式事务</a></li>
+<li><a href="https://github.com/ThoreauZZ/taobao-pamirs-transaction">taobao-pamirs-transaction</a></li>
+<li><a href="http://jinke.me/2018-12-22-acid/"># 从 ACID 到分布式事务</a></li>
+<li><a href="https://seata.io/zh-cn/index.html">seata官网</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Best-effort_delivery">最大努力交付</a></li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一事务相关概念">一、事务相关概念</a></li>
+    <li><a href="#二本地事务">二、本地事务</a></li>
+    <li><a href="#三分布式事务">三、分布式事务</a>
+      <ul>
+        <li><a href="#31-1pc">3.1 1PC</a></li>
+        <li><a href="#32-2pc">3.2 2PC</a></li>
+        <li><a href="#33-2pc-seata">3.3 2PC-seata</a></li>
+        <li><a href="#34-tcc编码方案">3.4 TCC编码方案</a></li>
+        <li><a href="#35-最终一致性柔性事务">3.5 最终一致性&amp;柔性事务</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e5%88%86%e5%b8%83%e5%bc%8f%e4%ba%8b%e5%8a%a1&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2023%2f08%2f29%2fDistributed-Transaction%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2023%2f08%2f29%2fDistributed-Transaction%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2023%2f08%2f29%2fDistributed-Transaction%2f&amp;description=%e5%88%86%e5%b8%83%e5%bc%8f%e4%ba%8b%e5%8a%a1"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2023%2f08%2f29%2fDistributed-Transaction%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2020/02/10/6_string/">
+          <section class="post">
+              <h2>数据结构算法-6_字符串String</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -81,7 +81,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/08/20/distributed-lock-redisson/" />
 
@@ -278,7 +278,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">lockInterruptibly</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    lockInterruptibly<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    lockInterruptibly<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>再看<code>lockInterruptibly</code>方法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
@@ -303,7 +303,7 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// waiting for message
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ttl <span style="color:#f92672">&gt;=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ttl <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>                getEntry<span style="color:#f92672">(</span>threadId<span style="color:#f92672">).</span><span style="color:#a6e22e">getLatch</span><span style="color:#f92672">().</span><span style="color:#a6e22e">tryAcquire</span><span style="color:#f92672">(</span>ttl<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>                getEntry<span style="color:#f92672">(</span>threadId<span style="color:#f92672">).</span><span style="color:#a6e22e">getLatch</span><span style="color:#f92672">().</span><span style="color:#a6e22e">acquire</span><span style="color:#f92672">();</span>
@@ -319,7 +319,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> get<span style="color:#f92672">(</span>tryAcquireAsync<span style="color:#f92672">(</span>leaseTime<span style="color:#f92672">,</span> unit<span style="color:#f92672">,</span> threadId<span style="color:#f92672">));</span><span style="color:#75715e">// 通过异步获取锁，但get(future)实现同步
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> RFuture<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">tryAcquireAsync</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> leaseTime<span style="color:#f92672">,</span> TimeUnit unit<span style="color:#f92672">,</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> threadId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>leaseTime <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//1 如果设置了超时时间，直接调用 tryLockInnerAsync
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>leaseTime <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//1 如果设置了超时时间，直接调用 tryLockInnerAsync
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> tryLockInnerAsync<span style="color:#f92672">(</span>leaseTime<span style="color:#f92672">,</span> unit<span style="color:#f92672">,</span> threadId<span style="color:#f92672">,</span> RedisCommands<span style="color:#f92672">.</span><span style="color:#a6e22e">EVAL_LONG</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//2 如果leaseTime==-1，则默认超时时间为30s
@@ -404,8 +404,8 @@
 </span></span></code></pre></div><p>从释放锁代码中看到，删除key后会发送消息，所以上文提到获取锁失败后，阻塞订阅此消息。</p>
 <p>另外，上文提到刷新过期时间方法<code>scheduleExpirationRenewal</code>，指线程获取锁后需要不断刷新失效时间，避免未执行完锁就失效。这个方法的实现原理也类似，只是使用了Netty的TimerTask，每到过期时间1/3就去重新刷一次，如果key不存在则停止刷新。Timer实现大概如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">nettyTimer</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> expireTime <span style="color:#f92672">=</span> 6<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    EventExecutorGroup group <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultEventExecutorGroup<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> expireTime <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    EventExecutorGroup group <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultEventExecutorGroup<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> Timer timer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashedWheelTimer<span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    timer<span style="color:#f92672">.</span><span style="color:#a6e22e">newTimeout</span><span style="color:#f92672">(</span>timerTask <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        Future<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> future <span style="color:#f92672">=</span> group<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
@@ -417,7 +417,7 @@
 </span></span><span style="display:flex;"><span>                nettyTimer<span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">},</span> expireTime<span style="color:#f92672">/</span>3<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">},</span> expireTime<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><hr>
 <p>参考列表：</p>

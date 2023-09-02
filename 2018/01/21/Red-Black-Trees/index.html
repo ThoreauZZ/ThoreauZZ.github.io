@@ -43,7 +43,7 @@
     <title>红黑树 &middot; 造舟野渡</title>
 
     
-    <meta name="description" content="概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)" />
+    <meta name="description" content="概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据是有序的，就变成了一个链表，查找时间复杂度为O(N)。" />
     
 
     <meta name="HandheldFriendly" content="True" />
@@ -83,7 +83,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/01/21/Red-Black-Trees/" />
 
@@ -124,7 +124,7 @@
     },
     "headline": "红黑树",
     "name": "红黑树",
-    "wordCount":  3838 ,
+    "wordCount":  3960 ,
     "timeRequired": "PT8M",
     "inLanguage": {
       "@type": "Language",
@@ -248,7 +248,7 @@
 
     <section class="post-content">
       <h2 id="概述">概述</h2>
-<p>二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)。如下图1.1：
+<p>二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据是有序的，就变成了一个链表，查找时间复杂度为O(N)。如下图1.1：
 <img src="http://thoreauz.com/images/2018-01-21-22-07-13.jpg" alt="">
 <em>图 1.1</em></p>
 <p>为了解决这种退化的情况，需要对二叉树作平衡操作，但要保证二叉树的完全平衡的代价很高，因而演化出其他平衡树，比如<strong>2-3查找树</strong>，在一个节点上可能有2个键和3个链接，如下图1.2：8介于7和9之间，多了一条链。
@@ -264,13 +264,14 @@
 <ol>
 <li>任何一个节点都有颜色，黑色或者红色</li>
 <li>根节点是黑色的</li>
-<li>空节点被认为是黑色的（叶子节点）</li>
-<li>父子节点之间不能出现两个连续的红节点</li>
+<li>叶子节点：黑色的空节点（主要是为了简化红黑树的代码实现而设置的）。</li>
+<li>父子节点之间（相邻）不能出现两个连续的红节点。</li>
 <li>任何一个节点向下遍历到其子孙的叶子节点，所经过的黑节点个数必须相等</li>
 </ol>
 <p>如下图1.4，如果按照1-8的顺序插入，不再是链表结构。
 <img src="http://thoreauz.com/images/2018-01-20-14-31-35.jpg" alt="">
 <em>图 1.4</em></p>
+<p>总之，红黑树是一种平衡二叉查找树。它是为了解决普通二叉查找树在数据更新的过程中，复杂度退化的问题而产生的。红黑树的高度近似 logN，所以它是近似平衡，插入、删除、查找操作的时间复杂度都是 O(logn)。</p>
 <h2 id="二插入">二、插入</h2>
 <p>红黑树的插入和二叉搜索树一样，比对大小，找到节点插入。不同的是，插入后可能破坏了红黑树的特性，需进一步修复。新插入的节点，都作为红色处理(为什么是红色而不是黑色：黑色一定破坏性质的第四条，红色需要处理的情况简单一点)。</p>
 <h3 id="插入后不需要调整">插入后不需要调整</h3>
@@ -313,12 +314,12 @@
 </span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> child <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>child <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 和其中一只节点相同
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> child<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>        parent <span style="color:#f92672">=</span> child<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            child <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            child <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
@@ -436,10 +437,10 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 找到要插入的父节点
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parentNode <span style="color:#f92672">=</span> findParentNode<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
@@ -559,11 +560,11 @@
 </span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>dataRoot <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 遍历右子树
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>            dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 遍历左子树
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>            dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>

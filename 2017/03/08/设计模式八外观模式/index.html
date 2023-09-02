@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="设计模式六：外观模式"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="设计模式六：外观模式 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AB%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-08T17:40:12Z" />
+
+    
+    <meta property="article:tag" content="设计模式" />
+    
+    
+
+    <title>设计模式六：外观模式 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 外观模式Facade是一种结构型设计模式， 能为程序库、 框架或其他复杂类提供一个简单的接口。 外观模式的核心思想是通过创建一个外观类（Fac" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.109.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AB%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "设计模式六：外观模式",
+    "name": "设计模式六：外观模式",
+    "wordCount":  1198 ,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AB%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/",
+    "datePublished": "2017-03-08T17:40Z",
+    "dateModified": "2017-03-08T17:40Z",
+    
+    "keywords": "设计模式",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AB%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">设计模式六：外观模式</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-08T17:40:12Z">
+            2017-03-08
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p><strong>外观模式Facade</strong>是一种结构型设计模式， 能为程序库、 框架或其他复杂类提供一个简单的接口。</p>
+<p>外观模式的核心思想是通过创建一个外观类（Facade Class），将客户端与子系统之间的复杂交互过程封装起来。客户端只需要与外观类进行交互，而不需要直接与子系统的组件进行交互。这样可以降低客户端与子系统之间的耦合度，提供了一种简化接口的方式，使得客户端代码更加清晰和易于维护。</p>
+<p><img src="http://thoreauz.com/images/dp_facade.png" alt=""></p>
+<ol>
+<li><strong>客户端</strong> （Client） 使用外观代替对子系统对象的直接调用。</li>
+<li><strong>外观</strong> （Facade） 提供了一种访问特定子系统功能的便捷方式， 其了解如何重定向客户端请求， 知晓如何操作一切活动部件。</li>
+<li>还可创建<strong>附加外观</strong> （Additional Facade） 类可以避免多种不相关的功能污染单一外观， 使其变成又一个复杂结构。 客户端和其他外观都可使用附加外观。</li>
+<li>子系统（Subsystem）：由多个相互关联的类组成，实现了复杂的功能。外观类将客户端的请求转发给子系统进行处理。如类图中的多个class</li>
+</ol>
+<h2 id="适用场景">适用场景</h2>
+<ol>
+<li>
+<p>简化复杂子系统：当系统中存在多个复杂的子系统，且它们之间有复杂的交互关系时，可以使用外观模式来为客户端提供一个简化的接口，隐藏子系统的复杂性，使得客户端更易于使用子系统的功能。</p>
+</li>
+<li>
+<p>客户端与子系统解耦：当客户端需要与多个子系统组件进行交互，且这些交互关系频繁变化时，可以使用外观模式来将客户端与子系统解耦。客户端只需要与外观类进行交互，不需要关心子系统的内部结构和组件之间的具体交互方式。</p>
+</li>
+<li>
+<p>提供统一接口：当系统中的一组接口或类存在一定的依赖关系或调用顺序时，可以使用外观模式将它们封装成一个统一的接口，简化客户端的调用流程。</p>
+</li>
+<li>
+<p>限制客户端访问权限：当系统中的某些功能对客户端是敏感或不希望被直接访问时，可以使用外观模式来隐藏这些功能，只提供有限的接口供客户端使用。</p>
+</li>
+<li>
+<p>系统升级和重构：当系统的内部结构发生变化时，使用外观模式可以降低对客户端的影响。客户端只需要调用外观类的接口，而不需要关心内部结构的改变。
+需要注意的是，外观模式并不是为了解决系统本身的复杂性，而是为了简化客户端对系统的使用。在使用外观模式时，需要权衡好系统的设计和模块的划分，确保封装后的外观类不会变得过于臃肿和复杂。</p>
+</li>
+</ol>
+<h2 id="对比">对比</h2>
+<ol>
+<li>适配器模式（Adapter Pattern）：
+<ul>
+<li>相似性：外观模式和适配器模式都是结构型设计模式，都是用于简化客户端与其他组件的交互。</li>
+<li>区别：适配器模式是用于将一个接口转换为另一个接口，使得原本不兼容的接口可以一起工作；而外观模式是用于封装一组接口或类，提供一个更简化的接口供客户端使用。</li>
+</ul>
+</li>
+<li>当只需对客户端代码隐藏子系统创建对象的方式时， 你可以使用抽象工厂模式来代替外观</li>
+<li>外观类通常可以转换为单例模式类， 因为在大部分情况下一个外观对象就足够了。</li>
+<li>外观与代理模式的相似之处在于它们都缓存了一个复杂实体并自行对其进行初始化。代理与其服务对象遵循同一接口， 使得自己和服务对象可以互换， 在这一点上它与外观不同</li>
+</ol>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#适用场景">适用场景</a></li>
+    <li><a href="#对比">对比</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%e5%85%ad%ef%bc%9a%e5%a4%96%e8%a7%82%e6%a8%a1%e5%bc%8f&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f08%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E5%2585%25AB%25E5%25A4%2596%25E8%25A7%2582%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f08%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E5%2585%25AB%25E5%25A4%2596%25E8%25A7%2582%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f08%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E5%2585%25AB%25E5%25A4%2596%25E8%25A7%2582%25E6%25A8%25A1%25E5%25BC%258F%2f&amp;description=%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%e5%85%ad%ef%bc%9a%e5%a4%96%e8%a7%82%e6%a8%a1%e5%bc%8f"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f08%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E5%2585%25AB%25E5%25A4%2596%25E8%25A7%2582%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/">
+          <section class="post">
+              <h2>Jenkins发布Docker到k8s</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/07/vim/">
+          <section class="post">
+              <h2>VIM使用技巧</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

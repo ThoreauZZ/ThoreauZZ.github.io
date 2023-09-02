@@ -36,15 +36,6 @@
     </item>
     
     <item>
-      <title>RPC三-rpc协议和编解码</title>
-      <link>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</link>
-      <pubDate>Sat, 19 Jan 2019 11:37:46 +0000</pubDate>
-      
-      <guid>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</guid>
-      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
-    </item>
-    
-    <item>
       <title>RPC二-NettyHandler处理消息</title>
       <link>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</link>
       <pubDate>Sat, 19 Jan 2019 11:37:42 +0000</pubDate>

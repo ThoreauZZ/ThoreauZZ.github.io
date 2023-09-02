@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="设计模式七：策略模式"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="设计模式七：策略模式 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%83%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-07T13:42:22Z" />
+
+    
+    <meta property="article:tag" content="设计模式" />
+    
+    
+
+    <title>设计模式七：策略模式 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 策略模式（Strategy Pattern）是一种行为型设计模式，它允许在运行时动态地选择算法或行为，并将其封装在独立的策略对象中。策略模" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.109.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%83%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "设计模式七：策略模式",
+    "name": "设计模式七：策略模式",
+    "wordCount":  1665 ,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/03/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%83%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/",
+    "datePublished": "2017-03-07T13:42Z",
+    "dateModified": "2017-03-07T13:42Z",
+    
+    "keywords": "设计模式",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/03/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%83%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">设计模式七：策略模式</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-07T13:42:22Z">
+            2017-03-07
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p>策略模式（Strategy Pattern）是一种行为型设计模式，它允许在运行时动态地选择算法或行为，并将其封装在独立的策略对象中。策略模式通过定义一组相互替换的策略对象，使得算法的选择和使用与客户端代码解耦，提供了灵活性和扩展性。</p>
+<p>使用策略模式的场景包括：</p>
+<ol>
+<li>当一个系统需要在运行时根据不同的条件选择不同的算法时，策略模式可以提供一种灵活的算法切换机制。</li>
+<li>当有多个类似的算法，但每个算法有不同的实现细节时，可以使用策略模式将算法的变化独立封装，避免使用条件语句或大量的if-else语句。</li>
+<li>当一个类具有多种行为，每种行为需要在不同情况下进行切换时，可以使用策略模式来管理这些行为。</li>
+</ol>
+<p>与策略模式相似的其他模式包括：</p>
+<ol>
+<li>状态模式（State Pattern）：状态模式也允许对象在内部状态改变时改变其行为，但与策略模式不同的是，状态模式基于对象的内部状态来决定行为，而策略模式基于外部条件来选择行为。</li>
+<li>命令模式（Command Pattern）：命令模式将请求封装为一个对象，并将执行操作的责任委托给不同的对象，而策略模式将算法封装为策略对象，并使得算法的选择和使用与客户端解耦。</li>
+<li>工厂模式（Factory Pattern）：工厂模式用于创建对象，而策略模式用于选择算法。工厂模式关注对象的创建和实例化过程，而策略模式关注算法的选择和执行过程。</li>
+</ol>
+<h2 id="模型图">模型图</h2>
+<p><img src="http://thoreauz.com/images/dp_strategy_uml.png" alt=""></p>
+<h2 id="示例">示例</h2>
+<p>假设我们有一个电商平台，需要根据不同的支付方式来计算订单的支付金额。这个场景可以使用策略模式来实现。以下是一个具体的示例：</p>
+<p>首先，我们定义一个支付策略接口<code>PaymentStrategy</code>，它包含一个计算支付金额的方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">PaymentStrategy</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span><span style="color:#66d9ef">double</span> orderAmount<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>然后，我们实现两种不同的支付策略：信用卡支付和支付宝支付。它们分别实现了<code>PaymentStrategy</code>接口：</p>
+<p>javaCopy code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CreditCardPaymentStrategy</span> <span style="color:#66d9ef">implements</span> PaymentStrategy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span><span style="color:#66d9ef">double</span> orderAmount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 根据信用卡支付规则计算支付金额
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 假设这里有一些复杂的计算逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 返回计算后的支付金额
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AlipayPaymentStrategy</span> <span style="color:#66d9ef">implements</span> PaymentStrategy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span><span style="color:#66d9ef">double</span> orderAmount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 根据支付宝支付规则计算支付金额
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 假设这里有一些复杂的计算逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 返回计算后的支付金额
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>接下来，我们创建一个<code>PaymentContext</code>类作为上下文类，它持有一个对<code>PaymentStrategy</code>接口的引用，并提供一个用于设置支付策略的方法和一个用于计算支付金额的方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PaymentContext</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> PaymentStrategy paymentStrategy<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setPaymentStrategy</span><span style="color:#f92672">(</span>PaymentStrategy paymentStrategy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">paymentStrategy</span> <span style="color:#f92672">=</span> paymentStrategy<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span><span style="color:#66d9ef">double</span> orderAmount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> paymentStrategy<span style="color:#f92672">.</span><span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span>orderAmount<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>最后，我们可以在客户端代码中使用这些类来计算订单的支付金额：</p>
+<p>javaCopy code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">double</span> orderAmount <span style="color:#f92672">=</span> <span style="color:#ae81ff">100.0</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 订单金额
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        PaymentContext paymentContext <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PaymentContext<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 设置信用卡支付策略
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        paymentContext<span style="color:#f92672">.</span><span style="color:#a6e22e">setPaymentStrategy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CreditCardPaymentStrategy<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">double</span> paymentAmount1 <span style="color:#f92672">=</span> paymentContext<span style="color:#f92672">.</span><span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span>orderAmount<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 设置支付宝支付策略
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        paymentContext<span style="color:#f92672">.</span><span style="color:#a6e22e">setPaymentStrategy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> AlipayPaymentStrategy<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">double</span> paymentAmount2 <span style="color:#f92672">=</span> paymentContext<span style="color:#f92672">.</span><span style="color:#a6e22e">calculatePaymentAmount</span><span style="color:#f92672">(</span>orderAmount<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Credit Card Payment Amount: &#34;</span> <span style="color:#f92672">+</span> paymentAmount1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Alipay Payment Amount: &#34;</span> <span style="color:#f92672">+</span> paymentAmount2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在这个示例中，<code>PaymentStrategy</code>接口充当抽象策略，<code>CreditCardPaymentStrategy</code>和<code>AlipayPaymentStrategy</code>充当具体策略。<code>PaymentContext</code>作为上下文类，通过设置不同的支付策略来计算订单的支付金额。</p>
+<h2 id="优缺点">优缺点</h2>
+<p>优点：</p>
+<ol>
+<li>算法的解耦：策略模式将不同的算法封装到独立的策略对象中，使得算法的选择和使用与客户端代码解耦。这样，客户端不需要知道具体的算法实现细节，只需要关注选择合适的策略对象即可。</li>
+<li>可扩展性：由于策略模式将算法封装到独立的策略对象中，因此可以方便地添加新的策略对象，扩展系统的功能。无需修改现有的代码，只需新增一个具体的策略类即可。</li>
+<li>可维护性：策略模式将每个算法实现都封装在单独的策略类中，使得代码更加模块化和可维护。修改或调整某个算法时，只需要修改对应的策略类，不会影响其他部分的代码。</li>
+<li>多态性：策略模式利用面向对象的多态特性，使得不同的策略对象可以替换彼此，实现了动态选择和切换算法的能力。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>增加了类的数量：使用策略模式会引入多个策略类，如果策略较多，会增加类的数量，使得代码结构复杂化。</li>
+<li>客户端必须了解不同的策略：虽然策略模式将算法封装起来，但客户端仍然需要了解不同的策略，并选择合适的策略对象。这可能会增加客户端的复杂性。</li>
+<li>策略的选择上移：策略模式将算法的选择上移到客户端，客户端需要明确地选择合适的策略对象。这可能会增加客户端的责任和复杂性。</li>
+</ol>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#模型图">模型图</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#优缺点">优缺点</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%e4%b8%83%ef%bc%9a%e7%ad%96%e7%95%a5%e6%a8%a1%e5%bc%8f&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E4%25B8%2583%25E7%25AD%2596%25E7%2595%25A5%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E4%25B8%2583%25E7%25AD%2596%25E7%2595%25A5%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E4%25B8%2583%25E7%25AD%2596%25E7%2595%25A5%25E6%25A8%25A1%25E5%25BC%258F%2f&amp;description=%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%e4%b8%83%ef%bc%9a%e7%ad%96%e7%95%a5%e6%a8%a1%e5%bc%8f"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2f%25E8%25AE%25BE%25E8%25AE%25A1%25E6%25A8%25A1%25E5%25BC%258F%25E4%25B8%2583%25E7%25AD%2596%25E7%2595%25A5%25E6%25A8%25A1%25E5%25BC%258F%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/07/spring-cloud-zuul/">
+          <section class="post">
+              <h2>spring cloud 服务网关ZULL</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/06/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+          <section class="post">
+              <h2>设计模式六：工厂模式</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="数据结构算法-6_字符串String"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="数据结构算法-6_字符串String &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2020/02/10/6_string/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2020-02-10T19:56:52Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    
+
+    <title>数据结构算法-6_字符串String &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="本文介绍字符串匹配算法，在开始前，先讲两个常用的概念。 主串: 被查找的字符串 模式串：要操作的字符串 多模式串匹配算法：在多个模式串中匹配一个文本" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.109.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2020/02/10/6_string/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "数据结构算法-6_字符串String",
+    "name": "数据结构算法-6_字符串String",
+    "wordCount":  4628 ,
+    "timeRequired": "PT10M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2020/02/10/6_string/",
+    "datePublished": "2020-02-10T19:56Z",
+    "dateModified": "2020-02-10T19:56Z",
+    
+    "keywords": "algorithm",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2020/02/10/6_string/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">数据结构算法-6_字符串String</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2020-02-10T19:56:52Z">
+            2020-02-10
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文介绍字符串匹配算法，在开始前，先讲两个常用的概念。</p>
+<ul>
+<li>主串: 被查找的字符串</li>
+<li>模式串：要操作的字符串</li>
+<li>多模式串匹配算法：在多个模式串中匹配一个文本串的算法，比如敏感此过滤。</li>
+</ul>
+<h2 id="1-bf-算法">1. BF 算法</h2>
+<p>Brute Force，暴力匹配算法，也叫朴素匹配算法。</p>
+<p>思路：在主串中，检查起始位置分别是 0、1、2&hellip;n-m且长度为 m 的 n-m+1 个子串，看有没有跟模式串匹配的。简单说就是把主串的所有子串挨个儿跟模式串比较。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BruteForce</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">search</span><span style="color:#f92672">(</span>String text<span style="color:#f92672">,</span> String pattern<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">-</span> m<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> j<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> j <span style="color:#f92672">&lt;</span> m<span style="color:#f92672">;</span> j<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>text<span style="color:#f92672">.</span><span style="color:#a6e22e">charAt</span><span style="color:#f92672">(</span>i<span style="color:#f92672">+</span>j<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">charAt</span><span style="color:#f92672">(</span>j<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">==</span> m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> i<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>时间复杂度：理论上的最坏情况时间复杂度是 <code>O(n*m)</code>，但是大部分情况下，算法执行效率要比这个高很多，所以在文本比较小的情况下，一般来说这就足够简单，够用了。</p>
+<h2 id="bk-算法">BK 算法</h2>
+<p>BK全称叫Rabin-Karp算法，两位发明者Rabin和Karp的名字来命名的。我们看BF效率很低的一点：每个子串都要和模式串的每个字符比较。如果把模式串hash为一个数字，虽然需每个子串进行hash，但模式串一次hash后就可以保存下来，和字符hash比较，减少了比较的次数。</p>
+<p>于是，BK算法的重点就是这个hash算法，而hash算法的主要关注效率和冲突解决办法。</p>
+<p>Rabin-Karp算法的哈希函数采用的是基于进制的思想，这是这个算法的核心。具体来说，它将字符串看作是一个进制为d的数。</p>
+<p>比如要处理的字符串只包含 a～z 这 26 个小写字母，那我们就用二十六进制来表示一个字符串。我们把 a～z 这 26 个字符映射到 0～25 这 26 个数字，0就表示a，1表示b&hellip;z表示25。</p>
+<p>在十进制的表示法中，一个数字的值是通过下面的方式计算出来的。对应到二十六进制，一个包含 a 到 z 这 26 个字符的字符串，计算哈希的时候，我们只需要把进位从 10 改成 26 就可以。
+![[Pasted image 20230408190658.png]]</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>S <span style="color:#f92672">=</span> s<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> * d^<span style="color:#f92672">(</span>n-1<span style="color:#f92672">)</span> + s<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> * d^<span style="color:#f92672">(</span>n-2<span style="color:#f92672">)</span> + ... + s<span style="color:#f92672">[</span>n-2<span style="color:#f92672">]</span> * d + s<span style="color:#f92672">[</span>n-1<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>其中，<code>S</code>是字符串的哈希值，<code>s[i]</code>是字符串中的第i个字符，n是字符串的长度，d是进制常数。</p>
+<p>这样，计算是非常快的，还可以进一步优化速度。如果在cabejifs种查eji，如上：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hash<span style="color:#f92672">(</span>cab<span style="color:#f92672">)=</span> c * <span style="color:#ae81ff">26</span> ^ <span style="color:#ae81ff">2</span> + a * 26^1 +b * 26^0 
+</span></span><span style="display:flex;"><span>hash<span style="color:#f92672">(</span>abe<span style="color:#f92672">)=</span> a * 26^2 + b * 26^1 +c <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span> *（a * 26^1 +b * 26^0） + e<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>hash<span style="color:#f92672">(</span>cab<span style="color:#f92672">)</span> - c * d^<span style="color:#f92672">(</span>m-1<span style="color:#f92672">))</span> * d + e
+</span></span></code></pre></div><p>这个公式可以称为滚动哈希，避免每次重新计算字符串的哈希值，而是通过对先前的哈希值进行简单的修改，来得到新的哈希值。另外还可以把d的n次方先计算好存起来直接使用，省去了计算的时间。</p>
+<p>整个 RK 算法包含两部分，计算子串哈希值和模式串哈希值与子串哈希值之间的比较。第一部分可以通过设计特殊的哈希算法，只需要扫描一遍主串就能计算出 所有子串的哈希值了，所以这部分的时间复杂度是 O(n)。RK算法整体的时间复杂度就是O(n)。</p>
+<p>为了避免hash值过大，需要哈希值对一个大质数p取模得到最终的哈希值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>H<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> S mod p
+</span></span></code></pre></div><p>解决hash冲突的方法也很简单，当我们发现一个子串的哈希值跟模式串的哈希值相等的时候，再对比一下子串和模式串本身就好了。</p>
+<p>适用场景： Rabin-Karp算法可以用于解决字符串匹配问题，特别是当模式串比较短时效果较好。因此可以应用于文本编辑器、字符串搜索、数据压缩等领域。
+核心思想：hash&ndash;&gt;进制滚动hash&ndash;&gt;存储d的n次方优化滚动hash</p>
+<h2 id="bmboyer-moore">BM（Boyer-Moore）</h2>
+<p>RK算法虽然很高效了，但还是要处理主串的每个字符。BM算法（Boyer-Moore算法）是一种用于字符串匹配的高效算法，它能够在较短的时间内搜索出大型文本中的某个模式串。</p>
+<p>该算法的基本思想是从模式串的末尾开始匹配，通过预处理模式串，可以利用好已经匹配过的信息，从而<code>跳过一些不必要的匹配操作</code>。具体而言，BM算法包括两个主要部分：坏字符规则和好后缀规则。</p>
+<p><strong>坏字符</strong>
+从模式串的末尾往前倒着匹配，当我们发现某个字符没法匹配的时候。我们把这个没有 匹配的字符叫作坏字符（主串中的字符），然后查找这个坏字符在模式串中出现的最后位置，并根据这个位置将模式串向后移动一定的距离，以此来避免重复比较已经匹配的字符。
+![[Pasted image 20230408213112.png]]
+如上图，按BF算法，如果abc和abd比对到c和d不匹配，移动一位用bca和abd继续比较，但实际上c压根没在abd里面，前面的比对是多余的，从c+1位aca开始比对就好了，如下图。
+![[Pasted image 20230408213147.png]]
+但如果坏字符在模式串里面，就不能移动到坏字符+1的位置。比如对上图进行第二次比对，a就是坏字符，整个模式串都移动到a的下一个位置并不对。需要把模式串种坏字符串最后出现的位置和坏字符串对齐。</p>
+<p>通过如上方式可以跳过很多无需查找的字符。但在模式串中顺序遍历查找，这样就会比较低效。于是，散列表派上用场。</p>
+<p>常规：出现坏字符。从模式串m-1开始比对，返回对应下标。如果坏字符不在模式串种，需要遍历m次。
+散列表：初始化一个数组(要看字符集大小)，遍历模式串，字符hash作为数组下标，数组值为字符在模式串的位置。出现多次的字符，数组保存的是最后出现的位置。坏字符可以在hash表种快速找到数组下标。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span><span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 预处理坏字符表，这里256，只能处理ascii这个字符集
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">generateBC</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> b<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> m<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> bc<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> SIZE<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		bc<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 初始化 bc
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> m<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> ascii <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span>b<span style="color:#f92672">[</span>i<span style="color:#f92672">];</span> <span style="color:#75715e">// 计算 b[i] 的 ASCII 值 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		bc<span style="color:#f92672">[</span>ascii<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">bm</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">,</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> b<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> bc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>SIZE<span style="color:#f92672">];</span> <span style="color:#75715e">// 记录模式串中每个字符最后出现的位置 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	generateBC<span style="color:#f92672">(</span>b<span style="color:#f92672">,</span> m<span style="color:#f92672">,</span> bc<span style="color:#f92672">);</span> <span style="color:#75715e">// 构建坏字符哈希表 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> <span style="color:#75715e">// i 表示主串与模式串对齐的第一个字符 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">-</span> m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> j<span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">=</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span> j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> <span style="color:#f92672">--</span>j<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 模式串从后往前匹配 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>a<span style="color:#f92672">[</span>i<span style="color:#f92672">+</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">!=</span> b<span style="color:#f92672">[</span>j<span style="color:#f92672">])</span> <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 坏字符对应模式串中的下标是 j 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> i<span style="color:#f92672">;</span> <span style="color:#75715e">// 匹配成功，返回主串与模式串第一个匹配的字符的位置 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span> <span style="color:#75715e">// 这里等同于将模式串往后滑动 j-bc[(int)a[i+j]] 位 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">-</span> bc<span style="color:#f92672">[(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span>a<span style="color:#f92672">[</span>i<span style="color:#f92672">+</span>j<span style="color:#f92672">]]);</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><strong>好后缀</strong>
+好后缀规则指的是，当匹配过程中遇到一个完全匹配的子串时，将其称为“好后缀”，然后查找这个好后缀在模式串中出现的最后位置，并根据这个位置将模式串向后移动一定的距离，以此来利用好已经匹配的信息。</p>
+<p>// TODO 举例详细</p>
+<p>通过组合坏字符规则和好后缀规则，BM算法能够在搜索文本中匹配模式串的过程中，极大地提高匹配效率。</p>
+<p>实现步骤：</p>
+<ol>
+<li>预处理坏字符表和好后缀表，其中坏字符表记录模式串中每个字符最后出现的位置，好后缀表记录每个后缀的最长匹配好后缀长度。</li>
+<li>在文本串中从前往后匹配模式串，每次匹配失败时根据坏字符表和好后缀表进行移动。</li>
+<li>移动步长为坏字符规则和好后缀规则中计算得到的最大值。</li>
+<li>若匹配成功，则返回匹配的起始位置；否则返回-1表示文本串中没有找到匹配的子串。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BoyerMoore</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//预处理坏字符表，返回一个长度为256的整型数组，每个元素代表对应的字符在模式串中最后出现的位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">generateBadCharTable</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> pattern<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> badCharTable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span><span style="color:#ae81ff">256</span><span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>        Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">fill</span><span style="color:#f92672">(</span>badCharTable<span style="color:#f92672">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            badCharTable<span style="color:#f92672">[</span>pattern<span style="color:#f92672">[</span>i<span style="color:#f92672">]]</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> badCharTable<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//计算模式串的后缀数组，返回一个长度为m+1的整型数组，suffix[i]表示模式串的后缀i的长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">generateSuffixTable</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> pattern<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> suffixTable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>        Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">fill</span><span style="color:#f92672">(</span>suffixTable<span style="color:#f92672">,</span> m<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> prefix <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>m<span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>        Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">fill</span><span style="color:#f92672">(</span>prefix<span style="color:#f92672">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> m<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> pattern<span style="color:#f92672">[</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> pattern<span style="color:#f92672">[</span>m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> k<span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                j<span style="color:#f92672">--;</span>
+</span></span><span style="display:flex;"><span>                k<span style="color:#f92672">++;</span>
+</span></span><span style="display:flex;"><span>                prefix<span style="color:#f92672">[</span>k<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                suffixTable<span style="color:#f92672">[</span>k<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> suffixTable<span style="color:#f92672">[</span>m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i<span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>prefix<span style="color:#f92672">[</span>k<span style="color:#f92672">]</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                suffixTable<span style="color:#f92672">[</span>m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> prefix<span style="color:#f92672">[</span>k<span style="color:#f92672">]]</span> <span style="color:#f92672">=</span> k <span style="color:#f92672">-</span> prefix<span style="color:#f92672">[</span>k<span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> suffixTable<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//使用Boyer-Moore算法在文本串text中查找模式串pattern，并返回匹配的起始位置，若未找到则返回-1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">search</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> text<span style="color:#f92672">,</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> pattern<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> text<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>m <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> badCharTable <span style="color:#f92672">=</span> generateBadCharTable<span style="color:#f92672">(</span>pattern<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> suffixTable <span style="color:#f92672">=</span> generateSuffixTable<span style="color:#f92672">(</span>pattern<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> text<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> pattern<span style="color:#f92672">[</span>j<span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                i<span style="color:#f92672">--;</span>
+</span></span><span style="display:flex;"><span>                j<span style="color:#f92672">--;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>j <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> badChar <span style="color:#f92672">=</span> badCharTable<span style="color:#f92672">[</span>text<span style="color:#f92672">[</span>i<span style="color:#f92672">]];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> suffix <span style="color:#f92672">=</span> suffixTable<span style="color:#f92672">[</span>j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">+=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>badChar <span style="color:#f92672">-</span> j<span style="color:#f92672">,</span> suffix<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//测试代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        String text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ABCABCDABABCDABCDABDE&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        String pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ABCDABD&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> search<span style="color:#f92672">(</span>text<span style="color:#f92672">.</span><span style="color:#a6e22e">toCharArray</span><span style="color:#f92672">(),</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">toCharArray</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Pattern found at index &#34;</span> <span style="color:#f92672">+</span> index<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Pattern not found&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="kmp算法">KMP算法</h2>
+<p>BM 算法虽然比较复杂且难以理解，但它是工程中非常常用的高效字符串匹配算法之一。有统计数据表明，BM 算法是最高效、最常用的字符串匹配算法之一。然而，在所有的字符串匹配算法中，如果要提到最知名的一种，那就非 KMP 算法莫属了。很多时候提到字符串匹配，我们首先想到的就是 KMP 算法。</p>
+<p>// TODO</p>
+<h2 id="trie树">Trie树</h2>
+<p>当我们需要在大量字符串集合中查找某个字符串时，常规的线性搜索算法的时间复杂度会随着字符串集合大小的增加而急剧增加，效率非常低。Trie 树（字典树）是一种用于快速搜索字符串的数据结构，其时间复杂度为 O(k)，其中 k 是待查找字符串的长度。Trie 树可以高效地存储和检索大量的字符串，因此在文本搜索、自动补全、拼写检查等场景中得到了广泛应用。</p>
+<h3 id="什么是trie树">什么是Trie树？</h3>
+<p>Trie 树，也叫字典树、前缀树，是一种多叉树结构，用于处理字符串集合的查找和统计。它将每个字符串作为一条路径存储在树中，从根节点到叶子节点的路径所组成的字符串就是对应的字符串。Trie 树的根节点代表空字符串，每个非空字符串都从根节点开始，沿着相应的边到达叶子节点。如果两个字符串有相同的前缀，它们会共享同一个前缀路径，从而节省空间。</p>
+<p>下图展示了一个简单的 Trie 树：</p>
+<p>在上面的 Trie 树中，我们可以看到有 5 个字符串被插入，即 &ldquo;the&rdquo;、&ldquo;a&rdquo;、&ldquo;there&rdquo;、&ldquo;answer&rdquo; 和 &ldquo;any&rdquo;。在 Trie 树中，每个节点包含多个指针，每个指针代表一个字符。从根节点开始，通过遍历字符指针，可以从 Trie 树中检索出对应的字符串。例如，检索字符串 &ldquo;there&rdquo; 的过程如下：</p>
+<ol>
+<li>从根节点开始，遍历字符指针 &ldquo;t&rdquo;，到达节点 1。</li>
+<li>继续遍历字符指针 &ldquo;h&rdquo;，到达节点 2。</li>
+<li>继续遍历字符指针 &ldquo;e&rdquo;，到达节点 4。</li>
+<li>继续遍历字符指针 &ldquo;r&rdquo;，到达节点 5。</li>
+<li>继续遍历字符指针 &ldquo;e&rdquo;，到达节点 6。</li>
+<li>检查节点 6 是否是叶子节点，如果是，说明字符串 &ldquo;there&rdquo; 存在于 Trie 树中。</li>
+</ol>
+<p>在上述过程中，我们一路走到叶子节点 6，说明字符串 &ldquo;there&rdquo; 存在于 Trie 树中。Trie 树的检索过程时间复杂度为 O(k)，其中 k 是待查找字符串的长度，因此非常高效。</p>
+<h3 id="trie树的java实现">Trie树的Java实现</h3>
+<p>下面是使用 Java 实现的 Trie 树的基本代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TrieNode</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> TrieNode<span style="color:#f92672">[]</span> children<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> isEnd<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">TrieNode</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        children <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TrieNode<span style="color:#f92672">[</span><span style="color:#ae81ff">26</span><span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>        isEnd <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>适用：字符串查找和匹配，前缀匹配，自动完成和提示，字符串排序
+不适用：对于稀疏的字符串集合，对于长字符串集合，对于动态数据集合。</p>
+<h2 id="ac自动机">AC自动机</h2>
+<p>核心思想： AC自动机算法的核心思想是在Trie树的基础上构建DFA（Deterministic Finite Automaton）有限状态自动机，并且使用BFS（Breadth First Search）算法进行匹配过程。AC自动机算法的基本思想是将多个模式串构建成一颗Trie树，并使用一些特殊的技巧将其转化为DFA自动机，使得匹配过程可以在O(n)的时间复杂度内完成。</p>
+<p>核心步骤：</p>
+<ol>
+<li>构建Trie树：将所有模式串构建成一颗Trie树，并标记每个Trie节点所对应的模式串集合。</li>
+<li>构建DFA自动机：通过遍历Trie树节点，并且将节点之间的关系转化为DFA自动机状态转移函数。</li>
+<li>匹配过程：在文本串中进行模式匹配，当匹配到某个节点时，根据节点的转移函数转移到下一个节点，直到到达终止状态，输出匹配结果。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.*<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AhoCorasick</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Map<span style="color:#f92672">&lt;</span>Character<span style="color:#f92672">,</span> Node<span style="color:#f92672">&gt;</span> children <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> matches <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        Node fail<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addMatch</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            matches<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Node root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AhoCorasick</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> patterns<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建Trie树
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String pattern <span style="color:#f92672">:</span> patterns<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Node node <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">char</span> c <span style="color:#f92672">:</span> pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">toCharArray</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                node<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">putIfAbsent</span><span style="color:#f92672">(</span>c<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                node <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>c<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            node<span style="color:#f92672">.</span><span style="color:#a6e22e">addMatch</span><span style="color:#f92672">(</span>pattern<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建DFA自动机
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Queue<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Node node <span style="color:#f92672">:</span> root<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">values</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            node<span style="color:#f92672">.</span><span style="color:#a6e22e">fail</span> <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            Node node <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Map<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>Character<span style="color:#f92672">,</span> Node<span style="color:#f92672">&gt;</span> entry <span style="color:#f92672">:</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">entrySet</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                Node child <span style="color:#f92672">=</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>child<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                Node fail <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">fail</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>fail <span style="color:#f92672">!=</span> root <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>fail<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>c<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    fail <span style="color:#f92672">=</span> fail<span style="color:#f92672">.</span><span style="color:#a6e22e">fail</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                child<span style="color:#f92672">.</span><span style="color:#a6e22e">fail</span> <span style="color:#f92672">=</span> fail<span style="color:#f92672">.</span><span style="color:#a6e22e">children</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getOrDefault</span><span style="color:#f92672">(</span>c<span style="color:#f92672">,</span> root<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                child<span style="color:#f92672">.</span><span style="color:#a6e22e">matches</span><span style="color:#f92672">.</span><span style="color:#a6e22e">addAll</span><span style="color:#f92672">(</span>child<span style="color:#f92672">.</span><span style="color:#a6e22e">fail</span><span style="color:#f92672">.</span><span style="color:#a6e22e">matches</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">search</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> result <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+</span></span></code></pre></div><hr>
+<p>引用：</p>
+<ul>
+<li>极客时间</li>
+<li><a href="https://www.zhihu.com/question/21923021">https://www.zhihu.com/question/21923021</a></li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-bf-算法">1. BF 算法</a></li>
+    <li><a href="#bk-算法">BK 算法</a></li>
+    <li><a href="#bmboyer-moore">BM（Boyer-Moore）</a></li>
+    <li><a href="#kmp算法">KMP算法</a></li>
+    <li><a href="#trie树">Trie树</a>
+      <ul>
+        <li><a href="#什么是trie树">什么是Trie树？</a></li>
+        <li><a href="#trie树的java实现">Trie树的Java实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#ac自动机">AC自动机</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%ae%97%e6%b3%95-6_%e5%ad%97%e7%ac%a6%e4%b8%b2String&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f10%2f6_string%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f10%2f6_string%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f10%2f6_string%2f&amp;description=%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%ae%97%e6%b3%95-6_%e5%ad%97%e7%ac%a6%e4%b8%b2String"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2020%2f02%2f10%2f6_string%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2023/08/29/Distributed-Transaction/">
+          <section class="post">
+              <h2>分布式事务</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2020/02/02/5_graph/">
+          <section class="post">
+              <h2>数据结构算法-5_图-BFS-DFS</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -83,7 +83,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/03/03/java-garbage-collection/" />
 
@@ -124,7 +124,7 @@
     },
     "headline": "java垃圾回收",
     "name": "java垃圾回收",
-    "wordCount":  2739 ,
+    "wordCount":  2794 ,
     "timeRequired": "PT6M",
     "inLanguage": {
       "@type": "Language",
@@ -301,11 +301,12 @@
 <p>具体参考:<a href="https://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Fconcepts%2Fgcroots.html">eclipse-MAT</a>，另外GC-ROOT为避免每次全部扫描老年代是否对新生代有应用，引入卡表(Card Table)的技术。</p>
 </blockquote>
 <p>扫描标记时，如果引用关系一直变化，就会没法跟踪，所以要暂停线程，这就是概述中提到的STW(Stop The World pause)。以上找到存活对象的过程，就叫<strong>标记(Marking)</strong>。</p>
+<p>引用计数法之所以不常用，是因为无法解决循环依赖的问题。</p>
 <h3 id="删除">删除</h3>
 <p>删除垃圾的过程，不同的算法可能不同，大概分为以下三类：</p>
 <ul>
-<li><strong>清除(Sweep)</strong>: 任务不可达对象占用的空间是空闲的，需要一个空闲表(freelist)来维护空闲空间。缺点是空闲空间分散，不便分配对象。</li>
-<li><strong>整理(Compact)</strong>: 相比简单的标记清除，多了一个把存活对象复制到一边的过程。解决了对象分配的问题，但线程暂停时间增加。</li>
+<li><strong>清除(Sweep)</strong>: 任务不可达对象占用的空间是空闲的，需要一个空闲表(freelist)来维护空闲空间。缺点是空闲空间分散（碎片），不便分配对象，因为申请内存都是一整个区域。</li>
+<li><strong>整理(Compact)</strong>: 相比简单的标记清除，多了一个把存活对象复制到一边的过程。解决了碎片问题，但拷贝和更新对象引用，增加了jvm的暂停时间。</li>
 <li><strong>复制(Copy)</strong>: 需要额外的空间，把对象负责过去。</li>
 </ul>
 <p>上述介绍的只是GC算法的基础，真正的回收器可能会结合几个算法一起使用。因为不同区域适合不同算法。</p>

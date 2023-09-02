@@ -81,7 +81,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2018/06/08/rxjava-2/" />
 
@@ -362,7 +362,7 @@ do somethings&hellip;
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Callable<span style="color:#f92672">(</span>observer <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>            observer<span style="color:#f92672">.</span><span style="color:#a6e22e">onCompleted</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}).</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Callback<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
@@ -384,9 +384,9 @@ complete &hellip;</p>
 <p>rxjava得益于它强大的操作符。操作符其实就是桥接作用，订阅者向操作符订阅，操作符再向上层的可被订阅者订阅，如果到了顶层，发射数据再依次往下传递。相对比较好理解。下面看一个map操作符的示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit 1&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit 2&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Function<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Object o<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
@@ -421,9 +421,9 @@ emit 2
 <p>每发射一个数据，都经历订阅者链上的所有操作符和observer。如果发射器都同步发射数据，所有链都走完，才会处理下一个数据。</p>
 <p>当然了，不同的操作符实现不一样。比如reduce：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">((</span>ObservableOnSubscribe<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;)</span> emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onComplete</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}).</span><span style="color:#a6e22e">reduce</span><span style="color:#f92672">((</span>integer<span style="color:#f92672">,</span> integer2<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> integer <span style="color:#f92672">+</span> integer2<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
@@ -439,7 +439,7 @@ emit 2
 <h2 id="线程调度">线程调度</h2>
 <p>还是先看示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 30<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit &#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
@@ -452,7 +452,7 @@ emit 2
 </span></span><span style="display:flex;"><span>              <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">return</span> o<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">}).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>o <span style="color:#f92672">-&gt;</span> log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;接收数据: &#34;</span> <span style="color:#f92672">+</span> o<span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>3000<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3000</span><span style="color:#f92672">);</span>
 </span></span></code></pre></div><p>如果看输出结果，顺序不再像先前map示例中每个数据走完订阅链才发送下一个数据。observeOn(Schedulers.io())使得上游和下游在不同的线程中执行。</p>
 <p>原理其实也简单，observeOn也是一个操作符，他的工作主要是：</p>
 <ol>
@@ -470,7 +470,7 @@ emit 2
 <li>Flowable支持背压，缓冲区大小默认是128。</li>
 </ul>
 <p>可以看Flowable源码的第一行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> BUFFER_SIZE <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rx2.buffer-size&#34;</span><span style="color:#f92672">,</span> 128<span style="color:#f92672">).</span><span style="color:#a6e22e">intValue</span><span style="color:#f92672">());</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> BUFFER_SIZE <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rx2.buffer-size&#34;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">128</span><span style="color:#f92672">).</span><span style="color:#a6e22e">intValue</span><span style="color:#f92672">());</span>
 </span></span></code></pre></div><p>使用observeOn后，上游订阅的数据往缓冲队列放，下游订阅线程从队列里面读数据。背压的关键就是BUFFER_SIZE，如果下游消费95个数据，会清理一次。</p>
 <p>上游的发射器能获取到buffer目前的大小（flowableEmitter.requested()），只要保证buffer不满（flowableEmitter.requested()不为0），就不会出现溢出的情况，从而实现背压。</p>
 <hr>

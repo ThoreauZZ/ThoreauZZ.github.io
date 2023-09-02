@@ -83,7 +83,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/" />
 
@@ -346,10 +346,10 @@ org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfigu
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.redis&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisProperties</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//application.properties中 spring.redis.port 的值会赋给port属性。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> database <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> database <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> String password<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> port <span style="color:#f92672">=</span> 6379<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> port <span style="color:#f92672">=</span> <span style="color:#ae81ff">6379</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Configuration</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisConfiguration</span> <span style="color:#f92672">{</span>
@@ -647,9 +647,9 @@ org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfigu
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
           <section class="post">
-              <h2>设计模式四：命令模式</h2>
+              <h2>设计模式一：观察者模式</h2>
               
           </section>
       </a>

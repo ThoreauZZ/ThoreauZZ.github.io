@@ -19,10 +19,10 @@
     
     <item>
       <title>用Postman测试API</title>
-      <link>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</link>
+      <link>http://thoreauz.com/2017/11/13/Use-postman-to-test-api/</link>
       <pubDate>Mon, 13 Nov 2017 16:18:30 +0000</pubDate>
       
-      <guid>http://thoreauz.com/2017/11/13/use-postman-to-test-api/</guid>
+      <guid>http://thoreauz.com/2017/11/13/Use-postman-to-test-api/</guid>
       <description>概述 API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试，</description>
     </item>
     

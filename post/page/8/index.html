@@ -79,7 +79,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/post/" />
 
@@ -222,7 +222,7 @@
 	
 	    <a class="newer-posts" href="http://thoreauz.com/post/page/7/">&larr; Newer Posts</a>
 	
-	<span class="page-number">Page 8 of 24</span>
+	<span class="page-number">Page 8 of 26</span>
 	
 	    <a class="older-posts" href="http://thoreauz.com/post/page/9/">Older Posts &rarr;</a>
 	
@@ -234,11 +234,11 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/">高性能Mysql-schema与数据类型优化</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2018/01/25/HashMap-theory/">HashMap详解</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>选择优化的数据类型 遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添 <a class="read-more" href="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/">&raquo;</a></p>
+            <p>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;(); // put IntStream.range(0, 20).forEach(item-&gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&gt; System.out.println(&#34;k:&#34;+k+&#34; v:&#34;+v)); // get System.out.println(map.get(1); } 继承Abstract <a class="read-more" href="http://thoreauz.com/2018/01/25/HashMap-theory/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -259,11 +259,13 @@
             
              &nbsp;
             
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/mysql/">mysql</a></span>
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/java/">java</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
             
         
-        <time class="post-date" datetime="2017-11-25T19:19:49Z">
-            2017-11-25
+        <time class="post-date" datetime="2018-01-25T14:24:25Z">
+            2018-01-25
         </time>
     </footer>
 </article>
@@ -272,11 +274,11 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/">高性能Mysql-性能剖析</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2018/01/21/Red-Black-Trees/">红黑树</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>性能优化的两个原则： 我们通过任务和时间而不是资源来衡量性能。 无法测量就无法优化。 完成一项任务所需要的时间分为两部分：执行时间和等待时间。如果 <a class="read-more" href="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/">&raquo;</a></p>
+            <p>概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据是有序的，就变成了一个链表，查找时间复杂度为O(N)。 <a class="read-more" href="http://thoreauz.com/2018/01/21/Red-Black-Trees/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -297,11 +299,13 @@
             
              &nbsp;
             
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/mysql/">mysql</a></span>
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/tree/">tree</a></span>
             
         
-        <time class="post-date" datetime="2017-11-25T14:53:08Z">
-            2017-11-25
+        <time class="post-date" datetime="2018-01-21T11:01:45Z">
+            2018-01-21
         </time>
     </footer>
 </article>
@@ -310,11 +314,11 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/13/use-postman-to-test-api/">用Postman测试API</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">二叉搜索树</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>概述 API First的时代，有的企业已经把API已经作为一个产品来发布。开发RESTFul API，我们需要调试、接口测试、集成测试等。对于调试， <a class="read-more" href="http://thoreauz.com/2017/11/13/use-postman-to-test-api/">&raquo;</a></p>
+            <p>二叉树 概念 二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右 <a class="read-more" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -335,11 +339,13 @@
             
              &nbsp;
             
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/test/">test</a></span>
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+            
+                <span class="post-tag small"> <a href="http://thoreauz.com/tags/tree/">tree</a></span>
             
         
-        <time class="post-date" datetime="2017-11-13T16:18:30Z">
-            2017-11-13
+        <time class="post-date" datetime="2018-01-20T11:01:45Z">
+            2018-01-20
         </time>
     </footer>
 </article>
@@ -348,11 +354,11 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/11/go-learn-8-json/">Go语言8-Json</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2018/01/09/go-web-example/">go 开发web应用</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &#34;login&#34;: <a class="read-more" href="http://thoreauz.com/2017/11/11/go-learn-8-json/">&raquo;</a></p>
+            <p>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出a <a class="read-more" href="http://thoreauz.com/2018/01/09/go-web-example/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -372,14 +378,12 @@
         
             
              &nbsp;
-            
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
             
                 <span class="post-tag small"> <a href="http://thoreauz.com/tags/go/">go</a></span>
             
         
-        <time class="post-date" datetime="2017-11-11T23:28:27Z">
-            2017-11-11
+        <time class="post-date" datetime="2018-01-09T11:41:53Z">
+            2018-01-09
         </time>
     </footer>
 </article>
@@ -388,11 +392,11 @@
 	   
 <article class="post post">
     <header class="post-header">
-        <h2 class="post-title"><a href="http://thoreauz.com/2017/11/11/go-learn-9-test/">Go语言9-测试和性能</a></h2>
+        <h2 class="post-title"><a href="http://thoreauz.com/2018/01/09/Go-Error-handling/">GO— 异常错误处理</a></h2>
     </header>
     <section class="post-excerpt">
         
-            <p>测试驱动开发推荐编写测试-运行测试-实现-运行测试-重构-运行测试的的开发流程。开发过程中就进行单元测试和基准测试，在GO语言中也一样可以。 <a class="read-more" href="http://thoreauz.com/2017/11/11/go-learn-9-test/">&raquo;</a></p>
+            <p>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以， <a class="read-more" href="http://thoreauz.com/2018/01/09/Go-Error-handling/">&raquo;</a></p>
         
     </section>
     <footer class="post-meta">
@@ -413,13 +417,11 @@
             
              &nbsp;
             
-                <span class="post-tag small"> <a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
-            
                 <span class="post-tag small"> <a href="http://thoreauz.com/tags/go/">go</a></span>
             
         
-        <time class="post-date" datetime="2017-11-11T23:28:27Z">
-            2017-11-11
+        <time class="post-date" datetime="2018-01-09T11:41:53Z">
+            2018-01-09
         </time>
     </footer>
 </article>
@@ -430,7 +432,7 @@
 	
 	    <a class="newer-posts" href="http://thoreauz.com/post/page/7/">&larr; Newer Posts</a>
 	
-	<span class="page-number">Page 8 of 24</span>
+	<span class="page-number">Page 8 of 26</span>
 	
 	    <a class="older-posts" href="http://thoreauz.com/post/page/9/">Older Posts &rarr;</a>
 	

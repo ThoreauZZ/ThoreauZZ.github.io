@@ -81,7 +81,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/05/19/java-tdd/" />
 
@@ -344,15 +344,15 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Test</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">assartJTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Frodo&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Frodo&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isEqualToIgnoringCase</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;frodo&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>42<span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThan</span><span style="color:#f92672">(</span>38<span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThanOrEqualTo</span><span style="color:#f92672">(</span>38<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span><span style="color:#ae81ff">42</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThan</span><span style="color:#f92672">(</span><span style="color:#ae81ff">38</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isGreaterThanOrEqualTo</span><span style="color:#f92672">(</span><span style="color:#ae81ff">38</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>Dates<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-02-01&#34;</span><span style="color:#f92672">))</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-02-01&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isNotEqualTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-01-01&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">isAfter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-01-01&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isBefore</span><span style="color:#f92672">(</span>Dates<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2014-03-01&#34;</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>newArrayList<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 2<span style="color:#f92672">,</span> 3<span style="color:#f92672">))</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span>0<span style="color:#f92672">))</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span>1<span style="color:#f92672">))</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span>3<span style="color:#f92672">).</span><span style="color:#a6e22e">isSorted</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>newArrayList<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> atIndex<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">contains</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isSorted</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span>RequestMapping<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isAnnotation</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    assertThat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;string&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">isInstanceOf</span><span style="color:#f92672">(</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
@@ -542,6 +542,13 @@
 
 
   <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2020/01/26/1_array/">
+          <section class="post">
+              <h2>数据结构算法-1_数组Array</h2>
+              
+          </section>
+      </a>
   
   
       <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/04/21/ideavim/">

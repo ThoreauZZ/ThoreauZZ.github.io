@@ -83,7 +83,7 @@
       
     
     
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.109.0">
 
     <link rel="canonical" href="http://thoreauz.com/2019/01/12/javaagent-and-asm/" />
 
@@ -296,7 +296,7 @@ Built-By: zhaozhou
 </span></span><span style="display:flex;"><span>ClasssWriter cw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassWriter<span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>ClassAdapter ca <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassAdapter<span style="color:#f92672">(</span>cw<span style="color:#f92672">);</span> 
 </span></span><span style="display:flex;"><span>ClassReader cr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassReader<span style="color:#f92672">(</span>b1<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>cr<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span>ca<span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>cr<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span>ca<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> b2 <span style="color:#f92672">=</span> cw<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">();</span> 
 </span></span></code></pre></div><p><img src="http://thoreauz.com/images/2019-01-11-22-01-33.jpg" alt="">
 Reader相当于字节码生产者，把所有事件传递给writer，而adapter是一个中间适配器，形成一个转换链。下面写一个示例，往一个class的方法里面写一行代码；</p>
@@ -309,10 +309,10 @@ Reader相当于字节码生产者，把所有事件传递给writer，而adapter�
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> bytes <span style="color:#f92672">=</span> IOUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">(</span>resourceAsStream<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 往方法里面添加代码System.out.println(&#34;hello&#34;);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ClassWriter cw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassWriter<span style="color:#f92672">(</span>8<span style="color:#f92672">);</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ClassWriter cw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassWriter<span style="color:#f92672">(</span><span style="color:#ae81ff">8</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        TestVisitor ca <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestVisitor<span style="color:#f92672">(</span>cw<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        ClassReader cr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassReader<span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        cr<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span>ca<span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        cr<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span>ca<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> b2 <span style="color:#f92672">=</span> cw<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        FileOutputStream output <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/tmp/target.class&#34;</span><span style="color:#f92672">));</span>
@@ -405,7 +405,7 @@ Reader相当于字节码生产者，把所有事件传递给writer，而adapter�
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">//创建操作字节流值对象，ClassWriter.COMPUTE_MAXS:表示自动计算栈大小
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ClassWriter writer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassWriter<span style="color:#f92672">(</span>reader<span style="color:#f92672">,</span> ClassWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">COMPUTE_MAXS</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">//接收一个ClassVisitor子类进行字节码修改
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        reader<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TimeClassVisitor<span style="color:#f92672">(</span>writer<span style="color:#f92672">,</span> className<span style="color:#f92672">),</span> 8<span style="color:#f92672">);</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        reader<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TimeClassVisitor<span style="color:#f92672">(</span>writer<span style="color:#f92672">,</span> className<span style="color:#f92672">),</span> <span style="color:#ae81ff">8</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">//返回修改后的字节码流
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> writer<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
@@ -561,11 +561,11 @@ Reader相当于字节码生产者，把所有事件传递给writer，而adapter�
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello world!&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        add<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 2<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        add<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> b<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>300<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span><span style="color:#ae81ff">300</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>

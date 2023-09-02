@@ -7,7 +7,61 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sat, 16 Feb 2019 21:44:49 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Feb 2020 19:56:52 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数据结构算法-6_字符串String</title>
+      <link>http://thoreauz.com/2020/02/10/6_string/</link>
+      <pubDate>Mon, 10 Feb 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/02/10/6_string/</guid>
+      <description>本文介绍字符串匹配算法，在开始前，先讲两个常用的概念。 主串: 被查找的字符串 模式串：要操作的字符串 多模式串匹配算法：在多个模式串中匹配一个文本</description>
+    </item>
+    
+    <item>
+      <title>数据结构算法-5_图-BFS-DFS</title>
+      <link>http://thoreauz.com/2020/02/02/5_graph/</link>
+      <pubDate>Sun, 02 Feb 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/02/02/5_graph/</guid>
+      <description>定义 图（Graph）：是用于表示物体与物体之间存在某种关系的结构。数学抽象后的“物体”称作 节点 ** 或 顶点（Vertex，node或point）</description>
+    </item>
+    
+    <item>
+      <title>数据结构算法-4_堆heap</title>
+      <link>http://thoreauz.com/2020/02/01/4_heap/</link>
+      <pubDate>Sat, 01 Feb 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/02/01/4_heap/</guid>
+      <description>定义 堆是一种特殊的树： 堆是一个完全二叉树。 堆中每一个节点的值都必须大于等于（或小于等于）其子树中每个节点的值。大于叫大顶堆(此文以大顶堆为例</description>
+    </item>
+    
+    <item>
+      <title>数据结构算法-3_排序</title>
+      <link>http://thoreauz.com/2020/01/28/3_sort/</link>
+      <pubDate>Tue, 28 Jan 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/01/28/3_sort/</guid>
+      <description>本文总结一些经典的排序算法： 图片来源：https://github.com/hustcc/JS-Sorting-Algorithm 内部排序是</description>
+    </item>
+    
+    <item>
+      <title>数据结构算法-2_链表List</title>
+      <link>http://thoreauz.com/2020/01/27/2_List/</link>
+      <pubDate>Mon, 27 Jan 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/01/27/2_List/</guid>
+      <description>链表通过指针将一组零散的内存块串联在一起。其中，我们把内存块称为链表的“结点”。为了将所有的结点串起来，每个链表的结点除了存储数据之外，还需</description>
+    </item>
+    
+    <item>
+      <title>数据结构算法-1_数组Array</title>
+      <link>http://thoreauz.com/2020/01/26/1_array/</link>
+      <pubDate>Sun, 26 Jan 2020 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2020/01/26/1_array/</guid>
+      <description>数组 数组是一种线性数据结构，用连续的存储空间存储相同类型数据。 线性表:数组、链表、队列、栈 非线性表:树 图 连续的内存空间、相同的数据，所以数组</description>
+    </item>
+    
     <item>
       <title>B树和B&#43;树</title>
       <link>http://thoreauz.com/2019/02/16/Btree-B-Tree/</link>
@@ -36,12 +90,21 @@
     </item>
     
     <item>
+      <title>HashMap详解</title>
+      <link>http://thoreauz.com/2018/01/25/HashMap-theory/</link>
+      <pubDate>Thu, 25 Jan 2018 14:24:25 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/25/HashMap-theory/</guid>
+      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;#34;k:&amp;#34;+k+&amp;#34; v:&amp;#34;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
+    </item>
+    
+    <item>
       <title>红黑树</title>
       <link>http://thoreauz.com/2018/01/21/Red-Black-Trees/</link>
       <pubDate>Sun, 21 Jan 2018 11:01:45 +0000</pubDate>
       
       <guid>http://thoreauz.com/2018/01/21/Red-Black-Trees/</guid>
-      <description>概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)</description>
+      <description>概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据是有序的，就变成了一个链表，查找时间复杂度为O(N)。</description>
     </item>
     
     <item>
