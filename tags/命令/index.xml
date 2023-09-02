@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>命令 on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/%E5%91%BD%E4%BB%A4/</link>
+    <description>Recent content in 命令 on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Thu, 09 Nov 2017 22:33:58 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/%E5%91%BD%E4%BB%A4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>理解iptables</title>
+      <link>http://thoreauz.com/2017/11/09/iptables/</link>
+      <pubDate>Thu, 09 Nov 2017 22:33:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/09/iptables/</guid>
+      <description>iptables 初解 防火墙只是一个规则机器与外部有交互时的一个过滤规则，依赖netfilter注册各种hooks实现。iptables以表(table)-</description>
+    </item>
+    
+    <item>
+      <title>jq使用</title>
+      <link>http://thoreauz.com/2017/08/11/jq/</link>
+      <pubDate>Fri, 11 Aug 2017 23:30:06 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/11/jq/</guid>
+      <description>jq是一个命令行处理json的工具。 现在大部分交互的数据格式都是以json的形式，不管是写一些监控脚本或者平时使用，都是一个比较方便的工具，</description>
+    </item>
+    
+    <item>
+      <title>Top命令详解</title>
+      <link>http://thoreauz.com/2017/02/09/top/</link>
+      <pubDate>Thu, 09 Feb 2017 00:18:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/09/top/</guid>
+      <description>Top命令详解 第一行 系统时间，已经运行的时间 当前登录用户 负载：1分钟、5分钟、15分钟内的负载。 其他都好理解,负载(系统的平均负荷)是什么？</description>
+    </item>
+    
+  </channel>
+</rss>

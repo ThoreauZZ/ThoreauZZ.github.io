@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>algorithm on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/algorithm/</link>
+    <description>Recent content in algorithm on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 16 Feb 2019 21:44:49 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>B树和B&#43;树</title>
+      <link>http://thoreauz.com/2019/02/16/Btree-B-Tree/</link>
+      <pubDate>Sat, 16 Feb 2019 21:44:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/02/16/Btree-B-Tree/</guid>
+      <description>概述 之前文章中介绍二叉树和红黑树，红黑树解决树的平衡问题，避免二叉树退化为一个链表的情况，牺牲增删元素时保证树平衡的耗时操作，保证查询效率。</description>
+    </item>
+    
+    <item>
+      <title>聊聊本地缓存</title>
+      <link>http://thoreauz.com/2018/02/08/local-cache/</link>
+      <pubDate>Thu, 08 Feb 2018 22:30:58 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/02/08/local-cache/</guid>
+      <description>概述 本文介绍一些常见的缓存设计算法和思路。比如缓存淘汰的算法：LRU，SLRU，LFU，W-TinyLFU。实现入guava cache和ca</description>
+    </item>
+    
+    <item>
+      <title>一致性hash算法</title>
+      <link>http://thoreauz.com/2018/01/26/ConsistentHash/</link>
+      <pubDate>Fri, 26 Jan 2018 19:56:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/26/ConsistentHash/</guid>
+      <description>概述 现有一需求，自己实现redis集群。最简单的方式是，把数据分配到不同的redis实例，而同一个key，每次存取都会连接同一个redis实</description>
+    </item>
+    
+    <item>
+      <title>红黑树</title>
+      <link>http://thoreauz.com/2018/01/21/Red-Black-Trees/</link>
+      <pubDate>Sun, 21 Jan 2018 11:01:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/21/Red-Black-Trees/</guid>
+      <description>概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)</description>
+    </item>
+    
+    <item>
+      <title>二叉搜索树</title>
+      <link>http://thoreauz.com/2018/01/20/Binary-Search-Trees/</link>
+      <pubDate>Sat, 20 Jan 2018 11:01:45 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/20/Binary-Search-Trees/</guid>
+      <description>二叉树 概念 二叉树（英语：Binary tree）是每个节点最多只有两个分支(不存在分支度大于2的节点)的树结构。通常分支被称作“左子树”和“右</description>
+    </item>
+    
+  </channel>
+</rss>

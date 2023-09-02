@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="The Twelve-Factory App"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="The Twelve-Factory App &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-10T11:57:19Z" />
+
+    
+    <meta property="article:tag" content="架构" />
+    
+    
+
+    <title>The Twelve-Factory App &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="The Twelve-Factory App 摘自：The Twelve-Factory App Cloud Native是一种应用开发风格，鼓励在持续交付和价值驱动开发领域轻松采用最佳实践。相关的学科是建立12因素应用程序，" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "The Twelve-Factory App",
+    "name": "The Twelve-Factory App",
+    "wordCount":  2120 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/",
+    "datePublished": "2017-08-10T11:57Z",
+    "dateModified": "2017-08-10T11:57Z",
+    
+    "keywords": "架构",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/08/10/The-Twelve-Factory-App/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">The Twelve-Factory App</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-10T11:57:19Z">
+            2017-08-10
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/%E6%9E%B6%E6%9E%84/">架构</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="the-twelve-factory-app">The Twelve-Factory App</h1>
+<p>摘自：<a href="https://12factor.net/">The Twelve-Factory App</a></p>
+<p>Cloud Native是一种应用开发风格，鼓励在持续交付和价值驱动开发领域轻松采用最佳实践。相关的学科是建立12因素应用程序，其中开发实践与交付和运营目标相一致，例如通过使用声明式编程和管理和监控。</p>
+<p>软件通常会作为一种服务来交付，它们被称为网络应用程序，或软件即服务（SaaS）。12-Factor 为构建如下的 SaaS 应用提供了方法论：</p>
+<ul>
+<li>使用标准化流程自动配置，从而使新的开发者花费最少的学习成本加入这个项目。</li>
+<li>和操作系统之间尽可能的划清界限，在各个系统中提供最大的可移植性。</li>
+<li>适合部署在现代的云计算平台，从而在服务器和系统管理方面节省资源。</li>
+<li>将开发环境和生产环境的差异降至最低，并使用持续交付实施敏捷开发。</li>
+<li>可以在工具、架构和开发流程不发生明显变化的前提下实现扩展。</li>
+</ul>
+<p><img src="http://thoreauz.com/images/2017-08-10-11-54-53.jpg" alt=""></p>
+<!-- raw HTML omitted -->
+<h2 id="一基准代码">一、基准代码</h2>
+<blockquote>
+<p>一份基准代码（Codebase），多份部署（deploy）</p>
+</blockquote>
+<p>所有部署的基准代码相同，但每份部署可以使用其不同的版本。比如，开发人员可能有一些提交还没有同步至预发布环境；预发布环境也有一些提交没有同步至生产环境。但它们都共享一份基准代码，我们就认为它们只是相同应用的不同部署而已。</p>
+<h2 id="二依赖">二、依赖</h2>
+<blockquote>
+<p>显式声明依赖关系（ dependency ）</p>
+</blockquote>
+<p>12-Factor规则下的应用程序不会隐式依赖系统级的类库。 它一定通过 依赖清单 ，确切地声明所有依赖项。此外，在运行过程中通过依赖隔离工具来确保程序不会调用系统中存在但清单中未声明的依赖项。这一做法会统一应用到生产和开发环境。</p>
+<h2 id="三-配置">三、 配置</h2>
+<blockquote>
+<p>代码和配置严格分离</p>
+</blockquote>
+<p>判断一个应用是否正确地将配置排除在代码之外，一个简单的方法是看该应用的基准代码是否可以立刻开源，而不用担心会暴露任何敏感的信息。</p>
+<p>12-Factor推荐将应用的配置存储于环境变量中。</p>
+<h2 id="四后端服务">四、后端服务</h2>
+<blockquote>
+<p>把后端服务(backing services)当作附加资源</p>
+</blockquote>
+<p>12-Factor 应用不会区别对待本地或第三方服务, 对应用程序而言，两种都是附加资源，通过一个ur 或是其他存储在配置中的服务定位/服务证书来获取数据。每个不同的后端服务是一份资源 。例如，一个 MySQL 数据库是一个资源，两个MySQL数据库（用来数据分区）就被当作是 2 个不同的资源。12-Factor 应用将这些数据库都视作附加资源 ，这些资源和它们附属的部署保持松耦合。</p>
+<p>部署可以按需加载或卸载资源。例如，如果应用的数据库服务由于硬件问题出现异常，管理员可以从最近的备份中恢复一个数据库，卸载当前的数据库，然后加载新的数据库 – 整个过程都不需要修改代码。</p>
+<h2 id="五构建发布运行">五、构建，发布，运行</h2>
+<blockquote>
+<p>严格分离构建和运行</p>
+</blockquote>
+<p>基准代码 转化为一份部署(非开发环境)需要以下三个阶段：</p>
+<ul>
+<li>构建阶段: 代码仓库转化为可执行包的过程</li>
+<li>发布阶段 :将构建的结果和当前部署所需配置相结合.</li>
+<li>运行阶段: 启动一系列应用程序进程。</li>
+</ul>
+<h2 id="六进程">六、进程</h2>
+<blockquote>
+<p>以一个或多个无状态进程运行应用</p>
+</blockquote>
+<p>12-Factor 应用的进程必须无状态且无共享。 任何需要持久化的数据都要存储在后端服务内， 比如数据库。一些互联网系统依赖于 “粘性session”， 这是指将用户session中的数据缓存至某进程的内存中，并将同一用户的后续请求路由到同一个进程。粘性 session 是 12-Factor 极力反对的。Session 中的数据应该保存在诸如 Memcached 或 Redis 这样的带有过期时间的缓存中。</p>
+<h2 id="七端口绑定">七、端口绑定</h2>
+<blockquote>
+<p>通过端口绑定(Port binding)来提供服务</p>
+</blockquote>
+<p>12-Factor 应用完全自我加载而不依赖于任何网络服务器就可以创建一个面向网络的服务。互联网应用通过端口绑定来提供服务，并监听发送至该端口的请求。</p>
+<h2 id="八并发">八、并发</h2>
+<blockquote>
+<p>通过进程模型进行扩展</p>
+</blockquote>
+<p>在 12-factor 应用中，进程是一等公民。12-Factor 应用的进程主要借鉴于 unix 守护进程模型。开发人员可以运用这个模型去设计应用架构，将不同的工作分配给不同的进程类型 。例如，HTTP 请求可以交给web进程来处理，而常驻的后台工作则交由 worker 进程负责。</p>
+<p>12-Factor 应用的进程不需要守护进程或是写入PID文件。相反的，应该借助操作系统的进程管理器(例如 Upstart ，分布式的进程管理云平台，或是类似 Foreman 的工具)，来管理输出流 ，响应崩溃的进程，以及处理用户触发的重启和关闭超级进程的请求。</p>
+<h2 id="九易处理">九、易处理</h2>
+<blockquote>
+<p>快速启动和优雅终止可最大化健壮性</p>
+</blockquote>
+<ol>
+<li>12-Factor 应用的进程是易处理（disposable）的，意思是说它们可以瞬间开启或停止.</li>
+<li>进程应当追求最小启动时间</li>
+<li>进程 一旦接收终止信号（SIGTERM） 就会优雅的终止</li>
+<li>对于 worker 进程来说，优雅终止是指将当前任务退回队列</li>
+<li>进程还应当在面对突然死亡时保持健壮</li>
+</ol>
+<h2 id="十开发环境与线上环境等价">十、开发环境与线上环境等价</h2>
+<blockquote>
+<p>尽可能的保持开发，预发布，线上环境相同</p>
+</blockquote>
+<h2 id="十一日志">十一、日志</h2>
+<blockquote>
+<p>把日志当作事件流</p>
+</blockquote>
+<p>日志使得应用程序运行的动作变得透明。在基于服务器的环境中，日志通常被写在硬盘的一个文件里，但这只是一种输出格式。</p>
+<p>12-factor应用本身从不考虑存储自己的输出流。不应该试图去写或者管理日志文件。相反，每一个运行的进程都会直接的标准输出（stdout）事件流。开发环境中，开发人员可以通过这些数据流，实时在终端看到应用的活动。</p>
+<h2 id="十二管理进程">十二、管理进程</h2>
+<blockquote>
+<p>后台管理任务当作一次性进程运行</p>
+</blockquote>
+<p>一次性管理进程应该和正常的常驻进程使用同样的环境。这些管理进程和任何其他的进程一样使用相同的代码 和配置 ，基于某个发布版本运行。后台管理代码应该随其他应用程序代码一起发布，从而避免同步问题。</p>
+<blockquote>
+<p>待续，研读《beyond-the-twelve-factor-app》</p>
+</blockquote>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://12factor.net/zh_cn/">https://12factor.net/zh_cn/</a></li>
+<li><a href="https://content.pivotal.io/blog/beyond-the-twelve-factor-app">https://content.pivotal.io/blog/beyond-the-twelve-factor-app</a></li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一基准代码">一、基准代码</a></li>
+    <li><a href="#二依赖">二、依赖</a></li>
+    <li><a href="#三-配置">三、 配置</a></li>
+    <li><a href="#四后端服务">四、后端服务</a></li>
+    <li><a href="#五构建发布运行">五、构建，发布，运行</a></li>
+    <li><a href="#六进程">六、进程</a></li>
+    <li><a href="#七端口绑定">七、端口绑定</a></li>
+    <li><a href="#八并发">八、并发</a></li>
+    <li><a href="#九易处理">九、易处理</a></li>
+    <li><a href="#十开发环境与线上环境等价">十、开发环境与线上环境等价</a></li>
+    <li><a href="#十一日志">十一、日志</a></li>
+    <li><a href="#十二管理进程">十二、管理进程</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=The%20Twelve-Factory%20App&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fThe-Twelve-Factory-App%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fThe-Twelve-Factory-App%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fThe-Twelve-Factory-App%2f&amp;description=The%20Twelve-Factory%20App"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fThe-Twelve-Factory-App%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/">
+          <section class="post">
+              <h2>Gradle的双刃</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/">
+          <section class="post">
+              <h2>HTTP RESTful API 规范</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

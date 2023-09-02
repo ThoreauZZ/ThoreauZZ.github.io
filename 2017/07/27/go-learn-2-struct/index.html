@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Go语言2-类型"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Go语言2-类型 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/07/27/go-learn-2-struct/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-07-27T00:15:11Z" />
+
+    
+    <meta property="article:tag" content="go学习" />
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>Go语言2-类型 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 基础类型: byte、int、bool、float等 复合类型: 如数" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/07/27/go-learn-2-struct/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "Go语言2-类型",
+    "name": "Go语言2-类型",
+    "wordCount":  1135 ,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/07/27/go-learn-2-struct/",
+    "datePublished": "2017-07-27T00:15Z",
+    "dateModified": "2017-07-27T00:15Z",
+    
+    "keywords": "go学习, go",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/07/27/go-learn-2-struct/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Go语言2-类型</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-07-27T00:15:11Z">
+            2017-07-27
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容:</p>
+<ol>
+<li>基础类型: byte、int、bool、float等</li>
+<li>复合类型: 如数组、结构体、指针等;</li>
+<li>可以指向任意对象的类型(Any类型)</li>
+<li>值语义和引用语义</li>
+<li>对象</li>
+<li>接口</li>
+</ol>
+<p>GO 是一种静态编译型语言，编译器需要在编译时知道每个值的类型，以便运行前检查，编译时优化代码。go允许用户自定义类型，有两种方式，最常用使用关键词<code>struct</code>声明结构类型。</p>
+<!-- raw HTML omitted -->
+<h2 id="自定义类型">自定义类型</h2>
+<h3 id="strunct声明结构类型"><code>strunct</code>声明结构类型</h3>
+<p>例如s,声明一种类型user：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">user</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">email</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ext</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">privileged</span> <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">zz</span> <span style="color:#a6e22e">user</span>
+</span></span></code></pre></div><p>声明user类型zz，并没有初始化，自动使用默认类型初始化，如：0，“”，false。也可以在声明时初始化，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">thoreau</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">user</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;thoreau&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">email</span>: <span style="color:#e6db74">&#34;zz.thoreau@g.com&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ext</span>:<span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">privileged</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><blockquote>
+<p>print thoreau &ndash;&gt; {thoreau <a href="mailto:zz.thoreau@g.com">zz.thoreau@g.com</a> 1 false}</p>
+</blockquote>
+<p>上述初始化方式需要每个属性，也可以按照自动顺序初始化：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">lisa</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">user</span>{<span style="color:#e6db74">&#34;Lisa&#34;</span>, <span style="color:#e6db74">&#34;lisa@email.com&#34;</span>, <span style="color:#ae81ff">123</span>, <span style="color:#66d9ef">true</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">lisa</span>)
+</span></span></code></pre></div><blockquote>
+<p>结果：{Lisa <a href="mailto:lisa@email.com">lisa@email.com</a> 123 true}</p>
+</blockquote>
+<h3 id="使用已有类型声明">使用已有类型声明</h3>
+<p>基于一个已有的类型,将其作为新类型的类型说明，有点像类型赋值，但是，他们不是同一类型，不能相互赋值,下面的示例就会编译出错。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Duration</span> <span style="color:#66d9ef">int64</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">dur</span> <span style="color:#a6e22e">Duration</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">dur</span> = int64(<span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="方法">方法</h2>
+<p>方法能给用户定义的类型添加新的行为。方法实际上也是函数，只是在声明时,在关键字func 和方法之间加了一个参数。</p>
+<p>关键字 func 和函数之间的参数被作接收者，将函数与接收者的类型绑在一起。如果一个函数有接收者，这个函数就被称为方法。</p>
+<p>在Go语言中,你可以给任意类型(包括内置类型,但不包括指针类型)添加相应的方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">lisa</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">user</span>{<span style="color:#e6db74">&#34;Lisa&#34;</span>, <span style="color:#e6db74">&#34;lisa@email.com&#34;</span>, <span style="color:#ae81ff">123</span>, <span style="color:#66d9ef">true</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">lisa</span>.<span style="color:#a6e22e">printUser</span>(<span style="color:#e6db74">&#34;,hello!&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">lisa</span>.<span style="color:#a6e22e">extLess100</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">user</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">email</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ext</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">privileged</span> <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">user</span>) <span style="color:#a6e22e">printUser</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">name</span>,<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">user</span>) <span style="color:#a6e22e">extLess100</span>()  <span style="color:#66d9ef">bool</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">ext</span> &lt; <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>Lisa ,hello!
+false</p>
+</blockquote>
+<p>上面的示例表示，声明了一种类型user，有方法printUser和extLess100。可以看出有，跟java中类和方法的区别是，方法可以定义在类型外，方法需要指明类型绑定，返回值放到了最后。具体来说，方法绑定对象(接收者)，函数只跟包有关系。</p>
+<h3 id="值接收者和指针接收者">值接收者和指针接收者</h3>
+<p>go定义了两种接收者：值接收者和指针接收者，上面示例属于值接收者。使用值接收者，使用的其实是接收者的一个副本，任何操作都不会影响原来的类型变量。如果是指针传递，操作的是指针副本，但副本也指向同一个类型变量，所以会改变原来的类型，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span><span style="color:#f92672">:=</span><span style="color:#a6e22e">person</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;go&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">modify</span>() <span style="color:#75715e">//值接收者，修改无效
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">toString</span>())
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">modifyOrigin</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">toString</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">person</span>) <span style="color:#a6e22e">toString</span>() <span style="color:#66d9ef">string</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;the person name is &#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">person</span>) <span style="color:#a6e22e">modify</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;thoreau&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">person</span>) <span style="color:#a6e22e">modifyOrigin</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;thoreau&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>the person name is go
+the person name is thoreau</p>
+</blockquote>
+<p>从结果看出，modify方法不改变原类型变量，但modifyOrigin改变了，区别就是使用了<code>*persion</code>指针传递。</p>
+<h3 id="多值返回">多值返回</h3>
+<p>和函数一样，方法支持多返回值</p>
+<h3 id="可变参数">可变参数</h3>
+<p>函数方法的参数，可以是任意多个，这种我们称之为可以变参数。使用<code>...</code>表示。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">add</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">add</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">x</span> <span style="color:#f92672">...</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">x</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">y</span> = <span style="color:#a6e22e">y</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>7
+11</p>
+</blockquote>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#自定义类型">自定义类型</a>
+      <ul>
+        <li><a href="#strunct声明结构类型"><code>strunct</code>声明结构类型</a></li>
+        <li><a href="#使用已有类型声明">使用已有类型声明</a></li>
+      </ul>
+    </li>
+    <li><a href="#方法">方法</a>
+      <ul>
+        <li><a href="#值接收者和指针接收者">值接收者和指针接收者</a></li>
+        <li><a href="#多值返回">多值返回</a></li>
+        <li><a href="#可变参数">可变参数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Go%e8%af%ad%e8%a8%802-%e7%b1%bb%e5%9e%8b&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f27%2fgo-learn-2-struct%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f27%2fgo-learn-2-struct%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f27%2fgo-learn-2-struct%2f&amp;description=Go%e8%af%ad%e8%a8%802-%e7%b1%bb%e5%9e%8b"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f27%2fgo-learn-2-struct%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/07/31/go-learn-3-interface/">
+          <section class="post">
+              <h2>Go语言3-接口</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="background-image: url(/images/go.png)" href="http://thoreauz.com/2017/07/25/go-learn-1-data_structure/">
+          <section class="post">
+              <h2>Go语言1-数据类型</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

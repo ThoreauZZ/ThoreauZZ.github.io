@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Docker镜像仓库"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Docker镜像仓库 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/17/docker-registry/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-17T22:27:11Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    
+
+    <title>Docker镜像仓库 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Docker镜像仓库 顾名思义，Docker Registry就是用来存储docker镜像的。就像maven私服，我们也可以搭建自己的仓库来存自" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/17/docker-registry/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "Docker镜像仓库",
+    "name": "Docker镜像仓库",
+    "wordCount":  825 ,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/02/17/docker-registry/",
+    "datePublished": "2017-02-17T22:27Z",
+    "dateModified": "2017-02-17T22:27Z",
+    
+    "keywords": "docker",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/02/17/docker-registry/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Docker镜像仓库</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-17T22:27:11Z">
+            2017-02-17
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="docker镜像仓库">Docker镜像仓库</h1>
+<p>顾名思义，Docker Registry就是用来存储docker镜像的。就像maven私服，我们也可以搭建自己的仓库来存自己的镜像。</p>
+<p>在前面的文章中，我们已经提到了如何搭建简单registy服务和使用：<a href="http://thoreauz.com/2017/01/08/docker/Docker%E5%85%A5%E9%97%A8/">Docker入门</a>，这篇文章作进一步介绍名、版本和API等。</p>
+<!-- raw HTML omitted -->
+<h2 id="一简单安装使用">一、简单安装使用</h2>
+<ol>
+<li>安装</li>
+</ol>
+<pre tabindex="0"><code>docker run -d -p 5000:5000 --restart=always --name registry \
+  -v /data:/var/lib/registry \
+  registry:2
+</code></pre><ol start="2">
+<li>打标签并推送</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜   docker tag busybox 192.168.99.100:5000/erdaoya/busybox
+</span></span><span style="display:flex;"><span>➜   docker push 192.168.99.100:5000/erdaoya/busybox
+</span></span><span style="display:flex;"><span>The push refers to a repository <span style="color:#f92672">[</span>192.168.99.100:5000/erdaoya/busybox<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get https://192.168.99.100:5000/v1/_ping: http: server gave HTTP response to HTTPS client
+</span></span></code></pre></div><ol start="3">
+<li>配置非认证模式
+2中推送报错，给DOCKER_HSOT添加认证，在给docker主机添加启动变量。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 不同版本和不同机器上的docker配置地方不太一样,如果有多个register，再加--insecure-registry xxx:port</span>
+</span></span><span style="display:flex;"><span>--insecure-registry 192.168.99.100:5000
+</span></span></code></pre></div><p>重启docker daemon，再push就可以了。
+4. 停止</p>
+<pre tabindex="0"><code>docker stop registry &amp;&amp; docker rm -v registry
+</code></pre><h2 id="二镜像命名">二、镜像命名</h2>
+<h3 id="21-tag">2.1 tag</h3>
+<p>先说tag是怎么玩法：</p>
+<pre tabindex="0"><code>docker tag IMAGE[:TAG] IMAGE[:TAG]
+</code></pre><p>打标签时，通过<code>:v2</code>给镜像加tag，如果不加，往仓库推送时，默认是latest。tag名唯一，后面推送的镜像会覆盖前面的，非latest并不会覆盖latest，所以latest并不是最新镜像的意思。</p>
+<p>如果有一个myname:v2的镜像,你希望推送到仓库，还希望是latest。先推送v2，在使用<code>docker tag -f myname:v2 myname:latest</code>，再推送一次latest。</p>
+<h3 id="22-命名">2.2 命名</h3>
+<pre tabindex="0"><code>[仓库地址]&lt;仓库名&gt;:&lt;标签&gt;
+</code></pre><ul>
+<li>仓库地址：ip:port 或者域名，没有变成官方仓库</li>
+<li>仓库名：一般由&lt;用户名&gt;/&lt;软件名&gt;构成，没有用户名表示library。</li>
+<li>标签：2.1 所述tag</li>
+</ul>
+<h2 id="三register认证配置">三、register认证配置</h2>
+<p>这儿有两篇文章可参考：</p>
+<ol>
+<li><a href="http://tech.paulcz.net/2016/01/deploying-a-secure-docker-registry/">deploying-a-secure-docker-registry/</a></li>
+<li><a href="http://tech.paulcz.net/2016/01/secure-docker-with-tls/">secure-docker-with-tls</a></li>
+</ol>
+<h2 id="四v2-api">四、V2 API</h2>
+<p>官网文档：<a href="https://docs.docker.com/registry/spec/api/">Docker Registry HTTP API V2</a></p>
+<p>这儿只列出几个查询接口：</p>
+<h3 id="41-查询镜像列表">4.1 查询镜像列表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  work curl http://192.168.99.100:5000/v2/_catalog -s |jq .
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;repositories&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;erdaoya/busybox&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;erdaoya/doc&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="42-查询tag列表">4.2 查询tag列表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  work curl http://192.168.99.100:5000/v2/erdaoya/busybox/tags/list -s |jq .
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;erdaoya/busybox&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;tags&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;latest&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;1.0-SNAPSHOT&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="43-查镜像详细信息">4.3 查镜像详细信息</h3>
+<pre tabindex="0"><code>curl http://192.168.99.100:5000/v2/erdaoya/busybox/manifests/1.0-SNAPSHOT -s |jq .
+</code></pre><h2 id="五ui管理">五、UI管理</h2>
+<p>官方没有提供web界面，第三方提供了一些，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -d <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -p 8080:8080 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       --name registry-web <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -e REGISTRY_URL<span style="color:#f92672">=</span>http://192.168.99.100:5000/v2 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       -e REGISTRY_NAME<span style="color:#f92672">=</span>192.168.99.100:5000 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>       hyper/docker-registry-web
+</span></span></code></pre></div>
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一简单安装使用">一、简单安装使用</a></li>
+    <li><a href="#二镜像命名">二、镜像命名</a>
+      <ul>
+        <li><a href="#21-tag">2.1 tag</a></li>
+        <li><a href="#22-命名">2.2 命名</a></li>
+      </ul>
+    </li>
+    <li><a href="#三register认证配置">三、register认证配置</a></li>
+    <li><a href="#四v2-api">四、V2 API</a>
+      <ul>
+        <li><a href="#41-查询镜像列表">4.1 查询镜像列表</a></li>
+        <li><a href="#42-查询tag列表">4.2 查询tag列表</a></li>
+        <li><a href="#43-查镜像详细信息">4.3 查镜像详细信息</a></li>
+      </ul>
+    </li>
+    <li><a href="#五ui管理">五、UI管理</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Docker%e9%95%9c%e5%83%8f%e4%bb%93%e5%ba%93&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f17%2fdocker-registry%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f17%2fdocker-registry%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f17%2fdocker-registry%2f&amp;description=Docker%e9%95%9c%e5%83%8f%e4%bb%93%e5%ba%93"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f17%2fdocker-registry%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/22/spring-boot-autoconfiguration/">
+          <section class="post">
+              <h2>spring boot自动配置和自定义配置</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/16/docker-network/">
+          <section class="post">
+              <h2>Docker网络一-默认网络</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

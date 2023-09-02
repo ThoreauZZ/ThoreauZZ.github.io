@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="IntelliJ IDEA 配合vim使用"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="IntelliJ IDEA 配合vim使用 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/04/21/ideavim/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-04-21T22:17:30&#43;08:00" />
+
+    
+    <meta property="article:tag" content="idea" />
+    
+    <meta property="article:tag" content="vim" />
+    
+    
+
+    <title>IntelliJ IDEA 配合vim使用 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 前文IntelliJ IDEA快捷键和使用技巧，主要介绍idea的快捷键，提过vim，本文介绍通过安装插件实现我们vim编辑。本文基于ma" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2019/04/21/ideavim/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "IntelliJ IDEA 配合vim使用",
+    "name": "IntelliJ IDEA 配合vim使用",
+    "wordCount":  787 ,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2019/04/21/ideavim/",
+    "datePublished": "2019-04-21T22:17Z",
+    "dateModified": "2019-04-21T22:17Z",
+    
+    "keywords": "idea, vim",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2019/04/21/ideavim/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">IntelliJ IDEA 配合vim使用</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-04-21T22:17:30&#43;08:00">
+            2019-04-21
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/idea/">idea</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/vim/">vim</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p>前文<a href="http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/">IntelliJ IDEA快捷键和使用技巧</a>，主要介绍idea的快捷键，提过vim，本文介绍通过安装插件实现我们vim编辑。本文基于mac环境。</p>
+<h2 id="ideavim">ideavim</h2>
+<p><a href="https://github.com/JetBrains/ideavim">ideavim</a>是idea的vim模拟插件，它虽然没有vim的全部功能，却可以在vim命令下调用idea的action。</p>
+<p>安装完成后重启idea，然后到 &ldquo;Tools | Vim Emulator&rdquo;，点击启用。在编辑窗口即可随意切换vim模式。如果esc按键无用，可以用<code>command + [</code>替代。</p>
+<h2 id="配置">配置</h2>
+<p>可以在home目录添加vimrc配置：</p>
+<pre tabindex="0"><code>~/.ideavimrc
+</code></pre><p>基础配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vim" data-lang="vim"><span style="display:flex;"><span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">hlsearch</span>                    <span style="color:#75715e">&#34; highlight searches</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">incsearch</span>                   <span style="color:#75715e">&#34; do incremental searching, search as you type</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">ignorecase</span>                  <span style="color:#75715e">&#34; ignore case when searching</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">smartcase</span>                   <span style="color:#75715e">&#34; no ignorecase if Uppercase char present</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">clipboard</span>=<span style="color:#a6e22e">unnamedplus</span>  <span style="color:#75715e">&#34; 使用系统粘贴板(vim用y粘贴的内容也可以通过command + c 粘贴)</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>除了vim基础配置，还支持映射idea的action。action列表可以通过<code>: actionlist</code>查看，也有人整理了<a href="https://gist.github.com/zchee/9c78f91cc5ad771c1f5d">action列表</a>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vim" data-lang="vim"><span style="display:flex;"><span>:<span style="color:#a6e22e">map</span> \<span style="color:#a6e22e">r</span> :<span style="color:#a6e22e">action</span> <span style="color:#a6e22e">ReformatCode</span>&lt;<span style="color:#a6e22e">CR</span>&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><blockquote>
+<p>在vim的nomal模式下，按键r，即可格式化代码</p>
+</blockquote>
+<h2 id="输入法切换">输入法切换</h2>
+<p>进入vim模式下，自动切换为英文输入法，进入编辑模式，又切换原来的输入法。需要其他插件配合，此处是idea插件：<code>ideaVimExtension</code>,安装插件后，在<code>.ideavimrc</code>添加如下配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vim" data-lang="vim"><span style="display:flex;"><span><span style="color:#a6e22e">set</span> <span style="color:#a6e22e">keep</span>-<span style="color:#a6e22e">english</span>-<span style="color:#a6e22e">in</span>-<span style="color:#a6e22e">normal</span>-<span style="color:#a6e22e">and</span>-<span style="color:#a6e22e">restore</span>-<span style="color:#a6e22e">in</span>-<span style="color:#a6e22e">insert</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h2 id="acejump集成">AceJump集成</h2>
+<p>AceJump插件可以完成chrome浏览器中vimium插件类似的功能，给需要查找的字符条件键盘映射，可以快速把光标定位到想要的地方。对应vim为字符搜索，在nomal模式下通过<code>f</code>进行搜索，但aceJump更方便强大，所以把vim的<code>f</code>映射到aceJump。</p>
+<p>安装插件AceJump后，配置<code>.ideavimrc</code>如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vim" data-lang="vim"><span style="display:flex;"><span><span style="color:#75715e">&#34; Press `f` to activate AceJump</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">map</span> <span style="color:#a6e22e">f</span> :<span style="color:#a6e22e">action</span> <span style="color:#a6e22e">AceAction</span>&lt;<span style="color:#a6e22e">CR</span>&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">&#34; Press `F` to activate Target Mode</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">map</span> <span style="color:#a6e22e">F</span> :<span style="color:#a6e22e">action</span> <span style="color:#a6e22e">AceTargetAction</span>&lt;<span style="color:#a6e22e">CR</span>&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">&#34; Press `g` to activate Line Mode</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">map</span> <span style="color:#a6e22e">g</span> :<span style="color:#a6e22e">action</span> <span style="color:#a6e22e">AceLineAction</span>&lt;<span style="color:#a6e22e">CR</span>&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>效果：
+<img src="http://thoreauz.com/images/2019-04-21-23-41-06.jpg" alt=""></p>
+<blockquote>
+<p>normal模式下按<code>f</code>，输入定位光标的字母，然后输入高亮想要跳转位置的高亮字母。</p>
+</blockquote>
+<h2 id="其他">其他</h2>
+<p>可以结合我的其他两篇文章：</p>
+<ul>
+<li><a href="http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/">IntelliJ IDEA快捷键和使用技巧</a></li>
+<li><a href="http://thoreauz.com/2017/03/07/vim/">VIM使用技巧</a></li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#ideavim">ideavim</a></li>
+    <li><a href="#配置">配置</a></li>
+    <li><a href="#输入法切换">输入法切换</a></li>
+    <li><a href="#acejump集成">AceJump集成</a></li>
+    <li><a href="#其他">其他</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=IntelliJ%20IDEA%20%e9%85%8d%e5%90%88vim%e4%bd%bf%e7%94%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f04%2f21%2fideavim%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f04%2f21%2fideavim%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f04%2f21%2fideavim%2f&amp;description=IntelliJ%20IDEA%20%e9%85%8d%e5%90%88vim%e4%bd%bf%e7%94%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f04%2f21%2fideavim%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/05/19/java-tdd/">
+          <section class="post">
+              <h2>Java测试驱动看这篇就够了</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/">
+          <section class="post">
+              <h2>IntelliJ IDEA快捷键和使用技巧</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

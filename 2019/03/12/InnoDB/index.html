@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:image" content="/post-bg.jpg"/>
+    
+
+
+
+<meta name="twitter:title" content="InnoDB存储引擎"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="InnoDB存储引擎 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2019/03/12/InnoDB/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+       <meta property="og:image" content="/post-bg.jpg"/>
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-03-12T23:54:31Z" />
+
+    
+    <meta property="article:tag" content="mysql" />
+    
+    
+
+    <title>InnoDB存储引擎 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15； 架构图 查看和使用In" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2019/03/12/InnoDB/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "InnoDB存储引擎",
+    "name": "InnoDB存储引擎",
+    "wordCount":  4833 ,
+    "timeRequired": "PT10M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2019/03/12/InnoDB/",
+    "datePublished": "2019-03-12T23:54Z",
+    "dateModified": "2019-03-12T23:54Z",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://thoreauz.compost-bg.jpg",
+        "width": 3000,
+        "height": 1445
+    },
+    
+    "keywords": "mysql",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2019/03/12/InnoDB/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  
+    <header class="main-header post-head" style="background-image: url(/post-bg.jpg)">
+  
+  <nav class="main-nav overlay clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">InnoDB存储引擎</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-03-12T23:54:31Z">
+            2019-03-12
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/mysql/">mysql</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p><img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/62/MySQL.svg/1200px-MySQL.svg.png" alt=""></p>
+<h2 id="概述">概述</h2>
+<p>作为mysql最常用的存储引擎，本文主要介绍innodb数据结构，事务，索引，锁等。基于mysql版本8.0.15；
+<img src="https://dev.mysql.com/doc/refman/8.0/en/images/innodb-architecture.png" alt=""></p>
+<blockquote>
+<p>架构图</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<h2 id="查看和使用innodb">查看和使用Innodb</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>mysql root<span style="color:#f92672">@</span><span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">99</span>.<span style="color:#ae81ff">100</span>:test<span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> test_innodb(id int <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>, name varchar(<span style="color:#ae81ff">20</span>), id_card bigint(<span style="color:#ae81ff">19</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>, gender char(<span style="color:#ae81ff">10</span>));
+</span></span><span style="display:flex;"><span>mysql root<span style="color:#f92672">@</span><span style="color:#ae81ff">192</span>.<span style="color:#ae81ff">168</span>.<span style="color:#ae81ff">99</span>.<span style="color:#ae81ff">100</span>:test<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> test_innodb;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+--------------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#66d9ef">Table</span>       <span style="color:#f92672">|</span> <span style="color:#66d9ef">Create</span> <span style="color:#66d9ef">Table</span>                                                       <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+--------------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> test_innodb <span style="color:#f92672">|</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>test_innodb<span style="color:#f92672">`</span> (                                       <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>             <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,                                           <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>             <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,                                <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>             <span style="color:#f92672">|</span>   <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)                                               <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>             <span style="color:#f92672">|</span> ) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8mb4 <span style="color:#66d9ef">COLLATE</span><span style="color:#f92672">=</span>utf8mb4_0900_ai_ci <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+--------------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>Time: <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">034</span>s
+</span></span></code></pre></div><p>说明，InnoDB已经是默认存储引擎，指定引擎可以通过如上<code> ENGINE=</code>完成。查看所有引擎可通过：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">查看存储引擎</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SHOW</span> ENGINES;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> INFORMATION_SCHEMA.ENGINES;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">修改和复制</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> ENGINE<span style="color:#f92672">=</span>InnoDB; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> InnoDB_Table (...) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> other_engine_table;
+</span></span></code></pre></div><h2 id="物理存储格式">物理存储格式</h2>
+<p>先看一行记录的存储格式。有REDUNDANT、COMPACT、DYNAMIC、COMPRESSED，默认DYNAMIC。
+常用操作命令详见<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html">innodb-row-format</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@@</span>innodb_default_row_format;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">GLOBAL</span> innodb_default_row_format<span style="color:#f92672">=</span>COMPACT;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> t2 (c1 INT) ROW_FORMAT<span style="color:#f92672">=</span><span style="color:#66d9ef">DEFAULT</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> INFORMATION_SCHEMA.INNODB_TABLES <span style="color:#66d9ef">WHERE</span> NAME <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;test/test_innodb&#39;</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">G</span>
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2019-03-05-00-27-29.jpg" alt="">
+每条数据大概按上图格式存储(不准确，只是大概表达意思)，不同格式差异见文档<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-row-format.html">innodb-row-format</a>。</p>
+<h2 id="页page">页(Page)</h2>
+<p>数据存在磁盘上，存储引擎内存和磁盘交互时以页(Page)为单位，读写都是按页来，这样可以减少耗时的io操作次数。这也是为什么大部分索引使用B-树作为存储结构的原因(<a href="http://thoreauz.com/2019/02/16/Btree-B-Tree/">Btree-B+Tree</a>)。
+page的默认一般是<code>16KB</code>：</p>
+<pre tabindex="0"><code class="language-myql" data-lang="myql">mysql root@192.168.99.100:test&gt; select @@innodb_page_size
++--------------------+
+| @@innodb_page_size |
++--------------------+
+| 16384              |
++--------------------+
+</code></pre><h2 id="索引">索引</h2>
+<p>InnoDB使用B+树作为索引模型。B+树的结构和好处我在之前的文章中写过(<a href="http://thoreauz.com/2019/02/16/Btree-B-Tree/">Btree-B+Tree</a>)，这儿就不细说。现在往表test_innodb插入一下数据,并把id_card作为索引。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> test_innodb (id,name,id_card,gender)<span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;aa&#39;</span>,<span style="color:#ae81ff">10</span>,<span style="color:#e6db74">&#39;f&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> test_innodb (id,name,id_card,gender)<span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">9</span>,<span style="color:#e6db74">&#39;bb&#39;</span>,<span style="color:#ae81ff">30</span>,<span style="color:#e6db74">&#39;m&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> test_innodb (id,name,id_card,gender)<span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">7</span>,<span style="color:#e6db74">&#39;cc&#39;</span>,<span style="color:#ae81ff">20</span>,<span style="color:#e6db74">&#39;f&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> test_innodb (id,name,id_card,gender)<span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">8</span>,<span style="color:#e6db74">&#39;dd&#39;</span>,<span style="color:#ae81ff">90</span>,<span style="color:#e6db74">&#39;f&#39;</span>);
+</span></span></code></pre></div><p>在磁盘上，索引的存储结构如下：
+<img src="http://thoreauz.com/images/2019-03-12-23-07-04.jpg" alt=""></p>
+<blockquote>
+<p>也是大概表达意思。真实情况下1页不会只有两个节点。到底是几X树，是索引大小决定的。</p>
+</blockquote>
+<ul>
+<li>主键索引id：他的叶子节点上保存了这一行的数据，也叫聚簇索引。</li>
+<li>id_card索引：他的叶子节点保存是主键id，也叫二级索引。所以如果通过id_card查询，先扫描这个二级索引拿到id，再去主键索引查询需要的数据(回表)，如果我只返回id_card、id这个字段，直接返回(索引覆盖)，不需要回表。</li>
+</ul>
+<p>下面看看组合索引：
+如果我把name和id_card建组合索引：<code>KEY(name,id_card)</code>，根据B+树的结构，如下：
+<img src="http://thoreauz.com/images/2019-03-06-21-55-27.jpg" alt="">
+所以在树的搜索时，肯定需要先匹配name才能查找，如果where id_card = 30，这颗B+树无法完成搜索。这就是“最左匹配原则”。其实也不需要记住怎么建索引和查询能命中索引，只要记住B+树的结构，一目了然。比如区间查找，只需要遍历叶子节点链表即可，因为都是按自然数小到大排列的。再如 where name=&ldquo;xx&rdquo; or id_card=90，因为<code>or</code>后面的条件不在name的结果中，也无法使用此组合索引。</p>
+<p>对于非唯一索引，如果索引值相同，按叶子节点id的值顺序存储。</p>
+<p>另外，对索引字段太长的情况，可以通过截取前面一段建索引的方式优化。因为每一页大小有限，索引字段越小，索引树高度可能就越小，查询走io次数就越少。尽可能一页容纳更多节点，这样每次读入内存的数据就越多，也提高了查询效率。</p>
+<p>mysql对<code>select count(*) form table</code>作了优化，他们挑选最小的一颗索引树统计，也是同样的道理。</p>
+<p>总之，索引的问题核心在B+树和Page这两个概念，明白了，很多问题迎刃而解，不需要记那么多规则。当然了，索引还有一些其他的优化，看下面的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> t1 (f1 INT, gc INT <span style="color:#66d9ef">AS</span> (f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) STORED, <span style="color:#66d9ef">INDEX</span> (gc));
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">此</span>sql能使用索引
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> t1 <span style="color:#66d9ef">WHERE</span> f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">下面</span>sql无法使用索引<span style="color:#960050;background-color:#1e0010">。表达式必须是相同的且返回相同的类型。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> t1 <span style="color:#66d9ef">WHERE</span> f1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">如果按下列方式建表，则都根据</span>f1查询时不会用到索引<span style="color:#960050;background-color:#1e0010">。不能没有表达式直接映射。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> t1 (f1 INT, gc INT <span style="color:#66d9ef">AS</span> (f1 ) STORED, <span style="color:#66d9ef">INDEX</span> (gc));
+</span></span></code></pre></div><blockquote>
+<p>详细优化内容见： <a href="https://dev.mysql.com/doc/refman/8.0/en/optimization.html">optimization</a></p>
+</blockquote>
+<h2 id="buffer-pool">Buffer Pool</h2>
+<p>上文说道，内存和磁盘以页为最小单位交互，下面看看内存结果Buffer Pool。它主要是用来缓存被访问的所有和表数据，一般80%的物理内存都用来给他使用。它使用LRU淘汰算法，把page以链表的方式组织起来。LRU算法见我的另一篇文章<a href="http://thoreauz.com/2018/02/08/algorithm/cache/local-cache/">聊聊本地缓存</a>。结构如下图：</p>
+<p><img src="http://thoreauz.com/images/2019-03-08-00-31-34.jpg" alt="">
+被使用的page放到New SubList头，从old Sublist淘汰最久不使用的页。如果新增，则插入old Sublist的头部。这么设计目的是增加缓存命中率。如果有很大的查询数据或者全表扫描的情况，可能直接把大部分page淘汰掉，降低了缓存的命中率。
+buffer Pool的使用情况可以通过命令监控：</p>
+<pre tabindex="0"><code>SHOW ENGINE INNODB STATUS,
+</code></pre><h2 id="change-buffer">Change Buffer</h2>
+<p>Change Buffer 用来记录那些要更新的索引页没有在内存(buffer pool)的情况的二级索引(非唯一索引)。下面通过问题方式解答起特点。</p>
+<ol>
+<li>只更新到缓存中，读操作来了怎么办：把原数据页读入内存和它合并得到最新页。</li>
+<li>内存怎么保证一致性：change buffer可以持久化，会被写入磁盘，如果没有读，会定时merge到磁盘。</li>
+<li>作用：高并发更新时，减少和磁盘交互次数，加速更新操作，避免占用更多buffer pool。适合写多读少的情况。如果读频繁，一样需要读磁盘，反而增加了merge的代价。</li>
+<li>为什么唯一索引不能用：因为要判断唯一性，只能把数据读入buffer pool，自然用不上了。</li>
+<li>change buffer用的也是buffer pool的内存，大小可以配置(比如50%)。</li>
+</ol>
+<p>有的业务双写历史数据表，这个表建普通索引比较适合。总结来说，他的作用是减少随机读磁盘的消耗。</p>
+<h2 id="redo-log">redo log</h2>
+<p>redo log是用来记录物理操作的(在某个数据页上做了什么修改)，如果出现数据页未更新就crash的情况，再启动时可以根据它来恢复数据(crash-safe)。在磁盘上一般由这多个固定大小的文件(个数大小都可配置)来保存，如：ib_logfile0、ib_logfile1。先记录日志再写数据这种方式叫<code>WAL</code>(Write-Ahead Logging)机制。</p>
+<p>redo log顺序写，比随机写数据快很多。因为文件大小固定，它只能循环写，先保存一个数据文件同步过的位置(checkpoint)，追加往后写，如果写指针回到checkpoint位置，就停下来把之前的log更新到数据页中。</p>
+<p>mysql不是还有binlog么，为什么不能用它。因为他是mysql提供的归档日志，不具备crash-safe的能力，innoDB只能通过redo log来实现。并且，为了保证binlog事务一致性，使用到了两阶段提交：写redo log-&gt; 写binlog-&gt;把redo log标记为提交状态。恢复时需要对比binlog和redo log的提交状态保证一致。</p>
+<p>redo log还使用了group commit的方式，在提交之前刷磁盘，但是批量刷，而不是对每一条单独flush。这样可以提供系统吞吐。</p>
+<h2 id="undo-logs">undo logs</h2>
+<p>innodb很重要的一个特点就是支持事务，提到事务，就会说道ACID(原子性，一致性，隔离性，持久性)，undo logs就是用来实现事务的，就是常说的要么成功，要么失败。隔离性有几个级别：</p>
+<ol>
+<li>读未提交：一个事务没提交前修改的数据其他事务也能读到。</li>
+<li>读提交：只有提交了其他事务才能读到。</li>
+<li>可重复读：事务过程中，不管其他事务有没有提交，读到的数据是一致的。</li>
+<li>串行化：一个事务完成，其他事务才能操作。</li>
+</ol>
+<p>默认是隔离级别是第三种：可重复读</p>
+<pre tabindex="0"><code class="language-myql" data-lang="myql">mysql root@192.168.99.100:test&gt; show variables like &#39;%ISOLATION%&#39;;
++-----------------------+-----------------+
+| Variable_name         | Value           |
++-----------------------+-----------------+
+| transaction_isolation | REPEATABLE-READ |
++-----------------------+-----------------+
+</code></pre><p>用一个示例来说明下：</p>
+<p><img src="http://thoreauz.com/images/2019-03-09-00-37-50.jpg" alt=""></p>
+<p>红色session第一次读到0，在浅蓝色session提交后，他读到的还是0，也就是保证开启事务后读到在值都一样。但是更新后，红色查询结果为3，而不是2，是因为更新操作有”当前读“的规则，保证了数据的正确性。除了更新操作，如果查询语句是加锁或者select for update，也是当前读。</p>
+<p>undo logs记录了数据变更的多个版本(反向操作)，而开启事务的session被分配一个递增的事务id(trx_id)，事务更新的数据会保存这个id，这样，此事务就可以读到它想要的版本，然后计算出对应值，实现隔离和回滚。</p>
+<h2 id="锁">锁</h2>
+<p>mysql锁一般分为全局锁、表锁、行锁。其中行锁由存储引擎自己去实现。</p>
+<h3 id="全局锁">全局锁</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>FLUSH TABLES <span style="color:#66d9ef">WITH</span> <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">LOCK</span>;
+</span></span><span style="display:flex;"><span>UNLOCK TABLES
+</span></span></code></pre></div><p>整个库的表都处于只读状态，如果有更新操作，只能阻塞等待。常用于备份。他有个特点，如果session失效，自动释放锁，这是和<code>GLOBAL read_only = ON</code>的区别。另外，后者对super用户无效。</p>
+<h3 id="表级锁">表级锁</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">lock</span> tables ...  <span style="color:#66d9ef">read</span><span style="color:#f92672">/</span><span style="color:#66d9ef">write</span>
+</span></span><span style="display:flex;"><span>UNLOCK TABLES
+</span></span></code></pre></div><blockquote>
+<p>他和全局锁使用类似</p>
+</blockquote>
+<p>还有一个叫元数据锁（meta data lock，MDL)，这种锁不需要显示使用命令，mysql自动实现的。</p>
+<ul>
+<li>增删改查表：MDL读锁。读锁直接不互斥，也就是说可以同时增删改查。</li>
+<li>变更表结构：MDL写锁，和读写锁写锁都互斥，也就是在改表结构时既不能做增删改查也不能执行其他修改表结构的语句。</li>
+</ul>
+<p>所以需要小心，在改表结构时，别在大量增删改查时进行，避免阻塞导致线程耗尽。</p>
+<h3 id="行锁">行锁</h3>
+<p>行锁是存储引擎实现的，Innodb通过锁索引实现。标准行级锁有两种类型，共享锁和排它锁。换种方式理解，读锁是共享锁，读锁和读锁不排斥，写锁和其他锁都排斥。</p>
+<ul>
+<li>意向性锁：它是一种表级锁，也分共享锁和互斥锁，但它们相互不阻塞，只是在有人请求锁定某行时用到。</li>
+<li>对应到索引上的锁由三种：记录锁，间隙锁，Next-Key Lock。下文重点谈这几个锁。</li>
+</ul>
+<p><img src="http://thoreauz.com/images/2019-03-05-23-10-23.jpg" alt="">
+之前索引结构图，加在索引记录上的锁也叫<strong>记录锁</strong>。只有锁住一个索引不够，如果我的更新where id between 7 and 9，此时其他事务往此区间插入一条记录，就会出现脏读。Next-Key Lock是和间隙锁和记录锁的组合。分析锁有些原则：</p>
+<ol>
+<li>只有扫描到的索引才加锁。</li>
+<li>间隙锁主要锁的是往间隙插入记录。其他间隙锁并不互斥。</li>
+<li>唯一索引有优化，只对扫描到的索引加锁。</li>
+<li>可以理解，锁的单位都是Next-Key Lock，左开右闭(后面会说到)，如果扫描到下一个索引时不等于，会退化为间隙锁。</li>
+</ol>
+<p>下面通过实例分析比较清楚点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>t<span style="color:#f92672">`</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span><span style="color:#66d9ef">c</span><span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>d<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">KEY</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">c</span><span style="color:#f92672">`</span> (<span style="color:#f92672">`</span><span style="color:#66d9ef">c</span><span style="color:#f92672">`</span>)
+</span></span><span style="display:flex;"><span>) ENGINE<span style="color:#f92672">=</span>InnoDB;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>),(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>),(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">10</span>),(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>),(<span style="color:#ae81ff">25</span>,<span style="color:#ae81ff">25</span>,<span style="color:#ae81ff">25</span>);
+</span></span><span style="display:flex;"><span>test<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+----+----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> id <span style="color:#f92672">|</span> <span style="color:#66d9ef">c</span>  <span style="color:#f92672">|</span> d  <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+----+----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>  <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">5</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">5</span>  <span style="color:#f92672">|</span> <span style="color:#ae81ff">5</span>  <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">25</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">25</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">25</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">----+----+----+
+</span></span></span></code></pre></div><blockquote>
+<p>示例来自极客时间《mysql实战45讲》，其他有的总结也是那儿的学习笔记。</p>
+</blockquote>
+<ol>
+<li>一个事务通过where id=5更新，只在此索引加锁，锁住这一行：只要后续事务更新的不是同一行，事物就不会阻塞。但是通过where d=xx更新会锁住，因为d不是索引，会全表扫描(形成所有间隙的)，遇到这行就阻塞了。</li>
+<li>通过where c= 5更新：c不是唯一索引，会在c=5上记录锁和间隙锁，但如果需要回表，扫描到了id=5这行，主键也加上了记录锁。</li>
+<li>如果 select * from t where d=5 for update; 不是索引，会扫描所有记录，形成Next-Key Lock：(负无穷，0],(0,5],(5,10],(10,15](15,20],(20,25],(25,正无穷]，相当于锁住了整个表。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 事务1： 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 锁：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">--    1. id=5这一行的记录锁；
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">--    2. c不是唯一索引，此索引的前后都可能插入入新的索引，所以添加2个Next-Key Lock，(0,5](5,10]，因为c=10这个索引和5明显不相等，不需要锁住它，作了优化，退化为间隙锁：(0,5](5,10)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">c</span><span style="color:#f92672">=</span><span style="color:#ae81ff">5</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">update</span>; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">-- 事务2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">c</span><span style="color:#f92672">=</span><span style="color:#ae81ff">5</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">update</span>;  <span style="color:#75715e">-- 阻塞: 碰到记录锁，阻塞
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">c</span><span style="color:#f92672">=</span><span style="color:#ae81ff">6</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">update</span>; <span style="color:#75715e">-- 不阻塞:  间隙锁只排斥insert。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">2</span>) <span style="color:#75715e">-- 阻塞：申请id锁(10,15)不冲突，c=0产生锁区间是(-,0](0,5)和事务1冲突且是insert操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>); <span style="color:#75715e">-- 阻塞:  申请id锁(5,10)不冲突，c=10-&gt;[10,15)按理锁不冲突，为什么锁了？见下方图。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>) <span style="color:#75715e">-- 不阻塞: 和上条语句正好反过来，它应该插入c=10这个索引的右边，而右边并没有被事务1锁住。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">2</span>); <span style="color:#75715e">-- 不阻塞: 和上条语句类似，11在10的右边，和事务1不冲突
+</span></span></span></code></pre></div><p><img src="http://thoreauz.com/images/2019-03-12-23-46-34.jpg" alt="">
+insert into t values(6,10,2); 这需要回到索引结构，如上图（只列出树的叶子节点）</p>
+<ul>
+<li>主键索引key(id):  记录锁。key(id=5)</li>
+<li>非唯一索引key(c): 它的叶子节点记录了主键id的值，比如key(c=10)的值是这行的id(10)，现在我需要插入索引key(c=10)，对应值为6，按索引结构应该在左边，而事务1对此区间加锁了，所以阻塞。所以所间隙锁锁的是索引间隙，如果只看区间开闭，容易蒙。</li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#查看和使用innodb">查看和使用Innodb</a></li>
+    <li><a href="#物理存储格式">物理存储格式</a></li>
+    <li><a href="#页page">页(Page)</a></li>
+    <li><a href="#索引">索引</a></li>
+    <li><a href="#buffer-pool">Buffer Pool</a></li>
+    <li><a href="#change-buffer">Change Buffer</a></li>
+    <li><a href="#redo-log">redo log</a></li>
+    <li><a href="#undo-logs">undo logs</a></li>
+    <li><a href="#锁">锁</a>
+      <ul>
+        <li><a href="#全局锁">全局锁</a></li>
+        <li><a href="#表级锁">表级锁</a></li>
+        <li><a href="#行锁">行锁</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=InnoDB%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f12%2fInnoDB%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f12%2fInnoDB%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f12%2fInnoDB%2f&amp;description=InnoDB%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2019%2f03%2f12%2fInnoDB%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/04/21/idea-keyboard-shortcuts/">
+          <section class="post">
+              <h2>IntelliJ IDEA快捷键和使用技巧</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2019/03/03/java-garbage-collection/">
+          <section class="post">
+              <h2>java垃圾回收</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

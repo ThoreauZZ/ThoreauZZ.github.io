@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Spring Boot和Docker实践中遇到的问题"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Spring Boot和Docker实践中遇到的问题 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-21T23:31:53Z" />
+
+    
+    <meta property="article:tag" content="docker" />
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    <meta property="article:tag" content="spring cloud" />
+    
+    
+
+    <title>Spring Boot和Docker实践中遇到的问题 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Spring Boot和Docker实践 先来看下spring boot 官网给出的Dockerfile示例： FROM frolvlad/alpine-oraclejdk8:slim VOLUME /tmp ADD gs-spring-boot-docker-0.1.0.jar app.jar RUN sh -c &amp;" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "Spring Boot和Docker实践中遇到的问题",
+    "name": "Spring Boot和Docker实践中遇到的问题",
+    "wordCount":  2046 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/",
+    "datePublished": "2017-03-21T23:31Z",
+    "dateModified": "2017-03-21T23:31Z",
+    
+    "keywords": "docker, spring-boot, spring cloud",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/03/21/Spring-Boot-Docker-practice/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Spring Boot和Docker实践中遇到的问题</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-21T23:31:53Z">
+            2017-03-21
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-cloud/">spring cloud</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="spring-boot和docker实践">Spring Boot和Docker实践</h1>
+<p>先来看下spring boot 官网给出的Dockerfile示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> frolvlad/alpine-oraclejdk8:slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> /tmp</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> gs-spring-boot-docker-0.1.0.jar app.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> sh -c <span style="color:#e6db74">&#39;touch /app.jar&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [ <span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#34;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar&#34;</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>解释：</p>
+<ol>
+<li>选用alpine-oraclejdk8:slim: alpine的jdk。<code>Alpine Linux</code>, 一个只有5M的Docker镜像。直接让我的spring boot镜像从610.9MB减小到259.7MB。但docker镜像分层，对于pull和push影响不大。谨慎使用，关于它，还是争论不断：<a href="https://news.ycombinator.com/item?id=10782897">Hacker News</a></li>
+<li>/tmp: tomcat默认工作目录</li>
+<li>ADD：把可执行jar包添加镜像命名为app.jar。这步不建议这么做，在有的情况下不方便查看正在运行的jar包。</li>
+<li>sh -c &rsquo;touch /app.jar&rsquo;：这步作用是改变文件时间</li>
+<li>ENTRYPOINT：指定参数启动jar。这步有两个重点，后续详解。</li>
+</ol>
+<h2 id="1-docker-file中使用maven变量">1. Docker file中使用maven变量</h2>
+<p>通过maven插件完成变量传递：下面是我的第一次改进后的Dockerfile</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> frolvlad/alpine-oraclejdk8:slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">MAINTAINER</span><span style="color:#e6db74"> erdaoya</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> @project.build.finalName@.jar @project.build.finalName@.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> sh -c <span style="color:#e6db74">&#39;touch /@project.build.finalName@.jar&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#34;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=docker  -jar /@project.build.finalName@.jar&#34;</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>使用<code>@变量@</code>的方式获取maven变量，但还需配置插件,否则不生效：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>maven-resources-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>${resources.plugin.version}<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;executions&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;execution&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;id&gt;</span>prepare-dockerfile<span style="color:#f92672">&lt;/id&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;phase&gt;</span>validate<span style="color:#f92672">&lt;/phase&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;goals&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;goal&gt;</span>copy-resources<span style="color:#f92672">&lt;/goal&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/goals&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;outputDirectory&gt;</span>${project.build.directory}/docker<span style="color:#f92672">&lt;/outputDirectory&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;resources&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;resource&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;directory&gt;</span>${project.basedir}/src/main/docker<span style="color:#f92672">&lt;/directory&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;filtering&gt;</span>true<span style="color:#f92672">&lt;/filtering&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;/resource&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/resources&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/execution&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/executions&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><blockquote>
+<p>maven docker 插件：<a href="https://github.com/spotify/docker-maven-plugin">spotify/docker-maven-plugin</a></p>
+</blockquote>
+<h2 id="2-内存限制">2. 内存限制</h2>
+<p>在docker-compose中传递JAVA_OPTS变量，不能限制java进程占用的内存。如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">erdaoya/cloud-service-client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;9005:9005&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>       <span style="color:#ae81ff">JAVA_OPTS=-Xmx128m</span>
+</span></span></code></pre></div><p>被各种网上示例坑的，这个问题按照官网示例，在java -jar 加上<code>$JAVA_OPTS</code>后生效。其实tomcat<code>catalina.sh</code>中，执行java时已经传$JAVA_OPTS参数，所以它能读取环境变量。</p>
+<h2 id="3-docker-stop-不能优雅停止服务">3. Docker stop 不能优雅停止服务</h2>
+<h3 id="31--问题">3.1  问题</h3>
+<p>我使用spring cloud，main方法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableDiscoveryClient</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>本地使用IDE启动或者直接执行<code>java -jar xxx.jar</code>，<code>ctrl + c</code>停止服务时，可以看到以下日志。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>2017-03-21 18:58:14.212  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3ee0b4f7: startup date <span style="color:#f92672">[</span>Tue Mar <span style="color:#ae81ff">21</span> 18:57:33 CST 2017<span style="color:#f92672">]</span>; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@7a3793c7
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.214  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> c.n.e.EurekaDiscoveryClientConfiguration : Unregistering application cloud-service-client with eureka with status DOWN
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.215  WARN <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent <span style="color:#f92672">[</span>timestamp<span style="color:#f92672">=</span>1490093894215, current<span style="color:#f92672">=</span>DOWN, previous<span style="color:#f92672">=</span>UP<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.215  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.216  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> com.netflix.discovery.DiscoveryClient    : Unregistering ...
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.225  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLOUD-SERVICE-CLIENT/10.69.6.86:cloud-service-client:9005 - deregister  status: <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>......
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.753  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.754  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.754  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService <span style="color:#e6db74">&#39;taskScheduler&#39;</span>
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.779  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> s.c.a.AnnotationConfigApplicationContext : Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@7037a680: startup date <span style="color:#f92672">[</span>Tue Mar <span style="color:#ae81ff">21</span> 18:57:44 CST 2017<span style="color:#f92672">]</span>; parent: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3ee0b4f7
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.780  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> c.n.e.EurekaDiscoveryClientConfiguration : Unregistering application cloud-service-client with eureka with status DOWN
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.781  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> c.n.e.EurekaDiscoveryClientConfiguration : Unregistering application cloud-service-client with eureka with status DOWN
+</span></span><span style="display:flex;"><span>2017-03-21 18:58:14.781  INFO <span style="color:#f92672">[</span>cloud-service-client,,,<span style="color:#f92672">]</span> <span style="color:#ae81ff">7158</span> --- <span style="color:#f92672">[</span>       Thread-8<span style="color:#f92672">]</span> c.n.e.EurekaDiscoveryClientConfiguration : Unregistering application cloud-service-client with eureka with status DOWN****
+</span></span></code></pre></div><blockquote>
+<p>其实就是调用了<code>ShutdownHook</code>, Unregistering from Eureka。</p>
+</blockquote>
+<p>但如果通过docker 启动，执行<code>docker stop 容器ID</code>，并不会主动下线服务，一段时间后，eureka才主动剔除(默认90秒)。</p>
+<h3 id="32-尝试一">3.2 尝试一</h3>
+<p>猜想是java进程并没有接收<code>SIGTERM</code>信号，而是直接被KILL掉。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker stop --help
+</span></span><span style="display:flex;"><span>Usage:	docker stop <span style="color:#f92672">[</span>OPTIONS<span style="color:#f92672">]</span> CONTAINER <span style="color:#f92672">[</span>CONTAINER...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Stop one or more running containers
+</span></span><span style="display:flex;"><span>Options:
+</span></span><span style="display:flex;"><span>      --help       Print usage
+</span></span><span style="display:flex;"><span>  -t, --time int   Seconds to wait <span style="color:#66d9ef">for</span> stop before killing it <span style="color:#f92672">(</span>default 10<span style="color:#f92672">)</span>
+</span></span></code></pre></div><blockquote>
+<p><code>docker stop</code> 命令会向容器发送<code>SIGTERM</code>信号，如果10秒后还停不掉，直接kill。</p>
+</blockquote>
+<p>加长时间看看：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker stop -t <span style="color:#ae81ff">30</span> 容器ID<span style="color:#e6db74">`</span>
+</span></span></code></pre></div><blockquote>
+<p>等30秒后看日志，还是跟原来一样，直接被kill，没有unregistry</p>
+</blockquote>
+<h3 id="32-尝试二">3.2 尝试二</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker kill --help
+</span></span><span style="display:flex;"><span>Usage:	docker kill <span style="color:#f92672">[</span>OPTIONS<span style="color:#f92672">]</span> CONTAINER <span style="color:#f92672">[</span>CONTAINER...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Kill one or more running containers
+</span></span><span style="display:flex;"><span>Options:
+</span></span><span style="display:flex;"><span>      --help            Print usage
+</span></span><span style="display:flex;"><span>  -s, --signal string   Signal to send to the container <span style="color:#f92672">(</span>default <span style="color:#e6db74">&#34;KILL&#34;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><blockquote>
+<p><code>docker kill </code>默认Kill，相当于kill -9 PID，但可以指定信号</p>
+</blockquote>
+<p>换成docker kill 指定SIGTERM试试：</p>
+<pre tabindex="0"><code>docker kill -s SIGTERM 容器ID
+</code></pre><p>发现这种方式无法停止的docker容器。</p>
+<p>通过<code>docker exec </code>进入容器，发现后台起了两个java进程，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@8f5948746f35:/# ps -ef|grep java
+</span></span><span style="display:flex;"><span>root         <span style="color:#ae81ff">1</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span> 10:49 ?        00:00:00 sh -c java $JAVA_OPTS -Djava.security.egd<span style="color:#f92672">=</span>file:/dev/./urandom -Dspring.profiles.active<span style="color:#f92672">=</span>docker  -jar /cloud-service-client-1.0-SNAPSHOT.jar
+</span></span><span style="display:flex;"><span>root         <span style="color:#ae81ff">5</span>     <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">14</span> 10:49 ?        00:00:56 java -Djava.security.egd<span style="color:#f92672">=</span>file:/dev/./urandom -Dspring.profiles.active<span style="color:#f92672">=</span>docker -jar /cloud-service-client-1.0-SNAPSHOT.jar
+</span></span><span style="display:flex;"><span>root        <span style="color:#ae81ff">85</span>    <span style="color:#ae81ff">80</span>  <span style="color:#ae81ff">0</span> 10:55 ?        00:00:00 grep java
+</span></span></code></pre></div><p>意思是，有一个linux shell 主进程，PID为<code>1</code>。他有一个java子进程PID为<code>5</code></p>
+<p>手动<code>kill -s SIGTERM 1</code>无法停止<code>sh -c  xx</code>进程，但对PID 5却有用，那问题就很明显了：SIGTERM不能停止sh 进程，现在需要解决的问题是，java进程应该是主进程，PID为1。</p>
+<h3 id="32-尝试三解决">3.2 尝试三：解决</h3>
+<p>Dockerfile中，<code>RUN</code>,<code>CMD</code>,<code>ENTRYPOINT</code>都有两种写法：</p>
+<pre tabindex="0"><code>#shell形式
+CMD command param1 param2
+# exec形式
+CMD [&#34;executable&#34;, &#34;param1&#34;, &#34;param2&#34;]
+</code></pre><p>shell形式和exec的形式的本质区别在于shell形式提供了默认的指令/bin/sh -c，所以其指定的command将在shell的环境下运行。因此指定command的pid将不会是1，因为pid为1的是shell，command进程是shell的子进程。而exec指定的命令不由shell启动，因此也就无法使用shell中的环境变量。</p>
+<p>根据以上结论，修改Dockerfile如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> frolvlad/alpine-oraclejdk8:slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">MAINTAINER</span><span style="color:#e6db74"> erdaoya</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> @project.build.finalName@.jar @project.build.finalName@.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> sh -c <span style="color:#e6db74">&#39;touch /@project.build.finalName@.jar&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> exec java $JAVA_OPTS -Djava.security.egd<span style="color:#f92672">=</span>file:/dev/./urandom -Dspring.profiles.active<span style="color:#f92672">=</span>docker -jar /@project.build.finalName@.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>启动spring boot 的docker容器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run  -e <span style="color:#e6db74">&#34;JAVA_OPTS=-Xmx128m&#34;</span> 镜像ID/NAME
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker exec -it 容器ID /bin/bash
+</span></span><span style="display:flex;"><span>root@6a2e0ed56517:/# ps -ef|grep java |grep -v <span style="color:#e6db74">&#34;grep&#34;</span>
+</span></span><span style="display:flex;"><span>root         <span style="color:#ae81ff">1</span>     <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">25</span> 15:01 ?        00:01:05 java -Xmx128m -Djava.security.egd<span style="color:#f92672">=</span>file:/dev/./urandom -Dspring.profiles.active<span style="color:#f92672">=</span>docker -jar /cloud-service-client-1.0-SNAPSHOT.jar
+</span></span></code></pre></div><p>可以看到，主进程就是java进程，JAVA_OPTS 传递成功。但其实不用通过java限制，限制Docker容器资源也能达到目的。</p>
+<p>退出容器后，使用<code>docker stop</code>命令，根据日志可以看到，java进程接到了SIGTERM信号，调用shutdownHook完成了下线工作，优雅停止，问题解决。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-docker-file中使用maven变量">1. Docker file中使用maven变量</a></li>
+    <li><a href="#2-内存限制">2. 内存限制</a></li>
+    <li><a href="#3-docker-stop-不能优雅停止服务">3. Docker stop 不能优雅停止服务</a>
+      <ul>
+        <li><a href="#31--问题">3.1  问题</a></li>
+        <li><a href="#32-尝试一">3.2 尝试一</a></li>
+        <li><a href="#32-尝试二">3.2 尝试二</a></li>
+        <li><a href="#32-尝试三解决">3.2 尝试三：解决</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Spring%20Boot%e5%92%8cDocker%e5%ae%9e%e8%b7%b5%e4%b8%ad%e9%81%87%e5%88%b0%e7%9a%84%e9%97%ae%e9%a2%98&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fSpring-Boot-Docker-practice%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fSpring-Boot-Docker-practice%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fSpring-Boot-Docker-practice%2f&amp;description=Spring%20Boot%e5%92%8cDocker%e5%ae%9e%e8%b7%b5%e4%b8%ad%e9%81%87%e5%88%b0%e7%9a%84%e9%97%ae%e9%a2%98"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f21%2fSpring-Boot-Docker-practice%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/04/06/Jvm-load-class/">
+          <section class="post">
+              <h2>Jvm类的加载</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/21/kubernetes-deployments/">
+          <section class="post">
+              <h2>kubernetes入门之Deployments</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on 造舟野渡</title>
+    <link>http://thoreauz.com/categories/java/</link>
+    <description>Recent content in java on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sun, 03 Mar 2019 15:19:29 +0000</lastBuildDate><atom:link href="http://thoreauz.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java垃圾回收</title>
+      <link>http://thoreauz.com/2019/03/03/java-garbage-collection/</link>
+      <pubDate>Sun, 03 Mar 2019 15:19:29 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/03/03/java-garbage-collection/</guid>
+      <description>概述 本文简要介绍java虚拟机垃圾回收相关概念，回收器，算法，gc日志查看等。 下图为HotSpot虚拟机架构图，其中垃圾回收器(Garbag</description>
+    </item>
+    
+    <item>
+      <title>perf和火焰图</title>
+      <link>http://thoreauz.com/2019/02/16/perf-flameGraph/</link>
+      <pubDate>Sat, 16 Feb 2019 12:46:15 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/02/16/perf-flameGraph/</guid>
+      <description>安装 perf是linux下的一个性能分析工具，本文主要用来分析java热点代码。安装perf和perf-map-agent，perf-map</description>
+    </item>
+    
+    <item>
+      <title>javaagenet和arm字节码增强</title>
+      <link>http://thoreauz.com/2019/01/12/javaagent-and-asm/</link>
+      <pubDate>Sat, 12 Jan 2019 00:26:24 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/12/javaagent-and-asm/</guid>
+      <description>概述 本文介绍javaagent规范和通过asm修改字节码。并实现一个简单的统计方法执行时间的agent。 javaagent规范 java 提供了操作运</description>
+    </item>
+    
+    <item>
+      <title>Java类加载器</title>
+      <link>http://thoreauz.com/2018/12/16/Java-Class-Loader/</link>
+      <pubDate>Sun, 16 Dec 2018 23:26:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/12/16/Java-Class-Loader/</guid>
+      <description>概述 “虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是</description>
+    </item>
+    
+    <item>
+      <title>rxjava原理篇</title>
+      <link>http://thoreauz.com/2018/06/08/rxjava-2/</link>
+      <pubDate>Fri, 08 Jun 2018 21:25:23 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/06/08/rxjava-2/</guid>
+      <description>概述 本文简述rxjava2的实现原理。搞清原理，使用起来才得心应手。 基本原理 先看一个最简单的示例： // 被观察者 Observable&amp;lt;Object&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;Object&amp;gt;() { @Override public void subscribe(ObservableEmitter&amp;lt;Object&amp;gt; emitter) throws Exception { System.out.println(&amp;#34;emit a</description>
+    </item>
+    
+    <item>
+      <title>rxjava基础篇</title>
+      <link>http://thoreauz.com/2018/03/29/rxjava-1/</link>
+      <pubDate>Thu, 29 Mar 2018 21:08:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/29/rxjava-1/</guid>
+      <description>概念 响应式编程是一种处理异步数据流的规范，它为数据流的转换和聚合以及数据流的控制管理提供了工具支持。整个数据流可能包含一个或者多个事件。 如果</description>
+    </item>
+    
+    <item>
+      <title>HashMap详解</title>
+      <link>http://thoreauz.com/2018/01/25/HashMap-theory/</link>
+      <pubDate>Thu, 25 Jan 2018 14:24:25 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/25/HashMap-theory/</guid>
+      <description>本文尝试梳理一遍HashMap，基于Java8。先看一个使用示例： public static void main(String[] args) { // init Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); // put IntStream.range(0, 20).forEach(item-&amp;gt;map.put(item,item+1)); // iterator map.forEach((k,v)-&amp;gt; System.out.println(&amp;#34;k:&amp;#34;+k+&amp;#34; v:&amp;#34;+v)); // get System.out.println(map.get(1); } 继承Abstract</description>
+    </item>
+    
+    <item>
+      <title>线程与锁</title>
+      <link>http://thoreauz.com/2017/11/04/thread-lock/</link>
+      <pubDate>Sat, 04 Nov 2017 18:15:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/04/thread-lock/</guid>
+      <description>线程和锁，先从简单的示例1开始： **public class App { public static void main(String[] args) throws InterruptedException { class Counter { private int count = 0; void increment() { ++count; } private int getCount() { return count; } } final Counter counter = new Counter(); class CountingThread extends Thread { @Override public void run() { for (int x = 0;</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-ChannelHandler</title>
+      <link>http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/</link>
+      <pubDate>Sat, 02 Sep 2017 16:40:07 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/09/02/netty-in-action-ChannelHandler/</guid>
+      <description>ChannelPileline将ChannelHandler串联起来，形成一个处理逻辑。而ChannelhandlerContext管理上下</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-ByteBuf</title>
+      <link>http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/</link>
+      <pubDate>Sat, 02 Sep 2017 16:39:57 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/09/02/netty-in-action-ByteBuf/</guid>
+      <description>Java NIO中的Buffer用于和NIO通道进行交互，数据可以从通道读入缓冲区，也可以从缓冲区写入到通道中。所以说，Buffer其实就是一块可以</description>
+    </item>
+    
+    <item>
+      <title>Netty实战-起步</title>
+      <link>http://thoreauz.com/2017/08/23/netty-in-action-start/</link>
+      <pubDate>Wed, 23 Aug 2017 23:20:35 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/23/netty-in-action-start/</guid>
+      <description>概述 Netty是一款异步的事件驱动的网络应用程序框架，支持快速地开发可维护的高性能的面向协议的服务器和客户端。为什么它就能做很多中间件的底层</description>
+    </item>
+    
+    <item>
+      <title>分布式锁和Redisson实现</title>
+      <link>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</link>
+      <pubDate>Sun, 20 Aug 2017 05:53:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</guid>
+      <description>概述 分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availabilit</description>
+    </item>
+    
+    <item>
+      <title>给Future一个Promise</title>
+      <link>http://thoreauz.com/2017/08/20/future-promise/</link>
+      <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;#34;Do something ...&amp;#34;); new Thread(new</description>
+    </item>
+    
+    <item>
+      <title>Jvm类的加载</title>
+      <link>http://thoreauz.com/2017/04/06/Jvm-load-class/</link>
+      <pubDate>Thu, 06 Apr 2017 10:21:18 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/04/06/Jvm-load-class/</guid>
+      <description>Java类的加载 《深入理解java虚拟机》第二版笔记 类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、</description>
+    </item>
+    
+    <item>
+      <title>java8学习-流的使用</title>
+      <link>http://thoreauz.com/2017/03/06/java8-stream/</link>
+      <pubDate>Mon, 06 Mar 2017 00:33:01 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/06/java8-stream/</guid>
+      <description>java8学习-流的使用 《java8实战》学习笔记 一、筛选和切片 Streams接口支持filter方法(你现在应该很熟悉了)。该操作会接受一</description>
+    </item>
+    
+    <item>
+      <title>设计模式三：单例模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 18:19:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%89%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 确保一个类只有一个实例，并提供一个全局访问点。单例很简单，最多就是需要考虑下多线程问题。 简单实现 public class Singleton { // static 记录唯一实例 private static Singleton uniqueInstance; // 私</description>
+    </item>
+    
+    <item>
+      <title>设计模式一：观察者模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 18:15:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>观察者模式 本文摘自：《Head First 设计模式》 观察者模式= 出版者+订阅者。定义了对象之间的一对多依赖，当一个对象改变状态时，所有依赖者都收到通知</description>
+    </item>
+    
+    <item>
+      <title>设计模式二：装饰者模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%8C%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 17:48:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%8C%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>设计模式二：装饰者模式 本文摘自：《Head First 设计模式》 动态地将责任附加到对象上。若要扩展功能，装饰者提供比继承更有弹性的替代方案。 这样说起来</description>
+    </item>
+    
+    <item>
+      <title>设计模式五：适配器</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/</link>
+      <pubDate>Wed, 01 Mar 2017 12:25:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BA%94%E9%80%82%E9%85%8D%E5%99%A8/</guid>
+      <description>设计模式五：适配器 适配器模式：将一个类的接口，转换为客户期望的另一个接口。适配器让原本接口不兼容的类合作无间。是一种结构型设计模式。 先来看一</description>
+    </item>
+    
+    <item>
+      <title>设计模式四：命令模式</title>
+      <link>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 01 Mar 2017 10:57:59 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%9B%9B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数化其他对象，命令模式也支持可撤销的操作。命令模式是一种对象行为型模式，其别名为动</description>
+    </item>
+    
+    <item>
+      <title>Java 7中的Try-with-resources</title>
+      <link>http://thoreauz.com/2017/02/06/Java-Try-with-resources/</link>
+      <pubDate>Mon, 06 Feb 2017 22:38:43 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/Java-Try-with-resources/</guid>
+      <description>java 传统IO处理特别麻烦，Try-with-resources是java7中一个新的异常处理机制，它能够很容易地关闭在try-catch语句块</description>
+    </item>
+    
+  </channel>
+</rss>

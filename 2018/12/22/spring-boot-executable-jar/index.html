@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="spring-boot 可执行jar启动原理"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="spring-boot 可执行jar启动原理 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-12-22T14:57:17Z" />
+
+    
+    <meta property="article:tag" content="spring" />
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    
+
+    <title>spring-boot 可执行jar启动原理 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="用spring-boot很长时间了，解放了对一堆tomcat的配置，一个可执行jar包，比以前弄一堆xml方便了很多，大大简化微服务开发，也" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/12/22/spring-boot-executable-jar/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "spring-boot 可执行jar启动原理",
+    "name": "spring-boot 可执行jar启动原理",
+    "wordCount":  2138 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/12/22/spring-boot-executable-jar/",
+    "datePublished": "2018-12-22T14:57Z",
+    "dateModified": "2018-12-22T14:57Z",
+    
+    "keywords": "spring, spring-boot",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/12/22/spring-boot-executable-jar/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">spring-boot 可执行jar启动原理</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-12-22T14:57:17Z">
+            2018-12-22
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p><img src="http://thoreauz.com/images/2018-12-22-14-03-10.jpg" alt="">
+用spring-boot很长时间了，解放了对一堆tomcat的配置，一个可执行jar包，比以前弄一堆xml方便了很多，大大简化微服务开发，也为java容器化提供了更方便的方式。</p>
+<p>一直没好好看怎么启动的。本文一步步来看，基于<a href="https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/htmlsingle/">spring-boot 2.1.1.RELEASE</a></p>
+<!-- raw HTML omitted -->
+<h2 id="简单示例">简单示例</h2>
+<p>按照官doc新建一个简单的web应用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;modelVersion&gt;</span>4.0.0<span style="color:#f92672">&lt;/modelVersion&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;artifactId&gt;</span>simple-demo<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;version&gt;</span>1.0.0-SNAPSHOT.jar <span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Inherit defaults from Spring Boot --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;version&gt;</span>2.1.1.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Add typical dependencies for a web application --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">&lt;!-- Package as an executable jar --&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;/build&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>mvn 打包：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mvn clean package
+</span></span></code></pre></div><p>在target目录生产两个包：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 可执行fat jar</span>
+</span></span><span style="display:flex;"><span>simple-demo-1.0.0-SNAPSHOT.jar 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 本项目的jar包</span>
+</span></span><span style="display:flex;"><span>simple-demo-1.0.0-SNAPSHOT.jar.original
+</span></span></code></pre></div><p>启动:</p>
+<pre tabindex="0"><code>java -jar simple-demo-1.0.0-SNAPSHOT.jar 
+</code></pre><p>就这么简单。下面解压simple-demo-1.0.0-SNAPSHOT.jar  ，看它的目录结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jar tvf simple-demo-1.0.0-SNAPSHOT.jar 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解压后的3个目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tree -L 2</span>
+</span></span><span style="display:flex;"><span>├── BOOT-INF <span style="color:#75715e"># 项目class和依赖的jar包</span>
+</span></span><span style="display:flex;"><span>│   ├── classes
+</span></span><span style="display:flex;"><span>│   └── lib
+</span></span><span style="display:flex;"><span>├── META-INF <span style="color:#75715e"># jarMANIFEST和maven信息</span>
+</span></span><span style="display:flex;"><span>│   ├── MANIFEST.MF
+</span></span><span style="display:flex;"><span>│   └── maven
+</span></span><span style="display:flex;"><span>└── org <span style="color:#75715e"># spring-boot启动相关的class</span>
+</span></span><span style="display:flex;"><span>    └── springframework
+</span></span></code></pre></div><p>一个jar能通过<code>java -jar </code>执行需要jar指定了main方法，文档见</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/defman.html">Understanding the Default Manifest</a></li>
+<li><a href="https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html">Setting an Application&rsquo;s Entry Point</a></li>
+</ul>
+<p>总结一句话，需要在<code>META-INF/MANIFEST.MF</code>中指定<code>Main-Class</code>。下面我们看看解压后的文件是否有相关配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  META-INF <span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat MANIFEST.MF
+</span></span><span style="display:flex;"><span>Manifest-Version: 1.0
+</span></span><span style="display:flex;"><span>Implementation-Title: simple-demo
+</span></span><span style="display:flex;"><span>Implementation-Version: 1.0-SNAPSHOT
+</span></span><span style="display:flex;"><span>Built-By: zhaozhou
+</span></span><span style="display:flex;"><span>Implementation-Vendor-Id: com.thoreauz.bootlearn
+</span></span><span style="display:flex;"><span>Spring-Boot-Version: 2.0.1.RELEASE
+</span></span><span style="display:flex;"><span>Main-Class: org.springframework.boot.loader.JarLauncher
+</span></span><span style="display:flex;"><span>Start-Class: com.thoreauz.bootlearn.Application
+</span></span><span style="display:flex;"><span>Spring-Boot-Classes: BOOT-INF/classes/
+</span></span><span style="display:flex;"><span>Spring-Boot-Lib: BOOT-INF/lib/
+</span></span><span style="display:flex;"><span>Created-By: Apache Maven 3.3.9
+</span></span><span style="display:flex;"><span>Build-Jdk: 1.8.0_91
+</span></span><span style="display:flex;"><span>Implementation-URL: http://maven.apache.org
+</span></span></code></pre></div><p>没错，Main-Class就是<code>org.springframework.boot.loader.JarLauncher</code>。所以最先启动的是它。</p>
+<h2 id="archives">Archives</h2>
+<p>先撇开JarLauncher两分钟，认识下Archive，看代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 可以被Launcher 启动的一个抽象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Archive</span> <span style="color:#66d9ef">extends</span> Iterable<span style="color:#f92672">&lt;</span>Archive<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 用于定位Archive
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	URL <span style="color:#a6e22e">getUrl</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> MalformedURLException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 返回Archive的manifest
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Manifest <span style="color:#a6e22e">getManifest</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 返回Archive所包装的Archive
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	List<span style="color:#f92672">&lt;</span>Archive<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getNestedArchives</span><span style="color:#f92672">(</span>EntryFilter filter<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Archive，即归档，spring-boot把可以被启动器(Launcher)加载的抽象成一个Archive，目前有两个实现：</p>
+<ul>
+<li>JarFileArchive：即一个jarFile(jar包或者jar目录)</li>
+<li>ExplodedArchive：可以理解一个目录</li>
+</ul>
+<p>再来看JarLauncher类，他是用来启动JarFileArchive类型的启动器，指定了从BOOT-INF/classes和BOOT-INF/lib/路径下加载。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JarLauncher</span> <span style="color:#66d9ef">extends</span> ExecutableArchiveLauncher <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String BOOT_INF_CLASSES <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BOOT-INF/classes/&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String BOOT_INF_LIB <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BOOT-INF/lib/&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">JarLauncher</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">JarLauncher</span><span style="color:#f92672">(</span>Archive archive<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>archive<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isNestedArchive</span><span style="color:#f92672">(</span>Archive<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span> entry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>entry<span style="color:#f92672">.</span><span style="color:#a6e22e">isDirectory</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>BOOT_INF_CLASSES<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> entry<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">().</span><span style="color:#a6e22e">startsWith</span><span style="color:#f92672">(</span>BOOT_INF_LIB<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">new</span> JarLauncher<span style="color:#f92672">().</span><span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>args<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="jarlauncher初始化">JarLauncher初始化</h2>
+<p>main方法中<code>new JarLauncher()</code>初始化JarLauncher，主要做的一件事就是把它属性archive实例化。这个archive正是之前提到的fatjar。获取方式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> Archive <span style="color:#a6e22e">createArchive</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ProtectionDomain protectionDomain <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProtectionDomain</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    CodeSource codeSource <span style="color:#f92672">=</span> protectionDomain<span style="color:#f92672">.</span><span style="color:#a6e22e">getCodeSource</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    URI location <span style="color:#f92672">=</span> codeSource <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">:</span> codeSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocation</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toURI</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    String path <span style="color:#f92672">=</span> location <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">:</span> location<span style="color:#f92672">.</span><span style="color:#a6e22e">getSchemeSpecificPart</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 省略了一些判断的代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    File root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>path<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>Archive<span style="color:#f92672">)(</span>root<span style="color:#f92672">.</span><span style="color:#a6e22e">isDirectory</span><span style="color:#f92672">()</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> ExplodedArchive<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> JarFileArchive<span style="color:#f92672">(</span>root<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>JarLauncher的archive就是JarFileArchive类型。</p>
+</blockquote>
+<h2 id="查找fat-jar中的类">查找fat-jar中的类</h2>
+<p>上面提到JarLauncher的main方法调用了父类<code>Launcher</code>的<code>launch(String[] args)</code>方法，方法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>JarFile<span style="color:#f92672">.</span><span style="color:#a6e22e">registerUrlProtocolHandler</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>ClassLoader classLoader <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createClassLoader</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassPathArchives</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>args<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getMainClass</span><span style="color:#f92672">(),</span> classLoader<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>它怎么判断从fat jar的哪个目录开始查找？通过上文中isNestedArchive()方法判断查找入口，查找类目录和jar，创建Archives。其实就是JarLauncher的archive(JarFileArchive)实现的<code>getNestedArchives()</code>方法的工作。返回的一个JarFileArchive的list，实际数据保存在JarFileArchive.JarFile，他的URL协议如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># NESTED_DIRECTORY类型</span>
+</span></span><span style="display:flex;"><span>jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NESTED_JAR类型</span>
+</span></span><span style="display:flex;"><span>jar:file:/tmp/simple-demo/target/simple-demo-1.0-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-web-2.0.1.RELEASE.jar!/
+</span></span></code></pre></div><h2 id="launchedurlclassloader">LaunchedURLClassLoader</h2>
+<p>查找并创建的archives，最后转化为urls(List<!-- raw HTML omitted -->)。spring boot 通过LaunchedURLClassLoader，根据urls加载类，它继承jdk提供的URLClassLoader。URLClassLoader可以通过以下方式加载类：</p>
+<ul>
+<li>从文件目录加载</li>
+<li>从jar包中加载</li>
+<li>从网络加载
+LaunchedURLClassLoader作了扩展，能根据JarFileArchive的urls，从fatjar中加载类。最后通过他反射调用项目的main方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//classLoader就是LaunchedURLClassLoader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">launch</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">,</span> String mainClass<span style="color:#f92672">,</span> ClassLoader classLoader<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setContextClassLoader</span><span style="color:#f92672">(</span>classLoader<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">createMainMethodRunner</span><span style="color:#f92672">(</span>mainClass<span style="color:#f92672">,</span> args<span style="color:#f92672">,</span> classLoader<span style="color:#f92672">).</span><span style="color:#a6e22e">run</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Class<span style="color:#f92672">&lt;?&gt;</span> mainClass <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getContextClassLoader</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadClass</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mainClassName</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    Method mainMethod <span style="color:#f92672">=</span> mainClass<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    mainMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">((</span>Object<span style="color:#f92672">)</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">args</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>main方法类来自MANIFEST.MF的Start-Class。</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>至此，spring boot为什么能通过fat jar执行的基本原理就介绍完了，总结起来有几个关键点：</p>
+<ol>
+<li>maven插件按照一定规则组织jar包</li>
+<li>把可以被spring boot加载的jar或者目录抽象为Archive。</li>
+<li>LaunchedURLClassLoader提供了从Archive加载class的能力。</li>
+</ol>
+<p>当然，这是通过jar包运行的情况，如果在idea运行main方法，入口毫无疑问就是应用的main。 项目class在<code>target/classes/</code>目录，依赖jar包都被idea一股脑扔到classpath下了。</p>
+<hr>
+<p>参考:
+[1]. <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/executable-jar.html">Appendix E. The Executable Jar Format</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单示例">简单示例</a></li>
+    <li><a href="#archives">Archives</a></li>
+    <li><a href="#jarlauncher初始化">JarLauncher初始化</a></li>
+    <li><a href="#查找fat-jar中的类">查找fat-jar中的类</a></li>
+    <li><a href="#launchedurlclassloader">LaunchedURLClassLoader</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=spring-boot%20%e5%8f%af%e6%89%a7%e8%a1%8cjar%e5%90%af%e5%8a%a8%e5%8e%9f%e7%90%86&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f22%2fspring-boot-executable-jar%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f22%2fspring-boot-executable-jar%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f22%2fspring-boot-executable-jar%2f&amp;description=spring-boot%20%e5%8f%af%e6%89%a7%e8%a1%8cjar%e5%90%af%e5%8a%a8%e5%8e%9f%e7%90%86"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f12%2f22%2fspring-boot-executable-jar%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2019/01/12/javaagent-and-asm/">
+          <section class="post">
+              <h2>javaagenet和arm字节码增强</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/12/16/Java-Class-Loader/">
+          <section class="post">
+              <h2>Java类加载器</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

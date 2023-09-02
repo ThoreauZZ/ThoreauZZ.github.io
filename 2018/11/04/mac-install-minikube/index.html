@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="在mac上安装minikube"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="在mac上安装minikube &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/11/04/mac-install-minikube/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-11-04T01:16:10Z" />
+
+    
+    <meta property="article:tag" content="kubernetes" />
+    
+    <meta property="article:tag" content="docker" />
+    
+    
+
+    <title>在mac上安装minikube &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/11/04/mac-install-minikube/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "在mac上安装minikube",
+    "name": "在mac上安装minikube",
+    "wordCount":  396 ,
+    "timeRequired": "PT1M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/11/04/mac-install-minikube/",
+    "datePublished": "2018-11-04T01:16Z",
+    "dateModified": "2018-11-04T01:16Z",
+    
+    "keywords": "kubernetes, docker",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/11/04/mac-install-minikube/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">在mac上安装minikube</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-11-04T01:16:10Z">
+            2018-11-04
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/kubernetes/">kubernetes</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/docker/">docker</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>学习k8s，最烦的就是安装环境，minikube可以方便快速地在本地启动一个kubernetes环境，又能提供docker环境，是本地学习测试的好工具。</p>
+<h2 id="安装前准备">安装前准备</h2>
+<ul>
+<li>virtualbox</li>
+<li>kubectl</li>
+</ul>
+<h2 id="安装">安装</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 代理、你懂的</span>
+</span></span><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>http://192.168.99.1:1087;
+</span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span>http://192.168.99.1:1087;
+</span></span><span style="display:flex;"><span>brew install kubernetes-cli
+</span></span><span style="display:flex;"><span>brew cask install minikube
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<h2 id="启动">启动</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube start  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">4096</span> --cpus<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> --kubernetes-version<span style="color:#f92672">=</span>v1.9.4 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>controller-manager.cluster-signing-cert-file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/localkube/certs/ca.crt&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>controller-manager.cluster-signing-key-file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/localkube/certs/ca.key&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --extra-config<span style="color:#f92672">=</span>apiserver.admission-control<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --vm-driver<span style="color:#f92672">=</span>virtualbox <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env HTTP_PROXY<span style="color:#f92672">=</span>http://192.168.99.1:1087 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env HTTPS_PROXY<span style="color:#f92672">=</span>http://192.168.99.1:1087 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --docker-env NO_PROXY<span style="color:#f92672">=</span>localhost,127.0.0.1,.docker.io,.docker-cn.com,.aliyuncs.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl taint nodes --all node-role.kubernetes.io/master-
+</span></span><span style="display:flex;"><span>minikube dashboard
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 执行docker</span>
+</span></span><span style="display:flex;"><span>➜ eval <span style="color:#66d9ef">$(</span>minikube docker-env<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>➜ minikube ip
+</span></span><span style="display:flex;"><span>192.168.99.101
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 另一种在浏览器打开已部署的dashboard方式</span>
+</span></span><span style="display:flex;"><span>➜ minikube service kubernetes-dashboard -n kube-system
+</span></span></code></pre></div><blockquote>
+<p>minikube service可以在流里流气打开service地址，其实就是打开http:// minikube-ip: service-nodePort。所以，service的部署需要使用NodePort模式，可以使用类似命令修改：
+<code>kubectl get svc serviceName -n istio-system -o yaml| sed &quot;s/ClusterIP/NodePort/g&quot;|kubectl apply -f -</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜ kubectl get pod -n kube-system
+</span></span><span style="display:flex;"><span>NAME                                    READY     STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>etcd-minikube                           1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-addon-manager-minikube             1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-apiserver-minikube                 1/1       Running   <span style="color:#ae81ff">5</span>          5h
+</span></span><span style="display:flex;"><span>kube-controller-manager-minikube        1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-dns-6f4fd4bdf-m862l                3/3       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-proxy-497lx                        1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kube-scheduler-minikube                 1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>kubernetes-dashboard-77d8b98585-c6wrs   1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span><span style="display:flex;"><span>storage-provisioner                     1/1       Running   <span style="color:#ae81ff">0</span>          5h
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2018-11-04-01-24-34.jpg" alt=""></p>
+<p>好啦，到这儿就安装成功了</p>
+<h2 id="安装istio">安装istio</h2>
+<p>随带安装istio。</p>
+<pre tabindex="0"><code>curl -L https://git.io/getLatestIstio | sh -
+cd istio-0.2.10 
+export ISTIO_HOME=$PWD
+export PATH=$PATH:${ISTIO_HOME}/bin
+kubectl apply -f ${ISTIO_HOME}/install/kubernetes/istio-demo.yaml
+</code></pre>
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装前准备">安装前准备</a></li>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#启动">启动</a></li>
+    <li><a href="#安装istio">安装istio</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e5%9c%a8mac%e4%b8%8a%e5%ae%89%e8%a3%85minikube&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f04%2fmac-install-minikube%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f04%2fmac-install-minikube%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f04%2fmac-install-minikube%2f&amp;description=%e5%9c%a8mac%e4%b8%8a%e5%ae%89%e8%a3%85minikube"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f11%2f04%2fmac-install-minikube%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/11/17/request-limit-Sentinel/">
+          <section class="post">
+              <h2>限流-阿里开源Sentinel</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/11/03/istio-proxy/">
+          <section class="post">
+              <h2>istio-proxy原理</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="红黑树"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="红黑树 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/01/21/Red-Black-Trees/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-01-21T11:01:45Z" />
+
+    
+    <meta property="article:tag" content="algorithm" />
+    
+    <meta property="article:tag" content="tree" />
+    
+    
+
+    <title>红黑树 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/01/21/Red-Black-Trees/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "红黑树",
+    "name": "红黑树",
+    "wordCount":  3838 ,
+    "timeRequired": "PT8M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/01/21/Red-Black-Trees/",
+    "datePublished": "2018-01-21T11:01Z",
+    "dateModified": "2018-01-21T11:01Z",
+    
+    "keywords": "algorithm, tree",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/01/21/Red-Black-Trees/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">红黑树</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-01-21T11:01:45Z">
+            2018-01-21
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/algorithm/">algorithm</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/tree/">tree</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p>二叉查找树的查找时间复杂度为O（lgN），但是二叉查找树有一个问题，如果插入的数据时有有序的，就变成了一个链表，查找时间复杂度为O(N)。如下图1.1：
+<img src="http://thoreauz.com/images/2018-01-21-22-07-13.jpg" alt="">
+<em>图 1.1</em></p>
+<p>为了解决这种退化的情况，需要对二叉树作平衡操作，但要保证二叉树的完全平衡的代价很高，因而演化出其他平衡树，比如<strong>2-3查找树</strong>，在一个节点上可能有2个键和3个链接，如下图1.2：8介于7和9之间，多了一条链。
+<img src="http://thoreauz.com/images/2018-01-21-22-02-25.jpg" alt="">
+<em>图 1.2</em></p>
+<p>2-3树很好地解决了保证平衡性的问题，但是代价也不小，比如查找就不如<strong>二叉查找树</strong>方便。还好，只需要作一点调整，就能很好地利用二叉查找树和2-3查找树的优点。我们用一条红色链连接两个 <em>2-节点</em> 表示一个 <em>3-节点</em> ，如图1.3：
+<img src="http://thoreauz.com/images/2018-01-21-22-19-26.jpg" alt="">
+<em>图 1.3</em>
+我们把这种2-3树的表示方式称为红黑树。每一个节点只有一个链接指向自己（如指向4的红色链接），把它的颜色保证到节点上，也就相当于给节点着色，这就是我们最常见的红黑树。</p>
+<!-- raw HTML omitted -->
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->
+<strong>红黑树的性质如下:</strong></p>
+<ol>
+<li>任何一个节点都有颜色，黑色或者红色</li>
+<li>根节点是黑色的</li>
+<li>空节点被认为是黑色的（叶子节点）</li>
+<li>父子节点之间不能出现两个连续的红节点</li>
+<li>任何一个节点向下遍历到其子孙的叶子节点，所经过的黑节点个数必须相等</li>
+</ol>
+<p>如下图1.4，如果按照1-8的顺序插入，不再是链表结构。
+<img src="http://thoreauz.com/images/2018-01-20-14-31-35.jpg" alt="">
+<em>图 1.4</em></p>
+<h2 id="二插入">二、插入</h2>
+<p>红黑树的插入和二叉搜索树一样，比对大小，找到节点插入。不同的是，插入后可能破坏了红黑树的特性，需进一步修复。新插入的节点，都作为红色处理(为什么是红色而不是黑色：黑色一定破坏性质的第四条，红色需要处理的情况简单一点)。</p>
+<h3 id="插入后不需要调整">插入后不需要调整</h3>
+<ol>
+<li>如果是根节点，重新着色为黑即可。</li>
+<li>父亲如果为黑色，并不违反红黑树<a href="#property">性质</a>，直接插入。</li>
+</ol>
+<h3 id="插入后需要调整">插入后需要调整</h3>
+<p>从上一种情况得知，插入后需要调整的，父节点一定是<code>红色</code>，又分3种情况。
+<strong>3.1 叔叔节点为红色</strong>
+<img src="http://thoreauz.com/images/insert1.gif" alt="">
+<em>图 2.1</em>
+父节点和叔叔都是红色，把他们都变为黑色，祖父变为红色，这样黑色节点同时减少一个，保证了<a href="#property">特性5</a>。</p>
+<blockquote>
+<p>调整结束后，祖父节点又可能破坏<a href="#property">特性4</a>，继续按照插入的逻辑往上回溯。后续谈到的情况中，不再涉及递归回溯说明。即把修改后的节点(祖父)当成是新加入的节点进行各种情形的检查。 这就好比，二叉树remove()，删除一个节点，用子节点来替换，需继续删除用来替换的子节点，如此递归或循环。</p>
+</blockquote>
+<p><strong>3.2  叔叔节点为黑色(或空)，且祖父节点、父节点和新节点处于一条斜线上</strong>
+<img src="http://thoreauz.com/images/insert2.gif" alt="">
+<em>图 2.2</em>
+<img src="http://thoreauz.com/images/insert2-2.gif" alt="">
+<em>图 2.3</em>
+如图2.2，在一条右斜线上，解决办法是：针对祖父节点7左旋，然后父亲祖父互换颜色。为什么这样能保证平衡性呢，因为祖父一定是黑色，旋转后，祖父位置被父亲替换，为了保证黑色节点不变少，父亲节点还用原来祖父的黑色。祖父旋转到另一个分支，黑色节点多了一个，重新着红色，同时保证了<a href="#property">特性4，5</a>。 反之为图2.4。</p>
+<p><strong>3.3 叔叔节点为黑色(或空)，且祖父节点、父节点和新节点不在一条斜线上</strong>
+<img src="http://thoreauz.com/images/insert3-1.gif" alt="">
+<em>图 2.4</em>
+<img src="http://thoreauz.com/images/insert3-2.gif" alt="">
+<em>图 2.5</em>
+如图2.4，插入节点3，左旋后，就跟第二情况类似，再按照第二种方式处理。反之亦然。</p>
+<h3 id="实现">实现</h3>
+<p>要实现插入，先要实现几个方法，首先是能找到需要插入节点对应的父节点，插入后，需要找到叔叔节点。之后就是重新着色和左右旋。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 寻找父节点:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 跟二叉查找树一样，比对节点值大小，找到要插入的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return RBTreeNode node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">findParentNode</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> child <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>child <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 和其中一只节点相同
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> child<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        parent <span style="color:#f92672">=</span> child<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            child <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            child <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> parent<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 找到叔叔节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return uncle
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUncle</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> grandfather <span style="color:#f92672">=</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>grandfather <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent <span style="color:#f92672">==</span> grandfather<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> grandfather<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> grandfather<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2018-01-20-00-46-01.jpg" alt="">     <img src="http://thoreauz.com/images/2018-01-20-00-47-19.jpg" alt="">
+<em>图 2.6</em></p>
+<p>图上，对<strong>2</strong>节点左旋：右节点4替换2，2作为4左节点，3作为2右节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 左旋
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rotateLeft</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 把待替换节(n)的右节点(r)替换它
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> replaceNode <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// r.p = n.p
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// p = null, 就是根节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        root <span style="color:#f92672">=</span> replaceNode<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// p 重置子节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// r.l = n
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// n.p = r
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><img src="http://thoreauz.com/images/2018-01-20-01-14-17.jpg" alt="">   <img src="http://thoreauz.com/images/2018-01-20-01-16-54.jpg" alt="">
+<em>图 2.7</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 右旋
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rotateRight</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 把待替换节(n)的左节点(l)替换它
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> replaceNode <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    setParent<span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">(),</span> node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    replaceNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    setParent<span style="color:#f92672">(</span>node<span style="color:#f92672">,</span> replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        root <span style="color:#f92672">=</span> replaceNode<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        setParent<span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        setParent<span style="color:#f92672">(</span>replaceNode<span style="color:#f92672">,</span> parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>根据以上情况和方法，插入就变得容易了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> T <span style="color:#a6e22e">addNode</span><span style="color:#f92672">(</span>T value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;(</span>value<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> addNode<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 插入节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> T <span style="color:#a6e22e">addNode</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 新插入的节点为红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>root <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 新插入节点为根节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        root <span style="color:#f92672">=</span> node<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 找到要插入的父节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parentNode <span style="color:#f92672">=</span> findParentNode<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span>parentNode<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parentNode<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        fixAdd<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>修复插入后的树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 插入修复
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fixAdd</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 找到parent和uncle
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>parent <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> uncle <span style="color:#f92672">=</span> getUncle<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>uncle <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>uncle<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 祖先
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> ancestor <span style="color:#f92672">=</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ancestor <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ancestor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> parent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">boolean</span> isRight <span style="color:#f92672">=</span> node <span style="color:#f92672">==</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRight<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// 左旋，就变成一条斜线
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    rotateLeft<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 一条斜线，右旋
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                rotateRight<span style="color:#f92672">(</span>ancestor<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                switchColor<span style="color:#f92672">(</span>ancestor<span style="color:#f92672">,</span> ancestor<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">boolean</span> isLeft <span style="color:#f92672">=</span> node <span style="color:#f92672">==</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLeft<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    rotateRight<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                rotateLeft<span style="color:#f92672">(</span>ancestor<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLeft<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    node<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                ancestor<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>uncle<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 1. 叔叔不为空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            uncle<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            node <span style="color:#f92672">=</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    getRoot<span style="color:#f92672">().</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    getRoot<span style="color:#f92672">().</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="三删除">三、删除</h2>
+<p>删除是红黑树最复杂的操作，为避免不被各种情况绕晕，中心思想就是：按照二叉查找树方式删节点，考虑各种情况下是否违背红黑树特性，特别是<a href="#property">特性4，5</a>。</p>
+<p>这里要做一个重要的说明，是后续删除操作都和这个说明有关： 对于一颗二叉查找树，如果节点有两个孩子，将会找右边子树中最小值(或左边最大值)作为替代值。然后再删除替代值原先的位置。这个替代值一定最多有一个孩子。
+<img src="http://thoreauz.com/images/2018-01-22-16-36-47.jpg" alt=""></p>
+<p><em>图 3.1</em></p>
+<p>如图3.1, 删除22，替代值将会是31(右子树最小值)，31的左子树一定为空，否则他不会作为替代值。这样看来，二叉树最终操作的是<strong>最多有一个孩子的节点</strong>。这对红黑树删除操作有很多简化，因为如果有寻找替换节点的过程，只是替换值，并不影响二叉树任何性质。</p>
+<p>因此，我们只需要讨论<strong>删除只有一个儿子的节点</strong>(如果都为叶子节点，可将任意一个作为儿子看待)。</p>
+<h3 id="31-被删除节点是红色">3.1 被删除节点是红色</h3>
+<p>还是图3.1，节点31为红色，那他的孩子一定都是叶子节点，并不破坏红黑树任何属性(平衡)，直接删除即可。</p>
+<h3 id="32-被删除节点是黑色儿子为红色">3.2 被删除节点是黑色，儿子为红色</h3>
+<p>此时，儿子顶上来，变为黑色，黑色节点没少，也不会破坏<a href="#property">特性4，5</a>。
+<img src="http://thoreauz.com/images/2018-01-22-17-10-10.jpg" alt="">
+<em>图 3.2</em></p>
+<h3 id="33-被删除节点是黑色儿子也是黑色">3.3 被删除节点是黑色，儿子也是黑色</h3>
+<p>这种情况较复杂，我们分成多个case处理：
+<strong>case1</strong>： 被删除的是根节点，替换后无需处理。
+<strong>case2</strong>： S节点为红色
+<img src="http://thoreauz.com/images/2018-01-22-23-06-39.jpg" alt="">
+图 3.3</p>
+<blockquote>
+<p>图中N为删除后的替换上来的子节点，此时，P-N这个分支已经少了一个黑色节点，其实，S应该是N的叔叔节点, 后续几种case的图也类似表达。</p>
+</blockquote>
+<p>因为兄弟为红色，P和S1、S2坑一定都为黑色。这种情况下，对P左旋，并交换N父亲和祖父颜色。为什么这样做？相对P这个位置，颜色没变，右子树少一个红色节点，并不破坏红黑树性质；对于左子树，S-P-S1 路线上的黑色节点还是没变，对N，还是如同新替换上来的节点，继续做后面几种case处理。</p>
+<p><strong>case3</strong>：P,S,S1,S2都是黑色
+<img src="http://thoreauz.com/images/2018-01-22-23-09-36.jpg" alt="">
+图 3.4
+如上图左，都为黑色，只需要把兄弟S变为红色即可做到P的作为分支平衡，但是对整个P这条分支，少了一个黑色节点。需要对P重新作平衡处理(从case1开始适配)。
+<strong>case4</strong>：P为红色，S和儿子都不是红色
+<img src="http://thoreauz.com/images/2018-01-22-23-14-49.jpg" alt="">
+图 3.5
+这中情况比较简单,把父兄颜色交换即可。因为通过S路径黑色没少，但通过N增加一个黑色P，从而达到平衡。</p>
+<p><strong>case5</strong>：S是黑色，S的一侧(N同侧)儿子红，另一侧儿子为黑色
+<img src="http://thoreauz.com/images/2018-01-22-23-42-53.jpg" alt="">
+图 3.6
+这种情况，对S右旋。替换S和新父亲颜色，整个P的右子树黑色简单都没变，但经过N的路线还是少一个黑节点。按case6进行操作</p>
+<p><strong>case6</strong>：S是黑色，另一侧儿子为红色
+<img src="http://thoreauz.com/images/2018-01-22-23-52-38.jpg" alt="">
+图 3.7
+如图，对P左旋并和S交互颜色，再把S2变为黑色。这样操作后，最顶上颜色没变，右侧少一个黑色S被S2补充，也没破坏平衡。左侧新增一个黑色节点，从而达到平衡：</p>
+<blockquote>
+<p>注: 这种情况下，P是红色或者黑色都一样。如果图中P为黑色，那么交互颜色后，在此基础上，还还是多了一个黑色祖先(S)</p>
+</blockquote>
+<h3 id="实现-1">实现</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 删除节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> dataRoot <span style="color:#f92672">=</span> getRoot<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>dataRoot <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> cmp <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>node<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 遍历右子树
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>cmp <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 遍历左子树
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 找到对应节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 被删除节点的&#34;左右孩子都不为空&#34;的情况
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> successor <span style="color:#f92672">=</span> findMin<span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">setValue</span><span style="color:#f92672">(</span>successor<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                node <span style="color:#f92672">=</span> successor<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 最多只有一个孩子
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// 两个节点不是非空且是红色，那么孩子一定都是叶子节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> dataRoot<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                    dataRoot <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()</span> <span style="color:#f92672">:</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// 最多只有一个孩子的黑色节点：1. 孩子是红色，2. 没有孩子(叶子节点)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> onlyChild <span style="color:#f92672">=</span> findOneChild<span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRed<span style="color:#f92672">(</span>onlyChild<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e">//1. 孩子是红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                        dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">setValue</span><span style="color:#f92672">(</span>onlyChild<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> onlyChild<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                            dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                            dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// 2. 没有孩子(都是叶子节点)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    fixRemove<span style="color:#f92672">(</span>dataRoot<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    parent <span style="color:#f92672">=</span> dataRoot<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        root <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> dataRoot<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setLeft</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRight</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                    dataRoot <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>删除修复</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 删除修复
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param node node
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fixRemove</span><span style="color:#f92672">(</span>RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> node<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>node <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Node err ... &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> onlyChild <span style="color:#f92672">=</span> findOneChild<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRed<span style="color:#f92672">(</span>onlyChild<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Node err ... &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 删除节点是黑色，儿子也是黑色(其实应该说孩子都是叶子节点)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// case1: 被删除的是根节点，替换后无需处理。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">boolean</span> isLeft <span style="color:#f92672">=</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> node<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        RBTreeNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> sibling <span style="color:#f92672">=</span> getSibling<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sibling <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 黑色(非叶子节点)节点才修改，但黑色节点一定有兄弟
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Node err ... &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// case2:  S节点为红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLeft<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                rotateLeft<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                rotateRight<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            switchColor<span style="color:#f92672">(</span>parent<span style="color:#f92672">,</span> parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 此时，新节点还是原来位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            parent <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            sibling <span style="color:#f92672">=</span> getSibling<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">isRed</span><span style="color:#f92672">()</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// case3: P,S,S1,S2都是黑色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>parent<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                parent<span style="color:#f92672">.</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                fixRemove<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isRed<span style="color:#f92672">(</span>parent<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//case4： P为红色，S（一定黑）和儿子都不是红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            switchColor<span style="color:#f92672">(</span>parent<span style="color:#f92672">,</span> sibling<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLeft <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//case5： S是黑色，S的一侧(N同侧)儿子黑色，另一侧儿子为红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            rotateRight<span style="color:#f92672">(</span>sibling<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            switchColor<span style="color:#f92672">(</span>sibling<span style="color:#f92672">,</span> sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            sibling <span style="color:#f92672">=</span> getSibling<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>isLeft <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            rotateLeft<span style="color:#f92672">(</span>sibling<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            switchColor<span style="color:#f92672">(</span>sibling<span style="color:#f92672">,</span> sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>            sibling <span style="color:#f92672">=</span> getSibling<span style="color:#f92672">(</span>node<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// case6: S是黑色，S的一侧(N同侧)儿子黑色，另一侧儿子为红色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isLeft <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            rotateLeft<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getRight</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            switchColor<span style="color:#f92672">(</span>parent<span style="color:#f92672">,</span> sibling<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>isLeft <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> isRed<span style="color:#f92672">(</span>sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            rotateRight<span style="color:#f92672">(</span>parent<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            sibling<span style="color:#f92672">.</span><span style="color:#a6e22e">getLeft</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setRed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            switchColor<span style="color:#f92672">(</span>parent<span style="color:#f92672">,</span> sibling<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>省略了一些方法如switchColor,getSibling。代码还有不少可以重构优化的点。<a href="https://github.com/ThoreauZZ/java/blob/master/algorithm/src/main/java/com/thoreau/algorithm/trees/rbtree/RBTree.java">源码</a></p>
+</blockquote>
+<hr>
+<p>参考文档:
+[1]. <a href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91">https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91</a>
+[2]. <a href="http://sandbox.runjs.cn/show/2nngvn8w">http://sandbox.runjs.cn/show/2nngvn8w</a>
+[3]. <a href="https://tech.meituan.com/redblack-tree.html">https://tech.meituan.com/redblack-tree.html</a>
+[4]. <a href="http://blog.csdn.net/v_JULY_v/article/details/6284050">http://blog.csdn.net/v_JULY_v/article/details/6284050</a>
+[5]. <a href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html">https://www.cs.usfca.edu/~galles/visualization/RedBlack.html</a>
+[6]. <a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.01.md">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.01.md</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#二插入">二、插入</a>
+      <ul>
+        <li><a href="#插入后不需要调整">插入后不需要调整</a></li>
+        <li><a href="#插入后需要调整">插入后需要调整</a></li>
+        <li><a href="#实现">实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#三删除">三、删除</a>
+      <ul>
+        <li><a href="#31-被删除节点是红色">3.1 被删除节点是红色</a></li>
+        <li><a href="#32-被删除节点是黑色儿子为红色">3.2 被删除节点是黑色，儿子为红色</a></li>
+        <li><a href="#33-被删除节点是黑色儿子也是黑色">3.3 被删除节点是黑色，儿子也是黑色</a></li>
+        <li><a href="#实现-1">实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e7%ba%a2%e9%bb%91%e6%a0%91&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f21%2fRed-Black-Trees%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f21%2fRed-Black-Trees%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f21%2fRed-Black-Trees%2f&amp;description=%e7%ba%a2%e9%bb%91%e6%a0%91"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f01%2f21%2fRed-Black-Trees%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/01/25/HashMap-theory/">
+          <section class="post">
+              <h2>HashMap详解</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/01/20/Binary-Search-Trees/">
+          <section class="post">
+              <h2>二叉搜索树</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

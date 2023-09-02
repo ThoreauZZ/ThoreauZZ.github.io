@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="rxjava基础篇"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="rxjava基础篇 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/03/29/rxjava-1/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-03-29T21:08:18Z" />
+
+    
+    <meta property="article:tag" content="rxjava" />
+    
+    
+
+    <title>rxjava基础篇 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概念 响应式编程是一种处理异步数据流的规范，它为数据流的转换和聚合以及数据流的控制管理提供了工具支持。整个数据流可能包含一个或者多个事件。 如果" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/03/29/rxjava-1/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "rxjava基础篇",
+    "name": "rxjava基础篇",
+    "wordCount":  2447 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/03/29/rxjava-1/",
+    "datePublished": "2018-03-29T21:08Z",
+    "dateModified": "2018-03-29T21:08Z",
+    
+    "keywords": "rxjava",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/03/29/rxjava-1/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">rxjava基础篇</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-03-29T21:08:18Z">
+            2018-03-29
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/rxjava/">rxjava</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概念">概念</h2>
+<p>响应式编程是一种处理异步数据流的规范，它为数据流的转换和聚合以及数据流的控制管理提供了工具支持。整个数据流可能包含一个或者多个事件。</p>
+<p>如果理解著名而简单的设计模式：发布-订阅模式，再看rxJava会容易许多。</p>
+<p>对于异步操作，java可以使用<code>Future&lt;T&gt;</code>，异步地处理程序执行结果。但只能获取单个数据，并且不断注册回调函数导致代码嵌套难看且难维护。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">单个数据</th>
+<th style="text-align:center">多个数据</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">同步</td>
+<td style="text-align:center">T getDate()</td>
+<td style="text-align:center">Iterable<!-- raw HTML omitted --> getData()</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">异步</td>
+<td style="text-align:center">Future<!-- raw HTML omitted --> getData()</td>
+<td style="text-align:center">Observable<!-- raw HTML omitted --> getData()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- raw HTML omitted -->
+<p>Observable可以像使用java8 stream一样处理数据流，简单，逻辑清晰。</p>
+<p>使用rxjava主要涉及以下操作：</p>
+<ul>
+<li>创建事件流或者数据流</li>
+<li>组合操作、交换数据流</li>
+<li>订阅数据流并执行相应操作</li>
+</ul>
+<p>RxJava响应式编程有以下优点：</p>
+<ol>
+<li>java8 stream一样的函数式风格</li>
+<li>简化代码，逻辑清晰</li>
+<li>异步处理错误，不需要catch</li>
+<li>支持并发，不关心底层线程同步和并发问题</li>
+</ol>
+<p><strong>几个名词</strong></p>
+<ul>
+<li>Observable：任何可订阅的对象，数据源。或者说，观察者希望在Observable对象变化时被提醒。在ReactiveX世界里，一个observer（观察者）subscribes（订阅）Observable（可订阅object），然后根据Observable发出的一个或者一系列元素做出对应的反应。</li>
+<li>Single：一个特殊的Observable，只发射单个数据。</li>
+<li>Observer：观察者</li>
+<li>Subscriber：订阅者，Observer的特殊实现</li>
+<li>Subscription：名词，描述订阅关系。</li>
+<li>emit：发射，数据产生或者变化是通知订阅者，调用对应方法。</li>
+<li>items：项目，元素，数据项</li>
+</ul>
+<h2 id="角色简介">角色简介</h2>
+<h3 id="观察者observersubscriber">观察者（Observer、Subscriber）</h3>
+<p>Observer接口有3个方法，分别对流数据、结束事件、异常事件做相应处理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Observer</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCompleted</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>Throwable e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>T t<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Subscriber是Observer的子类，但它实现了Subscription接口，可以取消订阅它不再关心的Observable。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Subscription</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unsubscribe</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isUnsubscribed</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="订阅关系subscription">订阅关系（Subscription）</h3>
+<p>创建订阅有两种方法：</p>
+<ol>
+<li><code>Observable.subscribe(Subscriber)</code></li>
+<li><code>Observable.subscribe(Action)</code></li>
+</ol>
+<h3 id="被观察者observable">被观察者（Observable）</h3>
+<p>Observable上面已经介绍，它提供了一些工厂方法创建Observable对象，再通过他绑定到订阅者。有冷和热之分，热的Observable可能创建完成就开始发射数据，订阅者不能保证从头获取数据；冷的Observable一直等待有观察者订阅才开放发射数据。</p>
+<p>如果想找到一个类似于Observable<!-- raw HTML omitted -->的接口，那就是迭代器Iterator<!-- raw HTML omitted --> 。但Observable<!-- raw HTML omitted -->可以产生3种类型的事件；</p>
+<ul>
+<li>Observable声明的类型值</li>
+<li>完成事件</li>
+<li>错误事件</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> observable <span style="color:#f92672">=</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>emitter <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        IntStream<span style="color:#f92672">.</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 6<span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>item <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;emit &#34;</span> <span style="color:#f92672">+</span> item<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onNext</span><span style="color:#f92672">(</span>item<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onComplete</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        emitter<span style="color:#f92672">.</span><span style="color:#a6e22e">onError</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">});</span>
+</span></span></code></pre></div><p>可以通过<code>just()</code>,<code>from()</code>,<code>create()</code>创建Observable，但是他们也有些不同，并不都是在订阅发送时，才出发Observable发射数据。<code>defer()</code>可以把Observable转成lazy。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Observable<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">listPeople</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">defer</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>query<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SELECT * FROM PEOPLE&#34;</span><span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="操作符">操作符</h2>
+<p>rxjava提供了各种操作符，使得复制逻辑可以通过操作符叠加组合完成，这也是rxjava强大的原因。一个操作符是一个方法，获取上游Observable<!-- raw HTML omitted -->，处理后返回给下游Observable<!-- raw HTML omitted -->。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> words <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;the&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;quick&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;brown&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;fox&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;jumped&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;over&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;the&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;lazy&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;dogs&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>words<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>word <span style="color:#f92672">-&gt;</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>word<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)))</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">distinct</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">sorted</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">zipWith</span><span style="color:#f92672">(</span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_VALUE</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">(</span>string<span style="color:#f92672">,</span> count<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%2d. %s&#34;</span><span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> string<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>按序号输出26个字母</p>
+</blockquote>
+<p>示例中的from，sorted，zipWith等均为操作符。跟Java 8里引入的Streams API很相似，不过后者只是遍历和操作集合，无法更细粒度的控制和无限制的流处理。</p>
+<p>操作符还有很多，根据功能分类如：创建操作，变换操作，过滤操作，连接操作&hellip;等，详细见<a href="http://reactivex.io/documentation/operators.html">operators</a></p>
+<h2 id="多线程">多线程</h2>
+<p>rxjava并没有引入自己的并发特性，只是对thread的抽象和封装。原则上，他和ScheduledExecutorService类似，只是实现了更细粒度的抽象。</p>
+<p>Observable通过操作subscribeOn() 和 observeOn()绑定到对应的scheduler上，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;rxJava&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>scheduler只是创建worker实例负责调度和运行代码，Schedulers提供了一些创建scheduler的静态方法：</p>
+<ul>
+<li>Schedulers.newThread()</li>
+<li>Schedulers.io()</li>
+<li>Schedulers.computation()</li>
+<li>Schedulers.from(Executor executor)</li>
+</ul>
+<p>可以这么理解，Schedulers类似线程池，负责调度；worker类似thread，负责执行具体代码。最好Observables是异步的，从而避免使用subscribeOn()；</p>
+<p>对于阻塞的Observables(blocking Observables,用得少)：</p>
+<ol>
+<li>Observable如果不用Scheduler，跟一个单线程操作没有区别</li>
+<li>Observable只有一个subscribeOn()，就像开启了一个后台线程处理任务,还是线程内阻塞。</li>
+<li>Observable使用flatMap()，给每一个内部Observable都使用subscribeOn(),就像ForkJoinPool</li>
+<li>连续使用subscribeOn，只有第一个生效。observeOn可以多次调用。</li>
+</ol>
+<p>下面通过一个示例说明：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> ExecutorService es <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>200<span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> ThreadFactoryBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">setNameFormat</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubscribeOn-%d&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>CountDownLatch finishedLatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CountDownLatch<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">long</span> start <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//.subscribeOn(Schedulers.from(es))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>item <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// do something here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>20<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> item <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;map&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}).</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">computation</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>item <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span> <span style="color:#f92672">},</span> <span style="color:#f92672">(</span>Throwable error<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span> <span style="color:#f92672">},</span> finishedLatch<span style="color:#f92672">::</span>countDown<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>finishedLatch<span style="color:#f92672">.</span><span style="color:#a6e22e">await</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> start<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>输出:2068</p>
+</blockquote>
+<p>没有使用subscribeOn()，客户端线程阻塞。打开注释<code>.subscribeOn(Schedulers.from(es))</code>，执行时间:2073。map处理100个数据只是从线程池中获取一个线程处理，还是线程内阻塞。再修改如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ExecutorService es <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>200<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> ThreadFactoryBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">setNameFormat</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubscribeOn-%d&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>CountDownLatch finishedLatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CountDownLatch<span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">long</span> start <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>rangeItem <span style="color:#f92672">-&gt;</span> Observable
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">just</span><span style="color:#f92672">(</span>rangeItem<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">subscribeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>es<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>20<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">return</span> Observable<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">return</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;map&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">observeOn</span><span style="color:#f92672">(</span>Schedulers<span style="color:#f92672">.</span><span style="color:#a6e22e">computation</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">subscribe</span><span style="color:#f92672">(</span>item <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">},</span> <span style="color:#f92672">(</span>Throwable error<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">},</span> finishedLatch<span style="color:#f92672">::</span>countDown<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>finishedLatch<span style="color:#f92672">.</span><span style="color:#a6e22e">await</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-------------&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> start<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>输出：95</p>
+</blockquote>
+<p>flatMap通过给每个元素创建一个新的Observable处理：再放进一个单独的Observable。
+<img src="http://reactivex.io/documentation/operators/images/mergeMap.r.png" alt=""></p>
+<h2 id="总结">总结</h2>
+<p>rxjava其实就是观察者模式的扩展，通过强大的操作符组合使得数据流处理逻辑简单清晰，再加上线程的封装实现异步，无需担忧无关的抽象底层线程,同步,线程安全和并发数据结构。</p>
+<hr>
+<p>参考文档:
+<a href="http://reactivex.io/">http://reactivex.io/</a>
+<a href="http://rxmarbles.com/">http://rxmarbles.com/</a>
+<a href="https://blog.csdn.net/xmxkf/article/details/51791120">https://blog.csdn.net/xmxkf/article/details/51791120</a>
+<a href="https://www.jianshu.com/p/88aacbed8aa5">https://www.jianshu.com/p/88aacbed8aa5</a>
+<a href="https://www.gitbook.com/book/mcxiaoke/rxdocs/details">https://www.gitbook.com/book/mcxiaoke/rxdocs/details</a>
+<a href="https://www.youtube.com/watch?v=WKore-AkisY">https://www.youtube.com/watch?v=WKore-AkisY</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概念">概念</a></li>
+    <li><a href="#角色简介">角色简介</a>
+      <ul>
+        <li><a href="#观察者observersubscriber">观察者（Observer、Subscriber）</a></li>
+        <li><a href="#订阅关系subscription">订阅关系（Subscription）</a></li>
+        <li><a href="#被观察者observable">被观察者（Observable）</a></li>
+      </ul>
+    </li>
+    <li><a href="#操作符">操作符</a></li>
+    <li><a href="#多线程">多线程</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=rxjava%e5%9f%ba%e7%a1%80%e7%af%87&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f29%2frxjava-1%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f29%2frxjava-1%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f29%2frxjava-1%2f&amp;description=rxjava%e5%9f%ba%e7%a1%80%e7%af%87"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f29%2frxjava-1%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/06/08/rxjava-2/">
+          <section class="post">
+              <h2>rxjava原理篇</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/03/24/spring-boot-protobuf/">
+          <section class="post">
+              <h2>spring-boot 使用protobuf</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

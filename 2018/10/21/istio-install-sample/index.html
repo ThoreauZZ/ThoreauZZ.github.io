@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="istio安装使用"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="istio安装使用 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/10/21/istio-install-sample/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-10-21T22:53:18Z" />
+
+    
+    <meta property="article:tag" content="istio" />
+    
+    <meta property="article:tag" content="service-mesh" />
+    
+    
+
+    <title>istio安装使用 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="什么是service mesh service mesh，也翻译为服务网格。是一种在网络节点间通过动态路由的方式来进行资料与控制指令的传送。这种网络可以保持每个节点" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/10/21/istio-install-sample/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "istio安装使用",
+    "name": "istio安装使用",
+    "wordCount":  2558 ,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/10/21/istio-install-sample/",
+    "datePublished": "2018-10-21T22:53Z",
+    "dateModified": "2018-10-21T22:53Z",
+    
+    "keywords": "istio, service-mesh",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/10/21/istio-install-sample/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">istio安装使用</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-10-21T22:53:18Z">
+            2018-10-21
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/istio/">istio</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/service-mesh/">service-mesh</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="什么是service-mesh">什么是service mesh</h2>
+<p>service mesh，也翻译为服务网格。是一种在网络节点间通过动态路由的方式来进行资料与控制指令的传送。这种网络可以保持每个节点间的连线完整，当网络拓扑中有某节点失效或无法服务时，这种架构允许使用“跳跃”的方式形成新的路由后将讯息送达传输目的地(<a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%8A%B6%E7%BD%91%E7%BB%9C">wikipedia</a>)。</p>
+<p>暂不谈这个抽象的概念，我们先来看下前两年比较流行的微服务。想到微服务，必然涉及一系列服务治理相关的名称：服务发现，配置中心，熔断，路由，监控，devops&hellip;.。微服务架构的挑战不在于构建服务本身，而是服务间的通讯。可以想见，我们不得不在服务中引入一系列依赖和配置。</p>
+<p><img src="http://thoreauz.com/images/2018-10-05-00-11-32.jpg" alt=""></p>
+<p>如上图：微服务由业务逻辑和通讯组件构成。</p>
+<!-- raw HTML omitted -->
+<p>service mesh想要解决的，就是让服务专注于业务逻辑，而其他网络通讯以Sidecar的形式完成。service mesh是服务通讯的网络代理，解耦系统架构和业务逻辑。
+<img src="http://thoreauz.com/images/2018-10-05-00-11-41.jpg" alt="">
+如上图，图片来自<a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html">pattern_service_mesh</a></p>
+<h2 id="istio">istio</h2>
+<p>istio是目前最流行的service mesh开源软件，架构如下：
+<img src="https://istio.io/docs/concepts/what-is-istio/arch.svg" alt="">
+下面简单解释各个组件作用：</p>
+<h3 id="envoy">Envoy</h3>
+<p>上中的proxy，作为service mesh核心组件，使用开源软件<a href="https://envoyproxy.github.io/envoy/">Envoy</a>，使用 C++ 编写的 L7 代理，CNCF 旗下的开源项目，以sidecar的形式部署。支持负载均衡，动态配置，http/grpc/MongoDB等代理，熔断，监控检查和丰富的度量指标等。下面简单看下如何独立使用。
+config.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">admin</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">address</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">socket_address</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">address</span>: <span style="color:#ae81ff">0.0.0.0</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">port_value</span>: <span style="color:#ae81ff">9901</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">static_resources</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">listeners</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">listener_0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">address</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">10000</span> }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">filter_chains</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">filters</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.http_connection_manager</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">stat_prefix</span>: <span style="color:#ae81ff">ingress_http</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">codec_type</span>: <span style="color:#ae81ff">AUTO</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">route_config</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_route</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">virtual_hosts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">routes</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">route</span>: { <span style="color:#f92672">host_rewrite: thoreauz.com, cluster</span>: <span style="color:#ae81ff">service_thoreauz }</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">http_filters</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.router</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">service_thoreauz</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">connect_timeout</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">25s</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LOGICAL_DNS</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dns_lookup_family</span>: <span style="color:#ae81ff">V4_ONLY</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lb_policy</span>: <span style="color:#ae81ff">ROUND_ROBIN</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: thoreauz.com, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+</span></span></code></pre></div><p>dockerfile</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> envoyproxy/envoy:latest</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> envoy.yaml /etc/envoy/envoy.yaml<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>运行docker后，可以通过9901访问管理端，通过1000代理到thoreauz.com。
+envoy运行时可以利用 xDS API来实现动态配置，这点很重要，nginx需要修改配置文件后reload，当然，nginx-plus、kong等具有这个功能。</p>
+<h3 id="mixer">Mixer</h3>
+<p>Mixer 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略</p>
+<h3 id="pilot">Pilot</h3>
+<p>Pilot 为 Envoy sidecar 提供服务发现功能，为智能路由（例如 A/B 测试、金丝雀部署等）和弹性（超时、重试、熔断器等）提供流量管理功能。它将控制流量行为的高级路由规则转换为特定于 Envoy 的配置，并在运行时将它们传播到 sidecar。</p>
+<h3 id="citadel">Citadel</h3>
+<p>访问控件，内置身份和凭证管理可以提供强大的服务间和最终用户身份验证。</p>
+<h2 id="安装">安装</h2>
+<h3 id="安装kubernete集群">安装kubernete集群；</h3>
+<p>省略</p>
+<h3 id="安装非认证istio">安装非认证istio</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -L https://git.io/getLatestIstio | sh -
+</span></span><span style="display:flex;"><span>istio_tmp<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo istio*<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>ISTIO_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/opt/</span>$istio_tmp<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>mv -f <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>istio_tmp<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> /opt
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;export ISTIO_HOME=</span><span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &gt;&gt; /etc/profile
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;export PATH=</span><span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/bin:</span>$PATH<span style="color:#e6db74">&#34;</span> &gt;&gt; /etc/profile
+</span></span><span style="display:flex;"><span>source  /etc/profile
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gcr.io可能无法拉取镜像，替换对应地址</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s#gcr.io/istio-release#istio#g&#39;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/install/kubernetes/istio-demo.yaml
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/memory: 2048Mi/memory: 200Mi/g&#39;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/install/kubernetes/istio-demo.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl apply -f <span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span>/install/kubernetes/helm/istio/templates/crds.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f <span style="color:#e6db74">${</span>ISTIO_HOME<span style="color:#e6db74">}</span>/install/kubernetes/istio-demo.yaml
+</span></span><span style="display:flex;"><span>kubectl get svc -n istio-system
+</span></span><span style="display:flex;"><span>kubectl get pods -n istio-system
+</span></span></code></pre></div><p>安装时间主要耗费在拉镜像，成功运行后如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl get pods -n istio-system</span>
+</span></span><span style="display:flex;"><span>NAME                                        READY     STATUS      RESTARTS   AGE
+</span></span><span style="display:flex;"><span>grafana-6d584567f9-6bhk9                    1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-citadel-5d8b4ddfff-6vwrl              1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-cleanup-secrets-5pwk7                 0/1       Completed   <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-egressgateway-67bd6b9d94-h97fb        1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-galley-7597db6ff8-2hmp6               1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-grafana-post-install-tcxqh            0/1       Completed   <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-ingressgateway-6fd5f84fdc-rzllg       1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-pilot-5cd4d78897-qqfgq                2/2       Running     <span style="color:#ae81ff">1</span>          10h
+</span></span><span style="display:flex;"><span>istio-policy-dd86756cf-xcrzm                2/2       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-sidecar-injector-6995b57c94-f8cc6     1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-statsd-prom-bridge-549d687fd9-5qhgp   1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-telemetry-77c699bcdb-gtl5w            2/2       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>istio-tracing-7596597bd7-h6qtv              1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>prometheus-6ffc56584f-92pvz                 1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span><span style="display:flex;"><span>servicegraph-8678d5587-mwqzj                1/1       Running     <span style="color:#ae81ff">0</span>          10h
+</span></span></code></pre></div><h2 id="spring-boot-示例">spring-boot 示例</h2>
+<p>使用spring-boot开发这样两个应用：</p>
+<ul>
+<li>user-service: 提供接口，比如/user/greeting</li>
+<li>user-ui: 访问user-service的接口
+两个服务的关系如下：</li>
+</ul>
+<p><img src="http://thoreauz.com/images/2018-10-21-17-11-00.jpg" alt=""></p>
+<h3 id="kubernetes-原生api部署">kubernetes 原生api部署</h3>
+<p>使用kubernetes部署<a href="https://raw.githubusercontent.com/ThoreauZZ/spring-boot-istio/master/kubernetes/user-deployment.yaml">user-deployment.yaml</a>，服务发现通过kube-dns。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl apply -f user-deployment.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl get pods</span>
+</span></span><span style="display:flex;"><span>NAME                                       READY     STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>user-service-deployment-5dbcb6cbff-cljmm   1/1       Running   <span style="color:#ae81ff">0</span>          2m
+</span></span><span style="display:flex;"><span>user-service-deployment-5dbcb6cbff-rjcz4   1/1       Running   <span style="color:#ae81ff">0</span>          2m
+</span></span><span style="display:flex;"><span>user-ui-deployment-84889c854d-cq5mq        1/1       Running   <span style="color:#ae81ff">0</span>          2m
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl get svc</span>
+</span></span><span style="display:flex;"><span>NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>   AGE
+</span></span><span style="display:flex;"><span>kubernetes     ClusterIP   10.96.0.1        &lt;none&gt;        443/TCP   15m
+</span></span><span style="display:flex;"><span>user-service   ClusterIP   10.106.195.206   &lt;none&gt;        80/TCP    2m
+</span></span><span style="display:flex;"><span>user-ui        ClusterIP   10.98.77.85      &lt;none&gt;        80/TCP    2m
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># curl -s 10.98.77.85/user/greet?name=thoreau| jq .</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;id&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;content&#34;</span>: <span style="color:#e6db74">&#34;Hello, thoreau&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;ip&#34;</span>: <span style="color:#e6db74">&#34;10.244.1.14&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;address&#34;</span>: <span style="color:#e6db74">&#34;user-service-deployment-5dbcb6cbff-cljmm&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;time&#34;</span>: <span style="color:#e6db74">&#34;2018-10-21 10:27:01&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># curl -s 10.98.77.85/user/greet?name=thoreau| jq .</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;id&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;content&#34;</span>: <span style="color:#e6db74">&#34;Hello, thoreau&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;ip&#34;</span>: <span style="color:#e6db74">&#34;10.244.1.13&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;address&#34;</span>: <span style="color:#e6db74">&#34;user-service-deployment-5dbcb6cbff-rjcz4&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;time&#34;</span>: <span style="color:#e6db74">&#34;2018-10-21 10:28:19&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>10.98.77.85 是user-ui的 CLUSTER-IP。两次访问路由到不同的user-ervice。</p>
+</blockquote>
+<p>从上文示例可以看到，通过kubernete的服务发现功能，user-ui的请求自动路由到user-service。</p>
+<h3 id="istio部署">istio部署</h3>
+<p>先删除之前的部署：<code>kubectl delete -f user-deployment.yaml</code>
+使用istio部署：
+<code>kubectl apply -f &lt;(istioctl kube-inject -f kubectl delete -f user-deployment.yaml)</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e">#  kubectl get pods</span>
+</span></span><span style="display:flex;"><span>NAME                                      READY     STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>user-service-deployment-76845bbfd-dtbkw   2/2       Running   <span style="color:#ae81ff">0</span>          1m
+</span></span><span style="display:flex;"><span>user-service-deployment-76845bbfd-mm7xw   2/2       Running   <span style="color:#ae81ff">0</span>          1m
+</span></span><span style="display:flex;"><span>user-ui-deployment-b88d5b76b-86xqz        2/2       Running   <span style="color:#ae81ff">0</span>          1m
+</span></span></code></pre></div><p>可以看到，pod中的READY字段从<code>1/1</code>变成了<code>2/2</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e">#kubectl get pod user-service-deployment-76845bbfd-dtbkw -o json|jq .spec.containers[].name</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;user-service&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;istio-proxy&#34;</span>
+</span></span></code></pre></div><p>pod 中的容器多了istio-proxy，这就是之前提到的sidecar，此时验证接口访问和之前kubernetes部署一样正常。</p>
+<h3 id="iotio-gateway">iotio-gateway</h3>
+<p>刚才部署的服务，我希望可以从集群外部访问user-ui。可以使用kubernetes的ingress实现，但这儿我们使用iotio-gateway。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl apply -f https://raw.githubusercontent.com/ThoreauZZ/spring-boot-istio/master/istio-rules/my-gateway.yaml</span>
+</span></span><span style="display:flex;"><span>export INGRESS_PORT<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl -n istio-system get service istio-ingressgateway -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.spec.ports[?(@.name==&#34;http2&#34;)].nodePort}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>部署完成后，可以在集群外部可以通过http://主机外网ip:INGRESS_PORT如：
+<img src="http://thoreauz.com/images/2018-10-21-19-27-55.jpg" alt=""></p>
+<h3 id="iotio路由">iotio路由</h3>
+<p>现在，我修改了user-service，作为2.0版本部署，同时存在1.0和2.0版本，我希望能做到只有30%的请求到2.0版本。创建<a href="https://raw.githubusercontent.com/ThoreauZZ/spring-boot-istio/master/kubernetes/user-service-deployment-v2.yaml">user-service-deployment-v2</a>，执行如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> <span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl apply -f &lt;(istioctl kube-inject -f kubectl delete -f user-service-deployment-v2.yaml)</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl get pods</span>
+</span></span><span style="display:flex;"><span>NAME                                          READY     STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>user-service-deployment-76845bbfd-dtbkw       2/2       Running   <span style="color:#ae81ff">0</span>          1h
+</span></span><span style="display:flex;"><span>user-service-deployment-76845bbfd-mm7xw       2/2       Running   <span style="color:#ae81ff">0</span>          1h
+</span></span><span style="display:flex;"><span>user-service-deployment-v2-6c77744685-9cbdn   2/2       Running   <span style="color:#ae81ff">0</span>          2m
+</span></span><span style="display:flex;"><span>user-ui-deployment-b88d5b76b-86xqz            2/2       Running   <span style="color:#ae81ff">0</span>          1h
+</span></span></code></pre></div><p>规则<a href="https://raw.githubusercontent.com/ThoreauZZ/spring-boot-istio/master/istio-rules/rute-userservice.yaml">rute-userservice.yaml</a>配置如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.istio.io/v1alpha3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DestinationRule</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">user-service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">host</span>: <span style="color:#ae81ff">user-service</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">subsets</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;1.0&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;2.0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.istio.io/v1alpha3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">VirtualService</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">spring-boot-user-service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">user-service</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">route</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">destination</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">host</span>: <span style="color:#ae81ff">user-service</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">subset</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">number</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">weight</span>: <span style="color:#ae81ff">70</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">destination</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">host</span>: <span style="color:#ae81ff">user-service</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">subset</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">number</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">weight</span>: <span style="color:#ae81ff">30</span>
+</span></span></code></pre></div><p>kubectl apply -f rute-userservice.yaml
+<img src="http://thoreauz.com/images/2018-10-21-19-49-06.jpg" alt="">
+这样，不用对代码做任何修改，就能做到流量的随意切换，如果把rute-userservice.yaml中的v2权重改成100，再试，会发现所有请求都路由到v2中。
+从这个示例看得出来，service mesh的好处是把业务代码和网络配置解耦。</p>
+<p>同样，通过路由配置，还可以做到http错误码、请求延时等故障注入，还有超时设置、熔断等丰富的网络配置。</p>
+<p>值得一提的是，还可以配置mirror实现流量复制。</p>
+<h3 id="可视化指标">可视化指标</h3>
+<p>istio1.2默认安装的grafana，prometheus，servicegraph，zipkin。可以修改service的type为NodePort，比如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e">#kubectl get svc servicegraph -n istio-system -o yaml| sed &#34;s/ClusterIP/NodePort/g&#34;|kubectl apply -f -</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@master ~<span style="color:#f92672">]</span><span style="color:#75715e"># kubectl get svc servicegraph -n istio-system</span>
+</span></span><span style="display:flex;"><span>NAME           TYPE       CLUSTER-IP     EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>          AGE
+</span></span><span style="display:flex;"><span>servicegraph   NodePort   10.105.150.5   &lt;none&gt;        8088:30639/TCP   1h
+</span></span></code></pre></div><p>通过30639访问：</p>
+<p><img src="http://thoreauz.com/images/2018-10-21-22-28-52.jpg" alt="">
+比如调用链查看：</p>
+<pre tabindex="0"><code>kubectl get svc jaeger-query -n istio-system -o yaml| sed &#34;s/ClusterIP/NodePort/g&#34;|kubectl apply -f -
+</code></pre><p><img src="http://thoreauz.com/images/2018-10-21-22-39-24.jpg" alt=""></p>
+<p><img src="http://thoreauz.com/images/2018-10-21-22-42-59.jpg" alt=""></p>
+<blockquote>
+<p>示例中使用了spring-cloud-slueth</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>本文简单介绍了sever mesh，它以sidecar的形式接管服务的出入流量，sidecar负责服务治理，应用专注于业务逻辑。之后简单介绍最流行的server mesh开源实现istio，并运行了一个两个spring-boot应用。</p>
+<hr>
+<p>参考
+<a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html">http://philcalcado.com/2017/08/03/pattern_service_mesh.html</a>
+<a href="https://jimmysong.io/posts/envoy-sidecar-injection-in-istio-service-mesh-deep-dive/">https://jimmysong.io/posts/envoy-sidecar-injection-in-istio-service-mesh-deep-dive/</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是service-mesh">什么是service mesh</a></li>
+    <li><a href="#istio">istio</a>
+      <ul>
+        <li><a href="#envoy">Envoy</a></li>
+        <li><a href="#mixer">Mixer</a></li>
+        <li><a href="#pilot">Pilot</a></li>
+        <li><a href="#citadel">Citadel</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装">安装</a>
+      <ul>
+        <li><a href="#安装kubernete集群">安装kubernete集群；</a></li>
+        <li><a href="#安装非认证istio">安装非认证istio</a></li>
+      </ul>
+    </li>
+    <li><a href="#spring-boot-示例">spring-boot 示例</a>
+      <ul>
+        <li><a href="#kubernetes-原生api部署">kubernetes 原生api部署</a></li>
+        <li><a href="#istio部署">istio部署</a></li>
+        <li><a href="#iotio-gateway">iotio-gateway</a></li>
+        <li><a href="#iotio路由">iotio路由</a></li>
+        <li><a href="#可视化指标">可视化指标</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=istio%e5%ae%89%e8%a3%85%e4%bd%bf%e7%94%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f10%2f21%2fistio-install-sample%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f10%2f21%2fistio-install-sample%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f10%2f21%2fistio-install-sample%2f&amp;description=istio%e5%ae%89%e8%a3%85%e4%bd%bf%e7%94%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f10%2f21%2fistio-install-sample%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/11/03/istio-proxy/">
+          <section class="post">
+              <h2>istio-proxy原理</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/06/08/rxjava-2/">
+          <section class="post">
+              <h2>rxjava原理篇</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

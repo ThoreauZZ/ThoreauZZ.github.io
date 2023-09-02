@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="消息队列"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="消息队列 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/08/10/mq/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-08-10T22:50:21Z" />
+
+    
+    <meta property="article:tag" content="MQ" />
+    
+    
+
+    <title>消息队列 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="消息队列 一、概述 现在的后端系统几乎离不开3类基本中间件：数据库，nosql缓存，消息队列（MQ）。为什么需要MQ，主要有以下几个场景：异步处" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/08/10/mq/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "消息队列",
+    "name": "消息队列",
+    "wordCount":  1551 ,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/08/10/mq/",
+    "datePublished": "2017-08-10T22:50Z",
+    "dateModified": "2017-08-10T22:50Z",
+    
+    "keywords": "MQ",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/08/10/mq/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">消息队列</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-08-10T22:50:21Z">
+            2017-08-10
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/MQ/">MQ</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="消息队列">消息队列</h1>
+<h2 id="一概述">一、概述</h2>
+<p>现在的后端系统几乎离不开3类基本中间件：数据库，nosql缓存，消息队列（MQ）。为什么需要MQ，主要有以下几个场景：异步处理、应用解耦、系统间通讯、消息队列驱动型架构、错峰与流控、日志收集、广播等待。</p>
+<p>开源的消息队列有很多如rabbitmq，kafka，rocketmq，activemq，ZeroMQ &hellip;，针对不同的业务场景、使用不同的编程语言，可能有不同的选择。不同的队列都有优缺点，性能、稳定性、文档、客户端等方面各有优势。但不管选择哪一个，有些业务中，消息队列并不能解决全部问题，比如消息丢失、消息重复、消息顺序等问题，需要根据队列的特性在应用中自己设计处理。</p>
+<!-- raw HTML omitted -->
+<h2 id="二消息队列的协议">二、消息队列的协议</h2>
+<p>不同的消息队列，可能会遵循不同的公共协议，也有可能自己制定的协议。比如OpenMQ支持JMS协议，rabbitmq支持AMQP协议，ActiveMQ支持比较多，而Kafka和rocketmq则有自己的一套玩法，现在ali在搞Open Messaging规范，希望大家都支持。下面简单介绍几种协议。</p>
+<h3 id="21-jms协议">2.1 JMS协议</h3>
+<p>Java Message Service (JMS)，即java标准化组织制定的一个消息通讯的标准。只要有点对点和发布订阅两种模式，点对点很好理解，发布订阅可理解为一对多。</p>
+<h3 id="22-amqp-协议">2.2 AMQP 协议</h3>
+<p>AMQP，即高级消息队列协议。生产者（publishers），消费者（consumers）之间，还有一个代理(broker)。
+代理中有队列，交换机和绑定等统称为<strong>AMQP实体</strong>。消息存在队列中，消费者消费，有两种途径达到消费的目的：push 和 pull。为了保证消费，需要有一个确认，所以AMQP模块包含了一个消息确认（message acknowledgements）的概念。</p>
+<h2 id="三消息队列问题">三、消息队列问题</h2>
+<p>使用消息队列，需要考虑一系列问题，作为选型和设计开发的判断依据。</p>
+<h3 id="31-可靠性">3.1 可靠性</h3>
+<p>高可用和持久化策略，如何保证数据不丢。在消息投递和消费层面，大多数MQ都有自己的保障机制，对于持久的情况，只能在对集群做同步双写。rocketmq有同步双写，rabbitmq可以配置镜像(副本)。</p>
+<h3 id="32-消息重复">3.2 消息重复</h3>
+<p>队列通过确认机制可能保证至少有一条消息，但可能无法保证只有一条，也就是保证可靠投递就无法保证只有一条，所以设计时需要考虑幂等性。我常考虑的方案如把消息Id缓存半小时，消费时通过id检查消息重复，当然，如果能保证消息处理的幂等性就更好。</p>
+<h3 id="33-消息顺序">3.3 消息顺序</h3>
+<p>可能队列能保证消息的顺序，但多个消费者因为网络或者处理时间的原因，可能导致先到达的消息后消费完。在有的业务场景需要保证顺序。
+大多数的解决方案是保证生产者 - MQServer - 消费者是一对一对一的关系，但是引入的问题的单点无法保证可用性和吞吐量。rocketmq采用的方式是根据某个id，把它路由到同一个队列。简单说就是主动去分配队列，单个消费者实现。</p>
+<p>不管什么方案，保证消息顺序是最复杂的问题，在设计考虑是最好能屏蔽掉需要依赖顺序的情况。</p>
+<h3 id="34-性能">3.4 性能</h3>
+<p>对稳定性和吞吐量的需求考虑。比如实时日志处理，不太在乎重复或者丢失，但数据量大，需要吞吐量好的队列如kafka，rocketmq。</p>
+<h3 id="35-定时消息">3.5 定时消息</h3>
+<p>有的场景需要消费者定时去消费，比如24小时候干嘛，5分钟后干嘛之列的业务场景。rockemq本身支持延时消息，也可以自己设计，比如通过定时器设置“环形队列”。</p>
+<h3 id="36-异常处理">3.6 异常处理</h3>
+<p>除了中间件自己的可靠性，业务中使用客户端时如果出现异常( 发信息失败、消费方出现异常)，需要考虑重试机制和消息落库反补策略。</p>
+<h3 id="37-消息堆积">3.7 消息堆积</h3>
+<p>业务消息有没有突然大量堆积的情况出现，如果堆满了，broker是一个什么样的处理策略。</p>
+<h2 id="总结">总结</h2>
+<p>总之，消息中间件很多，各有优缺点，选型时需要考虑具体业务场景，并根据业务需求设计开发补充中间件所不能支持的场景。</p>
+<hr>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?src=3&amp;timestamp=1502375524&amp;ver=1&amp;signature=xqjBIqXRrTSrhO9bVfPMKw*Gg90a6ZTGaG2SA1uH4jPidiexpFvb-KcO-EU1OfMqA**OvhUf9-prKreBy7UVqB9ayUqoR4rLbPS1K1-QPjnOhVshTvxyUWYziN5YsYE5I*RMFPMW-wdg-gFASGkjWoqVjKXt59-O2HuuGKF5knE=">1分钟实现“延迟消息”功能</a></li>
+<li><a href="http://gd-rus-public.cn-hangzhou.oss-pub.aliyun-inc.com/attachment/201604/08/20160408164929/RocketMQ_experience.pdf">rocketmq最佳实践</a></li>
+<li><a href="https://tech.meituan.com/mq-design.html">https://tech.meituan.com/mq-design.html</a></li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二消息队列的协议">二、消息队列的协议</a>
+      <ul>
+        <li><a href="#21-jms协议">2.1 JMS协议</a></li>
+        <li><a href="#22-amqp-协议">2.2 AMQP 协议</a></li>
+      </ul>
+    </li>
+    <li><a href="#三消息队列问题">三、消息队列问题</a>
+      <ul>
+        <li><a href="#31-可靠性">3.1 可靠性</a></li>
+        <li><a href="#32-消息重复">3.2 消息重复</a></li>
+        <li><a href="#33-消息顺序">3.3 消息顺序</a></li>
+        <li><a href="#34-性能">3.4 性能</a></li>
+        <li><a href="#35-定时消息">3.5 定时消息</a></li>
+        <li><a href="#36-异常处理">3.6 异常处理</a></li>
+        <li><a href="#37-消息堆积">3.7 消息堆积</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fmq%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fmq%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fmq%2f&amp;description=%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f08%2f10%2fmq%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/08/11/Ribbon/">
+          <section class="post">
+              <h2>Ribbon源码阅读</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/08/10/Gradle%E7%9A%84%E5%8F%8C%E5%88%83/">
+          <section class="post">
+              <h2>Gradle的双刃</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

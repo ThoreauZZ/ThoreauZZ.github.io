@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/go/</link>
+    <description>Recent content in go on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Thu, 15 Mar 2018 00:41:09 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GO-defer语句</title>
+      <link>http://thoreauz.com/2018/03/15/GO-defer/</link>
+      <pubDate>Thu, 15 Mar 2018 00:41:09 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/15/GO-defer/</guid>
+      <description>概述 defer是go语言的一个流程控制语句，只能在函数和方法中使用，被defer调用的函数称为延迟函数。 格式： defer fmt.Println(&amp;#34;The finishing touches .&amp;#34;) 为什么叫延长函数，有</description>
+    </item>
+    
+    <item>
+      <title>Cobra- Go的命令行生成库</title>
+      <link>http://thoreauz.com/2018/03/14/Cobra-example/</link>
+      <pubDate>Wed, 14 Mar 2018 22:17:07 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/14/Cobra-example/</guid>
+      <description>概述 Cobra 是一个用来创建 CLI 命令行的 golang 库，也可以用来生成以Cobra为基础的应用和命令文件。被广泛使用在各种Go的项目中，比如Kubernetes</description>
+    </item>
+    
+    <item>
+      <title>go 开发web应用</title>
+      <link>http://thoreauz.com/2018/01/09/go-web-example/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/go-web-example/</guid>
+      <description>本文简单介绍如何用go开发web应用。需要说明，web应用和web service是有区别的，简单点说，输出html算是web应用，而只输出a</description>
+    </item>
+    
+    <item>
+      <title>GO— 异常错误处理</title>
+      <link>http://thoreauz.com/2018/01/09/Go-Error-handling/</link>
+      <pubDate>Tue, 09 Jan 2018 11:41:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/01/09/Go-Error-handling/</guid>
+      <description>error标识符 概述 error是go预定义的标识符。任何实现error接口的都可以认为是一个error，此接口定义如下: type error interface { Error() string } 所以，</description>
+    </item>
+    
+    <item>
+      <title>Go语言8-Json</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-8-json/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-8-json/</guid>
+      <description>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;#34;login&amp;#34;:</description>
+    </item>
+    
+    <item>
+      <title>Go语言9-测试和性能</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-9-test/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-9-test/</guid>
+      <description>测试驱动开发推荐编写测试-运行测试-实现-运行测试-重构-运行测试的的开发流程。开发过程中就进行单元测试和基准测试，在GO语言中也一样可以。</description>
+    </item>
+    
+    <item>
+      <title>Go语言7-日志</title>
+      <link>http://thoreauz.com/2017/11/11/go-learn-7-json/</link>
+      <pubDate>Sat, 11 Nov 2017 23:28:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/11/go-learn-7-json/</guid>
+      <description>日志是程序开发很重要的一部分，在java中，有一大堆第三方包，以至于各种冲突各种排除。本文看看go如何记录日志。 使用 go 自带log包，简单使用</description>
+    </item>
+    
+    <item>
+      <title>Go语言6-网络编程</title>
+      <link>http://thoreauz.com/2017/08/09/go-learn-6-network-programming/</link>
+      <pubDate>Wed, 09 Aug 2017 19:56:14 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/09/go-learn-6-network-programming/</guid>
+      <description>Go语言标准库里提供的net包,支持基于IP层、TCP/UDP层及更高层面(如HTTP、FTP、SMTP)的网络操作，其中用于IP层的称为R</description>
+    </item>
+    
+    <item>
+      <title>Go语言5-并发</title>
+      <link>http://thoreauz.com/2017/08/07/go-learn-5-concurrent/</link>
+      <pubDate>Mon, 07 Aug 2017 13:47:59 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/07/go-learn-5-concurrent/</guid>
+      <description>我们常听到GO的一个主要特性介绍：“天生支持高并发”，什么叫天生支持呢？ 并发和并行不是一回事，并行是多个处理器同时执行不同指令，而并发是指一</description>
+    </item>
+    
+    <item>
+      <title>Go语言4-嵌入类型</title>
+      <link>http://thoreauz.com/2017/08/01/go-learn-4-Embedded-Types/</link>
+      <pubDate>Tue, 01 Aug 2017 00:02:22 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/01/go-learn-4-Embedded-Types/</guid>
+      <description>Java中有内部类和匿名类的说法，但是Go的嵌入类和JAVA完全两回事。在Go语言中，新类可以嵌入一个已有类型作为内部类型，从而它就作为内部</description>
+    </item>
+    
+    <item>
+      <title>Go语言3-接口</title>
+      <link>http://thoreauz.com/2017/07/31/go-learn-3-interface/</link>
+      <pubDate>Mon, 31 Jul 2017 11:17:50 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/31/go-learn-3-interface/</guid>
+      <description>Go语言的主要设计者之一罗布·派克(Rob Pike)曾经说过,如果只能选择一个Go语言的特性移植到其他语言中，他会选择接口，所以接口在Go语</description>
+    </item>
+    
+    <item>
+      <title>Go语言2-类型</title>
+      <link>http://thoreauz.com/2017/07/27/go-learn-2-struct/</link>
+      <pubDate>Thu, 27 Jul 2017 00:15:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/27/go-learn-2-struct/</guid>
+      <description>类型系统是指一个语言的类型体系结构,一个典型的类型系统通常包含如下基本内容: 基础类型: byte、int、bool、float等 复合类型: 如数</description>
+    </item>
+    
+    <item>
+      <title>Go语言1-数据类型</title>
+      <link>http://thoreauz.com/2017/07/25/go-learn-1-data_structure/</link>
+      <pubDate>Tue, 25 Jul 2017 18:29:31 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/07/25/go-learn-1-data_structure/</guid>
+      <description>开始学习GO，主要原因是现在使用的一些组件如Docker，K8s，Etcd都是用GO开发的，希望能对使用的东西多一些了解，读懂简单的源码。 作</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="java8学习-流的使用"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="java8学习-流的使用 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/06/java8-stream/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-06T00:33:01Z" />
+
+    
+    <meta property="article:tag" content="java8" />
+    
+    
+
+    <title>java8学习-流的使用 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="java8学习-流的使用 《java8实战》学习笔记 一、筛选和切片 Streams接口支持filter方法(你现在应该很熟悉了)。该操作会接受一" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/06/java8-stream/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "java8学习-流的使用",
+    "name": "java8学习-流的使用",
+    "wordCount":  2664 ,
+    "timeRequired": "PT6M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/03/06/java8-stream/",
+    "datePublished": "2017-03-06T00:33Z",
+    "dateModified": "2017-03-06T00:33Z",
+    
+    "keywords": "java8",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/03/06/java8-stream/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">java8学习-流的使用</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-06T00:33:01Z">
+            2017-03-06
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/java8/">java8</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="java8学习-流的使用">java8学习-流的使用</h1>
+<blockquote>
+<p>《java8实战》学习笔记</p>
+</blockquote>
+<h2 id="一筛选和切片">一、筛选和切片</h2>
+<p>Streams接口支持filter方法(你现在应该很熟悉了)。该操作会接受一个谓词(一个返回 boolean的函数)作为参数,并返回一个包括所有符合谓词的元素的流。</p>
+<p>有这样一个类：Dish</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dish</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> vegetarian<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> calories<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Type type<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Dish</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> vegetarian<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> calories<span style="color:#f92672">,</span> Type type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">vegetarian</span> <span style="color:#f92672">=</span> vegetarian<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">calories</span> <span style="color:#f92672">=</span> calories<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> type<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isVegetarian</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> vegetarian<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getCalories</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> calories<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Type <span style="color:#a6e22e">getType</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> type<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> Type <span style="color:#f92672">{</span> MEAT<span style="color:#f92672">,</span> FISH<span style="color:#f92672">,</span> OTHER <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> List<span style="color:#f92672">&lt;</span>Dish<span style="color:#f92672">&gt;</span> menu <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>            Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;pork&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 800<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MEAT</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;beef&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 700<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MEAT</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;chicken&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 400<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MEAT</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;french fries&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> 530<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">OTHER</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rice&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> 350<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">OTHER</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;season fruit&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> 120<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">OTHER</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;pizza&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> 550<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">OTHER</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;prawns&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 400<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">FISH</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">new</span> Dish<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;salmon&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> 450<span style="color:#f92672">,</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">.</span><span style="color:#a6e22e">FISH</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>下面多处示例都会用到该类：</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-----------all Dish-----------&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#f92672">&lt;</span>Dish<span style="color:#f92672">&gt;</span> menu <span style="color:#f92672">=</span> Dish<span style="color:#f92672">.</span><span style="color:#a6e22e">menu</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        menu<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span> <span style="color:#f92672">::</span> println<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;--------vegetarian dish-------&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>Dish<span style="color:#f92672">::</span>isVegetarian<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">collect</span><span style="color:#f92672">(</span>toList<span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span> <span style="color:#f92672">::</span> println<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>&mdash;&mdash;&mdash;&ndash;all Dish&mdash;&mdash;&mdash;&ndash;
+pork
+beef
+chicken
+french fries
+rice
+season fruit
+pizza
+prawns
+salmon
+&mdash;&mdash;&ndash;vegetarian dish&mdash;&mdash;-
+french fries
+rice
+season fruit
+pizza</p>
+</blockquote>
+<p>流还支持一个叫作distinct的方法,它会返回一个元素各异(根据流所生成元素的 hashCode和equals方法实现)的流。
+示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> numbers <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 2<span style="color:#f92672">,</span> 1<span style="color:#f92672">,</span> 3<span style="color:#f92672">,</span> 3<span style="color:#f92672">,</span> 2<span style="color:#f92672">,</span> 4<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>numbers<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-&gt;</span> i <span style="color:#f92672">%</span> 2 <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">distinct</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>2
+4</p>
+</blockquote>
+<p>流支持limit(n)方法,该方法会返回一个不超过给定长度的流。所需的长度作为参数传递 给limit。如果流是有序的,则最多会返回前n个元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>dish <span style="color:#f92672">-&gt;</span> dish<span style="color:#f92672">.</span><span style="color:#a6e22e">getCalories</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> 300<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>pork
+beef
+chicken</p>
+</blockquote>
+<p>流还支持skip(n)方法,返回一个扔掉了前n个元素的流。如果流中元素不足n个,则返回一 个空流。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>dish <span style="color:#f92672">-&gt;</span> dish<span style="color:#f92672">.</span><span style="color:#a6e22e">getCalories</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> 300<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">skip</span><span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>chicken
+french fries
+rice
+pizza
+prawns
+salmon</p>
+</blockquote>
+<h2 id="二映射">二、映射</h2>
+<h3 id="21-对流中每一个元素应用函数">2.1 对流中每一个元素应用函数</h3>
+<p>流支持map方法,它会接受一个函数作为参数。这个函数会被应用到每个元素上,并将其映 射成一个新的元素。</p>
+<pre tabindex="0"><code> List&lt;String&gt; words = Arrays.asList(&#34;Java 8&#34;, &#34;Lambdas&#34;, &#34;In&#34;, &#34;Action&#34;);
+        words.stream()
+                .map(String::length)
+                .forEach(System.out::print);
+</code></pre><blockquote>
+<p>6726</p>
+</blockquote>
+<p>示例中，每一个String会调用length方法。</p>
+<h3 id="21-流的扁平化">2.1 流的扁平化</h3>
+<p>flatmap方法让你把一个流中的每个值都换成另一个流,然后把所有的流连接 起来成为一个流。</p>
+<h2 id="三查找匹配">三、查找匹配</h2>
+<p>另一个常见的数据处理套路是看看数据集中的某些元素是否匹配一个给定的属性。Stream API通过allMatch、anyMatch、noneMatch、findFirst和findAny方法提供了这样的工具。</p>
+<ul>
+<li>anyMatch: 方法可以回答“流中是否有一个元素能匹配给定的谓词</li>
+<li>allMatch: 检查谓词是否匹配所有元素</li>
+<li>noneMatch: allMatch相对</li>
+<li>findAny: 返回当前流中的任意元素</li>
+<li>findFirst：查找第一个元素</li>
+</ul>
+<blockquote>
+<p>对于流而言,某些操作(例如allMatch、anyMatch、noneMatch、findFirst和findAny) 不用处理整个流就能得到结果。只要找到一个元素,就可以有结果了。同样,limit也是一个 短路操作</p>
+</blockquote>
+<h2 id="四归约">四、归约</h2>
+<p>将流中所有元素反复结合起来,得到一个值,比如一个Integer。这样的查询可以被归类为归约操作 (将流归约成一个值)。用函数式编程语言的术语来说,这称为折叠(fold),因为你可以将这个操作看成把一张长长的纸(你的流)反复折叠成一个小方块,而这就是折叠操作的结果。</p>
+<p><strong>reduce</strong>
+接受两个参数：</p>
+<ul>
+<li>初始值</li>
+<li>产生新值的函数</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// 把每个菜对映射为1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>d <span style="color:#f92672">-&gt;</span> 1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 加起来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">reduce</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> <span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> b<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">+</span> b<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>9</p>
+</blockquote>
+<p>map和reduce的连接通常称为map-reduce模式,因Google用它来进行网络搜索而出名, 因为它很容易并行化。</p>
+<p>我们可以通过他来求和、最大最小值等。</p>
+<p>但使用流也要注意无状态和有状态操作。</p>
+<h2 id="五数值流">五、数值流</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> calories <span style="color:#f92672">=</span> menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>Dish<span style="color:#f92672">::</span>getCalories<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">reduce</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> Integer<span style="color:#f92672">::</span>sum<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>这个示例中，我们可以计算所有卡路里总和，但每个Integer都必须拆箱成一个原始类型,再求和。</p>
+<p>Java 8引入了三个原始类型特化流接口来解决这个问题。IntStream、DoubleStream和 LongStream,分别将流中的元素特化为int、long和double,从而避免了暗含的装箱成本。每 个接口都带来了进行常用数值归约的新方法,比如对数值流求和的sum,找到最大元素的max。 此外还有在必要时再把它们转换回对象流的方法。</p>
+<p>修改示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> calories <span style="color:#f92672">=</span> menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">mapToInt</span><span style="color:#f92672">(</span>Dish<span style="color:#f92672">::</span>getCalories<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">reduce</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> Integer<span style="color:#f92672">::</span>sum<span style="color:#f92672">);</span>
+</span></span></code></pre></div><blockquote>
+<p>mapToInt会从每道菜中提取热量(用一个Integer表示),并返回一个IntStream (而不是一个Stream<!-- raw HTML omitted -->)。然后你就可以调用IntStream接口中定义的sum方法,对卡 路里求和了!请注意,如果流是空的,sum默认返回0。IntStream还支持其他的方便方法,如
+max、min、average等</p>
+</blockquote>
+<p>当然，数值流也可以转回对象流：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>IntStream intStream <span style="color:#f92672">=</span> menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">().</span><span style="color:#a6e22e">mapToInt</span><span style="color:#f92672">(</span>Dish<span style="color:#f92672">::</span>getCalories<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Stream<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> integerStream <span style="color:#f92672">=</span> intStream<span style="color:#f92672">.</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">();</span><span style="color:#75715e">// 装箱
+</span></span></span></code></pre></div><p>数值流求和时，如果没用最大值，默认0，但如何区分0是不是最大值呢？可以OptionalInt定义默认值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>OptionalInt maxCalories <span style="color:#f92672">=</span> menu<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">mapToInt</span><span style="color:#f92672">(</span>Dish<span style="color:#f92672">::</span>getCalories<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>maxCalories<span style="color:#f92672">.</span><span style="color:#a6e22e">orElse</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>如果想生产随机数，IntStream和LongStream的静态方法,帮助生成这种范围: range和rangeClosed。
+示例：生成1到100的数字流：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>IntStream evenNumbers <span style="color:#f92672">=</span> IntStream<span style="color:#f92672">.</span><span style="color:#a6e22e">rangeClosed</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-&gt;</span> i <span style="color:#f92672">%</span> 2 <span style="color:#f92672">==</span> 0<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>evenNumbers<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">());</span>
+</span></span></code></pre></div><blockquote>
+<p>50
+range和rangeClosed一样，只是它不包含结束值，如果此处使用range，结果就是49</p>
+</blockquote>
+<p>综合示例：生产勾股数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Stream<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">[]&gt;</span> pythagoreanTriples <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>            IntStream<span style="color:#f92672">.</span><span style="color:#a6e22e">rangeClosed</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">flatMap</span><span style="color:#f92672">(</span>a <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>                            IntStream<span style="color:#f92672">.</span><span style="color:#a6e22e">rangeClosed</span><span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">.</span><span style="color:#a6e22e">mapToObj</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                                            b <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">double</span><span style="color:#f92672">[]{</span>a<span style="color:#f92672">,</span> b<span style="color:#f92672">,</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sqrt</span><span style="color:#f92672">(</span>a <span style="color:#f92672">*</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">*</span> b<span style="color:#f92672">)})</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>t <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#f92672">%</span> 1 <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    pythagoreanTriples<span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>t <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>t<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">+</span> t<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">+</span> t<span style="color:#f92672">[</span>2<span style="color:#f92672">]));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>3.0, 4.0, 5.0
+5.0, 12.0, 13.0
+6.0, 8.0, 10.0
+7.0, 24.0, 25.0
+8.0, 15.0, 17.0</p>
+</blockquote>
+<h2 id="六构建流">六、构建流</h2>
+<p>使用stream方法可以从集合生成流，可以根据数值范围创建数值流。但创建流的方法还有许多，如值序列、数组、文件来创建流,甚至由生成函数来创建无限流。</p>
+<ul>
+<li>Stream.of：由值创建流</li>
+<li>Arrays.stream：数组创建流</li>
+<li>Files.lines：由文件生成流</li>
+<li>Stream.iterate和Stream.generate：创建无限流</li>
+</ul>
+<p>静态方法Stream.of,通过显式值创建一个流：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Stream<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> stream <span style="color:#f92672">=</span> Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Java 8 &#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Lambdas &#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;In &#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Action&#34;</span><span style="color:#f92672">);</span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 空流
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Stream<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> emptyStream <span style="color:#f92672">=</span> Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">empty</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//斐波纳契元组序列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">iterate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]{</span>0<span style="color:#f92672">,</span> 1<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>                t <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]{</span>t<span style="color:#f92672">[</span>1<span style="color:#f92672">],</span>t<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> t<span style="color:#f92672">[</span>1<span style="color:#f92672">]})</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>t <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">[</span>0<span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+</span></span></code></pre></div><h2 id="七总结">七、总结</h2>
+<ul>
+<li>可以使用filter、distinct、skip和limit对流做筛选和切片。</li>
+<li>你可以使用map和flatMap提取或转换流中的元素。 你可以使用findFirst和findAny方法查找流中的元素。你可以用allMatch、noneMatch和anyMatch方法让流匹配给定的谓词。</li>
+<li>这些方法都利用了短路:找到结果就立即停止计算;没有必要处理整个流。</li>
+<li>educe方法将流中所有的元素迭代合并成一个结果,例如求和或查找最大元素。</li>
+<li>filter和map等操作是无状态的,它们并不存储任何状态。reduce等操作要存储状态才能计算出一个值。sorted和distinct等操作也要存储状态,因为它们需要把流中的所有元素缓存起来才能返回一个新的流。这种操作称为有状态操作。</li>
+<li>流有三种基本的原始类型特化:IntStream、DoubleStream和LongStream。它们的操作也有相应的特化。</li>
+<li>流不仅可以从集合创建,也可从值、数组、文件以及iterate与generate等特定方法创建。</li>
+<li>无限流是没有固定大小的流。</li>
+</ul>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一筛选和切片">一、筛选和切片</a></li>
+    <li><a href="#二映射">二、映射</a>
+      <ul>
+        <li><a href="#21-对流中每一个元素应用函数">2.1 对流中每一个元素应用函数</a></li>
+        <li><a href="#21-流的扁平化">2.1 流的扁平化</a></li>
+      </ul>
+    </li>
+    <li><a href="#三查找匹配">三、查找匹配</a></li>
+    <li><a href="#四归约">四、归约</a></li>
+    <li><a href="#五数值流">五、数值流</a></li>
+    <li><a href="#六构建流">六、构建流</a></li>
+    <li><a href="#七总结">七、总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=java8%e5%ad%a6%e4%b9%a0-%e6%b5%81%e7%9a%84%e4%bd%bf%e7%94%a8&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f06%2fjava8-stream%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f06%2fjava8-stream%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f06%2fjava8-stream%2f&amp;description=java8%e5%ad%a6%e4%b9%a0-%e6%b5%81%e7%9a%84%e4%bd%bf%e7%94%a8"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f06%2fjava8-stream%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/07/spring-cloud-zuul/">
+          <section class="post">
+              <h2>spring cloud 服务网关ZULL</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/05/Elasticsearch-install-starter/">
+          <section class="post">
+              <h2>Elasticsearch安装和简单介绍</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

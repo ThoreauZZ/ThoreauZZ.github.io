@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Go语言8-Json"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Go语言8-Json &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/11/11/go-learn-8-json/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-11-11T23:28:27Z" />
+
+    
+    <meta property="article:tag" content="go学习" />
+    
+    <meta property="article:tag" content="go" />
+    
+    
+
+    <title>Go语言8-Json &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。 解码 先来看示例，访问github api，解析成struct。 curl -s https://api.github.com/users/ThoreauZZ |jq { &amp;#34;login&amp;#34;:" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/11/11/go-learn-8-json/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "Go语言8-Json",
+    "name": "Go语言8-Json",
+    "wordCount":  723 ,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/11/11/go-learn-8-json/",
+    "datePublished": "2017-11-11T23:28Z",
+    "dateModified": "2017-11-11T23:28Z",
+    
+    "keywords": "go学习, go",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/11/11/go-learn-8-json/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Go语言8-Json</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-11-11T23:28:27Z">
+            2017-11-11
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go%E5%AD%A6%E4%B9%A0/">go学习</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/go/">go</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>Json作为如今最流行的数据格式，本文看看如何使用GO处理Json。</p>
+<!-- raw HTML omitted -->
+<h2 id="解码">解码</h2>
+<p>先来看示例，访问github api，解析成struct。
+curl -s <a href="https://api.github.com/users/ThoreauZZ">https://api.github.com/users/ThoreauZZ</a> |jq</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;login&#34;</span>: <span style="color:#e6db74">&#34;ThoreauZZ&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">10337273</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;avatar_url&#34;</span>: <span style="color:#e6db74">&#34;https://avatars1.githubusercontent.com/u/10337273?v=4&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gravatar_id&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;html_url&#34;</span>: <span style="color:#e6db74">&#34;https://github.com/ThoreauZZ&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;followers_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/followers&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;following_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/following{/other_user}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gists_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/gists{/gist_id}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;starred_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/starred{/owner}{/repo}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;subscriptions_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/subscriptions&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;organizations_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/orgs&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;repos_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/repos&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;events_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/events{/privacy}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;received_events_url&#34;</span>: <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ/received_events&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;User&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;site_admin&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;thoreau&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;company&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;blog&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;location&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;email&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;hireable&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;bio&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;public_repos&#34;</span>: <span style="color:#ae81ff">29</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;public_gists&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;followers&#34;</span>: <span style="color:#ae81ff">9</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;following&#34;</span>: <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;created_at&#34;</span>: <span style="color:#e6db74">&#34;2014-12-29T08:15:41Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;updated_at&#34;</span>: <span style="color:#e6db74">&#34;2017-10-14T14:19:05Z&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>下面把这个json转成struct，代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">rstBody</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Login</span>       <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;login&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Id</span>          <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Gravatar_id</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;gravatar_id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Url</span>         <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;url&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Html_url</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;html_url&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">uri</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;https://api.github.com/users/ThoreauZZ&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">uri</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;get api error&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">rst</span> <span style="color:#a6e22e">rstBody</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">rst</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">rst</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用http包请求获取body(ReadCloser)，使用NewDecoder函数和Decode方法。为了方便，我只解析部分字段。这个特别需要注意的是，rstBody的每个属性首字母必须大写，否则解析器访问不了，就像java对象没有get、set方法一样。但是大写和返回json不匹配。可以使用struct的tag，给每个字段添加元信息，使之和json一一映射。</p>
+<p>NewDecoder 函数接受一个实现了 io.Reader 接口类型的作为参数，返回Decoder指针，支持interface参数进行解析。</p>
+<p>上面的示例是从Reader中读取数据解析，也可能我们是从一个字符串反序列化。此时使用<code>Unmarshal</code>函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">user</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span> <span style="color:#e6db74">`json:&#34;age&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">JSON</span> = <span style="color:#e6db74">`{&#34;name&#34;:&#34;thoreau&#34;,&#34;password&#34;:&#34;123&#34;,&#34;age&#34;:22}`</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">u</span> <span style="color:#a6e22e">user</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>([]byte(<span style="color:#a6e22e">JSON</span>),<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">u</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">u</span>)
+</span></span></code></pre></div><p>在第一个示例中，只是写了几个字段映射，如果想全部映射但又不想写struct，可以借助map</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>] <span style="color:#66d9ef">interface</span>{}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>)
+</span></span></code></pre></div><p>使用map是灵活，但解析后使用不方便。</p>
+<h2 id="编码">编码</h2>
+<p>还是先看示例，把map转为json：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#a6e22e">mymap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{})
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mymap</span>[<span style="color:#e6db74">&#34;name&#34;</span>] =<span style="color:#e6db74">&#34;thoreau&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mymap</span>[<span style="color:#e6db74">&#34;password&#34;</span>] =<span style="color:#e6db74">&#34;123&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mymap</span>[<span style="color:#e6db74">&#34;age&#34;</span>] =<span style="color:#ae81ff">22</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>,<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">mymap</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;error&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(string(<span style="color:#a6e22e">data</span>))
+</span></span></code></pre></div><p>函数 MarshalIndent 返回一个 byte 切片,用来保存 JSON 字符串和一个 error  。如果想加前缀和indent，可以使用函数<code>MarshalIndent</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>,<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">MarshalIndent</span>(<span style="color:#a6e22e">mymap</span>,<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;  &#34;</span>)
+</span></span></code></pre></div><hr>
+<p>参考：
+[1]. 《Go语言实战》</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#解码">解码</a></li>
+    <li><a href="#编码">编码</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Go%e8%af%ad%e8%a8%808-Json&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-8-json%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-8-json%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-8-json%2f&amp;description=Go%e8%af%ad%e8%a8%808-Json"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f11%2fgo-learn-8-json%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/11/13/use-postman-to-test-api/">
+          <section class="post">
+              <h2>用Postman测试API</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/11/11/go-learn-9-test/">
+          <section class="post">
+              <h2>Go语言9-测试和性能</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

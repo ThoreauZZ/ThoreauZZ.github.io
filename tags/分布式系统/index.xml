@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>分布式系统 on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 分布式系统 on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 19 Jan 2019 11:44:53 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RPC六-动态代理</title>
+      <link>http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/</link>
+      <pubDate>Sat, 19 Jan 2019 11:44:53 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc6-dynamic-proxy/</guid>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
+    </item>
+    
+    <item>
+      <title>RPC五-可靠性设计</title>
+      <link>http://thoreauz.com/2019/01/19/rpc5-reliability/</link>
+      <pubDate>Sat, 19 Jan 2019 11:40:47 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc5-reliability/</guid>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
+    </item>
+    
+    <item>
+      <title>RPC三-rpc协议和编解码</title>
+      <link>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:46 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc3-protocol-e-decode/</guid>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
+    </item>
+    
+    <item>
+      <title>RPC二-NettyHandler处理消息</title>
+      <link>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc2-netty-handler/</guid>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
+    </item>
+    
+    <item>
+      <title>RPC一-线程模型</title>
+      <link>http://thoreauz.com/2019/01/19/rpc1-netty-reactor/</link>
+      <pubDate>Sat, 19 Jan 2019 11:37:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/19/rpc1-netty-reactor/</guid>
+      <description>RPC系列 RPC一-线程模型 RPC二-NettyHandler处理消息 RPC三-rpc协议和编解码 RPC四-netty异步双向责任链 RPC五</description>
+    </item>
+    
+    <item>
+      <title>服务发现-注册中心设计</title>
+      <link>http://thoreauz.com/2019/01/12/service-registry-discovery/</link>
+      <pubDate>Sat, 12 Jan 2019 18:37:11 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2019/01/12/service-registry-discovery/</guid>
+      <description>概述 服务注册与发现是微服务的核心，否则新发布一个服务只能去调用方配置地址，不能接受的事。不管是rpc还是spring cloud这种Http调</description>
+    </item>
+    
+    <item>
+      <title>限流-Sentinel使用</title>
+      <link>http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/</link>
+      <pubDate>Sat, 17 Nov 2018 15:58:54 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/17/request-limit-Sentinel-use/</guid>
+      <description>上篇文章介绍了sentinel的简单示例和一些架构、基本原理。本文重点看看如何和一些已有系统整合使用。 框架适配 servlet 其实很好理解，做一个filt</description>
+    </item>
+    
+    <item>
+      <title>限流-阿里开源Sentinel</title>
+      <link>http://thoreauz.com/2018/11/17/request-limit-Sentinel/</link>
+      <pubDate>Sat, 17 Nov 2018 13:48:16 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/11/17/request-limit-Sentinel/</guid>
+      <description>Sentinel作用 Sentinelm，分布式系统的流量防卫兵，可以从多个维度保护应用，广泛用于阿里各个系统，是大促稳定性保障的关键。现已开</description>
+    </item>
+    
+    <item>
+      <title>ELK之Logstash</title>
+      <link>http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/</link>
+      <pubDate>Wed, 09 Aug 2017 20:34:47 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/09/ELK%E4%B9%8BLogstash/</guid>
+      <description>ELK是很流行的日志收集架构，通过LogStash搜集日志，ES存储，Kinaba展示。LogStash通过插件和一个工作流，完成了一整套日</description>
+    </item>
+    
+    <item>
+      <title>ELK日志搜集查询</title>
+      <link>http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/</link>
+      <pubDate>Thu, 09 Feb 2017 23:39:12 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/09/ELK%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86%E6%9F%A5%E8%AF%A2/</guid>
+      <description>ELK日志搜集查询 ELK是三个软件的缩写，ElasticSearch、LogStash和Kibana。简单来说，LogStash负责搜集过滤</description>
+    </item>
+    
+  </channel>
+</rss>

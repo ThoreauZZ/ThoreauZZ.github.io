@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="spring-boot 使用protobuf"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="spring-boot 使用protobuf &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2018/03/24/spring-boot-protobuf/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2018-03-24T08:15:56Z" />
+
+    
+    <meta property="article:tag" content="spring-boot" />
+    
+    <meta property="article:tag" content="protobuf" />
+    
+    <meta property="article:tag" content="spring" />
+    
+    
+
+    <title>spring-boot 使用protobuf &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 本文简单介绍通过gradle构建以protobuf作为数据通讯格式的spring boot服务。 protobuf简介 Protocol Buffers是Go" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2018/03/24/spring-boot-protobuf/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "spring-boot 使用protobuf",
+    "name": "spring-boot 使用protobuf",
+    "wordCount":  1258 ,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2018/03/24/spring-boot-protobuf/",
+    "datePublished": "2018-03-24T08:15Z",
+    "dateModified": "2018-03-24T08:15Z",
+    
+    "keywords": "spring-boot, protobuf, spring",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2018/03/24/spring-boot-protobuf/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">spring-boot 使用protobuf</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-03-24T08:15:56Z">
+            2018-03-24
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring-boot/">spring-boot</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/protobuf/">protobuf</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/spring/">spring</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p>本文简单介绍通过<code>gradle</code>构建以<code>protobuf</code>作为数据通讯格式的<code>spring boot</code>服务。</p>
+<!-- raw HTML omitted -->
+<h2 id="protobuf简介">protobuf简介</h2>
+<p>Protocol Buffers是Google出品的一种序列化数据结构的协议。和xml，json等通讯格式一样，支持夸语言。但protobuf更小，更快，更简单。官方声称，比xml格式小3-10倍，速度快20到100倍。</p>
+<p>具体性能对比可以参考:<a href="https://github.com/eishay/jvm-serializers/wiki">https://github.com/eishay/jvm-serializers/wiki</a>.</p>
+<p>除了更快更小，protobuf的还有其他优点：</p>
+<ol>
+<li>可以通过结构描述生成代码。专注于文档设计，自动生成对象模型。</li>
+<li>兼容性好</li>
+</ol>
+<p>当然，也有缺点，如二进制格式导致可读性差，必须配合描述文件<code>.proto</code>。</p>
+<p>本文不详细介绍语法格式，可见官网<a href="https://developers.google.com/protocol-buffers/docs/proto3">proto3</a>及其翻译<a href="http://colobu.com/2017/03/16/Protobuf3-language-guide/">Protobuf3 语法指南</a></p>
+<h2 id="spring-boot-proto-示例">spring-boot-proto 示例</h2>
+<p>gradle 配置：</p>
+<p><code>build.gradle</code>如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>buildscript <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	ext <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		springBootVersion <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2.0.0.RELEASE&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		mavenCentral<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		classpath<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// protobuf-gradle-plugin
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		classpath <span style="color:#e6db74">&#39;com.google.protobuf:protobuf-gradle-plugin:0.8.5&#39;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>apply plugin: <span style="color:#e6db74">&#39;java&#39;</span>
+</span></span><span style="display:flex;"><span>apply plugin: <span style="color:#e6db74">&#39;eclipse&#39;</span>
+</span></span><span style="display:flex;"><span>apply plugin: <span style="color:#e6db74">&#39;idea&#39;</span>
+</span></span><span style="display:flex;"><span>apply plugin: <span style="color:#e6db74">&#39;org.springframework.boot&#39;</span>
+</span></span><span style="display:flex;"><span>apply plugin: <span style="color:#e6db74">&#39;io.spring.dependency-management&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// add protobuf plugin
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>apply plugin: <span style="color:#e6db74">&#39;com.google.protobuf&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;com.thoreau&#39;</span>
+</span></span><span style="display:flex;"><span>version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0.0.1-SNAPSHOT&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sourceCompatibility <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	mavenCentral<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;com.google.protobuf:protobuf-java:3.4.0&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;com.googlecode.protobuf-java-format:protobuf-java-format:1.4&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    compile <span style="color:#e6db74">&#39;com.squareup.okhttp3:okhttp:3.10.0&#39;</span>
+</span></span><span style="display:flex;"><span>	testCompile<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;org.springframework.boot:spring-boot-starter-test&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// pre-compiled protoc
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>protobuf <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Configure the protoc executable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	protoc <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Download from repositories
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		artifact <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;com.google.protobuf:protoc:3.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// generated java files dir
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//		generatedFilesBaseDir = &#34;$projectDir/gen&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>clean <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    delete protobuf<span style="color:#f92672">.</span><span style="color:#a6e22e">generatedFilesBaseDir</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>test <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    reports <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        junitXml<span style="color:#f92672">.</span><span style="color:#a6e22e">enabled</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        html<span style="color:#f92672">.</span><span style="color:#a6e22e">enabled</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>sourceSets<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    main <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        java <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/main/java&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        resources <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/main/resources&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        proto <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// In addition to the default &#39;src/main/proto&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            srcDir <span style="color:#e6db74">&#39;src/main/proto&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    test <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        proto <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// In addition to the default &#39;src/test/proto&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            srcDir <span style="color:#e6db74">&#39;src/test/proto&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        java <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/test/java&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        resources <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            srcDir <span style="color:#e6db74">&#39;src/main/resources&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="spring-boot-使用protobuf">spring boot 使用protobuf</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Application</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用 protobuf 作为消息协议(序列化)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    ProtobufHttpMessageConverter <span style="color:#a6e22e">protobufHttpMessageConverter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProtobufHttpMessageConverter<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 配置restTeamplete 解析 protobuf（反序列化)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    RestTemplate <span style="color:#a6e22e">restTemplate</span><span style="color:#f92672">(</span>ProtobufHttpMessageConverter hmc<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RestTemplate<span style="color:#f92672">(</span>Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">singletonList</span><span style="color:#f92672">(</span>hmc<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="proto文件">proto文件</h3>
+<p>根据gradle的配置，在<code>src/proto</code>目录下新建两个文件：</p>
+<p><code>hobby.proto</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#75715e">// 版本
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">package</span> com<span style="color:#f92672">.</span>thoreau.protobuf.vo; <span style="color:#75715e">// 命名空间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">option</span> java_package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.thoreau.protobuf.generated.vo&#34;</span>;<span style="color:#75715e">//生成java包名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">option</span> java_outer_classname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HobbyProto&#34;</span>; <span style="color:#75715e">//生成Java类名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">option</span> java_multiple_files <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Hobby</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">int32</span> level <span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><code>user.proto</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> com<span style="color:#f92672">.</span>thoreau.protobuf.vo;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;com/thoreau/protobuf/vo/hobby.proto&#34;</span>;<span style="color:#75715e">// 导入上一个文件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">option</span> java_package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.thoreau.protobuf.generated.vo&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">option</span> java_outer_classname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;UserProto&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">option</span> java_multiple_files <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">User</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    reserved <span style="color:#e6db74">&#34;Person&#34;</span>;<span style="color:#75715e">// 保留标识符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">string</span> firstName <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> lastName <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> emailAddress <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> homeAddress <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> Hobby hobbies <span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> Skill skills <span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">enum</span> Skill {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        GOLANG <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        PYTHON <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        JAVA <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        RUST <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        CPP <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>gradle 编译：</p>
+<pre tabindex="0"><code>gradle build
+</code></pre><p>编译后在build目录下对应包中生成如下文件：</p>
+<pre tabindex="0"><code>Hobby.class
+HobbyOrBuilder.class
+HobbyProto.class
+User.class
+UserOrBuilder.class
+UserProto.class
+</code></pre><h3 id="controller">controller</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/user&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserResource</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span><span style="color:#f92672">(</span>produces <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;application/x-protobuf&#34;</span><span style="color:#f92672">)</span><span style="color:#75715e">// 指定response的Content-Type(消息类型)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">getPersonProto</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">return</span> User<span style="color:#f92672">.</span><span style="color:#a6e22e">newBuilder</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">setFirstName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;thoreau&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">setLastName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;zz&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">setEmailAddress</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;thoreau@gmail.com&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">setHomeAddress</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123 xxx Street&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">addHobbies</span><span style="color:#f92672">(</span>Hobby<span style="color:#f92672">.</span><span style="color:#a6e22e">newBuilder</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;basketball&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">addHobbies</span><span style="color:#f92672">(</span>Hobby<span style="color:#f92672">.</span><span style="color:#a6e22e">newBuilder</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;football&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">addSkills</span><span style="color:#f92672">(</span>User<span style="color:#f92672">.</span><span style="color:#a6e22e">Skill</span><span style="color:#f92672">.</span><span style="color:#a6e22e">JAVA</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">addSkills</span><span style="color:#f92672">(</span>User<span style="color:#f92672">.</span><span style="color:#a6e22e">Skill</span><span style="color:#f92672">.</span><span style="color:#a6e22e">GOLANG</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>启动服务，访问<code>127.0.0.1:8080/user</code>,可拿到protobuf的二进制消息。</p>
+<h3 id="测试">测试</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.thoreau.protobuf<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.googlecode.protobuf.format.JsonFormat<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.thoreau.protobuf.generated.vo.User<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.OkHttpClient<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Request<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> okhttp3.Response<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.junit.Test<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.junit.runner.RunWith<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.test.context.SpringBootTest<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.test.web.client.TestRestTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.web.server.LocalServerPort<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.http.ResponseEntity<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 2018/3/23 13:55.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @author zhaozhou
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>SpringJUnit4ClassRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootTest</span><span style="color:#f92672">(</span>classes <span style="color:#f92672">=</span> Application<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> webEnvironment <span style="color:#f92672">=</span> SpringBootTest<span style="color:#f92672">.</span><span style="color:#a6e22e">WebEnvironment</span><span style="color:#f92672">.</span><span style="color:#a6e22e">RANDOM_PORT</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplicationTest</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@LocalServerPort</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> port<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> TestRestTemplate restTemplate<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getUserTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        ResponseEntity<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> user <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">getForEntity</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/user&#34;</span><span style="color:#f92672">,</span> User<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// assert
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getUserJson</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        OkHttpClient client <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OkHttpClient<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        Request request <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Request<span style="color:#f92672">.</span><span style="color:#a6e22e">Builder</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">url</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://127.0.0.1:&#34;</span> <span style="color:#f92672">+</span> port <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/user&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        Response response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span><span style="color:#a6e22e">newCall</span><span style="color:#f92672">(</span>request<span style="color:#f92672">).</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            inputStream <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">body</span><span style="color:#f92672">().</span><span style="color:#a6e22e">byteStream</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            JsonFormat jsonFormat <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JsonFormat<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            User user <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span><span style="color:#a6e22e">parseFrom</span><span style="color:#f92672">(</span>inputStream<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// assert
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>jsonFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">printToString</span><span style="color:#f92672">(</span>user<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>inputStream <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="总结">总结</h2>
+<p>对于前后端的通讯，比如js 到Java，是否应该使用protobuf有待商榷。后端服务间rpc等调用，protobuf一定是不错的选择。spring cloud 微服务间调用使用http，就可以像上文spring boot的示例一样使用protobuf通讯和序列化。</p>
+<hr>
+<p>参考文档：</p>
+<p><a href="https://developers.google.com/protocol-buffers/docs/proto3">https://developers.google.com/protocol-buffers/docs/proto3</a>
+<a href="https://dzone.com/articles/will-salesforce-kiss-the-mule-or-kill-the-mule">https://dzone.com/articles/will-salesforce-kiss-the-mule-or-kill-the-mule</a>
+<a href="https://auth0.com/blog/beating-json-performance-with-protobuf/">https://auth0.com/blog/beating-json-performance-with-protobuf/</a>
+<a href="http://www.baeldung.com/spring-rest-api-with-protocol-buffers">http://www.baeldung.com/spring-rest-api-with-protocol-buffers</a>
+<a href="http://colobu.com/2017/03/16/Protobuf3-language-guide/">http://colobu.com/2017/03/16/Protobuf3-language-guide/</a>
+<a href="https://github.com/eishay/jvm-serializers/wiki">https://github.com/eishay/jvm-serializers/wiki</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#protobuf简介">protobuf简介</a></li>
+    <li><a href="#spring-boot-proto-示例">spring-boot-proto 示例</a>
+      <ul>
+        <li><a href="#spring-boot-使用protobuf">spring boot 使用protobuf</a></li>
+        <li><a href="#proto文件">proto文件</a></li>
+        <li><a href="#controller">controller</a></li>
+        <li><a href="#测试">测试</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=spring-boot%20%e4%bd%bf%e7%94%a8protobuf&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f&amp;description=spring-boot%20%e4%bd%bf%e7%94%a8protobuf"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2018%2f03%2f24%2fspring-boot-protobuf%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2018/03/29/rxjava-1/">
+          <section class="post">
+              <h2>rxjava基础篇</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2018/03/15/GO-defer/">
+          <section class="post">
+              <h2>GO-defer语句</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RESTful on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/RESTful/</link>
+    <description>Recent content in RESTful on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Thu, 10 Aug 2017 11:34:21 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/RESTful/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTTP RESTful API 规范</title>
+      <link>http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Thu, 10 Aug 2017 11:34:21 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/10/HTTP-RESTful-API-%E8%A7%84%E8%8C%83/</guid>
+      <description>使用HTTP API在开发中变得尤为重要，甚至已经作为产品的一部分。对于一个多端产品，和后台的交互主要通过http，于是API变成了最重要的契</description>
+    </item>
+    
+    <item>
+      <title>swagger管理RESTful API</title>
+      <link>http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/</link>
+      <pubDate>Thu, 19 Jan 2017 12:39:04 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/01/19/swagger%E7%AE%A1%E7%90%86RESTful-API/</guid>
+      <description>swagger管理RESTful API swagger ui是一个API在线文档生成和测试的利器，我们既可以用它来作为API的文档，也可以用来测试API。 一、s</description>
+    </item>
+    
+  </channel>
+</rss>

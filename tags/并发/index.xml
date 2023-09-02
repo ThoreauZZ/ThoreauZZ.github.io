@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>并发 on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/</link>
+    <description>Recent content in 并发 on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 04 Nov 2017 18:15:37 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>线程与锁</title>
+      <link>http://thoreauz.com/2017/11/04/thread-lock/</link>
+      <pubDate>Sat, 04 Nov 2017 18:15:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/11/04/thread-lock/</guid>
+      <description>线程和锁，先从简单的示例1开始： **public class App { public static void main(String[] args) throws InterruptedException { class Counter { private int count = 0; void increment() { ++count; } private int getCount() { return count; } } final Counter counter = new Counter(); class CountingThread extends Thread { @Override public void run() { for (int x = 0;</description>
+    </item>
+    
+    <item>
+      <title>分布式锁和Redisson实现</title>
+      <link>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</link>
+      <pubDate>Sun, 20 Aug 2017 05:53:38 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/distributed-lock-redisson/</guid>
+      <description>概述 分布式系统有一个著名的理论CAP，指在一个分布式系统中，最多只能同时满足一致性（Consistency）、可用性（Availabilit</description>
+    </item>
+    
+    <item>
+      <title>给Future一个Promise</title>
+      <link>http://thoreauz.com/2017/08/20/future-promise/</link>
+      <pubDate>Sun, 20 Aug 2017 01:16:33 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/20/future-promise/</guid>
+      <description>对java开发者来说，经常需要在一个线程中另起一个线程来异步干其他事，就涉及到熟悉的Thread和Runnable。使用方式如下： System.out.println(&amp;#34;Do something ...&amp;#34;); new Thread(new</description>
+    </item>
+    
+  </channel>
+</rss>

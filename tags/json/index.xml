@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>json on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/json/</link>
+    <description>Recent content in json on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Fri, 11 Aug 2017 23:30:06 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/json/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jq使用</title>
+      <link>http://thoreauz.com/2017/08/11/jq/</link>
+      <pubDate>Fri, 11 Aug 2017 23:30:06 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/11/jq/</guid>
+      <description>jq是一个命令行处理json的工具。 现在大部分交互的数据格式都是以json的形式，不管是写一些监控脚本或者平时使用，都是一个比较方便的工具，</description>
+    </item>
+    
+  </channel>
+</rss>

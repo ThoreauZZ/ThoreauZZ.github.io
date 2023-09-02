@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nginx on 造舟野渡</title>
+    <link>http://thoreauz.com/categories/nginx/</link>
+    <description>Recent content in nginx on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Tue, 07 Feb 2017 10:13:37 +0000</lastBuildDate><atom:link href="http://thoreauz.com/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nginx入门之Rewrite</title>
+      <link>http://thoreauz.com/2017/02/07/nginx-Rewrite/</link>
+      <pubDate>Tue, 07 Feb 2017 10:13:37 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/07/nginx-Rewrite/</guid>
+      <description>nginx入门之Rewrite Rewrite 是nginx服务器提供的一个重要功能，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之location</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-location/</link>
+      <pubDate>Mon, 06 Feb 2017 23:17:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-location/</guid>
+      <description>nginx入门之location 一、匹配规则 location [= | ~ | ~* |^~] uri { .... } 匹配顺序: 记录标准uri最匹配的一个，=前缀的精确匹配，并停止搜索 接着正则</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之基本配置</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-configuration/</link>
+      <pubDate>Mon, 06 Feb 2017 21:59:42 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-configuration/</guid>
+      <description>nginx入门之基本配置 一、基础配置 1.1 nginx.conf结构 ... #全局块 event { ... } http { #http块 ... #http全局块 server { #server块 ... #server 全</description>
+    </item>
+    
+    <item>
+      <title>nginx入门之安装</title>
+      <link>http://thoreauz.com/2017/02/06/nginx-install/</link>
+      <pubDate>Mon, 06 Feb 2017 20:57:52 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/06/nginx-install/</guid>
+      <description>nginx入门之安装 一、编译安装 下载 如：nginx-1.11.9.tar.gz wget http://nginx.org/download/nginx-1.11.9.tar.gz 编译安装 安装之前需要安装依赖库 yum -y install gcc gcc-c++ automake pcre pcre-devel zlib-devel open openssl-devel 解压、</description>
+    </item>
+    
+  </channel>
+</rss>

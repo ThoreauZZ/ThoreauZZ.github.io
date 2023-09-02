@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>js on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/js/</link>
+    <description>Recent content in js on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Mon, 14 Aug 2017 11:33:56 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/js/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JavaScript基础2-函数</title>
+      <link>http://thoreauz.com/2017/08/14/JavaScript2-function/</link>
+      <pubDate>Mon, 14 Aug 2017 11:33:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/14/JavaScript2-function/</guid>
+      <description>定义使用 function abs(x) { if (x &amp;gt;= 0) { return x; } else { return -x; } } function全名，go中func，python使用def 不需要说明是否有返回值，使用retur</description>
+    </item>
+    
+    <item>
+      <title>JavaScript基础1-数据结构</title>
+      <link>http://thoreauz.com/2017/08/14/JavaScript1-data-structure/</link>
+      <pubDate>Mon, 14 Aug 2017 11:33:49 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/14/JavaScript1-data-structure/</guid>
+      <description>想来，很多年前就写过JavaScript，工作后也一直断断续续在使用，但主要是后台写个管理页面，停在JQuery和AJax几个关键词上，选个</description>
+    </item>
+    
+  </channel>
+</rss>

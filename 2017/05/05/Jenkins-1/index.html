@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Jenkins自动化集成/部署"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="Jenkins自动化集成/部署 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/05/05/Jenkins-1/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-05-05T22:16:08Z" />
+
+    
+    <meta property="article:tag" content="CICD" />
+    
+    <meta property="article:tag" content="jenkins" />
+    
+    
+
+    <title>Jenkins自动化集成/部署 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="一、概述 使用Jenkins挺长时间了，做一下详细的总结和记录。 下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。 构建打包： 从" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/05/05/Jenkins-1/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "Jenkins自动化集成/部署",
+    "name": "Jenkins自动化集成/部署",
+    "wordCount":  2008 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/05/05/Jenkins-1/",
+    "datePublished": "2017-05-05T22:16Z",
+    "dateModified": "2017-05-05T22:16Z",
+    
+    "keywords": "CICD, jenkins",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/05/05/Jenkins-1/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Jenkins自动化集成/部署</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-05-05T22:16:08Z">
+            2017-05-05
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/CICD/">CICD</a></span>
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/jenkins/">jenkins</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="一概述">一、概述</h2>
+<p>使用Jenkins挺长时间了，做一下详细的总结和记录。
+下图部署了3套Jenkins， 构建打包，自动化集成测试，生产环境。
+<img src="http://thoreauz.com/images/2017-05-05-15-48-28.jpg" alt=""></p>
+<ol>
+<li>构建打包： 从gitlab代码库或者代码，使用maven构建。经历了整个maven构建生命周期如test，package，deploy。在test阶段绑定cobertura，package阶段绑定docekr build，在deploy阶段把jar推送到私服或者绑定push到docker registy。最后生成测试报告等发邮件给相关开发人员。</li>
+<li>集成测试：集成环境最难推行和实践，主要是因为自动测试涉及代码、数据库脚本、测试用例，多方调用等等变动。有docker之后好一点，每个服务有自己的docker-compose编排，根据compose构建启动后，获取项目下的postman.json测试脚本，在newman容器中进行测试。</li>
+<li>生产环境：对于使用spring cloud + k8s ，生产部署就简单很多。Jenkins配置job，获取镜像的tag，远程shell执行kubectl指令即可完成升级发布。</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>先看下几张效果图：
+第一张：maven项目打包Jenkins
+<img src="http://thoreauz.com/images/2017-05-05-12-18-54.jpg" alt=""></p>
+<p>第二张：支持多节点构建
+<img src="http://thoreauz.com/images/2017-05-05-12-19-56.jpg" alt=""></p>
+<p>第三张：构建的pipeline
+<img src="http://thoreauz.com/images/2017-05-05-12-21-27.jpg" alt=""></p>
+<p>第四张：参数化构建(支持git master和其他分支构建，可以是快照或者release)
+<img src="http://thoreauz.com/images/2017-05-05-12-23-34.jpg" alt=""></p>
+<p>第五张：构建结果(压缩包，单测覆盖率)
+<img src="http://thoreauz.com/images/2017-05-05-12-31-56.jpg" alt=""></p>
+<p>第六张：部署（自动列出docker镜像版本号）
+<img src="http://thoreauz.com/images/2017-05-05-12-26-47.jpg" alt=""></p>
+<h2 id="二jenkins安装">二、Jenkins安装</h2>
+<p>Jenkins安装比较简单，可以使用容器启动，jar包启动，或者把war包放在tomcat下启动。经过一些实践，我倾向使用最后一种。简单，方便，好配置。</p>
+<p>tomcat安装：</p>
+<ol>
+<li>新建要给目录昨晚Jenkins工作目录：<code>export JENKINS_HOME=/data/jenkins</code></li>
+<li>把Jenkins.war拷贝到webapps，其他tomcat，然后安装提示完成安装</li>
+</ol>
+<p>配置maven，jdk等：
+系统管理&ndash;&gt;Global Tool Configuration
+<img src="http://thoreauz.com/images/2017-05-05-18-29-23.jpg" alt=""></p>
+<blockquote>
+<p>也可以选择“自动安装”。</p>
+</blockquote>
+<h2 id="三插件">三、插件</h2>
+<p>我的插件列表：</p>
+<pre tabindex="0"><code>curl -s &#34;http://dev:dev@localhost:8080/jenkins/pluginManager/api/xml?depth=1&amp;xpath=/*/*/shortName|/*/*/version&amp;wrapper=plugins&#34; | perl -pe &#39;s/.*?&lt;shortName&gt;([\w-]+).*?&lt;version&gt;([^&lt;]+)()(&lt;\/\w+&gt;)+/\1 \2\n/g&#39;|sed &#39;s/ /:/&#39;
+</code></pre><pre tabindex="0"><code>bouncycastle-api:2.16.1
+blueocean-web:1.0.1
+credentials:2.1.13
+branch-api:2.0.9
+ssh-credentials:1.13
+blueocean-rest:1.0.1
+structs:1.6
+git-client:2.4.5
+github-api:1.85
+scm-api:2.1.1
+workflow-step-api:2.9
+workflow-multibranch:2.14
+workflow-scm-step:2.4
+pipeline-model-definition:1.1.4
+script-security:1.27
+blueocean:1.0.1
+junit:1.20
+matrix-project:1.10
+display-url-api:2.0
+pubsub-light:1.7
+mailer:1.20
+git:3.3.0
+token-macro:2.1
+blueocean-commons:1.0.1
+plain-credentials:1.4
+sse-gateway:1.15
+github:1.27.0
+github-branch-source:2.0.5
+blueocean-events:1.0.1
+workflow-api:2.13
+blueocean-jwt:1.0.1
+jquery-detached:1.2.1
+workflow-support:2.14
+blueocean-config:1.0.1
+ace-editor:1.1
+workflow-cps:2.30
+favorite:2.0.4
+pipeline-stage-step:2.2
+pipeline-input-step:2.7
+workflow-job:2.10
+pipeline-graph-analysis:1.3
+blueocean-i18n:1.0.1
+durable-task:1.13
+workflow-basic-steps:2.4
+workflow-durable-task-step:2.11
+git-server:1.7
+jackson2-api:2.7.3
+cloudbees-folder:6.0.4
+workflow-cps-global-lib:2.8
+credentials-binding:1.11
+metrics:3.1.2.9
+pipeline-model-api:1.1.4
+pipeline-stage-tags-metadata:1.1.4
+authentication-tokens:1.3
+icon-shim:2.0.3
+variant:1.1
+docker-commons:1.6
+docker-workflow:1.10
+pipeline-model-declarative-agent:1.1.1
+pipeline-model-extensions:1.1.4
+blueocean-rest-impl:1.0.1
+blueocean-pipeline-api-impl:1.0.1
+blueocean-personalization:1.0.1
+blueocean-dashboard:1.0.1
+blueocean-git-pipeline:1.0.1
+blueocean-autofavorite:0.7
+blueocean-github-pipeline:1.0.1
+blueocean-pipeline-editor:0.2.0
+blueocean-display-url:2.0
+active-directory:2.4
+cobertura:1.10
+publish-over-ssh:1.17
+pam-auth:1.3
+windows-slaves:1.3.1
+ldap:1.15
+matrix-auth:1.5
+external-monitor-job:1.7
+javadoc:1.4
+antisamy-markup-formatter:1.5
+ant:1.4
+ssh:2.4
+extensible-choice-parameter:1.4.0
+scriptler:2.9
+uno-choice:1.5.3
+pipeline-milestone-step:1.3.1
+pipeline-rest-api:2.6
+handlebars:1.1.1
+momentjs:1.1.1
+pipeline-stage-view:2.6
+pipeline-build-step:2.5
+workflow-aggregator:2.5
+ssh-agent:1.15
+maven-plugin:2.15.1
+config-file-provider:2.15.7
+pipeline-maven:2.1.0
+pipeline-utility-steps:1.3.0
+permissive-script-security:0.1
+ssh-slaves:1.17
+slave-status:1.6
+ssh2easy:1.4
+run-condition:1.0
+conditional-buildstep:1.3.5
+parameterized-trigger:2.33
+jquery:1.11.2-0
+build-pipeline-plugin:1.5.6
+simple-theme-plugin:0.3
+role-strategy:2.4.0
+</code></pre><h2 id="四权限配置">四、权限配置</h2>
+<ul>
+<li>
+<p>系统管理&ndash;&gt;Configure Global Security
+<img src="http://thoreauz.com/images/2017-05-05-18-39-18.jpg" alt=""></p>
+</li>
+<li>
+<p>系统管理&ndash;&gt;用户管理：新增用户</p>
+</li>
+<li>
+<p>系统管理&ndash;&gt;Manage and Assign Roles
+新增角色
+<img src="http://thoreauz.com/images/2017-05-05-21-39-14.jpg" alt="">
+分配角色
+<img src="http://thoreauz.com/images/2017-05-05-21-40-15.jpg" alt=""></p>
+</li>
+</ul>
+<h2 id="五多节点配置">五、多节点配置</h2>
+<p><img src="http://thoreauz.com/images/2017-05-05-21-43-45.jpg" alt=""></p>
+<blockquote>
+<p>配置很简单，主要是吧ssh证书配好就行。
+多节点构建很有必要。首先，构建分成吃CPU和内存，其次，如果其中一个slave挂了，可以分配到其他节点。</p>
+</blockquote>
+<h2 id="六pipeline">六、pipeline</h2>
+<p>在截图中图blueocean的工作流，就是通过pipeline实现；
+<img src="http://thoreauz.com/images/2017-05-05-21-49-11.jpg" alt=""></p>
+<blockquote>
+<p>pipeline脚本最好版本控制，而不是直接在Jenkins里写</p>
+</blockquote>
+<p>下面看下重要的package.groovy</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env groovy</span>
+</span></span><span style="display:flex;"><span>node <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> mvnHome
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> mvnVersion
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> release_version
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> next_version
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> pom_obj
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">stage</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;prepare&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        withCredentials<span style="color:#f92672">([</span>usernameColonPassword<span style="color:#f92672">(</span>credentialsId: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">,</span> variable: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">)])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            git <span style="color:#e6db74">&#39;${GIT_REPO}&#39;</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;git clean -f &amp;&amp; git reset --hard origin/${GIT_BRANCH}&#34;</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;git fetch origin --prune --tags&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        mvnHome <span style="color:#f92672">=</span> tool <span style="color:#e6db74">&#39;maven&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${PKG_TYPE}&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;release&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            pom_obj <span style="color:#f92672">=</span> readMavenPom file: <span style="color:#e6db74">&#39;pom.xml&#39;</span>
+</span></span><span style="display:flex;"><span>            mvnVersion <span style="color:#f92672">=</span> pom_obj<span style="color:#f92672">.</span><span style="color:#a6e22e">getVersion</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mvnVersion <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                println<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#39;echo &#34;[ERROR] 项目没有版本号&#34; &amp;&amp; exit 1&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>mvnVersion<span style="color:#f92672">.</span><span style="color:#a6e22e">matches</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;[0-9]{1,3}(\\.[0-9]{1,3}){1,3}-SNAPSHOT&#39;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#39;echo &#34;项目版本号不符合规范(1.0.0-SNAPSHOT)&#34; &amp;&amp; exit 1&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            release_version <span style="color:#f92672">=</span> mvnVersion<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;-&#39;</span><span style="color:#f92672">)[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">def</span> version_array <span style="color:#f92672">=</span> release_version<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;\\.&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            version_array<span style="color:#f92672">[-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>version_array<span style="color:#f92672">[-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            next_version <span style="color:#f92672">=</span> version_array<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;.&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;-SNAPSHOT&#39;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;git tag | grep ${release_version} &amp;&amp; echo \&#34;tag已经存在\&#34; &amp;&amp; exit 1 || exit 0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            pom_obj<span style="color:#f92672">.</span><span style="color:#a6e22e">setVersion</span><span style="color:#f92672">(</span>release_version<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            writeMavenPom model: pom_obj
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;test&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        sh <span style="color:#e6db74">&#34;${mvnHome}/bin/mvn clean test -Pdocker&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;docker build&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${PKG_TYPE}&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;release&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;${mvnHome}/bin/mvn package -DdockerImageTags=latest -DdockerImageTags=1.0.0 -Dmaven.test.skip=true -Pdocker&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;${mvnHome}/bin/mvn package -Dmaven.test.skip=true -Pdocker&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;docker push&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${PKG_TYPE}&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;release&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;${mvnHome}/bin/mvn docker:push -DdockerImageTags=latest -DdockerImageTags=1.0.0 -Dmaven.test.skip=true -Pdocker&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;${mvnHome}/bin/mvn docker:push -Dmaven.test.skip=true -Pdocker&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;git tag&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${PKG_TYPE}&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;release&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            withCredentials<span style="color:#f92672">([</span>usernameColonPassword<span style="color:#f92672">(</span>credentialsId: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">,</span> variable: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">)])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#34;git add pom.xml &amp;&amp; git commit -m \&#34;jks: release ${release_version}\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#34;git tag ${release_version} -m \&#34;release ${release_version}\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#34;git push --tags&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            pom_obj<span style="color:#f92672">.</span><span style="color:#a6e22e">setVersion</span><span style="color:#f92672">(</span>next_version<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            writeMavenPom model: pom_obj
+</span></span><span style="display:flex;"><span>            withCredentials<span style="color:#f92672">([</span>usernameColonPassword<span style="color:#f92672">(</span>credentialsId: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">,</span> variable: <span style="color:#e6db74">&#39;git&#39;</span><span style="color:#f92672">)])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#34;git add pom.xml &amp;&amp; git commit -m \&#34;jks: update version ${next_version}\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                sh <span style="color:#e6db74">&#34;git push origin master:${GIT_BRANCH}&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            println<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;snapshot&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;depoy to dev&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        sh <span style="color:#e6db74">&#34;echo &#39;depoy to dev&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>        sshagent <span style="color:#f92672">(</span>credentials: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;docker_dev&#39;</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;ssh -l linux_user -p 21987 192.168.99.100 /home/centos/dev/update_app.sh ${JOB_NAME}&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;test report&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        step<span style="color:#f92672">([</span>$class<span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;CoberturaPublisher&#39;</span><span style="color:#f92672">,</span> coberturaReportFile: <span style="color:#e6db74">&#39;target/site/cobertura/coverage.xml&#39;</span><span style="color:#f92672">,</span> onlyStable: <span style="color:#66d9ef">false</span><span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>        junit <span style="color:#e6db74">&#39;**/target/surefire-reports/TEST-*.xml&#39;</span>
+</span></span><span style="display:flex;"><span>        archive <span style="color:#e6db74">&#39;target/*.jar&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><blockquote>
+<p>脚本中需要很多插件的支持，否则会报错。就是插件都安装了，有些脚本还需要<code>in-process Script Approval</code> 同意运行</p>
+</blockquote>
+<h2 id="七发布">七、发布</h2>
+<p>真正发布项目时，其实只需要一个项目名，一个版本号，Jenkins要做的就是根据项目名和版本号，执行远程shell。但版本号收到输入就太low了，可以根据git tag名或者docker镜像的tag。 Jenkins有一个参数化构建插件(uno-choice)，可以写groovy，动态获取tag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">import</span> groovy.json.JsonSlurper
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> hudson.model.*
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Created by erdaoya on 17/3/17.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//get jenkins job_name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> build <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> regexp<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.+?/job/([^/]+)/.*&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> match <span style="color:#f92672">=</span> build  <span style="color:#f92672">=~</span> regexp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> job_name <span style="color:#f92672">=</span> match<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">][</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// call registry v2 api
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> url <span style="color:#f92672">=</span>  <span style="color:#e6db74">&#39;http://xxx.io:5000/v2/xxxx/&#39;</span><span style="color:#f92672">+</span> job_name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/tags/list&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> tags <span style="color:#f92672">=</span> url<span style="color:#f92672">.</span><span style="color:#a6e22e">toURL</span><span style="color:#f92672">().</span><span style="color:#a6e22e">text</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> jsonSlurper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JsonSlurper<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> object <span style="color:#f92672">=</span> jsonSlurper<span style="color:#f92672">.</span><span style="color:#a6e22e">parseText</span><span style="color:#f92672">(</span>tags<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// return tags
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> object<span style="color:#f92672">.</span><span style="color:#a6e22e">tags</span>
+</span></span></code></pre></div><p>打包时获取git分支名也可以使用这个插件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> git_url<span style="color:#f92672">=</span>  GIT_REPO
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> shell_line <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;git ls-remote --heads &#39;</span> <span style="color:#f92672">+</span> git_url
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> process <span style="color:#f92672">=</span> shell_line<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> list <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;master&#39;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>process<span style="color:#f92672">.</span><span style="color:#a6e22e">in</span><span style="color:#f92672">.</span><span style="color:#a6e22e">eachLine</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    line <span style="color:#f92672">-&gt;</span> list<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">((</span>line<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">()[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]).</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">)[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> list
+</span></span></code></pre></div><h2 id="八总结">八、总结</h2>
+<p>把Jenkins用好：插件+groovy+shell。当然，需要合理的架构，合理的集成和发布模式，否则，Jenkins需要配置一堆乱七八糟的东西，稍微不小心就出错，也不具可复制性。如果job特别多，需要批量构建或者发布，也可以使用groovy或者python调用Jenkins API。</p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二jenkins安装">二、Jenkins安装</a></li>
+    <li><a href="#三插件">三、插件</a></li>
+    <li><a href="#四权限配置">四、权限配置</a></li>
+    <li><a href="#五多节点配置">五、多节点配置</a></li>
+    <li><a href="#六pipeline">六、pipeline</a></li>
+    <li><a href="#七发布">七、发布</a></li>
+    <li><a href="#八总结">八、总结</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=Jenkins%e8%87%aa%e5%8a%a8%e5%8c%96%e9%9b%86%e6%88%90%2f%e9%83%a8%e7%bd%b2&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f05%2f05%2fJenkins-1%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f05%2f05%2fJenkins-1%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f05%2f05%2fJenkins-1%2f&amp;description=Jenkins%e8%87%aa%e5%8a%a8%e5%8c%96%e9%9b%86%e6%88%90%2f%e9%83%a8%e7%bd%b2"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f05%2f05%2fJenkins-1%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/07/20/JAVA-test-tool/">
+          <section class="post">
+              <h2>JAVA常用测试框架</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/04/24/spring-cloud-config-json/">
+          <section class="post">
+              <h2>Spring Cloud Config 存储复杂数据结构</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

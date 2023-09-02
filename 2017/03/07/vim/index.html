@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="VIM使用技巧"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="VIM使用技巧 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/03/07/vim/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-03-07T23:47:13Z" />
+
+    
+    <meta property="article:tag" content="vim" />
+    
+    
+
+    <title>VIM使用技巧 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="VIM使用技巧 一、替换 快速选择性替换：使用 #查找，cw 删除单词，输入要替换的单词，.重复操作 替换一个字符：ra当前字符替换为a 全局替换：:%" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/03/07/vim/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "VIM使用技巧",
+    "name": "VIM使用技巧",
+    "wordCount":  648 ,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/03/07/vim/",
+    "datePublished": "2017-03-07T23:47Z",
+    "dateModified": "2017-03-07T23:47Z",
+    
+    "keywords": "vim",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/03/07/vim/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">VIM使用技巧</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-03-07T23:47:13Z">
+            2017-03-07
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/vim/">vim</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="vim使用技巧">VIM使用技巧</h1>
+<h2 id="一替换">一、替换</h2>
+<ol>
+<li>快速选择性替换：使用 <code>#</code>查找，<code>cw </code>删除单词，输入要替换的单词，<code>.</code>重复操作</li>
+<li>替换一个字符：<code>ra</code>当前字符替换为<code>a</code></li>
+<li>全局替换：<code>:%s/old/new/g</code>或者<code>:%s#old#new#g</code></li>
+<li>空格替换：: <code>10,20 s/^/    /g</code> 在第10行到第20行每行前面加四个空格，用于缩进。</li>
+</ol>
+<h2 id="二-移动">二、 移动</h2>
+<h3 id="慢移动">慢移动</h3>
+<ol>
+<li>上下左右：<code>kjhl</code></li>
+<li>向前/后移动一个单词:<code>w</code>,这个很常用，一般可以替代<code>l</code>。对应的是<code>b</code></li>
+<li>行头行尾部：<code>0</code>和<code>$</code></li>
+<li>查找字符移动：<code>fg</code>移动到伺候第一个出现<code>g</code>的地方。<code>F</code>反向</li>
+<li>行尾插入：<code>A</code>，对应<code>I</code></li>
+</ol>
+<h3 id="快移动">快移动</h3>
+<ol>
+<li>文件首尾：<code>gg</code>,<code>G</code></li>
+<li>指定行：<code>: 行号</code></li>
+<li>滚动一屏：<code>ctrl + f</code>和<code>ctrl + b</code></li>
+<li>滚动半屏：<code>ctrl + u</code>和<code>ctrl + d</code></li>
+</ol>
+<h2 id="三粘贴复制">三、粘贴复制</h2>
+<ol>
+<li>全选复制：ggVG  + y</li>
+<li>set clipboard=unnamedplus：将Vim默认剪贴板设为系统剪贴板</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yy/Y</td>
+<td>复制游标所在行整行</td>
+</tr>
+<tr>
+<td>2yy/y2y</td>
+<td>复制两行</td>
+</tr>
+<tr>
+<td>y^</td>
+<td>复制至行首，或y0。不含游标所在处字元</td>
+</tr>
+<tr>
+<td>y$</td>
+<td>复制至行尾。含游标所在字符</td>
+</tr>
+<tr>
+<td>yw</td>
+<td>复制一个word</td>
+</tr>
+<tr>
+<td>y2w</td>
+<td>复制两个字（单词）</td>
+</tr>
+<tr>
+<td>yG</td>
+<td>复制至档尾</td>
+</tr>
+<tr>
+<td>y1G</td>
+<td>复制至档首</td>
+</tr>
+<tr>
+<td>p/P</td>
+<td>贴至游标后（下/上）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="四删除">四、删除</h2>
+<p>vim的建都可以组合使用，<code>d</code>是删除，那<code>d$</code>/<code>D</code>就是删除到行尾，<code>dG</code>删除自后所有字符，<code>dfa</code>删除到本行的<code>a</code>字符。</p>
+<h2 id="五选中">五、选中</h2>
+<ul>
+<li><code>viw</code>: 选择当前光标所在位置。</li>
+<li><code>V</code>: 选择当前行</li>
+<li><code>ctrl + v</code>: 进入块编辑，可以一定上下左右选择。</li>
+</ul>
+<h2 id="六-列编辑">六、 列编辑</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xxx
+</span></span><span style="display:flex;"><span>yyy
+</span></span><span style="display:flex;"><span>xxx
+</span></span></code></pre></div><p>在第一列都添加<code>#</code>：操作步骤</p>
+<ol>
+<li><code>ctrl +v</code> : 块模式，选择x</li>
+<li><code>j</code>: 向下移动选中x、y、x</li>
+<li><code>I</code>： 大写i，然后插入#</li>
+<li><code>esc</code>: 退出，3个#自动填充</li>
+</ol>
+<p>或者进去v-block模式后</p>
+<pre tabindex="0"><code>:&#39;&lt;,&#39;&gt;nomal I #
+</code></pre><h2 id="7其他">7️、其他</h2>
+<p>设置格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># set json format</span>
+</span></span><span style="display:flex;"><span>:set ft<span style="color:#f92672">=</span>json
+</span></span></code></pre></div><pre tabindex="0"><code>xml格式化
+:%!xmllint --format %
+格式化json
+:%!python -m json.tool
+</code></pre>
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一替换">一、替换</a></li>
+    <li><a href="#二-移动">二、 移动</a>
+      <ul>
+        <li><a href="#慢移动">慢移动</a></li>
+        <li><a href="#快移动">快移动</a></li>
+      </ul>
+    </li>
+    <li><a href="#三粘贴复制">三、粘贴复制</a></li>
+    <li><a href="#四删除">四、删除</a></li>
+    <li><a href="#五选中">五、选中</a></li>
+    <li><a href="#六-列编辑">六、 列编辑</a></li>
+    <li><a href="#7其他">7️、其他</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=VIM%e4%bd%bf%e7%94%a8%e6%8a%80%e5%b7%a7&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2fvim%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2fvim%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2fvim%2f&amp;description=VIM%e4%bd%bf%e7%94%a8%e6%8a%80%e5%b7%a7"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f03%2f07%2fvim%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/03/17/Jenkins-Docker-k8s/">
+          <section class="post">
+              <h2>Jenkins发布Docker到k8s</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/03/07/spring-cloud-zuul/">
+          <section class="post">
+              <h2>spring cloud 服务网关ZULL</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

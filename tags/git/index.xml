@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/git/</link>
+    <description>Recent content in git on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Thu, 17 Aug 2017 16:10:19 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何写好Git Commit</title>
+      <link>http://thoreauz.com/2017/08/17/git-commit/</link>
+      <pubDate>Thu, 17 Aug 2017 16:10:19 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/08/17/git-commit/</guid>
+      <description>什么是好的git commit，有以下几点： message清楚反应本次提交内容 方便回退到某个版本 反应产品演进过程 主要针对团队开发，对于开源和非</description>
+    </item>
+    
+    <item>
+      <title>git删除版本库中大文件记录</title>
+      <link>http://thoreauz.com/2017/02/12/git-rm-bigfile/</link>
+      <pubDate>Sun, 12 Feb 2017 14:54:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/12/git-rm-bigfile/</guid>
+      <description>git删除版本库中大文件记录 一、场景 现在有这样一种情况，我不小心往git库上传了一个很大的文件，如xxxx.tar.gz,我删除后，提交推送</description>
+    </item>
+    
+    <item>
+      <title>Git配置和常用命令</title>
+      <link>http://thoreauz.com/2017/02/07/git-config-command/</link>
+      <pubDate>Tue, 07 Feb 2017 21:22:05 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/07/git-config-command/</guid>
+      <description>用git也1年了，解决各种各样问题，但老忘记一些命令和用法，此为总结和记录。 一、初始化和配置 git config --global user.name &amp;#34;thoreau&amp;#34; git config --global user.email &amp;#34;zz.thoreau@Gmail.com&amp;#34; gitconfig [user] name = thoreau email = zz.thoreau@Gmail.com [color] ui = true [alias] st</description>
+    </item>
+    
+  </channel>
+</rss>

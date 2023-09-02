@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="git删除版本库中大文件记录"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="git删除版本库中大文件记录 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/02/12/git-rm-bigfile/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-02-12T14:54:56Z" />
+
+    
+    <meta property="article:tag" content="git" />
+    
+    
+
+    <title>git删除版本库中大文件记录 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="git删除版本库中大文件记录 一、场景 现在有这样一种情况，我不小心往git库上传了一个很大的文件，如xxxx.tar.gz,我删除后，提交推送" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/02/12/git-rm-bigfile/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "git删除版本库中大文件记录",
+    "name": "git删除版本库中大文件记录",
+    "wordCount":  414 ,
+    "timeRequired": "PT1M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/02/12/git-rm-bigfile/",
+    "datePublished": "2017-02-12T14:54Z",
+    "dateModified": "2017-02-12T14:54Z",
+    
+    "keywords": "git",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/02/12/git-rm-bigfile/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">git删除版本库中大文件记录</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-02-12T14:54:56Z">
+            2017-02-12
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/git/">git</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h1 id="git删除版本库中大文件记录">git删除版本库中大文件记录</h1>
+<h2 id="一场景">一、场景</h2>
+<p>现在有这样一种情况，我不小心往git库上传了一个很大的文件，如<code>xxxx.tar.gz</code>,我删除后，提交推送，文件没有了，但在git的版本库中还是存在，使<code>.git</code>目录特别大，可以通过以下几个命令轻松搞定。</p>
+<h2 id="二实例">二、实例：</h2>
+<p>我的spring-cloud学习的仓库github地址：
+<a href="https://github.com/ThoreauZZ/spring-cloud-example">spring-cloud-example</a>
+先看看目录文件大小：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> $ du -d <span style="color:#ae81ff">1</span> -h
+</span></span><span style="display:flex;"><span>23M	./.git
+</span></span><span style="display:flex;"><span>32K	./cloud-api-gateway
+</span></span><span style="display:flex;"><span>20K	./cloud-config-server
+</span></span><span style="display:flex;"><span>32K	./cloud-data-mysql
+</span></span><span style="display:flex;"><span>28K	./cloud-eureka-server
+</span></span><span style="display:flex;"><span>36K	./cloud-service-ext
+</span></span><span style="display:flex;"><span>32K	./cloud-trade-service
+</span></span><span style="display:flex;"><span>20K	./cloud-user-api
+</span></span><span style="display:flex;"><span>60K	./cloud-user-service
+</span></span><span style="display:flex;"><span>20K	./cloud-zipkin-ui
+</span></span><span style="display:flex;"><span>24K	./config-repo
+</span></span><span style="display:flex;"><span>1.5M	./doc
+</span></span><span style="display:flex;"><span>20K	./cloud-admin-ui
+</span></span><span style="display:flex;"><span>20K	./cloud-turbine-dashboard
+</span></span><span style="display:flex;"><span>388K	./cloud-comx
+</span></span><span style="display:flex;"><span>80K	./bs-common-exception
+</span></span><span style="display:flex;"><span>25M	.
+</span></span></code></pre></div><h3 id="1-先找到最大的5个文件">1. 先找到最大的5个文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git rev-list --objects --all | grep <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>git verify-pack -v .git/objects/pack/*.idx | sort -k <span style="color:#ae81ff">3</span> -n | tail -5 | awk <span style="color:#e6db74">&#39;{print$1}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>79a60cf86e4953b296e62da88fee1cfa8ce20a66 cloud-swagger/src/main/webapp/api/dist/swagger-ui.js
+</span></span><span style="display:flex;"><span>a3a34487421247549f944d017ef480ce7d4be537 cloud-swagger/src/main/webapp/dist/91baf32caa045b74d22e.worker.js.map
+</span></span><span style="display:flex;"><span>8aad956353bf4d3b5363d36f2766bf01ca961fda cloud-swagger/src/main/webapp/dist/bundle.js
+</span></span><span style="display:flex;"><span>49d3c113e1983e7bc3e0fdefa99793d34e5ee9c6 cloud-swagger/src/main/webapp/dist/bundle.js.map
+</span></span><span style="display:flex;"><span>ab9148b0a5b882c6f57b0ab97e7c93125058f155 cloud-swagger/src/main/webapp/dist/styles.css
+</span></span></code></pre></div><p>可以看出，我上传的<code>cloud-swagger</code>已经被删除，但还在版本库中占空间。</p>
+<h3 id="2-记录大文件">2. 记录大文件</h3>
+<p>把上面几个文件名保证到一个文件如<code>log.txt</code>:</p>
+<pre tabindex="0"><code>$ cat log.txt
+
+cloud-swagger/src/main/webapp/api/dist/swagger-ui.js cloud-swagger/src/main/webapp/dist/91baf32caa045b74d22e.worker.js.map cloud-swagger/src/main/webapp/dist/bundle.js cloud-swagger/src/main/webapp/dist/bundle.js.map cloud-swagger/src/main/webapp/dist/styles.css
+</code></pre><h3 id="3重写commit删除大文件">3.重写commit，删除大文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git filter-branch -f --prune-empty --index-filter <span style="color:#e6db74">&#34;git rm -rf --cached --ignore-unmatch `cat log.txt`&#34;</span> --tag-name-filter cat -- --all
+</span></span></code></pre></div><h3 id="4-清理和回收空间">4. 清理和回收空间</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rm -rf .git/refs/original/ 
+</span></span><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all
+</span></span><span style="display:flex;"><span>git gc --prune<span style="color:#f92672">=</span>now
+</span></span><span style="display:flex;"><span>git gc --aggressive --prune<span style="color:#f92672">=</span>now
+</span></span></code></pre></div><p>清理后再看，发现.git目录从23M变成了3.6M</p>
+<h3 id="5-强行推送到仓库">5. 强行推送到仓库</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push origin master --force
+</span></span></code></pre></div>
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一场景">一、场景</a></li>
+    <li><a href="#二实例">二、实例：</a>
+      <ul>
+        <li><a href="#1-先找到最大的5个文件">1. 先找到最大的5个文件</a></li>
+        <li><a href="#2-记录大文件">2. 记录大文件</a></li>
+        <li><a href="#3重写commit删除大文件">3.重写commit，删除大文件</a></li>
+        <li><a href="#4-清理和回收空间">4. 清理和回收空间</a></li>
+        <li><a href="#5-强行推送到仓库">5. 强行推送到仓库</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=git%e5%88%a0%e9%99%a4%e7%89%88%e6%9c%ac%e5%ba%93%e4%b8%ad%e5%a4%a7%e6%96%87%e4%bb%b6%e8%ae%b0%e5%bd%95&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fgit-rm-bigfile%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fgit-rm-bigfile%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fgit-rm-bigfile%2f&amp;description=git%e5%88%a0%e9%99%a4%e7%89%88%e6%9c%ac%e5%ba%93%e4%b8%ad%e5%a4%a7%e6%96%87%e4%bb%b6%e8%ae%b0%e5%bd%95"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f02%2f12%2fgit-rm-bigfile%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/02/12/docker-network-compose/">
+          <section class="post">
+              <h2>Compose配置文件介绍</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/02/10/docker-deploy-mysql/">
+          <section class="post">
+              <h2>Docker部署MySql等常用软件</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

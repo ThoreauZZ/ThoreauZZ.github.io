@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="高性能Mysql-schema与数据类型优化"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="高性能Mysql-schema与数据类型优化 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-11-25T19:19:49Z" />
+
+    
+    <meta property="article:tag" content="mysql" />
+    
+    
+
+    <title>高性能Mysql-schema与数据类型优化 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="选择优化的数据类型 遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/11/25/high-performance-mysql-schma/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "高性能Mysql-schema与数据类型优化",
+    "name": "高性能Mysql-schema与数据类型优化",
+    "wordCount":  2127 ,
+    "timeRequired": "PT5M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/11/25/high-performance-mysql-schma/",
+    "datePublished": "2017-11-25T19:19Z",
+    "dateModified": "2017-11-25T19:19Z",
+    
+    "keywords": "mysql",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/11/25/high-performance-mysql-schma/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">高性能Mysql-schema与数据类型优化</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-11-25T19:19:49Z">
+            2017-11-25
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/mysql/">mysql</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="选择优化的数据类型">选择优化的数据类型</h2>
+<p>遵循简单就好的原则，能用整形的就不用字符串。比如日期尽量用内建类型，用整形存储ip。尽量避免出现null的列，特别是对其添加索引。当然，使用不同的存储引擎可能会不一样。</p>
+<h3 id="整数">整数</h3>
+<p>对于整数类型，有TINYINT，SMALINT，MEDIUMINT，INT，BIGINT，存储空间从8-64位。如果确定不会有负数，可以使用UNSIGNED属。比如TINYINT UNSIGNED可以存储0~255大小。</p>
+<!-- raw HTML omitted -->
+<p>示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> t;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#66d9ef">Table</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Create</span> <span style="color:#66d9ef">Table</span>                                                   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> t     <span style="color:#f92672">|</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>t<span style="color:#f92672">`</span> (                                             <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) unsigned <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,               <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#f92672">`</span>flag<span style="color:#f92672">`</span> tinyint(<span style="color:#ae81ff">1</span>) unsigned <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;0&#39;</span>,             <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span>   <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)                                           <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>       <span style="color:#f92672">|</span> ) ENGINE<span style="color:#f92672">=</span>InnoDB  <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8 <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-------+----------------------------------------------------------------+
+</span></span></span></code></pre></div><p>id 为unsingned int类型，长度11，flag字段unsigned 的tinyint，长度为1。 int 存储访问：-2^(32-1) ~ 2^(32-1) -1。如果unsigned，访问0~2^(32) -1。</p>
+<p>下面试试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t(id,flag) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">4294967295</span>, <span style="color:#ae81ff">255</span>)
+</span></span><span style="display:flex;"><span>Query OK, <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> affected
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t(id,flag) <span style="color:#66d9ef">values</span>(<span style="color:#ae81ff">4294967296</span>, <span style="color:#ae81ff">255</span>)
+</span></span><span style="display:flex;"><span>(<span style="color:#ae81ff">1264</span>, u<span style="color:#e6db74">&#34;Out of range value for column &#39;id&#39; at row 1&#34;</span>)
+</span></span></code></pre></div><p>结论：</p>
+<ol>
+<li>可存储访问由类型和属性，跟INT(11)的11没有关系。</li>
+<li>尽量选择需要存储空间小的类型。</li>
+<li>有无符号使用的存储空间相同，性能相同，范围不同。</li>
+<li>对于1，2，3等简单标识的字段，选择<code>tinyint(1) unsigned</code>较为合适</li>
+</ol>
+<h3 id="实数类型">实数类型</h3>
+<p>对于msyql存储小数时一定要小心，虽然内部用double计算，但存储需要高精度数据时，最好选用DECIMAl。使用FLOAT和DOUBLE存储并不能保证精确。声明语法是DECIMAL(M,D)，M是数字最大位数，范围1-65；D是小数点右侧数字个数（标度scale），范围0-30，但不得超过M。</p>
+<p>对于存储钱等数据时，最好的方式是都乘一个基数(如1000)后转为BIGINT存储。如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#f92672">`</span>bonus<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">19</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;奖励 x 10_000&#39;</span>,
+</span></span></code></pre></div><h3 id="字符串类型">字符串类型</h3>
+<p>常用的两种类型<code>VARCHAR</code>和<code>CHAR</code>，分别为变长和定长类型。
+<strong>VARCHAR：</strong></p>
+<ol>
+<li>优点: 节省存储空间，对性能有帮助。</li>
+<li>缺点：变长列更新时，如果空间不够，需要重新分配。MyISAM会拆成不同片段，InnoDB需要分裂页。</li>
+<li>适用： 列更新少，最大长度比平均长度大很多。</li>
+</ol>
+<p><strong>CHAR：</strong></p>
+<ol>
+<li>优点： 定长不易产生碎片</li>
+<li>缺点：对长度不定列，浪费空间</li>
+<li>适合：定长，如MD5值，Y/N等定长字符串的列。</li>
+</ol>
+<p><strong>TEXT</strong>
+对于需要存储大文本，在无法避免的情况下可以选用这种类型。TEXT采用字符存储，BLOB采用二进制方式存储。在对其进行排序是，并不会全部比对，而是对前<code>max_sort_length</code>字节。或者使用 ORDER BY SUSTRING(column,length)来排序。</p>
+<p>对其进行查询时，开销大。在使用时，最好通过SUSTRING(column,length)将列值转换为字符串，从而使用内存临时表。另一个常用的方式是独立出来一张表，用主键来对应，避免影响其它字段索引效率。</p>
+<h3 id="使用枚举类型代替字符串类型">使用枚举类型代替字符串类型</h3>
+<p>mysql 枚举（ENUM)类型会吧一些不重复的字符串存储为一个预定义的集合，形成映射关系，存储时只需要存整数即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> enum_test(
+</span></span><span style="display:flex;"><span>	e ENUM(<span style="color:#e6db74">&#39;fish&#39;</span>,<span style="color:#e6db74">&#39;apple&#39;</span>,<span style="color:#e6db74">&#39;dog&#39;</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> enum_test(e) <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#39;apple&#39;</span>),(<span style="color:#e6db74">&#39;dog&#39;</span>),(<span style="color:#e6db74">&#39;fish&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> e<span style="color:#f92672">+</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">from</span> <span style="color:#f92672">`</span>enum_test<span style="color:#f92672">`</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> e<span style="color:#f92672">+</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">3</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">3</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span>
+</span></span></code></pre></div><p>排序时，也是按照整数来排序的。减少空间使用，提升性能是我们使用枚举代替字符串的好处，但是它的缺点很明显，如果需要改变表结构，使用枚举不是个好注意，除非只是在后面追加新的枚举值。还有需要注意的是，如果出现char、varchar和枚举列进行关联时，可能会更慢。</p>
+<h3 id="日期和时间">日期和时间</h3>
+<p>Mysql提供了两种相似的时间类型：DATETIME和TIMESTAMP，如果在不同场景下选用两种，是主要研究的工作。</p>
+<p><strong>DATETIME</strong>
+保存大范围的值，从 1001 年到 9999 年，精度为秒。把日期和时间封装到格式为 YYYYMMDDHHMMSS 的整数中，与时区无关。使用 8 个字节的存储空间。</p>
+<p><strong>TIMESTAMP</strong>
+保存从 1970 年 1 月 1 日午夜以来的秒数，和 UNIX 时间戳相同。TIMESTAMP 只使用 4 个字节的存储空间，范围是从 1970 年到 2038 年。默认情况下，如果插入时没有指定第一个 TIMESTAMP 列的值，MySQL 则设置这个列的值为当前时间。TIMESTAMP 列默认为 NOT NULL。</p>
+<p>通常，尽量使用TIMESTAMP，他的效率更高，在国际化环境下更是必须。但使用时间戳是需要注意，建表后一定要使用<code>show create table t_name</code>查看建表语句(所有schema都应该检查)，默认处理可能会映入一些期望之外的默认设置。还有就是，如果使用客户端查看显示，和时区相关，不要搞混淆。</p>
+<h2 id="缓存表和汇总表">缓存表和汇总表</h2>
+<p>缓存表，比如有些情况下，在运营统计等需求，可以简单获取，但一般查询较慢，定时器也难维护。汇总表一般也是运营统计等需求，数据不冗余，如计数器等。</p>
+<p>在使用缓存表和汇总表时，必须决定是实时维护还是定期重建。能重建更好，数据可以都维护到历史表中。在维护过程中，可以通过<code>影子表</code>方式实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> t_new <span style="color:#66d9ef">like</span> t;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">rename</span> <span style="color:#66d9ef">table</span> t <span style="color:#66d9ef">to</span> t_old,t_new <span style="color:#66d9ef">to</span> t;
+</span></span></code></pre></div><p><strong>计数器</strong>
+需要计数器的地方很多，最简单就是建一张只有一行的字段，每次更新。如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> hit_counter(
+</span></span><span style="display:flex;"><span>	cnt int unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>)engine<span style="color:#f92672">=</span> InnoDB;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">update</span> hit_counter <span style="color:#66d9ef">set</span> cnt<span style="color:#f92672">=</span>cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+</span></span></code></pre></div><p>但引入互斥锁，并发性能低。改善性能的下一步是类似java 中hashmap的做发，分成多个slot，随机更新一行，最后汇总。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> hit_counter(
+</span></span><span style="display:flex;"><span>	slot tinyint unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>,
+</span></span><span style="display:flex;"><span>	cnt int unsigned <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>)engine<span style="color:#f92672">=</span> InnoDB;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> hit_counter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> slot <span style="color:#f92672">|</span> cnt <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#ae81ff">1</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#ae81ff">3</span>    <span style="color:#f92672">|</span> <span style="color:#ae81ff">0</span>   <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#75715e">------+-----+
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">update</span> hit_counter <span style="color:#66d9ef">set</span> cnt<span style="color:#f92672">=</span>cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">where</span> slot <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">${</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">随机数}</span>
+</span></span></code></pre></div><p>如果按一定的周期统计，还可以添加字段如day，通过高级用法实现：</p>
+<pre tabindex="0"><code>ON DUPLICATE KEY UPDATE cnt=cnt +1；
+</code></pre><hr>
+<p>参考：</p>
+<ol>
+<li>本文来自《高性能mysql》学习记录</li>
+</ol>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#选择优化的数据类型">选择优化的数据类型</a>
+      <ul>
+        <li><a href="#整数">整数</a></li>
+        <li><a href="#实数类型">实数类型</a></li>
+        <li><a href="#字符串类型">字符串类型</a></li>
+        <li><a href="#使用枚举类型代替字符串类型">使用枚举类型代替字符串类型</a></li>
+        <li><a href="#日期和时间">日期和时间</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓存表和汇总表">缓存表和汇总表</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=%e9%ab%98%e6%80%a7%e8%83%bdMysql-schema%e4%b8%8e%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%bc%98%e5%8c%96&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f25%2fhigh-performance-mysql-schma%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f25%2fhigh-performance-mysql-schma%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f25%2fhigh-performance-mysql-schma%2f&amp;description=%e9%ab%98%e6%80%a7%e8%83%bdMysql-schema%e4%b8%8e%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%bc%98%e5%8c%96"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f11%2f25%2fhigh-performance-mysql-schma%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="http://thoreauz.com/2017/12/02/high-performance-mysql-key/">
+          <section class="post">
+              <h2>高性能Mysql-索引</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/11/25/high-performance-mysql-finding-bottlenecks/">
+          <section class="post">
+              <h2>高性能Mysql-性能剖析</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

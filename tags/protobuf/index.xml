@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>protobuf on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/protobuf/</link>
+    <description>Recent content in protobuf on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Sat, 24 Mar 2018 08:15:56 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/protobuf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spring-boot 使用protobuf</title>
+      <link>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</link>
+      <pubDate>Sat, 24 Mar 2018 08:15:56 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2018/03/24/spring-boot-protobuf/</guid>
+      <description>概述 本文简单介绍通过gradle构建以protobuf作为数据通讯格式的spring boot服务。 protobuf简介 Protocol Buffers是Go</description>
+    </item>
+    
+  </channel>
+</rss>

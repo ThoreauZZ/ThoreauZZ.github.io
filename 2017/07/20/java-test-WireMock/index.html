@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="WireMock进行集成测试"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@zhaozhou2010"/>
+
+
+
+  	<meta property="og:title" content="WireMock进行集成测试 &middot; 造舟野渡" />
+  	<meta property="og:site_name" content="造舟野渡" />
+  	<meta property="og:url" content="http://thoreauz.com/2017/07/20/java-test-WireMock/" />
+    <meta name="generator" content="Hugo 0.99.1" />
+    
+        
+            <meta property="og:image" content="/images/cover.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2017-07-20T11:11:03Z" />
+
+    
+    <meta property="article:tag" content="test" />
+    
+    
+
+    <title>WireMock进行集成测试 &middot; 造舟野渡</title>
+
+    
+    <meta name="description" content="概述 在开发中，我们需要mock Http API，主要有两种使用场景： 前后端分离开发，API first，可以提供虚拟接口，方便前端开发。 集成测试依赖其" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://thoreauz.com/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://thoreauz.com/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://thoreauz.com/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atelier-forest-light.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+        
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/lua.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/vim.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/yaml.min.js"></script>
+          
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+          
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="http://thoreauz.com/index.xml" rel="alternate" type="application/rss+xml" title="造舟野渡" />
+      
+      
+    
+    
+    <meta name="generator" content="Hugo 0.105.0">
+
+    <link rel="canonical" href="http://thoreauz.com/2017/07/20/java-test-WireMock/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null ,
+        "logo": "http://thoreauz.comDog-b.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://thoreauz.comDog-b.svg",
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": "http://thoreauz.com",
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "WireMock进行集成测试",
+    "name": "WireMock进行集成测试",
+    "wordCount":  1248 ,
+    "timeRequired": "PT3M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "http://thoreauz.com/2017/07/20/java-test-WireMock/",
+    "datePublished": "2017-07-20T11:11Z",
+    "dateModified": "2017-07-20T11:11Z",
+    
+    "keywords": "test",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://thoreauz.com/2017/07/20/java-test-WireMock/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-113511621-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
+
+    
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/archives/">归档</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/tags/">标签</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://thoreauz.com/about/">关于</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href='http://thoreauz.com/index.xml'>Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+  <header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+       <a class="blog-logo" href="http://thoreauz.com"><img src="http://thoreauz.com/Dog-b.svg" alt="Home" /></a>
+      
+  
+
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+<main class="content" role="main">
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">WireMock进行集成测试</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-07-20T11:11:03Z">
+            2017-07-20
+          </time>
+        
+         
+          <span class="post-tag small"><a href="http://thoreauz.com/tags/test/">test</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <h2 id="概述">概述</h2>
+<p>在开发中，我们需要mock Http API，主要有两种使用场景：</p>
+<ol>
+<li>前后端分离开发，API first，可以提供虚拟接口，方便前端开发。</li>
+<li>集成测试依赖其他模块API，自己Mock Http接口。</li>
+</ol>
+<p>WireMock就是一个比较比较适合做此场景的测试框架。它是java语言编写，可以在JUnit中使用，也可以独立部署HTTP服务运行。</p>
+<!-- raw HTML omitted -->
+<h2 id="一junit集成">一、Junit集成</h2>
+<p>示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SampleTest</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Rule</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> WireMockRule wireMockRule <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WireMockRule<span style="color:#f92672">(</span>8089<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wireMockExampleTest</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> JSONException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        String restposeJson <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;{\&#34;hello\&#34;:\&#34;ok http\&#34;}&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        stubFor<span style="color:#f92672">(</span>get<span style="color:#f92672">(</span>urlEqualTo<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/my/resource&#34;</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">withHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Accept&#34;</span><span style="color:#f92672">,</span> equalTo<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;application/json&#34;</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">willReturn</span><span style="color:#f92672">(</span>aResponse<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">.</span><span style="color:#a6e22e">withStatus</span><span style="color:#f92672">(</span>200<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">.</span><span style="color:#a6e22e">withBody</span><span style="color:#f92672">(</span>restposeJson<span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        OkHttpClient client <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OkHttpClient<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        Request request <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Request<span style="color:#f92672">.</span><span style="color:#a6e22e">Builder</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">url</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8089/my/resource&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">addHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Accept&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;application/json&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        Response response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span><span style="color:#a6e22e">newCall</span><span style="color:#f92672">(</span>request<span style="color:#f92672">).</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        assertTrue<span style="color:#f92672">(</span>response<span style="color:#f92672">.</span><span style="color:#a6e22e">isSuccessful</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        assertEquals<span style="color:#f92672">(</span>response<span style="color:#f92672">.</span><span style="color:#a6e22e">code</span><span style="color:#f92672">(),</span> 200<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        JSONAssert<span style="color:#f92672">.</span><span style="color:#a6e22e">assertEquals</span><span style="color:#f92672">(</span>restposeJson<span style="color:#f92672">,</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">body</span><span style="color:#f92672">().</span><span style="color:#a6e22e">string</span><span style="color:#f92672">(),</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        verify<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> getRequestedFor<span style="color:#f92672">(</span>urlEqualTo<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/my/resource&#34;</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">withHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Accept&#34;</span><span style="color:#f92672">,</span> equalTo<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;application/json&#34;</span><span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>wiremock模拟一个端口8089的服务，通过stbFor打桩，使用okHttpClient发起请求，对返回值断言和验证。</p>
+<h2 id="二单独起服务">二、单独起服务</h2>
+<h3 id="1-启动">1. 启动</h3>
+<p>wireMock还提供了WireMock server，通过命令启动：</p>
+<pre tabindex="0"><code>java -jar wiremock-standalone-2.6.0.jar
+</code></pre><p><img src="http://thoreauz.com/images/2017-07-20-10-26-55.jpg" alt="">
+管理地址：</p>
+<ul>
+<li><a href="http://localhost:8080/__admin/">http://localhost:8080/__admin/</a></li>
+<li><a href="http://10.234.97.37:8080/__admin/swagger-ui/">http://localhost:8080/__admin/swagger-ui/</a></li>
+</ul>
+<h3 id="2-模拟api">2. 模拟API</h3>
+<h4 id="post请求">POST请求</h4>
+<p>如果想尽快Mock一个API，可以通过curl、postman、chrome的wiremock插件快速POST数据到wiremock server。如下curl示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--data <span style="color:#e6db74">&#39;{ &#34;request&#34;: { &#34;url&#34;: &#34;/get/this&#34;, &#34;method&#34;: &#34;GET&#34; }, &#34;response&#34;: { &#34;status&#34;: 200, &#34;body&#34;: &#34;Here it is!\n&#34; }}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>http://localhost:8080/__admin/mappings/new
+</span></span></code></pre></div><p>POST成功后，检查模拟的API：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  ~ curl http://localhost:8080/get/this -i
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Vary: Accept-Encoding, User-Agent
+</span></span><span style="display:flex;"><span>Transfer-Encoding: chunked
+</span></span><span style="display:flex;"><span>Server: Jetty<span style="color:#f92672">(</span>9.2.z-SNAPSHOT<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Here it is!
+</span></span></code></pre></div><h4 id="编写文件">编写文件</h4>
+<p>启动mocke server 后，相同目录下生产<code>__files</code>和<code>mappings</code>两个目录：</p>
+<ul>
+<li>mappings:存放mock文件</li>
+<li>__files：存放mock文件中指定的body</li>
+</ul>
+<p>cat mappings/hello_get.json</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;/api/mytest&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;response&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;body&#34;</span>: <span style="color:#e6db74">&#34;More content\n&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://localhost:8080/api/mytest
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Vary: Accept-Encoding, User-Agent
+</span></span><span style="display:flex;"><span>Transfer-Encoding: chunked
+</span></span><span style="display:flex;"><span>Server: Jetty<span style="color:#f92672">(</span>9.2.z-SNAPSHOT<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>More content
+</span></span></code></pre></div><p>单独启动服务两个好处：</p>
+<ol>
+<li>快速模拟API，语言无关，可以给所有的开发团队使用</li>
+<li>由服务提供者编写并维护mappings下的json文件，方便其他模块开发和集成测试。</li>
+</ol>
+<h3 id="3-其他方式启动">3. 其他方式启动</h3>
+<h4 id="docker-启动">docker 启动</h4>
+<pre tabindex="0"><code>docker run -it  -p 8080:8080 -d rodolpheche/wiremock
+</code></pre><h4 id="maven-plugin">maven plugin</h4>
+<pre tabindex="0"><code>&lt;plugin&gt;
+  &lt;groupId&gt;uk.co.deliverymind&lt;/groupId&gt;
+  &lt;artifactId&gt;wiremock-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;${wiremock-maven-plugin.version}&lt;/version&gt;
+  &lt;executions&gt;
+     &lt;execution&gt;
+        &lt;goals&gt;
+           &lt;goal&gt;run&lt;/goal&gt;
+        &lt;/goals&gt;
+           &lt;configuration&gt;
+              &lt;dir&gt;target/classes&lt;/dir&gt;
+              &lt;params&gt;--port=8081&lt;/params&gt;
+           &lt;/configuration&gt;
+     &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>mock 定义文件目录：</p>
+<ul>
+<li><code>src/main/resources/mappings/</code></li>
+<li><code>src/main/resources/__files/</code></li>
+</ul>
+<h2 id="三spring-cloud-contract">三、spring-cloud-contract</h2>
+<p>spring-cloud-contract 是一个消费驱动设计工具。不管是自己mock还是通过一个中间服务mock，都有一个共同的问题，需要开发者同步维护mock，否则对一个老的mock API测试，结果毫无意义。</p>
+<p>spring cloud contract 通过在生产者一方编写stub mapping，编译时自动生成一个jar包(http-server.1.0.1.stubs.jar),而消费方自动引入此包作为test的stub，这样，生产者每次修改代码，只要产生新stub，消费者都会自动获取，省去了双方沟通和一致的问题。</p>
+<p>下面是一个简单示例：
+<strong>Server / Producer side</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.jayway.restassured.module.mockmvc.RestAssuredMockMvc<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MvcTest</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Before</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    RestAssuredMockMvc<span style="color:#f92672">.</span><span style="color:#a6e22e">standaloneSetup</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FraudDetectionController<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在<code>src/test/resources/contracts</code>使用groovy定义stub。
+如:shouldMarkClientAsFraud.groovy</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>org<span style="color:#f92672">.</span><span style="color:#a6e22e">springframework</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cloud</span><span style="color:#f92672">.</span><span style="color:#a6e22e">contract</span><span style="color:#f92672">.</span><span style="color:#a6e22e">spec</span><span style="color:#f92672">.</span><span style="color:#a6e22e">Contract</span><span style="color:#f92672">.</span><span style="color:#a6e22e">make</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  request <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    method <span style="color:#e6db74">&#39;PUT&#39;</span>
+</span></span><span style="display:flex;"><span>    url <span style="color:#e6db74">&#39;/fraudcheck&#39;</span>
+</span></span><span style="display:flex;"><span>    body<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;clientId&#34;:&#34;1234567890&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;loanAmount&#34;:99999
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    headers <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      header<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;application/vnd.fraud.v1+json&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  status <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>  body<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;fraudCheckStatus&#34;: &#34;FRAUD&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;rejectionReason&#34;: &#34;Amount too high&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  headers <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    header<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/vnd.fraud.v1+json&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>maven test会做2个工作，通过上方定义的文件测试server和生成stub包。</p>
+<p><strong>Client / Consumer side</strong>
+服务端使用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>SpringRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootTest</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AutoConfigureStubRunner</span><span style="color:#f92672">(</span>ids <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;com.example:http-server:+:stubs:8080&#34;</span><span style="color:#f92672">},</span> workOffline <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoanApplicationServiceTests</span> <span style="color:#f92672">{</span>
+</span></span></code></pre></div><blockquote>
+<ul>
+<li>加号(+): 表示最大版本号</li>
+<li>workOffline=true：本地获取stub包</li>
+</ul>
+</blockquote>
+<hr>
+<p>参考文档：
+[1]. <a href="https://www.infoq.com/articles/Wiremock-testing-mocking-over-wire-stubs">Wiremock-testing-mocking-over-wire-stubs</a>
+[2]. <a href="http://cloud.spring.io/spring-cloud-contract/">http://cloud.spring.io/spring-cloud-contract/</a>
+[3]. <a href="https://github.com/deliverymind/wiremock-maven-plugin">https://github.com/deliverymind/wiremock-maven-plugin</a>
+[4]. <a href="http://wiremock.org/">http://wiremock.org/</a>
+[5]. <a href="https://www.youtube.com/watch?v=cmJfMnGK-r0">Videos:testing microservices with WireMock</a>
+[6]. <a href="http://wiremock.org/external-resources/">http://wiremock.org/external-resources/</a></p>
+
+    </section>
+    <section class="post-toc">
+      <span>CONTENTS</span>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#一junit集成">一、Junit集成</a></li>
+    <li><a href="#二单独起服务">二、单独起服务</a>
+      <ul>
+        <li><a href="#1-启动">1. 启动</a></li>
+        <li><a href="#2-模拟api">2. 模拟API</a></li>
+        <li><a href="#3-其他方式启动">3. 其他方式启动</a></li>
+      </ul>
+    </li>
+    <li><a href="#三spring-cloud-contract">三、spring-cloud-contract</a></li>
+  </ul>
+</nav>
+    </section>
+
+
+  <footer class="post-footer">
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="http://thoreauz.com" style="background-image: url(/Dog-b.svg)"><span class="hidden">二道涯's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="http://thoreauz.com">二道涯</a></h4>
+  
+  <p>Read <a href="http://thoreauz.com">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Hangzhou, China</span>
+    <span class="author-link icon-link"><a href="http://thoreauz.com">http://thoreauz.com</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" style="font-size: 1.4em"
+       href="https://twitter.com/share?text=WireMock%e8%bf%9b%e8%a1%8c%e9%9b%86%e6%88%90%e6%b5%8b%e8%af%95&nbsp;-&nbsp;%e9%80%a0%e8%88%9f%e9%87%8e%e6%b8%a1&amp;url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fjava-test-WireMock%2f"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" style="font-size: 1.4em"
+       href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fjava-test-WireMock%2f"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-pinterest" style="font-size: 1.4em"
+       href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fjava-test-WireMock%2f&amp;description=WireMock%e8%bf%9b%e8%a1%8c%e9%9b%86%e6%88%90%e6%b5%8b%e8%af%95"
+       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+        <span class="hidden">Pinterest</span>
+    </a>
+    <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=http%3a%2f%2fthoreauz.com%2f2017%2f07%2f20%2fjava-test-WireMock%2f"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+
+
+    
+     
+        
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: "2b2dad16b1a3987d6f94",
+    clientSecret: "1c9113ee087febd62068f33f47c190fc4e38bf48",
+    repo: "gitment-comments",
+    owner: "ThoreauZZ",
+    admin: ["ThoreauZZ"],
+    
+    id: md5(location.pathname),
+    distractionFreeMode: "true"
+  });
+  gitalk.render("gitalk-container");
+</script>
+
+ 
+    
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="background-image: url(/images/go.png)" href="http://thoreauz.com/2017/07/25/go-learn-1-data_structure/">
+          <section class="post">
+              <h2>Go语言1-数据类型</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="http://thoreauz.com/2017/07/20/JAVA-test-tool/">
+          <section class="post">
+              <h2>JAVA常用测试框架</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+    <footer class="site-footer clearfix">
+        
+        <div class="bsz-counter">
+            <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次;</span>
+            <span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+        </div>
+        
+
+        <section class="copyright"><a href="">造舟野渡</a> All rights reserved - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+
+    </footer>
+
+    </div>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://thoreauz.com/js/index.js"></script>
+    
+</body>
+</html>
+

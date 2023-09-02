@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shell on 造舟野渡</title>
+    <link>http://thoreauz.com/tags/shell/</link>
+    <description>Recent content in shell on 造舟野渡</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
+    <lastBuildDate>Wed, 08 Feb 2017 22:07:09 +0000</lastBuildDate><atom:link href="http://thoreauz.com/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>shell编程五-函数</title>
+      <link>http://thoreauz.com/2017/02/08/shell-function/</link>
+      <pubDate>Wed, 08 Feb 2017 22:07:09 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-function/</guid>
+      <description>shell编程五-函数 第一个实例: #!/bin/bash demoFun(){ echo &amp;#34;function run -&amp;#34; } echo &amp;#34;begin function---&amp;#34; demoFun echo &amp;#34;end funtion----&amp;#34; begin function— function run - end funtion—- 带有return语句的函数 求和函</description>
+    </item>
+    
+    <item>
+      <title>shell编程四-字符串数组</title>
+      <link>http://thoreauz.com/2017/02/08/shell-string-array/</link>
+      <pubDate>Wed, 08 Feb 2017 21:30:55 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-string-array/</guid>
+      <description>shell编程四-字符串数组 字符串 单引号： 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； 单引号字串中不能出现单引号（对单引号</description>
+    </item>
+    
+    <item>
+      <title>shell编程三-循环语句</title>
+      <link>http://thoreauz.com/2017/02/08/shell-forloop/</link>
+      <pubDate>Wed, 08 Feb 2017 13:16:26 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-forloop/</guid>
+      <description>shell编程三-循环语句 for循环 for var in list do commands done C语言风格的for循环: #!/bin/bash for (( i=1; i &amp;lt;= 10; i ++ )) do echo value is $i done #!/bin/bash for (( a=1, b=10; a &amp;lt;= 10; a++,b-- )) do echo &amp;#34;$a - $b&amp;#34; done w</description>
+    </item>
+    
+    <item>
+      <title>shell编程二-结构化命令</title>
+      <link>http://thoreauz.com/2017/02/08/shell-structure/</link>
+      <pubDate>Wed, 08 Feb 2017 10:17:00 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-structure/</guid>
+      <description>shell编程二-结构化命令 一、if语句 if command then commands fi if判断的并不是一个比值的对错，而是一个命令，命令执行成功退出码为0即为true。例如： #!/bin/bash</description>
+    </item>
+    
+    <item>
+      <title>shell编程一</title>
+      <link>http://thoreauz.com/2017/02/08/shell-first/</link>
+      <pubDate>Wed, 08 Feb 2017 00:18:27 +0000</pubDate>
+      
+      <guid>http://thoreauz.com/2017/02/08/shell-first/</guid>
+      <description>shell编程一 一、起步 新建脚本 vim test.sh #!/bin/bash date; who echo &amp;#39;我的第一个&amp;#34;shell&amp;#34;脚本&amp;#39; 第一行指定shell，注释也用#</description>
+    </item>
+    
+  </channel>
+</rss>
